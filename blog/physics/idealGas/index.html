@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>Ideal Gas</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../css/prism.css">
+		<link rel="stylesheet" href="../../../css/style.css">
+
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="ideal_gas.js"></script>
+		<!--<script src="mfp.js"></script>-->
+
+		<!-- MathJax for LaTeX -->
+		<script id="MathJax-script" async
+						src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+		</script>
+	</head>
+
+	<body style="background-color:#42403b">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="../.." style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a>
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+					<div class="post_cover">
+						<div class="blog_title">
+							The Ideal Gas
+						</div>
+					</div>
+
+					<p>In this project we simulate an ideal gas using <a href="https://p5js.org/" target="_blank" class="custom_link">p5.js</a></p>
+
+					<div class="sketch-holder" id="ideal_gas"></div>
+
+					<p>The ideal gas approximation consists of considering that all particles in the gas can only interact via perfectly elastic collisions. At first glance this may seem as a very limiting idealization, but many real gases behave like an ideal gas in the normal conditions of temperature and pressure, especially noble gasses. Before moving to the coding part, lets discuss some aspects of the model.</p>
+
+					<p>The state of a gas can be fully determined by its Pressure \(P\), volume \(V\) and temperature \(T\). Many empirical observations led to the formulation of what is know today as the ideal gas law, which can be written in terms of the number of moles of particles \(n\) and the universal gas constant \(R\) as</p>
+					$$
+					\begin{equation*}
+					PV=nRT.
+					\end{equation*}
+					$$
+					<p>This empiric equation unites the insights from Boyle (the product \(PV\) is constant for any gas), Gay-Lussac (\(P \sim T\)) and Avogadro (\( V \sim N \)) in a singe elegant equation. Many important conclusions follow, but they are best left to a full fledged thermodynamics course. Here we will focus on simulating such a gas.</p>
+
+					<p>To simulate such a system we must create a simple physics engine that can deal with collisions. A good place to start is by remembering that if a body of mass \(m_1\) collides elastically with another body of mass \(m_2\) their velocities after the collision can be expressed as
+					$$
+					\begin{equation*}
+\vec{u}_1 = \vec{v}_1 - \frac{2m_2}{M}\frac{(\vec{v}_1 - \vec{v}_2)\cdot(\vec{r}_1 - \vec{r}_2)}{|\vec{r}_1 - \vec{r}_2|^2}(\vec{r}_1 - \vec{r}_2),
+					\end{equation*}
+					$$	
+					and
+					$$
+					\begin{equation*}
+\vec{u}_2 = \vec{v}_2 - \frac{2m_1}{M}\frac{(\vec{v}_2 - \vec{v}_1)\cdot(\vec{r}_2 - \vec{r}_1)}{|\vec{r}_2 - \vec{r}_1|^2}(\vec{r}_2 - \vec{r}_1),
+					\end{equation*}
+					$$	
+					where \(M \equiv m_1 + m_2\). A full demonstration of these equations can be found <a class="custom_link" href="https://en.wikipedia.org/wiki/Elastic_collision">here</a>, but it is a direct implication of the conservation of linear momentum and kinetic energy.</p>
+					<p>Now we only need to translate these ideas into code. Here is the outline: Firstly we will build a <code>Particle</code> constructor to generate our particles, each with a position, velocity, mass and radius. To check for collisions we must build a <code>overlap</code> method, that will also check the boundary conditions. Finally each particle must be updated via an <code>update</code> method.</p>
+					<p> To build the collision detection method we will use a brute force approach, where we just compare each possible particle pairs. It's worth mentioning that collisions could be dealt with in a much better way using <a class="custom_link" href="https://en.wikipedia.org/wiki/Quadtree">quadtrees</a> and other fancy methods, but we will leave this to a future post.</p>
+					<p>To update the velocities we must check if there are any collisions. If there are overlaps we update the velocities accordingly, if not we keep then untouched. In this step we also verify the boundary conditions: if a particle collided with a wall it is simply reflected. Finally we update the position by just summing its vector with the velocity (by fixing the time frame at 1 we avoid having to multiply the velocity by it every time).</p>
+					<p>Another interesting thing to study is the mean free path (MFP) of the particles, which is the average distance that any particle walks before it collides with another particle. For this we store the position of the last collision of each particle in the <code>particle</code> object and store an array of the last mean free paths, updating it after any collision happens. If we hide all particles and display only their mean free path we get something like this</p>
+
+					<div class="sketch-holder" id="mfp"></div>
+
+					<p>
+					This problem can be explored further by looking into the dependence of the mean free path \(l\) with the overall density of particles and the radius of each particle. It is expected to behave as \( l \sim (\sigma A)^{-1} \), where \(\sigma\) is the superficial particle density. Another possibility is considering a mix of different gasses or even modeling inter-molecular forces to study the threshold where the ideal gas approximation is no longer acceptable.
+					</p>
+
+					<p>That should do it! Here is the full source code with some added functionality to make the display prettier. If there are any doubts or criticism I will be more than happy to hear then out :D Try messing with it in the <a class="custom_link" href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank">p5js editor</a>.
+					</p>
+
+					<pre data-src="sketch.js" class="line-numbers my_code"></pre>
+					<!--<pre class="line-numbers"><code class="lang-js"></pre></code>-->
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<script src="../../../js/script.js"></script>
+		<script src="../../../js/prism.js"></script>
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+
+
+	</body>
+</html>

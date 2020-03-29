@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>Rainy Night</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../css/prism.css">
+		<link rel="stylesheet" href="../../../css/style.css">
+
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="rain.js"></script>
+		<script src="tree.js"></script>
+		<script src="sketch.js"></script>
+
+		<!-- MathJax for LaTeX -->
+		<script id="MathJax-script" async
+						src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+		</script>
+	</head>
+
+	<body style="background-color:#42403b">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="../.." style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a>
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+					<div class="post_cover">
+						<div class="blog_title">
+							A Rainy Night
+						</div>
+					</div>
+
+					<p>In this project we simulate a relaxing windy rainy night using the <a href="https://p5js.org/" target="_blank" class="custom_link">p5.js</a> framework.</p>
+					<div class = 'sketch-holder' id='tree_rain'></div>
+					<!--<a href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank"><div id="sketch-holder"></div></a>-->
+
+					<p>This is actually a combination of two smaller simulations with different dynamics: the tree and the rain. Lets start by the easiest, the rain.</p>
+					<p> The fist step is to make a droplet class, since the rain itself is just a collection of droplets of different sizes. The distribution of droplet sizes is very skewed and have a (relatively) small variance to its mean (there is a <a class="custom_link" href=' https://www.nature.com/articles/nphys1385?draft=collection&proof=true' target='_blank'>very interesting article in Nature about it</a>). Considering this we choose our rain drop sizes from a Gaussian distribution with a small variance.</p>
+					<p> We can add the notion of depth by introducing a third coordinate to all vectors and scale the droplets (and their dynamics since distances are warped by perspective) by this new coordinate. This will gives us a more realistic rain.</p>
+					<p>Now to the hard part, the tree. Modeling the dynamics of a tree can be very challenging indeed, so lets apply a very wise tip from the book "Eurographics": "Whenever the mechanics become complex, ignore the complexity". Following the steps outlined in this book we can start building our model to the tree.</p>
+					<p>We can start by making some simplifications: Gravity does not contribute significantly to the dynamics, the density on the tree is uniform, there are no collisions between branches and leafs, the tree does not affect the wind flow. To make our task even easier lets model a pine tree, which has no subbranches or any complex substructure.</p>
+					<p>The full dynamics is really hard to describe analytically, so lets just consider the angular part of the dynamic. Considering everything we discussed so far we can list only three major forces that act on each segment of the tree: Wind, elasticity and dissipation (differences of normal forces between branch segments will be grouped in the elastic force for simplicity).</p>
+					<p>The wind will be generated using Perlin noise, and its torque will be just \(F_{wind}.\cos(\theta).\) Dissipation forces can be modeled simply by a constant times the linear speed of the branch segment \(F_{dis} = \gamma v\). The elastic force is not trivial, so I used some tricks. To avoid complicated algebra and reduce the compution complexity (always a good thing) I wrote a "angular elastic force" \(Fel = k\, \Delta\theta\), where all the complex stuff is hidden in the constant \(k\). The linear dependency with \(\Delta \theta\) is also an approximation. Since the tree is almost rigid at its basis and very elastic at its top, my first idea was to make \(k\) decrease via a power law with the height of the tree to simulate this behavior. To our happiness this gives a nice approximation (considering the project scope).</p>
+					<p>To wrap it up we join both simulations. I made some additional work to simulate the splashes of the rain and some leafs falling off the tree, but this is purely cosmetic. Since the tree foliage is triangular I made the falling leafs small triangles, but one could try to make then more realistic (though I think the end result is cute). </p>
+					<p>Here is the full code. There is much that can be improved in this small project but the final result is satisfying, at least to me.</p>
+
+					<pre data-src="sketch.js" class="line-numbers my_code"></pre>
+
+					The tree code:
+					<pre data-src="tree.js" class="line-numbers my_code"></pre>
+
+					The rain code:
+					<pre data-src="rain.js" class="line-numbers my_code"></pre>
+
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<script src="../../../js/script.js"></script>
+		<script src="../../../js/prism.js"></script>
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+
+
+	</body>
+</html>

@@ -1,0 +1,205 @@
+/* Default theme */
+
+body {
+	padding-top: 70px;
+	font-family: "Cormorant Garamond",sans-serif;
+	font-size:1.5vmax;
+	color:#ffeabc;
+}
+
+h1 {
+	margin:auto;
+	font-size: 4vmax;
+	/*height: 10vh;
+	padding-top: 4vh;*/
+	color: #ffeabc;
+	vertical-align: middle;
+	text-align: center;
+	border-bottom: 1px dashed #ffeabc;
+	border-top: 1px dashed #ffeabc;
+}
+
+.custom_link {
+	color: #ffb311 
+}
+
+.MathJax {
+	font-size:1.5vmax;
+}
+
+/* ABOUT SECTION */
+
+.about_me {
+	color: #ffeabc;
+	background-color: rgba(96, 94, 86, 0.5) ;
+  width: 100%;
+	height: 100%;
+	padding-top: 30px;
+	text-align: center;
+}
+
+.about_me h3 {
+	font-size: 2.5vmax;
+}
+
+.about_me h4 {
+	font-size: 2vmax;
+}
+
+.about_me hr {
+	width: 50%;
+  border-color: #ffeabc;
+  border-style: solid none;
+  border-width: 1.7px 0;
+}
+
+.about_me img {
+	border-radius: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about_sec {
+	margin-top: 40px;
+}
+
+.about_sec h2 {
+	font-size: 2vmax;
+}
+
+.summary_text{
+	text-align: left;
+	padding-left: 30px;
+}
+
+/* Home */
+
+.panel {
+	font-family: "Cormorant Garamond",sans-serif;
+	/*opacity: .4;*/
+	padding: 15px;
+}
+
+.panel_header {
+	font-size: 2vmax;
+	text-align: center;
+	background-color: #605e56;
+}
+
+.panel_body {
+	border: solid 1px #605e56;
+}
+
+.panel img {
+	width: 100%;
+	height: 30vh;
+	object-fit: cover;
+}
+
+ /* Blog */
+
+.blog {
+	margin-right: 15px;
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+.blog img {
+	margin-right: 15px;
+	width: 25vw;
+	height: 25vh;
+	object-fit:cover;
+}
+
+.blog_post {
+	border-bottom: 1px dashed #ffeabc;
+	padding-bottom: 15px;
+}
+
+.blog-post-title {
+	font-size: 2.2vmax;
+	background-color:#605e56;
+	padding-left: 15px;
+	color: #ffb311 
+}
+
+.post-meta {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.2vmax;
+		padding-left: 15px;
+}
+
+.dot {
+  height: 1.5vw;
+  width: 1.5vw;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #fc5130;
+}
+
+.math_dot {
+  background-color: #fc5130;
+}
+.phys_dot {
+  background-color: #2382aa;
+}
+.p5js_dot {
+  background-color: #ed225d;
+}
+
+.tag {
+	display: inline-block;
+	padding-right: 10px;
+}
+
+.tag_content {
+	font-size: 2vmax;
+	display: inline-block;
+	font-weight:bold;
+	padding-bottom: 5px;
+}
+
+.blog_title {
+	padding-left: 25px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 2.2vmax;
+	color: #ffb311 ;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	border-bottom: 1px dashed #ffeabc;
+	border-top: 1px dashed #ffeabc;
+}
+
+
+/* Posts */
+
+.post_body {
+	margin-left: 15px;
+	margin-left: 15px;
+}
+
+.post_struct {
+	display: block;
+}
+
+.my_code {
+  overflow: hidden;
+	max-height:500px;
+}
+
+.sketch-holder {
+	display: block;
+	width: 80vw;
+	height: 40vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ /* Details and Specifics */
+
+#tree_rain {
+	height: 60vh;
+}
