@@ -4,6 +4,10 @@
 uncommitted='./uncommitted'
 templates='./templates'
 
+# Relvant html
+home_html='./index.html'
+blog_html='./blog/index.html'
+
 # Trap for <Ctrl+C> for cleaning
 trap ctrl_c INT
 
@@ -133,6 +137,7 @@ function publish() {
 		return 0
 	else
 		mkdir "./blog/$destiny"
+	fi
 
 	# Move index.html
 	tmp="$origin/.temp"
@@ -140,28 +145,28 @@ function publish() {
 	update_targets "$tmp" "./blog/$destiny"
 	mv "$tmp" "./blog/$destiny/index.html"
 
-	echo -e "\e[91m""$origin/sketch.js""\e[0m"
 	cp "$origin/sketch.js" "./blog/$destiny"
 
-	# Post to main
+	# Post to home
 	tmp="$origin/.temp" #Temporary file to write post html to be included
-											#in the main index.html file
+											#in the home index.html file
 	TEMP_FILES[${#TEMP_FILES[@]}]="$tmp" #To be cleaned if ctrl+c
 
 	title="$(cat $origin/index.html | grep -A 1 blog_title | tail -n1 | tr -d '\t')"
 	t_stamp="$(date +%s)"
-	cp "index.html" "./backup/main_$t_stamp.html"
+	cp "index.html" "./backup/home$t_stamp.html"
 
-	cp "$templates/main_post.html" "$tmp"
+	cp "$templates/home_post.html" "$tmp"
 	sed -i "s|TARGET_TAG|./blog/$destiny|g" "$tmp"
 	sed -i "s/TITLE_TAG/$title/g" "$tmp"
 	
 	ident="$(cat "test_main.html" | grep CURRENT_COL_TAG | sed 's/[^\t]//g')"
-	while read -r line; do
-		new_line="$(cat "$tmp" | grep "$line" | head -n1)"
+
+	echo -e "$(tac $tmp)" > $tmp
+	while IFS='' read  line; do
 		sed -i "/CURRENT_COL_TAG/a INPUT_LINE" './test_main.html'
-		sed -i "s|INPUT_LINE|$ident$new_line|g" './test_main.html'
-	done <<< $(tac $tmp)
+		sed -i "s|INPUT_LINE|$ident$line|g" './test_main.html'
+	done < $tmp
 	rm $tmp
 
 	if [[ -n $(cat './test_main.html' | grep 'CURRENT_COL_TAG' | grep '1') ]]; then
@@ -184,11 +189,11 @@ function publish() {
 	sed -i "s|DATE_TAG|$(date +%c)|g" "$tmp"
 
 	ident="$(cat "./blog/test_blog.html" | grep BLOG_TOP | sed 's/[^\t]//g')"
-	while read -r line; do
-		new_line="$(cat "$tmp" | grep "$line" | head -n1)"
+	echo -e "$(tac $tmp)" > $tmp
+	while IFS='' read  line; do
 		sed -i "/BLOG_TOP/a INPUT_LINE" './blog/test_blog.html'
-		sed -i "s|INPUT_LINE|$ident$new_line|g" './blog/test_blog.html'
-	done <<< $(tac $tmp)
+		sed -i "s|INPUT_LINE|$ident$line|g" './blog/test_blog.html'
+	done < $tmp
 	rm $tmp
 
 	return 0
