@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>TITLE_TAG</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../css/prism.css"> <!--TARGET-->
+		<link rel="stylesheet" href="../../css/style.css"> <!--TARGET-->
+
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="sketch.js"></script>
+
+		<!-- MathJax for LaTeX -->
+		<script id="MathJax-script" async
+						src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+		</script>
+	</head>
+
+	<body style="background-color:#42403b">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<a class="navbar-brand" href="../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../.." style="font-weight:bold;">Home </a><!--TARGET-->
+ 
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="../../blog" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../about" style="font-weight:bold;">About</a><!--TARGET-->
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+					<div class="post_cover">
+						<div class="blog_title">
+							TITLE_TAG
+						</div>
+					</div>
+
+					<p>A natureza está repleta de eventos aleatórios, que geram padrões igualmente lindos e intrigantes.</p>
+					<p>Porém se compararmos esses padrões com os que podemos gerar com geradores de números pseudo-aleatórios (PRNG, que por si merecem um post inteiro que pretendo escrever em breve) vemos que há diferenças fundamentais. Resta a questão de como podemos aproximar esses padrões com os "reais". </p>
+					<p>Em meados dos anos 80 Ken Perlin desenvolveu um algoritimo para gerar texturas realistas para o filme "Tron", que veio a ganhar o oscar. Para gerar esse algoritimo ganhador da estatueta, ele começou gerando intervalos aleatórios e então interpolando os valores. </p>
+					<p>Uma interpolação linear não vai resultar em um resultado muito realista, porém se usarmos funções mais complexas podemos obter um reslultado mais fidedigno. Com isso teremos uma função de ruído, que transiciona continuamente entre valores aleatórios. Com o que discutimos você já poderia escrever a sua própria função de ruído! Tente escrever uma e usa-la nas simulações que iremos escrever :D </p>
+					<p>Para gerar ruídos em 2D ou 3D precismos interpolar \(2^d\) pontos aleatórios, onde \(d\) é a dimenção do espaço. Usando o gerador proposto pelo próprio Perlin (já implementado no p5js nativamente e em python existe a biblioteca "noise" no PyPi), podemos comparar o nosso novo ruído com o padrão que observamos em vapores, por exemplo:
+					<p>Academicamente ruídos aleatórios são estudados extensivamente e geram comportamentos físicos exóticos. Mas também podemos usar eles em simulaões simples para emular o comportamento do vento ou de uma correnteza, por exemplo.</p>
+					<p>Como exemplo vamos simular um sistema fe partículas não iteragentes que estão expostas a um campo de forças, dado através da nossa funçaõ de ruído. A força em cada ponto precisa ter uma direção, então iremos usar o divergente da função de ruído como campo de forças.</p>
+					<p>Começamos implementado o objeto de uma partícula, cuja aceleração a cada mometo dado será dada pela função <code>noise()</code>. Para não ter que dividir a força pela massa toda vez que formos atualizar a aceleração da partícula, vamos assumir que $m=1$ por simplificação.</p>
+					<p>Se incluirmos mais partículas e exibirmos somente a trajetória delas, obtemos o seguinte resultado:</p>
+					<p>Podemos brincar com a função de ruído para obter visualizações mais interessantes ainda:</p>
+					<p>Espero que tenha gostado! O código fonte inteiro para essa última simulação. Se quiser ler mais sobre esse assunto recomendo fortemente o "book of shaders", que tem visualizações de tirar o ar.</p>
+
+					<div class="sketch-holder" id="c1"></div><br>
+					<p> Lorem ipsum </p>
+					<div class="sketch-holder" id="c2"></div>
+					
+					Code:
+					<pre data-src="sketch.js" class="line-numbers my_code"></pre>
+
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<script src="../../js/script.js"> </script><!--TARGET-->
+		<script src="../../js/prism.js"> </script><!--TARGET-->
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+
+
+	</body>
+</html>
