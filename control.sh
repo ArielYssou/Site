@@ -154,7 +154,7 @@ function publish() {
 
 	title="$(cat $origin/index.html | grep -A 1 blog_title | tail -n1 | tr -d '\t')"
 	t_stamp="$(date +%s)"
-	cp "index.html" "./backup/home$t_stamp.html"
+	cp "index.html" "./backup/home_$t_stamp.html"
 
 	cp "$templates/home_post.html" "$tmp"
 	sed -i "s|TARGET_TAG|./blog/$destiny|g" "$tmp"
@@ -163,18 +163,18 @@ function publish() {
 	ident="$(cat "test_main.html" | grep CURRENT_COL_TAG | sed 's/[^\t]//g')"
 
 	echo -e "$(tac $tmp)" > $tmp
-	while IFS='' read  line; do
-		sed -i "/CURRENT_COL_TAG/a INPUT_LINE" './test_main.html'
-		sed -i "s|INPUT_LINE|$ident$line|g" './test_main.html'
+	while IFS='' read line; do
+		sed -i "/CURRENT_COL_TAG/a INPUT_LINE" "$home_html"
+		sed -i "s|INPUT_LINE|$ident$line|g" "$home_html"
 	done < $tmp
 	rm $tmp
 
-	if [[ -n $(cat './test_main.html' | grep 'CURRENT_COL_TAG' | grep '1') ]]; then
-		sed -i "s/COL1 CURRENT_COL_TAG/COL1/" './test_main.html'
-		sed -i "s/COL2/COL2 CURRENT_COL_TAG/" './test_main.html'
+	if [[ -n $(cat "$home_html" | grep 'CURRENT_COL_TAG' | grep '1') ]]; then
+		sed -i "s/COL1 CURRENT_COL_TAG/COL1/" "$home_html"
+		sed -i "s/COL2/COL2 CURRENT_COL_TAG/" "$home_html"
 	else
-		sed -i "s/COL2 CURRENT_COL_TAG/COL2/" './test_main.html'
-		sed -i "s/COL1/COL1 CURRENT_COL_TAG/" './test_main.html'
+		sed -i "s/COL2 CURRENT_COL_TAG/COL2/" "$home_html"
+		sed -i "s/COL1/COL1 CURRENT_COL_TAG/" "$home_html"
 	fi
 
 	# Post to blog
@@ -188,11 +188,11 @@ function publish() {
 	sed -i "s/TITLE_TAG/$title/g" "$tmp"
 	sed -i "s|DATE_TAG|$(date +%c)|g" "$tmp"
 
-	ident="$(cat "./blog/test_blog.html" | grep BLOG_TOP | sed 's/[^\t]//g')"
+	ident="$(cat "$blog_html" | grep BLOG_TOP | sed 's/[^\t]//g')"
 	echo -e "$(tac $tmp)" > $tmp
 	while IFS='' read  line; do
-		sed -i "/BLOG_TOP/a INPUT_LINE" './blog/test_blog.html'
-		sed -i "s|INPUT_LINE|$ident$line|g" './blog/test_blog.html'
+		sed -i "/BLOG_TOP/a INPUT_LINE" "$blog_html"
+		sed -i "s|INPUT_LINE|$ident$line|g" "$blog_html"
 	done < $tmp
 	rm $tmp
 
