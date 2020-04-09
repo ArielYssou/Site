@@ -1,14 +1,15 @@
+/*
 var s = function( p ) {
 	var scl = 5;
 	var rows, cols;
 
 	p.setup = function() {
 		var myWidth = document.getElementById("random_2d").offsetWidth;
-		p.createCanvas(myWidth, 200);
+		let c = p.createCanvas(myWidth, 200);
 
 		rows = p.height / scl;
 		cols = p.width / scl;
-		p.noLoop(); //If tis a animation comment this line
+		p.saveCanvas(c, 'random_noise', 'jpg');
 	}
 
 	p.draw = function() {
@@ -20,6 +21,8 @@ var s = function( p ) {
 				p.rect(x * scl, y * scl, scl, scl);
 			}
 		}
+		if( p.frameCount > 1)
+			p.noLoop();
 	}
 
 	p.windowResized = function() {
@@ -30,6 +33,7 @@ var s = function( p ) {
 	};
 }
 var myp51 = new p5(s, 'random_2d');
+*/
 
 var s = function( p ) {
 	var scl = 20; //scale
@@ -38,8 +42,6 @@ var s = function( p ) {
 	var rows, cols;
 	var running;
 	var clr;
-
-	var fr;
 
 	var particles = [];
 	var flowfield = [];
@@ -50,7 +52,6 @@ var s = function( p ) {
 		p.background(52);
 		rows = p.floor(p.height / scl);
 		cols = p.floor(p.width / scl);
-		fr = p.createP('');
 		p.colorMode(p.RGB)
 		clr = p.color(232, 226, 136, 7);
 
@@ -89,7 +90,6 @@ var s = function( p ) {
 			particles[i].edges();
 		}
 
-		fr.html(p.floor(p.frameRate()));
 	}
 	p.windowResized = function() {
 		mwidth = document.getElementById("perlin_field").offsetWidth;
@@ -151,23 +151,30 @@ var s = function( p ) {
 			this.last_pos = this.pos.copy()
 		}
 	}	
+
 	p.mousePressed = function() {
 		// Check if mouse is inside the circle
 		if ( p.mouseY > 0 && p.mouseY < p.height) {
 			if ( p.mouseX > 0 && p.mouseX < p.width ) {
 				if ( ! running ) {
 					p.loop();
-					myp53.noLoop()
 					myp53.running = false;
-					myp54.noLoop()
+					myp53.noLoop()
 					myp54.running = false;
+					myp54.noLoop()
 					running = true;
+					console.log("PARTICLES running")
 				} else {
 					p.noLoop();
 					running = false;
+					console.log("PARTICLES stoped")
 				}
 			}
+			else
+				console.log("PARTICLES not within X border")
 		}
+		else
+			console.log("PARTICLES not within Y border")
 	}
 
 }
@@ -192,7 +199,7 @@ var s = function( p ) {
 	var externalField = [];
 
 	p.setup = function() {
-		var myWidth = document.getElementById("perlin_alt").offsetWidth;
+		var myWidth =  document.getElementById("perlin_alt").offsetWidth;
 		if( myWidth > 600 )
 			myWidth = 600
 
@@ -200,7 +207,6 @@ var s = function( p ) {
 		p.background(0);
 		rows = p.floor(p.height / scl);
 		cols = p.floor(p.width / scl);
-		fr = p.createP('');
 
 		p.noLoop();
 		running = false;
@@ -254,8 +260,6 @@ var s = function( p ) {
 			particles[i].show();
 			particles[i].update();
 		}
-
-		fr.html(p.floor(p.frameRate()));
 	}
 
 	p.windowResized = function() {
@@ -315,17 +319,23 @@ var s = function( p ) {
 			if ( p.mouseX > 0 && p.mouseX < p.width ) {
 				if ( ! running ) {
 					p.loop();
-					myp52.noLoop()
 					myp52.running = false;
-					myp54.noLoop()
+					myp52.noLoop()
 					myp54.running = false;
+					myp54.noLoop()
 					running = true;
+					console.log("CIRCLE running")
 				} else {
 					p.noLoop();
 					running = false;
+					console.log("CIRCLE stopped")
 				}
 			}
+			else
+				console.log("CIRCLE not within X border")
 		}
+		else
+			console.log("CIRCLE not within Y border")
 	}
 }
 var myp53 = new p5(s, 'perlin_alt');
@@ -345,10 +355,11 @@ var s = function( p ) {
 	var clr;
 
 	p.setup = function() {
-		var myWidth = document.getElementById("ink").offsetWidth;
+		var myWidth =  document.getElementById("ink").offsetWidth;
 		if( myWidth > 600 )
 			myWidth = 600
-		p.createCanvas(myWidth, 300);
+
+		p.createCanvas(myWidth, 400);
 		p.background(52)
 		p.colorMode(p.RGB);
 		clr = p.color(186, 91, 129);
@@ -413,12 +424,18 @@ var s = function( p ) {
 					myp52.noLoop()
 					myp53.running = false;
 					myp53.noLoop()
+					console.log("INK running")
 				} else {
 					p.noLoop();
 					running = false;
+					console.log("INK stoped")
 				}
 			}
+			else
+				console.log("INK: not within X border")
 		}
+		else
+			console.log("INK: not within Y border")
 	}
 }
 var myp54 = new p5(s, 'ink');
