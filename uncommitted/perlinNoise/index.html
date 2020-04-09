@@ -78,25 +78,29 @@
 				<div class="row">
 					<div class="col">
 						<img src="random_noise.jpg" alt="Random Noise" class='img_format'>
+						<figcaption>Figura: Ruído aleatório.</figcaption>
 					</div>
 					<div class="col">
 						<img src="dry_paint.jpeg" alt="Dry paint" class='img_format'>
+						<figcaption>Figura: Padrão de ruído observado na natureza.</figcaption>
 					</div>
 				</div>
 
 
-				<p>Esse desafio foi enfrentado por Ken Perlin nos anos 80, onde ele teve que desenvolver um algorítimo para gerar texturas realistas para o filme "Tron", que veio a ganhar o óscar daquele ano. Para construir o algorítimo ele começou gerando números aleatórios em um intervalo e então interpolando os valores. A função interpolada é interpretada então como função de ruído, que transiciona continuamente entre valores aleatórios. É claro que essa é apenas a ideia geral, a rigor há várias propriedades que temos que garantir para que seja de fato uma função de ruído aceitável. Para estender esse raciocínio para 2D ou 3D precisamos interpolar \(2^d\) pontos aleatórios, onde \(d\) é a dimensão do espaço. Com o que discutimos você já poderia escrever o sua própria função de ruído (o quão complexa ou simples você quiser). Tente usar ela para reproduzir as simulações que iremos fazer!!</p>
+				<p>Esse desafio foi enfrentado por Ken Perlin nos anos 80, onde ele teve que desenvolver um algorítimo para gerar texturas realistas para o filme "Tron", que veio a ganhar o óscar daquele ano. Para construir o algorítimo ele começou gerando números aleatórios em um intervalo e então interpolando os valores. A função interpolada é interpretada então como função de ruído, que transiciona continuamente entre valores aleatórios. É claro que essa é apenas a ideia geral, a rigor há várias propriedades que temos que garantir para que seja de fato uma função de ruído aceitável. Para estender esse raciocínio para 2D ou 3D precisamos interpolar \(2^d\) pontos aleatórios, onde \(d\) é a dimensão do espaço. Com o que discutimos você já poderia escrever o sua própria função de ruído (o quão complexa ou simples você quiser). Tente usar ela para reproduzir as simulações que iremos fazer!! (se estiver interessado o <a href="https://thebookofshaders.com/11/">Book of Shaders</a> é uma ótima referencia)</p>
 
 				<div class="row">
 					<div class="col">
 						<img src="neg_plot.png" alt="Random Noise" class='img_format'>
+						<figcaption>Figura: Função de ruído de Perlin em 1D.</figcaption>
 					</div>
 					<div class="col">
-						<img src="tron.jpg" alt="Dry paint" class='img_format'>
+						<img src="tron.jpg" alt="Cena do filme tron" class='img_format'>
+						<figcaption>Figura: Tron (1982).</figcaption>
 					</div>
 				</div>
 
-					<p>Academicamente ruídos aleatórios são estudados extensivamente e geram comportamentos físicos exóticos como fases de Griffts e paramagnetismo quântico aleatório, mas também podemos usá-los em simulações simples para imitar o comportamento do vento ou de uma correnteza, por exemplo. Iremos usar justamente esses casos para ilustrar a função de ruído do próprio Perlin.</p>
+				<p>Academicamente ruídos aleatórios são estudados extensivamente e geram comportamentos físicos exóticos como fases de Griffts (<a href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.51.6411">A. Furusaki et. al. Phys. Rev. B 52, 15930 (1995)</a>) e paramagnetismo quântico aleatório(<a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.73.2622">A. Furusaki et. al. Phys. Rev. Lett. 73, 2622 1994</a>), mas também podemos usá-los em simulações simples para imitar o comportamento do vento ou de uma correnteza, por exemplo. Iremos usar justamente esses casos para ilustrar a função de ruído do próprio Perlin.</p>
 					<p>Vamos então simular um sistema de partículas não interagentes que estão expostas a um campo de forças, dado através da função de ruído (esse campo poderia ser interpretado como vento ou uma correnteza). Para gerar um campo vetorial em duas dimensões precisamos associar a cada ponto um vetor. Por simplicidade eu fixei a magnitude de todos vetores em \(1\) e só sorteei apenas a inclinação com a função de ruído.</p>
 					<p>Começamos implementado o objeto de uma partícula, cuja aceleração a cada momento dado será dada pela função <code>noise()</code>. Para não ter que dividir a força pela massa toda vez que formos atualizar a aceleração da partícula, vamos assumir que \(m=1\) por simplificação (partículas com massas diferentes iriam tornar a visualização ainda mais interessante).
 
