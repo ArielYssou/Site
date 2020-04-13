@@ -94,6 +94,11 @@ var s = function( p ) {
 	p.windowResized = function() {
 		mwidth = document.getElementById("perlin_field").offsetWidth;
 		scl *= (mwidth / p.width); // Resizing the scale
+		for(var i = 0; i < particles.length; i += 1) {
+			particles[i].pos.mult( (mwidth / p.width) );
+			particles[i].last_pos.mult( (mwidth / p.width) );
+			p.background(52);
+		}
 
 		p.resizeCanvas(mwidth, p.height);
 	};
@@ -265,6 +270,11 @@ var s = function( p ) {
 	p.windowResized = function() {
 		mwidth = document.getElementById("perlin_alt").offsetWidth;
 		scl *= (mwidth / p.width); // Resizing the scale
+		for(var i = 0; i < particles.length; i += 1) {
+			particles[i].pos.mult( (mwidth / p.width) );
+			particles[i].last_pos.mult( (mwidth / p.width) );
+			p.background(0);
+		}
 
 		p.resizeCanvas(mwidth, p.height);
 	};
@@ -409,6 +419,8 @@ var s = function( p ) {
 	p.windowResized = function() {
 		mwidth = document.getElementById("ink").offsetWidth;
 		scl *= (mwidth / p.width); // Resizing the scale
+		rows = p.floor(p.height / scl);
+		cols = p.floor(p.width / scl);
 
 		p.resizeCanvas(mwidth, p.height);
 	};

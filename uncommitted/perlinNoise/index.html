@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, intial-scale=1">
 
 		<!-- Name on tab -->
-		<title>TITLE_TAG</title>
+		<title>Perlin Noise</title>
 
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
@@ -67,7 +67,7 @@
 				<div class="col-ld-12">
 					<div class="post_cover">
 						<div class="blog_title">
-							TITLE_TAG
+							Perlin Noise
 						</div>
 					</div>
 
@@ -77,41 +77,49 @@
 
 				<div class="row">
 					<div class="col">
-						<img src="random_noise.jpg" alt="Random Noise" class='img_format'>
-						<figcaption>Figura: Ruído aleatório.</figcaption>
+						<figure>
+							<img src="random_noise.jpg" alt="Random Noise" class='img_format'>
+							<figcaption>Ruído aleatório.</figcaption>
+						</figure>
 					</div>
 					<div class="col">
-						<img src="dry_paint.jpeg" alt="Dry paint" class='img_format'>
-						<figcaption>Figura: Padrão de ruído observado na natureza.</figcaption>
+						<figure>
+							<img src="dry_paint.jpeg" alt="Dry paint" class='img_format'>
+							<figcaption>Padrão de ruído observado na natureza.</figcaption>
+						<figure>
 					</div>
 				</div>
 
 
-				<p>Esse desafio foi enfrentado por Ken Perlin nos anos 80, onde ele teve que desenvolver um algorítimo para gerar texturas realistas para o filme "Tron", que veio a ganhar o óscar daquele ano. Para construir o algorítimo ele começou gerando números aleatórios em um intervalo e então interpolando os valores. A função interpolada é interpretada então como função de ruído, que transiciona continuamente entre valores aleatórios. É claro que essa é apenas a ideia geral, a rigor há várias propriedades que temos que garantir para que seja de fato uma função de ruído aceitável. Para estender esse raciocínio para 2D ou 3D precisamos interpolar \(2^d\) pontos aleatórios, onde \(d\) é a dimensão do espaço. Com o que discutimos você já poderia escrever o sua própria função de ruído (o quão complexa ou simples você quiser). Tente usar ela para reproduzir as simulações que iremos fazer!! (se estiver interessado o <a href="https://thebookofshaders.com/11/">Book of Shaders</a> é uma ótima referencia)</p>
+				<p>Esse desafio foi enfrentado por Ken Perlin nos anos 80, onde ele teve que desenvolver um algorítimo para gerar texturas realistas para o filme "Tron", que veio a ganhar o óscar daquele ano. Para construir o algorítimo ele começou gerando números aleatórios em um intervalo e então interpolando os valores. A função interpolada é interpretada então como função de ruído, que transiciona continuamente entre valores aleatórios. É claro que essa é apenas a ideia geral, a rigor há várias propriedades que temos que garantir para que seja de fato uma função de ruído aceitável. Para estender esse raciocínio para \(2D\) ou \(3D\) precisamos interpolar \(2^d\) pontos aleatórios, onde \(d\) é a dimensão do espaço. Com o que discutimos você já poderia escrever o sua própria função de ruído (o quão complexa ou simples você quiser). Tente usar ela para reproduzir as simulações que iremos fazer!! (se estiver interessado o <a href="https://thebookofshaders.com/11/" target='_'>Book of Shaders</a> é uma ótima referencia)</p>
 
 				<div class="row">
 					<div class="col">
-						<img src="neg_plot.png" alt="Random Noise" class='img_format'>
-						<figcaption>Figura: Função de ruído de Perlin em 1D.</figcaption>
+						<figure>
+							<img src="neg_plot.png" alt="Random Noise" class='img_format'>
+							<figcaption>Função de ruído de Perlin em \(1D\).</figcaption>
+						</figure>
 					</div>
 					<div class="col">
-						<img src="tron.jpg" alt="Cena do filme tron" class='img_format'>
-						<figcaption>Figura: Tron (1982).</figcaption>
+						<figure>
+							<img src="tron.jpg" alt="Cena do filme tron" class='img_format'>
+							<figcaption>Tron (1982).</figcaption>
+						</figure>
 					</div>
 				</div>
 
-				<p>Academicamente ruídos aleatórios são estudados extensivamente e geram comportamentos físicos exóticos como fases de Griffts (<a href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.51.6411">A. Furusaki et. al. Phys. Rev. B 52, 15930 (1995)</a>) e paramagnetismo quântico aleatório(<a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.73.2622">A. Furusaki et. al. Phys. Rev. Lett. 73, 2622 1994</a>), mas também podemos usá-los em simulações simples para imitar o comportamento do vento ou de uma correnteza, por exemplo. Iremos usar justamente esses casos para ilustrar a função de ruído do próprio Perlin.</p>
+				<p>Academicamente ruídos aleatórios são estudados extensivamente e geram comportamentos físicos exóticos como fases de Griffts (<a href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.51.6411" target='_'>A. Furusaki et. al. Phys. Rev. B 52, 15930 (1995)</a>) e paramagnetismo quântico aleatório (<a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.73.2622" target='_'>A. Furusaki et. al. Phys. Rev. Lett. 73, 2622 1994</a>), mas também podemos usá-los em simulações simples para imitar o comportamento do vento ou de uma correnteza, por exemplo. Iremos usar justamente esses casos para ilustrar a função de ruído do próprio Perlin.</p>
 					<p>Vamos então simular um sistema de partículas não interagentes que estão expostas a um campo de forças, dado através da função de ruído (esse campo poderia ser interpretado como vento ou uma correnteza). Para gerar um campo vetorial em duas dimensões precisamos associar a cada ponto um vetor. Por simplicidade eu fixei a magnitude de todos vetores em \(1\) e só sorteei apenas a inclinação com a função de ruído.</p>
-					<p>Começamos implementado o objeto de uma partícula, cuja aceleração a cada momento dado será dada pela função <code>noise()</code>. Para não ter que dividir a força pela massa toda vez que formos atualizar a aceleração da partícula, vamos assumir que \(m=1\) por simplificação (partículas com massas diferentes iriam tornar a visualização ainda mais interessante).
+					<p>Começamos implementado o objeto de uma partícula, cuja aceleração a cada momento dado será dada pela função <code>noise()</code>. Para não ter que dividir a força pela massa toda vez que formos atualizar a aceleração da partícula, vamos assumir que \(m=1\) por simplificação (partículas com massas diferentes iriam tornar a visualização ainda mais interessante, porém mais custosa computacionalmente).</p>
 
 				<pre data-src="particle_code.js" class="line-numbers my_code"></pre>
 	
-					Mostrando somente a trajetória de cada partícula (salvando a posição antiga de cada uma e a cada iteração traçando uma reta entre a posição antiga e a nova) obtemos o seguinte resultado: (para mais detalhes na implementação sugiro o excelente vídeo do Daniel Shiffman do Coding Train, um projeto que eu recomendo muito). </p>
+				<p>Mostrando somente a trajetória de cada partícula (salvando a posição antiga de cada uma e a cada iteração traçando uma reta entre a posição antiga e a nova) obtemos o seguinte resultado: (para mais detalhes na implementação sugiro o <a href='https://www.youtube.com/watch?v=BjoM9oKOAKY' target='_'>excelente vídeo</a> do Daniel Shiffman do Coding Train, um projeto que eu recomendo muito). </p>
 					<p><span class='alert'>Clique na simulação para fazer ela rodar ou pausar.</span></p>
 					<div id="perlin_field"></div>
 					<p>Com essa ideia eu aproveitei pra explorar mais algumas possibilidades, como adicionar um potencial central (simulação à esquerda) ou andar no espaço de ruídos só mostrando regiões onde o ruído é superior a um valor de base. </p>
 					
-					<p><span class='alert'>Clique nas simulações para rodar ou pausar elas.</span> Eu errei em algum lugar do html então em alguns browsers precisa clicar duas vezes, então se não for de primeira já sabe.</p>
+					<p><span class='alert'>Clique nas simulações para rodar ou pausar elas.</span>(eu errei em algum lugar do html em alguns browsers precisa clicar duas vezes)</p>
 
 					<div class="row">
 						<div class="col">
@@ -127,7 +135,7 @@
 					<div id="perlin_alt"></div>
 					<div id="ink"></div>
 					-->
-					<p>Espero que tenha gostado! O código fonte inteiro para essa última simulação. Se quiser ler mais sobre esse assunto recomendo fortemente o "book of shaders".</p>
+					<p>Espero que tenha gostado! O código fonte inteiro para todas as simulações está a seguir.</p>
 
 					
 					Code:

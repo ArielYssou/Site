@@ -145,7 +145,19 @@ function publish() {
 	update_targets "$tmp" "./blog/$destiny"
 	mv "$tmp" "./blog/$destiny/index.html"
 
+	# Move relevant files
 	cp "$origin/sketch.js" "./blog/$destiny"
+	if [[ ! -f"$origin/main_image.png"   ]]; then
+		echo -e "Warning, missing main image \e[93;4mmain_image.png\e0m"
+	else
+		cp "$origin/main_image.png" "./blog/$destiny"
+	fi
+	for file in $(find $origin/ -maxdepth 1 -mindepth 1 -type f); do
+		if [[ ! $(echo $file | grep "_temp_") ]]; then
+			cp "$origin/$file" "./blog/$destiny"
+		fi
+	done
+
 
 	# Post to home
 	tmp="$origin/.temp" #Temporary file to write post html to be included
@@ -195,6 +207,8 @@ function publish() {
 		sed -i "s|INPUT_LINE|$ident$line|g" "$blog_html"
 	done < $tmp
 	rm $tmp
+
+
 
 	return 0
 }
