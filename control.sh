@@ -154,7 +154,7 @@ function publish() {
 	fi
 	for file in $(find $origin/ -maxdepth 1 -mindepth 1 -type f); do
 		if [[ ! $(echo $file | grep "_temp_") ]]; then
-			cp "$origin/$file" "./blog/$destiny"
+			cp "$file" "./blog/$destiny"
 		fi
 	done
 
@@ -172,7 +172,7 @@ function publish() {
 	sed -i "s|TARGET_TAG|./blog/$destiny|g" "$tmp"
 	sed -i "s/TITLE_TAG/$title/g" "$tmp"
 	
-	ident="$(cat "test_main.html" | grep CURRENT_COL_TAG | sed 's/[^\t]//g')"
+	ident="$(cat "$home_html" | grep CURRENT_COL_TAG | sed 's/[^\t]//g')"
 
 	echo -e "$(tac $tmp)" > $tmp
 	while IFS='' read line; do
