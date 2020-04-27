@@ -5,8 +5,8 @@ uncommitted='./uncommitted'
 templates='./templates'
 
 # Relvant html
-home_html='./index.html'
-blog_html='./blog/index.html'
+home_html='./index_test.html'
+blog_html='./blog/index_test.html'
 
 # Trap for <Ctrl+C> for cleaning
 trap ctrl_c INT
@@ -64,10 +64,13 @@ function update_targets () {
 
 	for target in $(cat "$file_name" | grep TARGET | tr ' ' '\n' | grep -E 'href|src'); do
 		target="$(echo "$target" | sed 's/href=//' | sed 's/src=//' | tr -d '"' | tr -d '>')"
+		echo $target
 
 		new_target="$( (cd $(dirname $file_name) && realpath --relative-to=$origin $target) )"
+		echo  -e "\e[92m$new_target\e[0m"
 
 		sed -i "s|\"$target\"|\"$new_target\"|g" "$file_name"
+		echo  -e "\e[94m$(cat $file_name | grep "\"$new_target\"")\e[0m"
 	done
 
 	return 0
