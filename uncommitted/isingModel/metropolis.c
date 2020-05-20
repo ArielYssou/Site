@@ -15,9 +15,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define SIZE 400 //MUST be a perfect square
-#define len 20
+#define LEN 20
+#define SIZE (LEN * LEN)
+
 #define MAX_STEPS 1e4
+#define CORR_TIME 100
 
 //	Random Number Generator
 static inline uint64_t rotl(const uint64_t x, int k) {
@@ -40,7 +42,7 @@ uint64_t next(void) {
 }
 
 
-/* This is the jump function for the generator. It is equivalent
+/* This is the jump function for the generator. It is equivaLENt
    to 2^64 calls to next(); it can be used to generate 2^64
    non-overlapping subsequences for parallel computations. */
 
@@ -63,7 +65,7 @@ void jump(void) {
 }
 
 
-/* This is the long-jump function for the generator. It is equivalent to
+/* This is the long-jump function for the generator. It is equivaLENt to
    2^96 calls to next(); it can be used to generate 2^32 starting points,
    from each of which jump() will generate 2^32 non-overlapping
    subsequences for parallel distributed computations. */
@@ -103,8 +105,6 @@ static inline double to_double(uint64_t xd) {
 
 int Lattice[SIZE], Up[SIZE], Down[SIZE], Left[SIZE], Right[SIZE];
 
-
-
 void initial_conditions() {
 	// Create initial conditions random spins i.e. T=0
 	// Also initializes the boundry conditions
@@ -112,31 +112,31 @@ void initial_conditions() {
 
 	for(i = 0; i < SIZE; i++) {
 		Lattice[i] = (rand() % 2) ? -1 : 1;
-		Up[i] = i - len;
-		Down[i] = i + len;
+		Up[i] = i - LEN;
+		Down[i] = i + LEN;
 		Left[i] = i - 1;
 		Right[i] = i + 1;
 	}
 	
-	for(i = 0; i < len; i++)
-		Up[i] = SIZE - ( len - i );
+	for(i = 0; i < LEN; i++)
+		Up[i] = SIZE - ( LEN - i );
 
-	for(i = SIZE - len; i < SIZE; i++)
-		Down[i] = i - (SIZE - len);
+	for(i = SIZE - LEN; i < SIZE; i++)
+		Down[i] = i - (SIZE - LEN);
 
-	for(i = 0; i < SIZE; i += len) 
-		Left[i] = i + (len - 1);
+	for(i = 0; i < SIZE; i += LEN) 
+		Left[i] = i + (LEN - 1);
 
-	for(i = len - 1; i < SIZE; i += len) 
-		Right[i] = i - (len - 1);
+	for(i = LEN - 1; i < SIZE; i += LEN) 
+		Right[i] = i - (LEN - 1);
 }
 
 void show_lattice() {
 	int i, j, pos;
 
-	for(i = 0; i < len; i ++) {
-		for(j = 0; j < len; j ++) {
-			pos = i + len * j;
+	for(i = 0; i < LEN; i ++) {
+		for(j = 0; j < LEN; j ++) {
+			pos = i + LEN * j;
 			if(Lattice[pos] == 1)
 				printf("\e[48;5;3m  \e[0m");
 			else
@@ -146,43 +146,77 @@ void show_lattice() {
 	}
 }
 
+
+double Magnetization() {
+	int i;
+	double mag;
+	for(i = 0; i < SIZE; i++)
+			mag += Lattice[i];
+	return fabs( mag / (double) SIZE);
+}
+
+double Energy() {
+	int i;
+	double ener;
+	
+	for(i = 0; i < SIZE; i++) {
+		ener += Lattice[i] * (Lattice[Up[i]] + Lattice[Down[i]] +
+				Lattice[Left[i]] + Lattice[Right[i]]);
+	}
+	return ener;
+}
+
 int main(int argc, char **argv) {
-	int i, step, dE;
-	double r, T = 2.1, transition_probs[4];
+	int i, step, dE;//, points = MAX_STEPS / CORR_TIME;
+	double r, T, transition_probs[4];
+	double m, mag, mag2, nrg, mag4, ener, ener2;
+	mag = mag2 = mag4 = ener = ener2 = 0;
 
-	transition_probs[0] = 1;
-	transition_probs[1] = exp(-2.0 / T);
-	transition_probs[1] = exp(-4.0 / T);
-	transition_probs[1] = exp(-6.0 / T);
-	transition_probs[1] = exp(-8.0 / T);
+	for(T = 0; T < 5.0; T += 0.05) {
+		transition_probs[0] = 1;
+		transition_probs[1] = exp(-2.0 / T);
+		transition_probs[1] = exp(-4.0 / T);
+		transition_probs[1] = exp(-6.0 / T);
+		transition_probs[1] = exp(-8.0 / T);
 
-	srand((unsigned)time(NULL));
-	xs=rand();		//	PRNG seed
-	s[1]=nexts();	//	PRNG seed
-	s[2]=nexts();	//	PRNG seed
+		srand((unsigned)time(NULL));
+		xs=rand();		//	PRNG seed
+		s[1]=nexts();	//	PRNG seed
+		s[2]=nexts();	//	PRNG seed
 
-	initial_conditions();
-	for(step = 0; step < MAX_STEPS; step ++) {
-		//system("clear");
-		i = rand() % SIZE;
+		initial_conditions();
+		for(step = 0; step < MAX_STEPS; step ++) {
+			//system("clear");
+			i = (next() % SIZE);
 
-		dE = 0;
-		dE += Lattice[Up[i]];
-		dE += Lattice[Down[i]];
-		dE += Lattice[Left[i]];
-		dE += Lattice[Right[i]];
-		dE *= Lattice[i];
+			dE = 0;
+			dE += Lattice[Up[i]];
+			dE += Lattice[Down[i]];
+			dE += Lattice[Left[i]];
+			dE += Lattice[Right[i]];
+			dE *= Lattice[i];
 
-		if( dE <= 0 ) {
-			Lattice[i] *= -1; //change to static inline;
-		} else {
-			r = to_double(next());
-			if( r < transition_probs[dE] ){
-				Lattice[i] *= -1;
+			if( dE <= 0 ) {
+				Lattice[i] *= -1; //change to static inline;
+			} else {
+				r = to_double(next());
+				if( r < transition_probs[dE] ){
+					Lattice[i] *= -1;
+				}
 			}
 		}
+
+		show_lattice();
+		m = Magnetization();
+		nrg = Energy();
+		mag += m;
+		mag2 += m * m;
+		mag4 += m * m * m * m;
+		ener += nrg;
+		ener2 += nrg * nrg;
+
+		printf("%f\n", mag4);
 	}
-	show_lattice();
 
 	return 0;
 }
