@@ -15,11 +15,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define LEN 20
+#define LEN 40
 #define SIZE (LEN * LEN)
 
-#define MAX_STEPS 1e4
-#define CORR_TIME 100
+#define CONFIGURATIONS 1000000
+#define MC_STEPS 5000 // Based on the average correlation time
 
 //	Random Number Generator
 static inline uint64_t rotl(const uint64_t x, int k) {
@@ -149,15 +149,15 @@ void show_lattice() {
 
 double Magnetization() {
 	int i;
-	double mag;
+	double mag = 0;
 	for(i = 0; i < SIZE; i++)
-			mag += Lattice[i];
+			mag += (double) Lattice[i];
 	return fabs( mag / (double) SIZE);
 }
 
 double Energy() {
 	int i;
-	double ener;
+	double ener = 0;
 	
 	for(i = 0; i < SIZE; i++) {
 		ener += Lattice[i] * (Lattice[Up[i]] + Lattice[Down[i]] +
@@ -167,56 +167,86 @@ double Energy() {
 }
 
 int main(int argc, char **argv) {
-	int i, step, dE;//, points = MAX_STEPS / CORR_TIME;
+	char path[1000], str[1000];
+	int i, step, config, dE;
 	double r, T, transition_probs[4];
 	double m, mag, mag2, nrg, mag4, ener, ener2;
-	mag = mag2 = mag4 = ener = ener2 = 0;
+	FILE *file_mag, *file_suscep, *file_capacity, *file_binder,
+			 *file_internal;
 
-	for(T = 0; T < 5.0; T += 0.05) {
+		sprintf(path, "./data_metropolis/L%d", LEN);
+		mkdir(path, 0777);
+
+		sprintf(str, "%s/magnetization.dat", path);
+		file_mag = fopen(str, "w+");
+		sprintf(str, "%s/susceptibility.dat", path);
+		file_suscep = fopen(str, "w+");
+		sprintf(str, "%s/capacity.dat", path);
+		file_capacity = fopen(str, "w+");
+		sprintf(str, "%s/inernal_energy.dat", path);
+		file_internal = fopen(str, "w+");
+		sprintf(str, "%s/binder.dat", path);
+		file_binder = fopen(str, "w+");
+
+	for(T = 1.0; T < 3.5; T += 0.05) {
+		printf("%.3f\n", T); 
 		transition_probs[0] = 1;
 		transition_probs[1] = exp(-2.0 / T);
-		transition_probs[1] = exp(-4.0 / T);
-		transition_probs[1] = exp(-6.0 / T);
-		transition_probs[1] = exp(-8.0 / T);
+		transition_probs[2] = exp(-4.0 / T);
+		transition_probs[3] = exp(-6.0 / T);
+		transition_probs[4] = exp(-8.0 / T);
 
 		srand((unsigned)time(NULL));
 		xs=rand();		//	PRNG seed
 		s[1]=nexts();	//	PRNG seed
 		s[2]=nexts();	//	PRNG seed
 
+		mag = mag2 = mag4 = ener = ener2 = 0;
 		initial_conditions();
-		for(step = 0; step < MAX_STEPS; step ++) {
-			//system("clear");
-			i = (next() % SIZE);
+		for(config = 0; config < CONFIGURATIONS; config ++) {
+			for(step = 0; step < MC_STEPS; step ++) {
+				i = (next() % SIZE);
 
-			dE = 0;
-			dE += Lattice[Up[i]];
-			dE += Lattice[Down[i]];
-			dE += Lattice[Left[i]];
-			dE += Lattice[Right[i]];
-			dE *= Lattice[i];
+				dE = 0;
+				dE += Lattice[Up[i]];
+				dE += Lattice[Down[i]];
+				dE += Lattice[Left[i]];
+				dE += Lattice[Right[i]];
+				dE *= Lattice[i];
 
-			if( dE <= 0 ) {
-				Lattice[i] *= -1; //change to static inline;
-			} else {
-				r = to_double(next());
-				if( r < transition_probs[dE] ){
-					Lattice[i] *= -1;
+				if( dE <= 0 ) {
+					Lattice[i] *= -1; //change to static inline;
+					ener += dE;
+				}
+				else {
+					r = to_double(next());
+					if( r < transition_probs[dE] ){
+						Lattice[i] *= -1;
+						ener += dE;
+					}
 				}
 			}
+
+			m = Magnetization();
+			nrg = Energy();
+			mag += m;
+			mag2 += (m * m);
+			mag4 += (m * m * m * m);
+			ener += nrg;
+			ener2 += (nrg * nrg);
 		}
 
-		show_lattice();
-		m = Magnetization();
-		nrg = Energy();
-		mag += m;
-		mag2 += m * m;
-		mag4 += m * m * m * m;
-		ener += nrg;
-		ener2 += nrg * nrg;
+		mag /= (float) CONFIGURATIONS;
+		mag2 /= (float) CONFIGURATIONS;
+		mag4 /= (float) CONFIGURATIONS;
+		ener /= (float) CONFIGURATIONS;
+		ener2 /= (float) CONFIGURATIONS;
 
-		printf("%f\n", mag4);
+		fprintf(file_mag, "%.3f\t%.8f\n", T, mag);
+		fprintf(file_suscep, "%.3f\t%.8f\n", T, mag2 - (mag * mag) );
+		fprintf(file_internal, "%.3f\t%.8f\n", T, ener);
+		fprintf(file_capacity, "%.3f\t%.8f\n", T, ener2 - (ener * ener) );
+		fprintf(file_binder, "%.3f\t%.8f\n", T, mag4 / (3 * (mag2 * mag2) ) );
 	}
-
-	return 0;
+	exit(0);
 }

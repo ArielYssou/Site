@@ -245,6 +245,10 @@ case $1 in
 		new_post "$2"
 		exit $?
 		;;
+	-h|--help)
+		help
+		exit 0
+		;;
 	-u|--upload)
 		upload
 		exit $?
