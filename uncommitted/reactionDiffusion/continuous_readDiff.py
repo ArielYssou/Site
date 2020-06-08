@@ -38,29 +38,32 @@ class Simulation(object):
         Sets the initial conditions
         '''
 
-        #self.A += 0.02 * random( (self.size, self.size) )
-        #self.B += 0.02 * random( (self.size, self.size) )
-
         r = 10 # radius
         mid = int(self.size / 2)
-        #self.A[mid-r:mid+r, mid-r:mid+r] = 0.50
+        self.B += 0.05 * random( (self.size, self.size) )
         self.B[mid-r:mid+r, mid-r:mid+r] = 1
         return 
     
-    def show(self):
+    def show(self, newcmp = 'Spectral'):
         '''
         Plots the final B concentratio
         '''
 
-        # Custom color map contruction
-        N = 256
-        vals = np.ones((N, 4))
-        vals[:, 0] = np.linspace(252/256, 52/256, N)
-        vals[:, 1] = np.linspace(116/256, 52/256, N)
-        vals[:, 2] = np.linspace(20/256, 52/256, N)
-        newcmp = ListedColormap(vals)
+        if newcmp == 'oranges':
+            N = 256
+            vals = np.ones((N, 4))
+            vals[:, 0] = np.linspace(252/256, 52/256, N)
+            vals[:, 1] = np.linspace(116/256, 52/256, N)
+            vals[:, 2] = np.linspace(20/256, 52/256, N)
+            newcmp = ListedColormap(vals)
+        else:
+            pass
 
-        plt.imshow(self.A.tolist(), cmap=newcmp)
+        fig,ax = plt.subplots(1)
+        ax.imshow(self.A.tolist(), cmap=newcmp, interpolation='kaiser')
+        ax.axis('off')
+        fig.tight_layout()
+        plt.savefig(f'continuous_diagram_{newcmp}.png', transparent = True)
         plt.show()
 
     def fancy_show(self):
@@ -99,35 +102,41 @@ class Simulation(object):
         self.B = B.reshape((self.size, self.size))
         return
 
+    def save(self):
+        import os
+
+        dir = './configurations'
+        dir += '/continuous'
+        dir += f"/iters_{self.iters}"
+        os.makedirs(dir)
+
+        np.savetxt(f"{dir}/config_A.csv", self.A, delimiter=',')
+        np.savetxt(f"{dir}/config_B.csv", self.B, delimiter=',')
+
+    def load(self):
+        dir = './configurations'
+        dir += '/continuous'
+        dir += f"/iters_{self.iters}"
+
+        self.A = np.loadtxt(f"{dir}/config_A.csv", delimiter = ',')
+        self.B = np.loadtxt(f"{dir}/config_B.csv", delimiter = ',')
+
 if __name__ == '__main__':
-#    Da = 0.14
-#    Db = 0.06
-#    f = 0.035
-#    k =0.065
-#
-#    simulation = Simulation(400, 10000, Da, Db, f, k)
-#    simulation.initial_conditions()
-#    simulation.run()
-#    simulation.show()
-#
-#    Da = 0.10
-#    Db = 0.05
-#    f = 0.055
-#    k =0.062
-#
-#    simulation = Simulation(400, 50000, Da, Db, f, k)
-#    simulation.initial_conditions()
-#    simulation.run()
-#    simulation.show()
 
-    Da = 0.1
-    Db = 0.05
-    f = [0.01, 0.024] #Final and initial values for feed rate
-    k = [0.045, 0.058]  # Final and initial values for the kill rate
+    Da = 0.2
+    Db = 0.1
+    f = [0.0208, 0.0416] #Final and initial values for feed rate
+    k = [0.0576, 0.0649]  # Final and initial values for the kill rate
+    cmap = 'Spectral'
 
-    simulation = Simulation(300, 30000, Da, Db, f, k)
-    simulation.initial_conditions()
-    simulation.run()
-    simulation.show()
+    simulation = Simulation(400, 30000, Da, Db, f, k)
+    try:
+        simulation.load()
+    except OSError: 
+        simulation.initial_conditions()
+        simulation.run()
+        simulation.save()
+    finally:
+        simulation.show(cmap)
 
     exit(0)

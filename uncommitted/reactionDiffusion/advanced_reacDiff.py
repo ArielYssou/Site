@@ -27,34 +27,50 @@ class Simulation(object):
 
         self.Laplacian = dia_matrix((diags, offsets), shape=(n**2, n**2) )
 
-    def initial_conditions(self):
+    def initial_conditions(self, mode = 'center'):
         '''
         Sets the initial conditions
         '''
 
-        #self.A += 0.02 * random( (self.size, self.size) )
-        #self.B += 0.02 * random( (self.size, self.size) )
+        if mode == 'center':
+            r = 10 # radius
+            mid = int(self.size / 2)
+            #self.A[mid-r:mid+r, mid-r:mid+r] = 0.50
+            self.B += 0.05 * random( (self.size, self.size) )
+            self.B[mid-r:mid+r, mid-r:mid+r] = 1
+        elif mode == 'random':
+            #self.A += random( (self.size, self.size) ) 
+            self.B += 0.1 * random( (self.size, self.size) )
+        else:
+            pass
 
-        r = 10 # radius
-        mid = int(self.size / 2)
-        #self.A[mid-r:mid+r, mid-r:mid+r] = 0.50
-        self.B[mid-r:mid+r, mid-r:mid+r] = 1
         return 
     
-    def show(self):
+    def show(self, newcmp = 'plasma_r', name = 'custom', save = False):
         '''
-        Plots the final B concentratio
+        Plots the final B concentration
         '''
 
         # Custom color map contruction
-        N = 256
-        vals = np.ones((N, 4))
-        vals[:, 0] = np.linspace(252/256, 52/256, N)
-        vals[:, 1] = np.linspace(116/256, 52/256, N)
-        vals[:, 2] = np.linspace(20/256, 52/256, N)
-        newcmp = ListedColormap(vals)
+        if newcmp == 'oranges':
+            N = 256
+            vals = np.ones((N, 4))
+            vals[:, 0] = np.linspace(252/256, 52/256, N)
+            vals[:, 1] = np.linspace(116/256, 52/256, N)
+            vals[:, 2] = np.linspace(20/256, 52/256, N)
+            newcmp = ListedColormap(vals)
+        else:
+            pass
 
-        plt.imshow(self.A.tolist(), cmap=newcmp)
+        fig,ax = plt.subplots(1)
+        ax.imshow(self.A.tolist(), cmap=newcmp, interpolation='kaiser')
+        ax.axis('off')
+        fig.tight_layout()
+        if save:
+            plt.savefig(f'config_{name}_{cmap}.png', transparent = True)
+        else:
+            pass
+
         plt.show()
 
     def fancy_show(self):
@@ -71,7 +87,6 @@ class Simulation(object):
 
         plt.imshow(rgb)
         plt.show()
-
 
     def run(self):
         A = self.A.reshape((self.size * self.size))
@@ -90,38 +105,102 @@ class Simulation(object):
         self.B = B.reshape((self.size, self.size))
         return
 
+    def save(self):
+        import os
+
+        dir = './configurations'
+        dir += f"/iters_{self.iters}"
+        dir += f"/f_{self.f:.8f}"
+        dir += f"/k_{self.k:.8f}"
+        os.makedirs(dir)
+
+        np.savetxt(f"{dir}/config_A.csv", self.A, delimiter=',')
+        np.savetxt(f"{dir}/config_B.csv", self.B, delimiter=',')
+
+    def load(self):
+        dir = './configurations'
+        dir += f"/iters_{self.iters}"
+        dir += f"/f_{self.f:.8f}"
+        dir += f"/k_{self.k:.8f}"
+
+        self.A = np.loadtxt(f"{dir}/config_A.csv", delimiter = ',')
+        self.B = np.loadtxt(f"{dir}/config_B.csv", delimiter = ',')
+        
 if __name__ == '__main__':
-#    Da = 0.14
-#    Db = 0.06
-#    f = 0.035
-#    k =0.065
-#
-#    simulation = Simulation(400, 10000, Da, Db, f, k)
-#    simulation.initial_conditions()
-#    simulation.run()
-#    simulation.show()
-#
-#    Da = 0.10
-#    Db = 0.05
-#    f = 0.055
-#    k =0.062
-#
-#    simulation = Simulation(400, 50000, Da, Db, f, k)
-#    simulation.initial_conditions()
-#    simulation.run()
-#    simulation.show()
+    from sys import argv
+    patterns = {
+            'a' : {
+                'Da' : 0.2,
+                'Db' : 0.1,
+                'f': 0.0392,
+                'k' : 0.0649,
+                'cmap' : 'YlGnBu'
+                },
+            'b' : {
+                'Da' : 0.2,
+                'Db' : 0.1,
+                'f': 0.0416,
+                'k' : 0.0625,
+                #'cmap' : 'YlGnBu'
+                'cmap' : 'Spectral'
+                },
+            'c' : {
+                'Da' : 0.2,
+                'Db' : 0.1,
+                'f': 0.0404,
+                'k' : 0.0638,
+                #'cmap' : 'YlGnBu'
+                'cmap' : 'Spectral'
+                #'cmap' : 'nipy_spectral'
+                },
+            'd' : {
+                'Da' : 0.2,
+                'Db' : 0.1,
+                'f': 0.0208,
+                'k' : 0.0576,
+                'cmap' : 'YlGnBu'
+                },
+            'e' : {
+                'Da' : 0.2,
+                'Db' : 0.1,
+                'f': 0.0175,
+                'k' : 0.0504,
+                #'cmap' : 'Blues'
+                'cmap' : 'YlGnBu'
+                #'cmap' : 'Spectral'
+                },
+            'f' : {
+                'Da' : 0.2,
+                'Db' : 0.1,
+                'f': 0.0295,
+                'k' : 0.0561,
+                #'cmap' : 'oranges'
+                #'cmap' : 'YlGnBu'
+                'cmap' : 'jet_r'
+                #'cmap' : 'nipy_spectral'
+                }
+            }
 
-    Da = 0.12
-    Db = 0.08
-    f = 0.02
-    k =0.05
+    if len(argv) > 1:
+        pttrn = argv[1]
+    else:
+        pttrn = 'a'
 
-    simulation = Simulation(400, 50000, Da, Db, f, k)
-    simulation.initial_conditions()
-    simulation.run()
-    simulation.show()
+    Da = patterns[pttrn]['Da']
+    Db = patterns[pttrn]['Db']
+    f = patterns[pttrn]['f']
+    k = patterns[pttrn]['k']
+    #cmap = patterns[pttrn]['cmap']
+    cmap = 'gnuplot2_r'
+
+    simulation = Simulation(400, 60000, Da, Db, f, k)
+    try:
+        simulation.load()
+    except OSError: 
+        simulation.initial_conditions()
+        simulation.run()
+        simulation.save()
+    finally:
+        simulation.show(cmap, name = pttrn, save = True)
 
     exit(0)
-
-
-
