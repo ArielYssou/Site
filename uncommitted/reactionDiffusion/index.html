@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, intial-scale=1">
 
 		<!-- Name on tab -->
-		<title>TITLE_TAG</title>
+		<title>Reaction Diffusion</title>
 
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
@@ -71,44 +71,159 @@
 						</div>
 					</div>
 
-					<p>In this post we will study the most intriguing Gray Scott model, which describes the reaction between two substances. This model has been the focus of many recent studies (<a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>[1]</a>, <a href="https://www.sciencedirect.com/science/article/pii/S1468121803000208" target='_'>[2]</a>, <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>[3]</a>) for its complex behavior, chaotic nature and relatively simple formulation. It also generates beautifull patterns that are widely used by graphical artists (<a href="https://www.mdpi.com/1424-8220/20/4/1135/htm" target='_'>creating procedual generated textures</a>) and has applications in many theoretical fiels such as biology in the modeling of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model/figures?lo=1" target='_'>human brain development</a> and in physics in the study of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>phase transitions in complex patterns</a>.</p>
-					<p>In this post we will focus on how to implementation of such model and discuss some interesting theoretical properties such as its complex phase space. This model may seem simple at first glance, but its implementation will provide some challenges that will help us study very powerfull computational methods that can be used in many implementations and are a valuable tool for any programmer or scientist. </p>
-					 <p>The Gray Scott model describes the reaction of two chemicals. A reactant 'B' can transform another reactant 'A' into becoming a innert substance. The evolution of the system is described by the following equations, in terms of the feed rate \(f\), the kill rate \(k\) and the concentration of substances A and B and their diffusion rates \(D_{A,B}\):</p>
+					<p>In this post we will study the intriguing Gray Scott model, which describes the reaction between two substances. This model has been the focus of many recent studies (<a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>[1]</a>, <a href="https://www.sciencedirect.com/science/article/pii/S1468121803000208" target='_'>[2]</a>, <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>[3]</a>) for its complex behavior, chaotic nature and relatively simple formulation. It also generates beautiful patterns that are widely used by graphical artists (<a href="https://www.mdpi.com/1424-8220/20/4/1135/htm" target='_'>creating procedual generated textures</a>) and has applications in many theoretical fields such as biology in the modeling of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model/figures?lo=1" target='_'>human brain development</a> and in physics in the study of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>phase transitions in complex patterns</a>.</p>
+					<p>The model may seem simple at first glance, but its implementation will provide some challenges that will help us study very powerful computational methods that can be used in many implementations and are a valuable tool for any programmer or scientist. The theoretical aspects will be discussed in a surface level as a proper discussion would be way more involved mathematically and out of the scope of this post.</p>
+					<p>The Gray Scott model describes the reaction of two chemicals. A reactant 'B' can transform another reactant 'A' into becoming a inert substance. One substance is feed to the system at rate $f$ and the other is removed (or "killed") at a rate $k$ and both substances are free to diffuse with rates \($D_{A,B}$\). The evolution of the system is described by the following equations:</p>
 					 <p>
 					 \(\begin{eqnarray*}
-					 \frac{\partial}{\partial t} A(t) =  D_A \nabla^2 A - A B^2 + f (1 - A)\\
-					 \frac{\partial}{\partial t} B(t) =  D_B \nabla^2 B + A B^2 - (f + k) B
+					 \frac{\partial}{\partial t} A(t) =  D_A \nabla^2 A - A B^2 + f (1 - A),\\
+					 \frac{\partial}{\partial t} B(t) =  D_B \nabla^2 B + A B^2 - (f + k) B.
 					 \end{eqnarray*}
 					 \)
 					 </p>
-					 <p>Postponing the theoretical discussion, lets start by solving these equations numerically to get aquainted with the problem. This can be done by considering discrete time intervals and by dividing the system into a grid, where each site has a local concentration of A and B that can difuse to the neighboring sites. These conditions lead us to the following set of equations for the evolution of the system from a time interval \(j\) to the next (nottice that since the particular position in the lattice doesn't matter, we will avoid indexing the position to simplify the notation):</p> 
+					 <p>Postponing the theoretical discussion, lets start by solving these equations numerically to get acquainted with the problem. This can be done by considering discrete time intervals and by dividing the system into a grid, where each site has a local concentration of A and B that can diffuse to the neighboring sites. These conditions lead us to the following set of equations for a given time interval \(j\) (notice that since the particular position in the lattice doesn't matter, as all rates are constants, we will avoid indexing the position to simplify the notation)</p> 
 					 <p>
 					 \(\begin{eqnarray*}
-					 A_{t+1} =  D_A \nabla^2 A_j - A_j B_j^2 + f (1 - A_j)\\
-					 B_{t+1} =  D_B \nabla^2 B_j + A_j B_j^2 - (f + k) B_j
+					 A_{j+1} =  D_A \nabla^2 A_j - A_j B_j^2 + f (1 - A_j),\\
+					 B_{j+1} =  D_B \nabla^2 B_j + A_j B_j^2 - (f + k) B_j.
 					 \end{eqnarray*}
 					 \) 
 					 </p>
-					 <p>The first question that arises is how to compute the Laplacian operator. The discretization of \(\nabla^2\) can be done in many ways (you can read more about it <a href="https://en.wikipedia.org/wiki/Discrete_Laplace_operator" target='_'>here</a>), but for reasons that will become clear soon we will use the five point stencil method, which comprises of estimating the Laplacian (in a square lattice) via: </p> 
+					 <p>The first question that comes to mind is how to compute the Laplacian operator. The discretization of \(\nabla^2\) can be done in many ways (you can read more about it <a href="https://en.wikipedia.org/wiki/Discrete_Laplace_operator" target='_'>here</a>), but for reasons that will become clear soon we will use the five point stencil method, which comprises of estimating the Laplacian (in a square lattice) via: </p> 
 					 <p>\(
 					 \begin{equation}
 					 \nabla^2 f(x, y) \approx f(x-1, y) + f(x+1, y) + f(x, y-1) + f(x, y+1) - 4 f(x,y)
 					 \end{equation}
 					 \)
 					 </p>
-					 <p>This type of discretization is based on an the very familiar Taylor series (<a href="https://en.wikipedia.org/wiki/Finite_difference_method" target='_'>quick "proof"</a>). Implementing these equations is quite straightfoward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click it below and see it for yourself (recommended only if your computer has a reasonable ammount of RAM, otherwise you will just need to trust my word that it is, indeed, slow). </p> 
+					 <p>This type of discretization is based on the very familiar Taylor series (<a href="https://en.wikipedia.org/wiki/Finite_difference_method" target='_'>quick "proof"</a>). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click it below and see it for yourself (recommended only if your computer has a reasonable amount of RAM, otherwise you will just need to trust my word that it is, indeed, slow). </p> 
 
 					<div class="sketch-holder" id="c1"></div><br>
-					<p>The are some computational bottlenecks in this code. Since it is a small code and fairly simple we can identify them easily, but if you are writing a larger code try studing about bechmark techniques to see what parts of your code are more costly and could use some optmization. Ehile easier and more readable, writting matrices as actual 2D arrays is suboptimal froma computational view. A array is basicaly a pointer that, well, points to a place in memory where the array values are stored squentially. A 2D array is an array of pointers, eeach pointing to the location of a line of the matrix. So every time we acess a 2D array, we have to follow two pointers instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optmizing how we access the values of a matrix. Heres a scheme of how this works:</p> 
-					<p>Another bottleneck is the calculation the laplatian in each site. One thing that goes unoticed by most is to why squaring a matrix or doing matrix operation in numpy is so "fast". The reason for this that these operations are already <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target='_'>vectorized</a>, which is a far better and optmized way of peforming array operations. To use the vectorized nature of numpy functions (many scientific packages in the most common programming languages are already optmized and if you don't care much for how things work you might just trust the people that wrote these packages, but if you like reading about algorithms and optmization this topic of operation vectorization is very enriching and powerful), we need to find a way to write the laplatian operator as a matrix. If you need to apply an operator in any future code try writing it as a matrix and use the optmized functions of the language to full effects.</p>
-					<p>Lets begin thinking that there is only one active site and its nearest neighbors. The laplatian could be written as:<p>
-					<p>It becomes clear that we need a matrix operator for each site of the lattice. Since there are \($n^2$\) sites we will need to build a $n^2 \times n^2$ operator where each line is a matrix that will act in a single site. We can construct the 5 point stencil Laplatian operator as:</p>
-					<p>Implementing these changes we can see that the codes runs much MUCH faster. With this we can explore some know parameter combnations and see the sheer variety of patterns that a single model can generate. The "complexity" of each configuration can be measured by quantities scuh as the Shannon entropy \($$H = -\sum_{w \in W} (\nu(w) / \eta ) \ln (\nu(w) / \eta),$$\) and the Simpson's diversity \($$S = \sum_{w \in W} (\nu(w) / \eta)^2. $$\)i, These measures can be used to desribe the phase diagram of the system, as we will see shortly.</p>
-					<p></p>  
-					<p>The full phase diagram of this system in terms of the complexity of each patterns is quite intricate as well. Refering to the excelent artivle [1], the diagram is:</p> 
-					<p>Where we took care to label our configurations after the same cases studied in this article so the labels would match exactly. Many more interesting things could be studied, but as a closing note lets try to visualize the full phase diagram. This can be done by making a simulation where the paramenters depend on the location of the lattice, thus each part of the system will be in a diferent regime. The result is as follows:</p> 
+					<p>The are some computational bottlenecks in this code. Since it is a small code and fairly simple we can identify them easily, but if you are writing a larger code try studying about benchmark techniques to see what parts of your code are more costly and could use some optimization. While easier and more readable, writing matrices as actual 2D arrays is suboptimal from a computational point of view. A array is basically a pointer that, well, points to a place in memory where the array values are stored sequentially. A 2D array is an array of pointers, each pointing to the location of a line of the matrix. So every time we access a 2D array, we have to follow two pointers (the pointer to the pointer that points to the value) instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optimizing how we access the values of a matrix. Here is a scheme of how this works:</p> 
+					<figure>
+						<img src="array_pointer_neg.png" alt="array scheme was supposed to be here :c" class = 'single_img'>
+						<figcaption>An scheme on the difference of 2D and 1D layouts of a matrix in memory.</figcaption>
+					</figure>
+					<p>Another bottleneck is the calculation the Laplatian in each site. One thing that goes unnoticed by most is to why squaring a matrix or doing matrix operations in numpy (or other libraries) is so "fast". The reason for this that these operations are already <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target='_'>vectorized</a>, which is a far better and optimized way of performing array operations. To use the vectorized nature of numpy functions (many scientific packages in the most common programming languages are already optimized and if you don't care much for how things work you might just trust the people that wrote these packages, but if you like reading about algorithms and optimization this topic of operation vectorization is very enriching), we need to find a way to write the Laplatian operator as a matrix. If you need to apply an operator in any future code try writing it as a matrix and use the optimized functions of the language to full effect.</p>
+					<p>Lets begin thinking that there is only one active site and its nearest neighbors. The Laplatian could be written as:<p>
+					<p>\(
+					\begin{eqnarray*}
+				\nabla^2 f(x, y) &\approx& f(x-1, y) + f(x+1, y) + f(x, y-1) + f(x, y+1) - 4 f(x,y) =\\
+				\\
+				&=& \underbrace{\begin{pmatrix}
+						0 & 1 & 0\\
+						1 & -4 & 1\\
+						0 & 1 & 0
+						\end{pmatrix}}_{\nabla^2}
+						\,\,\,
+					\underbrace{\begin{pmatrix}
+						f(x-1,y-1) & f(x,y-1) & f(x+1,y-1)\\
+						f(x-1,y) & f(x,y) & f(x+1,y)\\
+						f(x-1,y+1) & f(x,y+1) & f(x+1,y+1)
+						\end{pmatrix}}_{f(x,y)}
+					\end{eqnarray*}
+					\)</p> 
+					<p>This means that the Laplatian acts as a matrix on each site! If our lattice has \($n^2$\) sites we will need to build a $n^2 \times n^2$ operator where each line is a matrix that will act in a single site. The best way to do this is by doing it by for a relatively small case(\(3 \times 3\) for example) and convince yourself that is a matrix with -4 on the main diagonal, 1s on the diagonals above and below the main diagonal and 1s in diagonals \(\pm\) away from the main diagonal. In python: </p>
+					<pre data-src="snipplet1.py" class="line-numbers my_code"></pre>
+					<p>Including these changes we can see that the codes runs much MUCH faster. With this we can explore some know parameter combinations and see the sheer variety of patterns that a single model can generate. The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed. So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Fisher phases and the patterns as Turing patterns, in honor of Alan Turing, atheist, homosexual and father of computer science).</p>
+				<div class="row">
+					<div class="col">
+						<figure>
+							<img src="config_a_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(A) - Self replicating spots
+								(Pearson \(\lambda\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0392\\
+								k = 0.0649
+								\end{eqnarray*}\)
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_b_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(B) - "Worms" Pattern
+								(Pearson \(\mu\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0416\\
+								k = 0.0625
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_c_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(C) - Mixed phase
+								(Pearson \(\eta\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0404\\
+								k = 0.0638
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<figure>
+							<img src="config_d_YlGnBu.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(D) - Spatial temporal chaos
+								(Pearson \(\epsilon\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0175\\
+								k = 0.0504
+								\end{eqnarray*}\)
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_e_YlGnBu.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(E) - Waves
+								(Pearson \(\alpha\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0175\\
+								k = 0.0504
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_f_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(F) - Labyrinthine pattern
+								(Pearson \(\theta\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0295\\
+								k = 0.0561
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+				</div>
+					
+					<p>The full phase diagram of this system in terms of the complexity of each patterns is quite intricate as well (extracted from []):</p> 
+					<p>Where we took care to label our configurations after the same cases studied in this article so the labels would match exactly. Many more interesting things could be studied, but as a closing note lets try to visualize the full phase diagram. This can be done by making a simulation where the parameters depend on the location of the lattice, thus each part of the system will be in a different regime. The result is as follows:</p> 
+					<figure>
+						<img src="continuous_diagram_Spectral.png" alt="Continuos diagram", class="square_fig">
+						<figcaption>Reaction diffusion patterns where the value for \(k\) ranges from 0.0576 <br>to 0.0649 in the x axis and \(f\) ranges from 0.0208 to 0.0416 in the y axis. </figcaption>
+					</figure>
+					 
 					<!--<div class="sketch-holder" id="c2"></div>-->
-					<p>Thanks or reading!</p> 
+					<p>Thanks or reading :D</p> 
 					
 					Code:
 					<pre data-src="sketch.js" class="line-numbers my_code"></pre>

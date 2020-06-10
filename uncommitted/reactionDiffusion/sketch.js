@@ -14,10 +14,15 @@ var s = function( p ) { // p could be any variable name
 	var grid;
 	var next;
 
-	var dA = 0.14;
-	var dB = 0.06;
-	var feed = 0.035;
-	var k = 0.065;
+	var dA = 0.2;
+	var dB = 0.1;
+	var feed = 0.0208;
+	var k = 0.0576;
+
+	//	var dA = 0.14;
+	//	var dB = 0.06;
+	//	var feed = 0.035;
+	//	var k = 0.065;
 
 	p.setup = function(){
 		p.createCanvas(100, 100);

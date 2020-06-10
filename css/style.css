@@ -124,8 +124,6 @@ figcaption {
 	object-fit: cover;
 }
 
-
-
  /* Blog */
 
 .blog {
@@ -202,7 +200,6 @@ figcaption {
 	border-top: 1px dashed #ffeabc;
 }
 
-
 /* Posts */
 
 .post_body {
@@ -232,3 +229,24 @@ figcaption {
 #tree_rain {
 	height: 60vh;
 }
+
+/*Reaction Difussion Specific Formating*/
+.square_fig {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+	width: 35vw;
+	height: 35vw;
+}
+.pannel_fig {
+  display: block;
+  width: 100%;
+}
+.single_img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+	max-width: 80vw;
+	max-height: 80vh;
+}
+
