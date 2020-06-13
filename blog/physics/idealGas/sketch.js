@@ -1,64 +1,106 @@
-var simulation;
-var t = 0;
-var i = 0;
-var xi, yi, xf, yf;
+var color_slow = [186, 91, 129];
+var color_fast = [252, 116, 20];
 
-var color_slow;
-var color_fast;
+var s = function( p ) {
+	var simulation;
+	var t = 0;
+	var xi, yi, xf, yf;
 
-function setup() {
-	let canvas = createCanvas(1000, 600);
-	colorMode(RGB);
-	color_slow = color(186, 91, 129);
-	color_fast = color(252, 116, 20);
+	var color_slow;
+	var color_fast;	 
 
-	simulation = Simulation()
-	simulation.init(50);
-	simulation.color_update();
+	p.setup = function() {
+		var myWidth = document.getElementById("c1").offsetWidth
+		var myHeight = document.getElementById("c1").offsetHeight
+		p.createCanvas(myWidth, 300);
+		//my_canvas.parent('sketch-holder-test')
+		p.colorMode(p.RGB);
+		
+		let show_mfp = false;
+		simulation = Simulation(p, show_mfp);
+		simulation.init(50);
+		simulation.color_update();
 
-	canvas.parent('sketch-holder');
-}
-
-function draw() {
-	background(50);
-	simulation.run();
-
-	/*
-	t += 1;
-	if( t > 100 ) {
-		saveCanvas('ideal_gas', 'png');
-		noLoop()
 	}
-	*/
+
+	p.draw = function() {
+		p.background(50);
+		simulation.run();
+		t += 1;
+	}
+
+	p.windowResized = function() {
+		var myWidth = document.getElementById("c1").offsetWidth
+		var myHeight = document.getElementById("c1").offsetHeight
+		p.resizeCanvas(myWidth, myHeight);
+	}
+
 }
 
-function Particle(x, y, vx, vy, radius = 15, mass = 1, clr = color(50,50,50)) {
+var myp51 = new p5(s, 'c1');
+
+var s = function( p) {
+	var simulation;
+	var t = 0;
+	var xi, yi, xf, yf;
+
+	p.setup = function() {
+		var myWidth = document.getElementById("c2").offsetWidth
+		var myHeight = document.getElementById("c2").offsetHeight
+		p.createCanvas(myWidth, 300);
+		//my_canvas.parent('sketch-holder-test')
+		p.colorMode(p.RGB);
+
+		let show_mfp = true;
+		simulation = Simulation(p, show_mfp);
+		simulation.init(50);
+		simulation.color_update();
+
+	}
+
+	p.draw = function() {
+		p.background(50);
+		simulation.run();
+		t += 1;
+	}
+
+	p.windowResized = function() {
+		var myWidth = document.getElementById("c2").offsetWidth
+		var myHeight = document.getElementById("c2").offsetHeight
+		p.resizeCanvas(myWidth, myHeight);
+	}
+
+}
+
+var myp52 = new p5(s, 'c2');
+
+Particle = function(p, x, y, vx, vy, radius = p.width / 75, mass = 1, clr = p.color(50,50,50)) {
 	var particle = {};
 
-	particle.pos = createVector(x, y);
-	particle.vel = createVector(vx, vy);
+	particle.pos = p.createVector(x, y);
+	particle.vel = p.createVector(vx, vy);
 	particle.mass = mass;
 	particle.radius = radius;
 
 	particle.clr = clr;
 
-	particle.collisions = [particle.pos.copy()];
+	particle.colisions = [particle.pos.copy()];
 
 	particle.show = function() {
-		push();
-		fill(particle.clr);
-		strokeWeight(0);
-		ellipse(
+		p.push();
+		p.fill(particle.clr);
+		p.strokeWeight(0);
+		p.ellipse(
 			particle.pos.x,
 			particle.pos.y,
 			particle.radius,
 			particle.radius
 		);
-		pop();
+		p.pop();
 	}
 
 	particle.overlaps = function(other) {
-		// If the distance between centers is less than 2*radius then they overlap
+		// If the distance between centers is less part 2*radius then they overlap
 		
 		ans = Math.sqrt(((particle.pos.x - other.pos.x) ** 2) + ((particle.pos.y - other.pos.y) ** 2));
 		return (ans < (particle.radius + other.radius) / 2 ? true : false);
@@ -66,31 +108,31 @@ function Particle(x, y, vx, vy, radius = 15, mass = 1, clr = color(50,50,50)) {
 
 	particle.update = function() {
 		// Cheks bouncing
-		if ((particle.pos.x + particle.radius > width) || (particle.pos.x - particle.radius < 0)) {
+		if ((particle.pos.x + particle.radius > p.width) || (particle.pos.x - particle.radius < 0)) {
 			particle.vel.x *= -1;
-			particle.collisions.push( particle.pos.copy() )
+			particle.colisions.push( particle.pos.copy() )
 		}
-		if ((particle.pos.y + particle.radius > height) || (particle.pos.y - particle.radius < 0)) {
+		if ((particle.pos.y + particle.radius > p.height) || (particle.pos.y - particle.radius < 0)) {
 			particle.vel.y *= -1;
-			particle.collisions.push( particle.pos.copy() )
+			particle.colisions.push( particle.pos.copy() )
 		}
 
 		// Check boundry violation
-		if( particle.pos.x > width )
-			particle.pos.x = width - (width - particle.pos.x)
-		if( particle.pos.y > height )
-			particle.pos.y = height - (height - particle.pos.y)
-		particle.pos.x = abs(particle.pos.x)
-		particle.pos.y = abs(particle.pos.y)
+		if( particle.pos.x > p.width )
+			particle.pos.x = p.width - (p.width - particle.pos.x)
+		if( particle.pos.y > p.height )
+			particle.pos.y = p.height - (p.height - particle.pos.y)
+		particle.pos.x = p.abs(particle.pos.x)
+		particle.pos.y = p.abs(particle.pos.y)
 
 		// Updates the position
 		particle.pos = particle.pos.add(particle.vel)
 	}
 
 	particle.clr_update = function(max_vel) {
-		particle.clr = lerpColor(
-			color_slow,
-			color_fast,
+		particle.clr = p.lerpColor(
+			p.color(color_slow[0], color_slow[1], color_slow[2]),
+			p.color(color_fast[0], color_fast[1], color_fast[2]),
 			particle.vel.mag() / max_vel
 		)
 	}
@@ -98,23 +140,25 @@ function Particle(x, y, vx, vy, radius = 15, mass = 1, clr = color(50,50,50)) {
 	return particle;
 }
 
-function Simulation() {
-	that = {};
+Simulation = function(p, show_mfp) {
+	var that = {};
+	var show_mfp = show_mfp;
 
 	that.particles = [];
 	that.meanFreePaths = [];
 	that.max_mfp = 100;
 
 	that.init = function(n_particles) {
-		let candidate;
+		var candidate;
 		i = 0;
 		fails = 0;
 		while((i < n_particles) && (fails < 500) ) {
 			candidate = Particle(
-				randomGaussian(width/2, 200),
-				randomGaussian(height/2, 200),
-				randomGaussian(0, 1.5),
-				randomGaussian(0, 1.5),
+				p,
+				p.randomGaussian(p.width/2, 200),
+				p.randomGaussian(p.height/2, 200),
+				p.randomGaussian(0, 1.5),
+				p.randomGaussian(0, 1.5),
 			);
 
 			overlaps = false;
@@ -128,11 +172,11 @@ function Simulation() {
 
 			if (overlaps) {
 				fails += 1;
-			} else if (candidate.pos.x + candidate.radius > width) {
+			} else if (candidate.pos.x + candidate.radius > p.width) {
 				fails += 1
 			} else if(candidate.pos.x - candidate.radius < 0) {
 				fails += 1
-			} else if (candidate.pos.y + candidate.radius > height) {
+			} else if (candidate.pos.y + candidate.radius > p.height) {
 				fails += 1
 			} else if (candidate.pos.y - candidate.radius < 0) {
 				fails += 1
@@ -143,19 +187,19 @@ function Simulation() {
 		}
 	}
 
-	that.collision = function(p1, p2) {
+	that.colision = function(p1, p2) {
 		let M, factor;
 		M = p1.mass + p2.mass;
 		factor = (2 * p2.mass) / M;
 
 		// Accont the mean free paths
-		p1.collisions.push(p1.pos.copy())
-		p2.collisions.push(p2.pos.copy())
-		that.meanFreePaths.push(p1.collisions)
-		that.meanFreePaths.push(p2.collisions)
+		p1.colisions.push(p1.pos.copy())
+		p2.colisions.push(p2.pos.copy())
+		that.meanFreePaths.push(p1.colisions)
+		that.meanFreePaths.push(p2.colisions)
 		// Reset mean free paths
-		p1.collisions = [ p1.pos.copy() ]
-		p2.collisions = [ p2.pos.copy() ]
+		p1.colisions = [ p1.pos.copy() ]
+		p2.colisions = [ p2.pos.copy() ]
 
 		pos11 = p1.pos.copy(); // We will need 2 copies of p1.pos
 		pos12 = p1.pos.copy();
@@ -184,19 +228,26 @@ function Simulation() {
 			p1.update()
 			p2.update()
 		}
+
+		/*
+		factor = - (2 * p1.mass) / M;
+		factor *= p2.vel.sub(p1.vel).dot( p2.pos.sub(p1.pos) );
+		factor /= p2.pos.sub(p1.pos).mag() ** 2;
+		p1.vel.sub( p2.pos.sub(p1.pos).mult(factor) );
+		*/
 	}
 
-	that.check_collisions = function() {
+	that.check_colisions = function() {
 		for(i = 0; i < that.particles.length; i += 1) {
 			for(j = i + 1; j < that.particles.length; j += 1) {
 				if( that.particles[i].overlaps( that.particles[j] ) )
-					that.collision( that.particles[i], that.particles[j] );
+					that.colision( that.particles[i], that.particles[j] );
 			}
 		}
 	}
 
 	that.update = function() {
-		that.check_collisions();
+		that.check_colisions();
 		for(i = 0; i < that.particles.length; i += 1)
 			that.particles[i].update();
 	}
@@ -222,18 +273,18 @@ function Simulation() {
 	that.show_mfp = function() {
 		lgt = that.meanFreePaths.length
 		for(i = 0; i < lgt; i += 1) {
-			push();
-			strokeWeight(3);
-			strokeCap(ROUND);
-			stroke(lerpColor(color(50,50,50), color_fast, i / lgt) );
+			p.push();
+			p.strokeWeight(2);
+			p.strokeCap(p.ROUND);
+			p.stroke(p.lerpColor(p.color(50,50,50), p.color(252, 116, 20), i / lgt) );
 			for(j = 1; j < that.meanFreePaths[i].length; j += 1) {
 				xi = that.meanFreePaths[i][j].x;
 				yi = that.meanFreePaths[i][j].y;
 				xf = that.meanFreePaths[i][j - 1].x;
 				yf = that.meanFreePaths[i][j - 1].y;
-				line(xi, yi, xf, yf);
+				p.line(xi, yi, xf, yf);
 			}
-			pop();
+			p.pop();
 		}
 
 		while( that.meanFreePaths.length > that.max_mfp ) 
@@ -241,11 +292,17 @@ function Simulation() {
 	}
 
 	that.run = function() {
-		that.display();
 		that.update();
-		that.color_update();
-		//that.show_mfp();
+		if(show_mfp) {
+			that.show_mfp();
+			that.color_update();
+		} else {
+			that.display();
+			that.color_update();
+		}
 	}
 
 	return that;
 }
+
+

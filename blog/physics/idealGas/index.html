@@ -15,13 +15,11 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel="stylesheet" href="../../../css/prism.css">
 		<link rel="stylesheet" href="../../../css/style.css">
-
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
 
 		<!-- Custom p5js animations -->
-		<script src="ideal_gas.js"></script>
-		<!--<script src="mfp.js"></script>-->
+		<script src="sketch.js"></script>
 
 		<!-- MathJax for LaTeX -->
 		<script id="MathJax-script" async
@@ -73,11 +71,11 @@
 
 					<p>In this project we simulate an ideal gas using <a href="https://p5js.org/" target="_blank" class="custom_link">p5.js</a></p>
 
-					<div class="sketch-holder" id="ideal_gas"></div>
+					<div id="c1"></div>
 
 					<p>The ideal gas approximation consists of considering that all particles in the gas can only interact via perfectly elastic collisions. At first glance this may seem as a very limiting idealization, but many real gases behave like an ideal gas in the normal conditions of temperature and pressure, especially noble gasses. Before moving to the coding part, lets discuss some aspects of the model.</p>
 
-					<p>The state of a gas can be fully determined by its Pressure \(P\), volume \(V\) and temperature \(T\). Many empirical observations led to the formulation of what is know today as the ideal gas law, which can be written in terms of the number of moles of particles \(n\) and the universal gas constant \(R\) as</p>
+					<p>The state of a gas can be fully determined by its Pressure \(P\), volume \(V\) and temperature \(T\). Many empirical observations led to the formulation of what is know today as the <i>ideal gas law</i>, which can be written in terms of the number of moles of particles \(n\) and the universal gas constant \(R\) as</p>
 					$$
 					\begin{equation*}
 					PV=nRT.
@@ -103,7 +101,8 @@
 					<p>To update the velocities we must check if there are any collisions. If there are overlaps we update the velocities accordingly, if not we keep then untouched. In this step we also verify the boundary conditions: if a particle collided with a wall it is simply reflected. Finally we update the position by just summing its vector with the velocity (by fixing the time frame at 1 we avoid having to multiply the velocity by it every time).</p>
 					<p>Another interesting thing to study is the mean free path (MFP) of the particles, which is the average distance that any particle walks before it collides with another particle. For this we store the position of the last collision of each particle in the <code>particle</code> object and store an array of the last mean free paths, updating it after any collision happens. If we hide all particles and display only their mean free path we get something like this</p>
 
-					<div class="sketch-holder" id="mfp"></div>
+					<div id="c2"></div>
+					<!--<div class="sketch-holder" id="mfp"></div>-->
 
 					<p>
 					This problem can be explored further by looking into the dependence of the mean free path \(l\) with the overall density of particles and the radius of each particle. It is expected to behave as \( l \sim (\sigma A)^{-1} \), where \(\sigma\) is the superficial particle density. Another possibility is considering a mix of different gasses or even modeling inter-molecular forces to study the threshold where the ideal gas approximation is no longer acceptable.

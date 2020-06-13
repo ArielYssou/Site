@@ -123,5 +123,6 @@ var s = function( p ) { // p could be any variable name
 		}
 	}
 };
+
 var myp51 = new p5(s, 'c1');
 

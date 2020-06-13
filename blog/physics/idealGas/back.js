@@ -8,9 +8,9 @@ var sketch = function (p) {
 	let color_fast;	 
 
 	p.setup = function() {
-		//myWidth = document.getElementById("ideal_gas").offsetWidth
-		//myHeight = document.getElementById("ideal_gas").offsetHeight
-		p.createCanvas(200, 200);
+		myWidth = document.getElementById("ideal_gas").offsetWidth
+		myHeight = document.getElementById("ideal_gas").offsetHeight
+		p.createCanvas(myWidth, myHeight);
 		//my_canvas.parent('sketch-holder-test')
 		p.colorMode(p.RGB);
 		color_slow = p.color(186, 91, 129);
