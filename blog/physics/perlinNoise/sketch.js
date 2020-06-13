@@ -168,18 +168,14 @@ var s = function( p ) {
 					myp54.running = false;
 					myp54.noLoop()
 					running = true;
-					console.log("PARTICLES running")
+					//console.log("PARTICLES running")
 				} else {
 					p.noLoop();
 					running = false;
-					console.log("PARTICLES stoped")
+					//console.log("PARTICLES stoped")
 				}
 			}
-			else
-				console.log("PARTICLES not within X border")
 		}
-		else
-			console.log("PARTICLES not within Y border")
 	}
 
 }

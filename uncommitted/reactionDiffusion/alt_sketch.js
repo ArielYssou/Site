@@ -1,7 +1,6 @@
 var s = function( p ) { // p could be any variable name
 	var grid;
 	var next;
-	var running = false;
 
 	var dA = 0.2;
 	var dB = 0.1;
@@ -38,8 +37,6 @@ var s = function( p ) { // p could be any variable name
 				grid[i][j].b = 1;
 			}
 		}
-
-		p.noLoop()
 	}
 
 	p.draw = function() {
@@ -61,14 +58,12 @@ var s = function( p ) { // p could be any variable name
 				var pix = (x + y * p.width) * 4;
 				var a = next[x][y].a;
 				var b = next[x][y].b;
-				var c = 255 - p.floor(a * 255);
-
-				//c = p.constrain(c, 110, 255);
-				
+				var c = p.floor((a - b) * 255);
+				c = p.constrain(c, 0, 255);
 				p.pixels[pix + 0] = c;
-				p.pixels[pix + 1] = 40;
-				p.pixels[pix + 2] = 40;
-				p.pixels[pix + 3] = 255;
+				p.pixels[pix + 1] = c;
+				p.pixels[pix + 2] = c;
+				p.pixels[pix + 3] = 55;
 			}
 		}
 		p.updatePixels();
@@ -100,27 +95,6 @@ var s = function( p ) { // p could be any variable name
 		var temp = grid;
 		grid = next;
 		next = temp;
-	}
-
-	p.mousePressed = function() {
-		// Check if mouse is inside the circle
-		if ( p.mouseY > 0 && p.mouseY < p.height) {
-			if ( p.mouseX > 0 && p.mouseX < p.width ) {
-				if ( ! running ) {
-					p.loop();
-					//myp53.running = false;
-					//myp53.noLoop()
-					//myp54.running = false;
-					//myp54.noLoop()
-					running = true;
-					//console.log("PARTICLES running")
-				} else {
-					p.noLoop();
-					running = false;
-					//console.log("PARTICLES stoped")
-				}
-			}
-		}
 	}
 };
 var myp51 = new p5(s, 'c1');

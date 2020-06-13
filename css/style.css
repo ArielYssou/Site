@@ -54,6 +54,11 @@ figcaption {
 	color: #ffb311 
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 /* ABOUT SECTION */
 
 .about_me {
@@ -93,6 +98,12 @@ figcaption {
 
 .about_sec h2 {
 	font-size: 2vmax;
+}
+
+canvas {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .summary_text{
@@ -231,22 +242,9 @@ figcaption {
 }
 
 /*Reaction Difussion Specific Formating*/
-.square_fig {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-	width: 35vw;
-	height: 35vw;
-}
 .pannel_fig {
   display: block;
   width: 100%;
 }
-.single_img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-	max-width: 80vw;
-	max-height: 80vh;
-}
+
 
