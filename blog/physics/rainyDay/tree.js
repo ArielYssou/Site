@@ -101,9 +101,9 @@ function Tree(segments) {
 	tree.branches = []
 
 	//tree.btn_clr = color(38, 104, 36)
-	tree.btn_clr = color(79, 91, 25)
-	tree.top_clr = color(48, 130, 45)
-	tree.brk_clr = color(170, 126, 76)
+	tree.btn_clr = color(79, 91, 25);
+	tree.top_clr = color(48, 130, 45);
+	tree.brk_clr = color(170, 126, 76);
 
 	tree.leaf_prob = 0.1;
 
@@ -113,29 +113,30 @@ function Tree(segments) {
 			tree.branches[i].leafs.push(pineLeaf(lerpColor(tree.btn_clr, tree.top_clr, i/segments)));
 			//tree.branches[i].leafs.push(pineLeaf(tree.top_clr));
 		else
-			tree.branches[i].len = height / 10
+			tree.branches[i].len = height / 10;
 	}
 
-	tree.draw = function() {
-		push()
-		translate(width / 2, height)
+	tree.draw = function(show_leafs = true) {
+		push();
+		translate(width / 2, height);
 		for(i = 0; i < tree.branches.length; i += 1) {
-			tree.branches[i].draw(0, 0)
-			rotate(tree.branches[i].theta)
-			translate(0, -tree.branches[i].len)
+			tree.branches[i].draw(0, 0);
+			rotate(tree.branches[i].theta);
+			translate(0, -tree.branches[i].len);
 
 		}
-		pop()
+		pop();
 
-		push()
-		translate(width / 2, height)
-		for(i = 0; i < tree.branches.length; i += 1) {
-			tree.branches[i].draw_leafs(0, 0)
-			rotate(tree.branches[i].theta)
-			translate(0, -tree.branches[i].len)
-		}
-
-		pop()
+		if(show_leafs) {
+			push();
+			translate(width / 2, height)
+			for(i = 0; i < tree.branches.length; i += 1) {
+				tree.branches[i].draw_leafs(0, 0);
+				rotate(tree.branches[i].theta);
+				translate(0, -tree.branches[i].len);
+			}
+			pop();
+		};
 	}
 
 	tree.update_dynamics = function(Fwind = 0) {

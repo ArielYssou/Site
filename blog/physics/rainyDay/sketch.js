@@ -89,7 +89,6 @@ function Scene(segments, drops) {
 			scene.droplets[i].update()
 			scene.droplets[i].acc.x = 500 * scene.wind
 
-
 			if( scene.droplets[i].pos.y > height ) {
 				dp = scene.droplets[i];
 				scene.droplets[i] = droplet(randomGaussian(7,2), scene.grav, scene.wind, dp.vel.x)
@@ -109,15 +108,12 @@ function Scene(segments, drops) {
 			}
 		}
 
-		
 		for(i = 0; i < scene.splashes.length; i += 1) {
 			scene.splashes[i].show()
 			scene.splashes[i].update()
 			if ( scene.splashes[i].pos.y > height )
 				scene.splashes.splice(i, 1);
 		}
-		
-
 	}
 
 	return scene;
