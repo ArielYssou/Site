@@ -1,5 +1,4 @@
 #!/bin/bash
-
 scp index.html @fig.if.usp.br:~/www/html/
 scp -r css @fig.if.usp.br:~/www/html/
 scp -r js @fig.if.usp.br:~/www/html/
