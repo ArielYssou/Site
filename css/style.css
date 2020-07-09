@@ -237,14 +237,10 @@ canvas {
 
  /* Details and Specifics */
 
-#tree_rain {
-	height: 60vh;
-}
+
 
 /*Reaction Difussion Specific Formating*/
 .pannel_fig {
   display: block;
   width: 100%;
 }
-
-

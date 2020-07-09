@@ -55,22 +55,38 @@ EOF
 }
 
 function update_targets () {
-	# Updates all lines within a html file with
-	# the <!--TARGET--> flag INPLACE
+	# Updates all lines within a file with the TARGET flag *INPLACE*
+	# e.g.: currently a target is ../../Desktop and the file will be moved to a folder ./some/folder/
+	#		thus the original path must be updated to ../../../../Desktop.
+	#
+	# Input:
+	# 	-file_name: string with the name of the file
+	# 	-destiny: Folder to where the file will be moved
 	file_name="$1"
 
-	local origin
-	origin="$(realpath "$2")"
+	local _destiny
+	_destiny="$(realpath "$2")"
 
-	for target in $(cat "$file_name" | grep TARGET | tr ' ' '\n' | grep -E 'href|src'); do
-		target="$(echo "$target" | sed 's/href=//' | sed 's/src=//' | tr -d '"' | tr -d '>')"
-		echo $target
+	# Find the line number of all lines with target
+	for line_no in $(cat $file_name | grep -n "TARGET" | cut -f1 | tr -d ':'); do
+		line="$(sed "$line_no""q;d" $file_name)"
 
-		new_target="$( (cd $(dirname $file_name) && realpath --relative-to=$origin $target) )"
-		echo  -e "\e[92m$new_target\e[0m"
+		# Isolate the target path
+		target=$(echo $line |
+			tr ' ' '\n' |
+			grep -E 'href|src' |
+			sed 's/href=//' | sed 's/src=//' |
+			tr -d '"' | tr -d '>')
 
-		sed -i "s|\"$target\"|\"$new_target\"|g" "$file_name"
-		echo  -e "\e[94m$(cat $file_name | grep "\"$new_target\"")\e[0m"
+		#echo "$(echo $target | tr -d ' ')"
+
+		# Get the relative path. The relative path in determined many times for the same target. This
+		# suboptimal solution is acceptable beacause there are only ~10 lines to be updated.
+		new_target="$( (cd $(dirname $file_name) && realpath --relative-to=$_destiny $target) )"
+		#echo  -e "\e[92m$(echo $new_target | tr -d ' ')\e[0m"
+
+		sed -i "$line_no""s|$target|$new_target|g" "$file_name"
+		#echo  -e "\e[94m$(cat $file_name | grep "\"$new_target\"" | tr -d ' ' | tr -d "\t")\e[0m"
 	done
 
 	return 0
@@ -210,8 +226,6 @@ function publish() {
 		sed -i "s|INPUT_LINE|$ident$line|g" "$blog_html"
 	done < $tmp
 	rm $tmp
-
-
 
 	return 0
 }
