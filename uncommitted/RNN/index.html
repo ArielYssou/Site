@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>TITLE_TAG</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../css/prism.css"> <!--TARGET-->
+		<link rel="stylesheet" href="../../css/style.css"> <!--TARGET-->
+
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="sketch.js"></script>
+
+		<!-- MathJax for LaTeX -->
+		<script id="MathJax-script" async
+						src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+		</script>
+	</head>
+
+	<body style="background-color:#42403b">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<a class="navbar-brand" href="../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../.." style="font-weight:bold;">Home</a><!--TARGET-->
+ 
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="../../blog" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../about" style="font-weight:bold;">About</a><!--TARGET-->
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+					<div class="post_cover">
+						<div class="blog_title">
+							LTSM
+						</div>
+					</div>
+					<p>As a big avocado fan, as they are delicious <u>and</u> nutritious, I was more than excited to discover that there actually was a dataset with avocado prices to play with. The task of time series forecasting (or more generally any event sequence) is a challenging one and we will use this data set to explore some machine learning algorithms to make such analysis, namely <b>Long Short Term Memory (LSTM)</b>. It is worth mentioning that the methods that we are going to discuss are not limited to time series as any sequential data suffices, such as text (in fact LTSM are vastly used in Natural Language Processing (NLP) tasks).</p> 
+					<!-- TOC -->
+
+					<!-- Intro -->
+					Our task is to construct a model that is able to predict the future of a given sequence of events, that we will denote as $x_0, x_1, \dots, x_t$. Our first guess might be to use a "traditional" neural network such as this:
+					<!--NN scheme-->
+					While effective this type of architecture does not exploit the sequential nature of the data and thus wields poor generalization. The key feature that these networks miss is some sort of "memory" (a term that we will use casually throughout this text). Indeed, at step $t$ the state $h_t$ of a neuron in the hidden layer can be written as: 
+					\(
+					\begin{equation}
+					h_t = f(\mathbb{w}_t \dot \mathbb{x}_t),
+					\end{equation}\)
+					where $\mathbb{w}_t$ are weights (bias is omitted for simplicity) and $f$ a generic activation function. The is no explicit dependence to any sort of past data, as they would only affect the way the weights are trained (thus becoming prune to be extremely susceptible to the starting point of the data sequence). This could be solved by introducing an explicit dependence on the past state of the neuron:
+					\(
+					\begin{equation}
+					h_t = f(\mathbb{w}_t \dot \mathbb{x}_t + \mathbb{u}_t \dot \mathbb{h}_{t-1}),
+					\end{equation}\)
+					where\$mathbb{u}_t$ is a new set of parameters that control how much of the past information (or "memory") is used. This transforms the expression of the state of the neuron into a <i>recurrence</i> relation. This kind of rational lead to the formulation of <b>Recurrent Neural Networks (RNN)</b> (not to be confused with <i>Recursive neural nets</i> that share the same acronym and sound similar, but are vastly different as you can read here). As the hidden units use their own past output to proceed, the same parameters are used over and over again. This <i>parameter sharing</i> can be loosely interpreted as the network keeping what it has already leaned previously and is one of the reasons why RNN are best suited for sequential data. The structure of a RNN can be illustrated as:
+					<!-- rnn SCHEME -->
+					The representation on the right is know as the <i>unfolded</i> computational graph of a RNN, which is just a fancy name of expanding a recurrence relation. As each state necessarily requires the previous, this kind of scheme cannot be parallelized. Modifications, such as not using the previous state but only its output, can improve parallelization (you can read more about RNN variants and parallelization details here (book deep learning). In fact RNN is a vast family of models, each doing the recurrence in a slightly different way.
+					 <!-- Application on the dataset -->
+					<!-- Conclusion RNN -->
+					<p>"Vanilla" RNN improve on the baseline model, but have their limitations. Although there is no theoretical limit to a RNN memory, it can be show that its hard to learn long term dependencies with RNNs (see <a href = "https://ieeexplore.ieee.org/document/279181">Bengio <i>et al</i></a>) as their effects are heavily "diluted" as the recurrence is iterated. This limitation arises from the recurrence itself as the network is as deep as the length of the sequence and thus the same weights are used several times. If we were dealing, for example, with a time series of 100 steps; the recurrence will apply the same weights 100 times, thus the final state $h_{100}$ will depend on the weight matrix $W^{100}$. The gradients (used in gradient descent) linked to eigenvalues slightly different than 1 will wither vanish or explode, thus making training a hard task. <b>LSTM</b> is one popular RNN model that tackles this problem and is specially built to deal with both long and short term dependencies.</p>
+					<!-- LTSM -->
+					LSTM addresses the problem of long term memory by making several modifications to the vanilla RNN architecture. Indeed its structure is far more complex:
+					<!-- LTSM scheme -->
+					I cannot even dream of writing a better explanation on LSTMs than Colah in his amazing blog post, but I'll try to explain then in a different way.
+
+					The idea is to combine a short memory term with a long memory term
+					$$h_t = ("Short memory") \times ("Long memory") \equiv S_t + L_t.$$
+					The short memory term $S_t$ will only combine the input with the very last state of the cell. This short memory will be learned via a usual neural net layer with a $\sigma$ activation function.
+					$$S_t = \sigma ( w_s [h_{t-1}, x_t] + b_s ),$$
+					where $w_s$ and $b_s$ are the weights and bias of this layer. The long memory term $L_t$ will be responsible of carrying the memory of the cell, forgetting any currently held information (old information") and adding new information based on the current input and state. We can think of it like:
+					$$L_t = ("Forget rate") . ("Old information") + ("acceptance rate") . ("New information") \equiv f_t L_{t-1} + a_t + \overtilde{L}_{t-1}.$$
+					The old information is the last value of the memory, that is equivalent to $L_{t-1}$. Both the "forget rate" $f_t$ , "acceptance rate" $a_t$ and "new information" $\overtilde{L}_t$ must be learned. This is done via a usual neural net layers:
+					$$\begin{eqnarray*}
+					f_t &= \sigma ( w_f [h_{t-1}, x_t] + b_f ),\\
+					a_t &= \sigma ( w_a [h_{t-1}, x_t] + b_a ),\\
+					\overtilde{L}_t &= \tanh ( w_l [h_{t-1}, x_t] + b_l ),\\
+					\end{eqnarray*}$$
+					where all the $w$ are separate sets of weights and $b$ the biases that need to be learned. In order to "smoothly normalize" the long memory term (as it can exceed unity as its is the sum of two things that can be at maximum 1) the LSTM model applies a $tanh$ to it. This leads us to the final form of the state of the LSTM cell:
+					$$\boxed{h_t = S_t \tanh(L_t)}.$$
+
+					<p>Suppose you are watching a movie on a movie theater and the lights went off just at the movies end. Disappointed you begin to think what was going to be the final scene. For this not only will you use your vast knowledge on movies in general but also the <i>sequence of events</i> of the movie in question. Arriving at home you begin to build a neural net to help you predict the movie conclusion. If you try to do this with a "traditional" architecture you would realize that the neural net (NN) would need to learn the behavior of the characters of the movie on each new scene, but this is obviously suboptimal. You don't need to learn the behavior of the characters because you share this information from what you have learned previously, you have memory and your thoughts have persistence. How can we incorporate such behaviors into our neural net?</p>
+					<p>This problem can be addressed by allowing the network to share what it has learned in previous parts of the sequence so it does not need to learn everything all over again. This concept of <i>parameter sharing</i> is used  rottenly by convolutional neural nets (CNN) where a learned filter/kernel is shared so it can be applied to the entire input (e.g. to add translational invariant). But this kind of sharing is "shallow" as it sees only a fixed and usually small neighborhood of events. <b>Recurrent Neural Nets (RNN)</b>  address this problem by allowing parameter sharing in a recurrent manner. The recursive nature allows the parameters to be shared more extensively throughout the network, allowing the learned concepts to be reused by the network. RNN are actually an family of models, but before delving into the specifics, lets discuss some theoretical background.</p>
+					<!-- Section: RNN theoretical overview -->
+					<p>Consider a classical neural net with a single hidden layer with one neuron (to avoid indexing by layer and by neuron):</p>
+					<p> Our task is to deal with a sequence of events (inputs) $x_0, x_1, \dots, x_t$. At time (or step) $t$ the state of the hidden unit can be write as (ommiting the bias term):</p>
+					\begin{equation}
+					h_t = \vec{w_t} \dot \vec{x_t},
+					\end{equation}
+					where $w_t$ is the weight vector and $x_t$ the input received at step $t$. This show us that the hidden unit does not consider in any form the history of events. RNN tackle this by making the state of the hidden unit be updated via a recurrence with itself:
+					\begin{equation}
+					h_t = \vec{w_t} \dot \vec{x_t} + u_t  h_{t-1}.
+					\end{equation}
+					Now the current state of the hidden unit depends not only on the input but its previous value, thus including information about the past. We can <b>unfold</b> (expand) this equation recursively until the initial input vector $x_0$ to get the full "picture" of the neural net:</p>
+
+					<p>This architecture is like using copies of the hidden layer as the next hidden layers. As all layers are objectively the same, they all share parameters and thus "learned concepts". As a final step the weights can be updated using algorithm's such as <i>Backpropagation thought time</i> (BPTT), which is very similar to normal backpropagation. so good so far, but what are the practical limitations of RNNs? Albeit there is no theoretical limmitation to the range of memory of RNNs, it turns out that it is very hard to learn long term dependencies with RNNs (see <a href = "https://ieeexplore.ieee.org/document/279181">Bengio <i>et al</i></a>) as their effects are heavily "diluted" as the recurrence is iterated. A special kind of RNN called <i>Long Short Time Memory</i> (LSTM) tackles this problem and proves to be exceptionally powerful and will be our focus now. Its worth mentioning that LTSM is but one variant of the RNN rationale, but RNNs are a family (and a very numerous one at that) of models. For an overview see <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb">this chapter</a>).</p> 
+					<!--LTMS-->
+					How can we add both long a short term memories into our system?
+
+					<p>Consider a dynamical system whose state at time $t$ can be described as $s_t$ and is updated via a generic recurrece relation
+					\begin{equation*}
+					s_t = f(s_{t-1}; \mathbb{a}),
+					\end{equation*}
+					where $\mathbb{a}$ are parameters. This expression can be expanded, or <b>unfolded</b> in a rucursive fashion:
+					\begin{equation*}
+					s_t = f(s_{t-1}; \mathbb{a}) = f(f(s_{t-2}; \mathbb{a}); \mathbb{a}) = \dots.
+					\end{equation*}
+					RNN update the state of their hidden units using recurrent relations such as the one above. Let $h_t$ be the state of the hidden unit at time (or step) $t$. It can combine a input $\mathbb{x}_t$</p>
+
+					<p><b>Recurrent Neural Nets (RNN)</b> address this problem by allowing the network to <i>share its parameters</i> beteween the layers in a recurrent manner. This idea is used on other architectures such as convolutional neural nets, where the paramenters of a kernel/filter can be shared (e.g. to enhance translational invariace), RNN use parameter sharing in a diferent way. Each member of the output depends on the <i>history of outputs</i> and each new output is produced using the same rules as all other past values.</p>
+
+					Time series prediction is a fundamental piece of many key problemns in many modern fields, such as economy (stockmarket, price prediction), biology (populational growth), sociology (politial aoppinion evolution), climate studies (weather forecast), etc... In many cases we try to predict the temporal behavior of a system by grasping its most fundamental mechanics and build a theoretical model to predict the time series, but this can be surprisingly hard even in some simple cases, and is nigh impossible in some complex scenarios. In many cases the "true" model might be infinitelly complex, but this does not stop us from trying to make measurements and use those to predict the temporal behavior of the system. Many machine learning algorithms exist, but can a neural net learn to predict time?</p>
+					<p>While a concolutional neural net is best used for precessing a grid of values (oftenly represented as a tensor \(X\) ), <b>Recurrent Neural Nets (RNN)</b> are specialized for treating <i>sequential data</i>, such as a time series \(x(0), x(1), \dots, x(t)\) or a sequence of text. </p> <++>
+
+					<div class="sketch-holder" id="c1"></div><br>
+					<p> Lorem ipsum </p>
+					<div class="sketch-holder" id="c2"></div>
+					
+					Code:
+					<pre data-src="sketch.js" class="line-numbers my_code"></pre>
+
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<script src="../../js/script.js"> </script><!--TARGET-->
+		<script src="../../js/prism.js"> </script><!--TARGET-->
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+
+
+	</body>
+</html>

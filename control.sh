@@ -93,8 +93,11 @@ function update_targets () {
 }
 
 function new_post() {
-	# Queues a new post, which is stored in the
-	# unreleased posts folder until commited
+	# Queues a new post, which is stored in the unreleased posts folder until commited
+	# Uses the deafult templates for a new post.
+	# INPUT
+	#		name_tag: name acronim that will be used to identify this post
+	#		title_tag: title tag
 	name_tag="$1"
 	dir="$uncommitted/$name_tag/"
 	mkdir "$dir"

@@ -432,18 +432,12 @@ var s = function( p ) {
 					myp52.noLoop()
 					myp53.running = false;
 					myp53.noLoop()
-					console.log("INK running")
 				} else {
 					p.noLoop();
 					running = false;
-					console.log("INK stoped")
 				}
 			}
-			else
-				console.log("INK: not within X border")
 		}
-		else
-			console.log("INK: not within Y border")
 	}
 }
 var myp54 = new p5(s, 'ink');
