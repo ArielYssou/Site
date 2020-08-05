@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, intial-scale=1" name="viewport"/>
+  <!-- Name on tab -->
+  <title>
+   TITLE_TAG
+  </title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+  <link href="../../css/style.css" rel="stylesheet"/>
+  <!--TARGET-->
+  <!--<link href="../../css/notebook.css" rel="stylesheet">=-->
+  <link href="../../css/pygments/notebook/style.css" rel="stylesheet"/>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  </script>
+  <!-- Custom p5js animations -->
+  <script src="sketch.js">
+  </script>
+ </head>
+ <body style="background-color:#42403b">
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+   <a class="navbar-brand" href="../.." style="font-weight:bold;">
+    Ariel Yssou
+   </a>
+   <!--TARGET-->
+   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+      <a class="nav-link" href="../.." style="font-weight:bold;">
+       Home
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item active">
+      <a class="nav-link" href="../../blog" style="font-weight:bold;">
+       Blog
+       <span class="sr-only">
+        (current)
+       </span>
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../about" style="font-weight:bold;">
+       About
+      </a>
+      <!--TARGET-->
+     </li>
+    </ul>
+   </div>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
+       <i class="fab fa-github fa-lg">
+       </i>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
+       <i class="fab fa-linkedin fa-lg">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </nav>
+  <!-- End of navigation bar -->
+  <div class="container post_body">
+   <div class="row post_struct">
+    <div class="col-ld-12">
+     <div class="post_cover">
+      <div class="blog_title">
+       TITLE_TAG
+      </div>
+     </div>
+     <p>
+      Lorem ipsum
+      <code>
+       impor matplotlib
+      </code>
+     </p>
+     <p>
+      <samp>
+       Syntax error
+      </samp>
+     </p>
+     <++>
+     <div class="sketch-holder" id="c1">
+     </div>
+     <br/>
+     <p>
+      Lorem ipsum
+     </p>
+     <div class="sketch-holder" id="c2">
+     </div>
+     <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+     <p>
+      $$
+					\mathcal{L} = \sum_n a_n
+					$$
+     </p>
+     <p>
+      Inline code exemple
+     </p>
+     <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Howdy cowboy&#39;</span><span class="p">)</span>
+
+<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+     Code:
+     <div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">p</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// p could be any variable name</span>
+  <span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">;</span> 
+  <span class="nx">p</span><span class="p">.</span><span class="nx">setup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">myWidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/* var myHeight = document.getElementById(&quot;c1&quot;).offsetHeight; */</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+		<span class="nx">x</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> 
+		<span class="nx">y</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">p</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">rect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+  <span class="p">};</span>
+
+	<span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">mwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/*mheight = document.getElementById(&quot;c1&quot;).offsetHeight;*/</span>
+		<span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+
+		<span class="c1">// Don&#39;t forget to resize all positions as well</span>
+		<span class="nx">x</span> <span class="o">=</span> <span class="nx">mwidth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">myp51</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="s1">&#39;c1&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">p</span> <span class="p">)</span> <span class="p">{</span> 
+	<span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">speed</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">;</span> 
+
+  <span class="nx">p</span><span class="p">.</span><span class="nx">setup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">myWidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/*var myHeight = document.getElementById(&quot;c1&quot;).offsetHeight;*/</span>
+
+    <span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+		<span class="nx">x</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> 
+		<span class="nx">y</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">p</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nx">x</span> <span class="o">+=</span> <span class="nx">speed</span><span class="p">;</span> 
+    <span class="k">if</span><span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">){</span>
+      <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+    <span class="p">}</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+
+  <span class="p">};</span>
+
+	<span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">mwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/*mheight = document.getElementById(&quot;c2&quot;).offsetHeight;*/</span>
+		<span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+	<span class="p">};</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">myp52</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">p5</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">);</span>
+</pre></div>
+    </div>
+   </div>
+  </div>
+  <hr/>
+  <script src="../../js/script.js">
+  </script>
+  <!--TARGET-->
+  <script src="../../js/prism.js">
+  </script>
+  <!--TARGET-->
+  <!-- Bootstrap + JQuery -->
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+  </script>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
+  </script>
+  <!-- mathjax -->
+  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script>
+   MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+  </script>
+ </body>
+</html>

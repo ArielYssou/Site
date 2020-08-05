@@ -1,0 +1,121 @@
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">p</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// p could be any variable name</span>
+  <span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">;</span> 
+  <span class="nx">p</span><span class="p">.</span><span class="nx">setup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">myWidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/* var myHeight = document.getElementById(&quot;c1&quot;).offsetHeight; */</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+		<span class="nx">x</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> 
+		<span class="nx">y</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">p</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">rect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+  <span class="p">};</span>
+
+	<span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">mwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/*mheight = document.getElementById(&quot;c1&quot;).offsetHeight;*/</span>
+		<span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+
+		<span class="c1">// Don&#39;t forget to resize all positions as well</span>
+		<span class="nx">x</span> <span class="o">=</span> <span class="nx">mwidth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">myp51</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="s1">&#39;c1&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">p</span> <span class="p">)</span> <span class="p">{</span> 
+	<span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">speed</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">;</span> 
+
+  <span class="nx">p</span><span class="p">.</span><span class="nx">setup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">myWidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/*var myHeight = document.getElementById(&quot;c1&quot;).offsetHeight;*/</span>
+
+    <span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+		<span class="nx">x</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> 
+		<span class="nx">y</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">p</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nx">x</span> <span class="o">+=</span> <span class="nx">speed</span><span class="p">;</span> 
+    <span class="k">if</span><span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">){</span>
+      <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+    <span class="p">}</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+
+  <span class="p">};</span>
+
+	<span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">mwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span>
+		<span class="cm">/*mheight = document.getElementById(&quot;c2&quot;).offsetHeight;*/</span>
+		<span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+	<span class="p">};</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">myp52</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">p5</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>

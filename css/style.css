@@ -1,22 +1,64 @@
 /* Default theme */
-
 body {
 	padding-top: 70px;
+	padding-left: 10vw;
 	font-family: "Cormorant Garamond",sans-serif;
 	font-size: min(36px, 1.5vmax);
 	color:#ffeabc;
+	/*min-width: 780px;*/
+	max-width: 1080px;
+}
+
+.main_title {
+	padding-left: 25px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 2.2vmax;
+	color: #ffb311 ;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	border-bottom: 1px dashed #ffeabc;
+	border-top: 1px dashed #ffeabc;
 }
 
 h1 {
 	margin:auto;
 	font-size: 4vmax;
-	/*height: 10vh;
-	padding-top: 4vh;*/
+	/*height: 10vh;*/
+	/*padding-top: 4vh;*/
 	color: #ffeabc;
 	vertical-align: middle;
 	text-align: center;
 	border-bottom: 1px dashed #ffeabc;
 	border-top: 1px dashed #ffeabc;
+}
+
+/* pygments highlight */
+.highlight {
+  border: 1px solid #2B2A26;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 2px;
+  background: #363430;
+  line-height: 1.21429em;
+  margin-bottom: 10px;
+}
+
+.highlighttable {
+  /*border: 1px solid #cfcfcf;*/
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 2px;
+  background: #363430;
+	color:#ffeabc;
+  line-height: 1.21429em;
+  margin-bottom: 10px;
+}
+
+.linenodiv pre {
+	color:#ffeabc;
 }
 
 p {
@@ -33,12 +75,16 @@ figcaption {
 	color: #b5a685;
 }
 
+img {
+	width: 85%;
+}
+
 .img_format {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 85%;
-	height: 250pt;
+	height: 35%;
 	max-height: 250pt;
 	padding-top: 30px;
 	padding-bottom: 30px;
@@ -229,8 +275,8 @@ canvas {
 
 .sketch-holder {
 	display: block;
-	width: 80vw;
-	height: 40vh;
+	width: 80%;
+	height: 40%;
   margin-left: auto;
   margin-right: auto;
 }

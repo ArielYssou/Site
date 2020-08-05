@@ -84,6 +84,9 @@ function update_targets () {
 		# suboptimal solution is acceptable beacause there are only ~10 lines to be updated.
 		new_target="$( (cd $(dirname $file_name) && realpath --relative-to=$_destiny $target) )"
 		#echo  -e "\e[92m$(echo $new_target | tr -d ' ')\e[0m"
+		target="$(echo "$target" | sed "s/\./\\\./g")" # Avoid expanding . in sed
+		new_target="$(echo "$new_target" | sed "s/\./\\\./g")"
+		echo 
 
 		sed -i "$line_no""s|$target|$new_target|g" "$file_name"
 		#echo  -e "\e[94m$(cat $file_name | grep "\"$new_target\"" | tr -d ' ' | tr -d "\t")\e[0m"
@@ -257,6 +260,31 @@ function search() {
 	return 0
 }
 
+function render() {
+	# Render a html using the available templetes. The following renderings are made:
+	# - Includes the html of any notebook
+	# - Uses pygments on all <pre> cels
+	# - Parses the sketch.js file with pygments and include code [WIP]
+	
+#	basedir="$(dirname $(realpath $1))"
+#	echo $(cat $1 | grep \{\%\ include | tr -d '\t' | cut -d' ' -f3 | tr -d \')
+#	for file_inclusion in $(cat $1 | grep \{\%\ include | tr -d '\t' | cut -d' ' -f3 | tr -d \'); do
+#		file_inclusion="$basedir/$file_inclusion"
+#		if [[ $file_inclusion == *".ipynb" ]]; then
+#			jupyter nbconvert --to html $file_inclusion
+#		elif [[ ! ($file_inclusion == *".html") ]]; then
+#			name="$(basename $file_inclusion | cut -d'.' -f1 )"
+#			pygmentize -f html -O linenos=1 $file_inclusion > "$basedir/$name.html"
+#		else
+#			continue
+#		fi
+#	done
+
+	python render.py $1
+
+	return 0
+}
+
 case $1 in
 	-n|--new)
 		new_post "$2"
@@ -272,6 +300,10 @@ case $1 in
 		;;
 	-s|--search)
 		search ${@:2}
+		exit $?
+		;;
+	-r|--render)
+		render ${@:2}
 		exit $?
 		;;
 	-p|--publish)
