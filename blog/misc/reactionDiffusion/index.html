@@ -13,19 +13,14 @@
 
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" href="../../../css/prism.css"> <!--TARGET-->
 		<link rel="stylesheet" href="../../../css/style.css"> <!--TARGET-->
+		<link rel="stylesheet" href="../../../css/pygments.css"> <!--TARGET-->
 
-		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
 
 		<!-- Custom p5js animations -->
 		<script src="sketch.js"></script>
 
-		<!-- MathJax for LaTeX -->
-		<script id="MathJax-script" async
-						src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-		</script>
 	</head>
 
 	<body style="background-color:#42403b">
@@ -73,7 +68,7 @@
 
 					<p>In this post we will study the intriguing Gray Scott model, which describes the reaction between two substances. This model has been the focus of many recent studies (<a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>[1]</a>, <a href="https://www.sciencedirect.com/science/article/pii/S1468121803000208" target='_'>[2]</a>, <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>[3]</a>) for its complex behavior, chaotic nature and relatively simple formulation. It also generates beautiful patterns that are widely used by graphical artists (<a href="https://www.mdpi.com/1424-8220/20/4/1135/htm" target='_'>creating procedual generated textures</a>) and has applications in many theoretical fields such as biology in the modeling of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model/figures?lo=1" target='_'>human brain development</a> and in physics in the study of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>phase transitions in complex patterns</a>.</p>
 					<figure>
-						<img src="copper_shadder.png" alt="array scheme was supposed to be here :c" class = 'center'>
+						<img src="copper_shadder.png" alt="array scheme was supposed to be here :c" class = 'center' style='max-width : 400px'>
 					</figure>
 					<p>The model may seem simple at first glance, but implementing it will provide some challenges that will help us study very powerful computational methods that can be used in many other algorithms and are a valuable tool for any programmer or scientist. The theoretical aspects will be discussed in a surface level as a proper discussion would be way more involved mathematically and out of the scope of this post.</p>
 					<p>The Gray Scott model describes the reaction of two chemicals. A reactant '\(B\)' can transform another reactant '\(A\)' into becoming a inert substance. One substance is feed to the system at rate \(f\) and the other is removed (or "killed") at rate \(k\) and both substances are free to diffuse with rates \(D_{A,B}\). The evolution of the system is described by the following equations:</p>
@@ -102,13 +97,17 @@
 					 <p>This type of discretization is based on the very familiar Taylor series (<a href="https://en.wikipedia.org/wiki/Finite_difference_method" target='_'>quick "proof"</a>). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click on it in the panel below and see it for yourself: </p> 
 					<p><span class='alert'>Click on the panel bellow to start/stop the simulation.</span> </p>
 
-					<div id="c1"></div>
+					<div class='sketch-holder' id="c1"></div>
+					<br></br>
+<pre>
+{% include 'sketch.js' %}
+</pre>
 
-					<p>The are some computational bottlenecks in this code. Since it is a small code and fairly simple we can identify them easily, but if you are writing a larger code try studying about benchmark techniques to see what parts of your code are more costly and could use some optimization. While easier and more readable, writing matrices as actual 2D arrays is suboptimal from a computational point of view. A array is basically a pointer that... well... points to a place in memory where the array values are stored sequentially. A 2D array is an array of pointers, each pointing to the location of a line of the matrix. So every time we access a 2D array, we have to follow two pointers (the pointer to the pointer that points to the value) instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optimizing how we access the values of a matrix. Here is a scheme of how this works:</p> 
+					<p>The are some computational bottlenecks in this code. Since it is small and fairly simple we can identify them relatively easily. While easier and more readable, writing matrices as actual 2D arrays is suboptimal from a computational point of view. A array is basically a pointer that... well... points to a place in memory where the array values are stored sequentially. A 2D array is an array of pointers, each pointing to the location of a line of the matrix. So every time we access a 2D array, we have to follow two pointers (the pointer to the pointer that points to the value) instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optimizing how we access the values of a matrix. Here is a scheme of how this works:</p> 
 					<figure>
 						<img src="array_pointer_neg.png" alt="array scheme was supposed to be here :c" class = 'center'>
 					</figure>
-					<p>Another bottleneck is the calculation the Laplacian in each site. One thing that goes unnoticed by most is to why squaring a matrix or doing matrix operations in numpy (or other libraries) is so "fast". The reason for this that these operations are already <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target='_'>vectorized</a>, which is a far better and optimized way of performing array operations. To use the vectorized nature of numpy functions (many scientific packages in the most common programming languages are already optimized and if you don't care much for how things work you might just trust the people that wrote these packages, but if you like reading about algorithms and optimization this topic of operation vectorization is very enriching), we need to find a way to write the Laplatian operator as a matrix. If you need to apply an operator in any future code try writing it as a matrix and use the optimized functions of the language to full effect.</p>
+					<p>Another bottleneck is the calculation the Laplacian in each site. One thing that goes unnoticed by most is to why squaring a matrix or doing matrix operations in numpy (or other libraries) is so "fast". The reason for this that these operations are already <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target='_'>vectorized</a>, which is a far better and optimized way of performing array operations. To use the vectorized nature of numpy functions (many scientific packages in the most common programming languages are already optimized and if you don't care much for how things work you might just trust the people that wrote these packages, but if you like reading about algorithms and optimization this topic of operation vectorization is very enriching), we need to find a way to write the Laplacian operator as a matrix. If you need to apply an operator in any future code try writing it as a matrix and use the optimized functions of the language to full effect.</p>
 					<p>Lets begin thinking on the action of the Laplacian on some position \((x, y)\) and its neighboring sites. The operator could be written as:<p>
 					<p>\(
 					\begin{eqnarray*}
@@ -128,8 +127,12 @@
 					\end{eqnarray*}
 					\)</p> 
 					<p>This means that the Laplacian acts as a matrix on each site! If our lattice has \(n^2\) sites we will need to build a \(n^2 \times n^2\) operator where each line is a matrix that will act in a single site. The best way to do this is by doing it by for a relatively small case (\(3 \times 3\) for example) and convince yourself that is a matrix with \(-4\) on the main diagonal, \(1\) on the diagonals above and below the main diagonal and \(1\) in diagonals \(\pm n\) away from the main diagonal. In python: </p>
-					<pre data-src="snipplet1.py" class="line-numbers my_code"></pre>
-					<p>Implementing these changes make the code (available in the end of this post) run MUCH faster. With this we can explore some know parameter combinations and see the sheer variety of patterns that a single model can generate. The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed. So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Turing patterns, in honor of Alan Turing, atheist, homosexual, war hero and father of computer science).</p>
+<pre>
+diags = [-4*main, inf, sup, main, main]
+offsets = [0, -1, 1, -n, n]
+self.Laplacian = dia_matrix((diags, offsets), shape=(n**2, n**2) )
+</pre>
+					<p>Implementing these changes make the code (available in the end of this post) run MUCH faster. With this we can explore some know parameter combinations and see the sheer variety of patterns that a single model can generate. The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed). So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Turing patterns, in honor of Alan Turing, atheist, homosexual, war hero and father of computer science).</p>
 				<div class="row">
 					<div class="col">
 						<figure>
@@ -231,7 +234,9 @@
 					<p>Thanks or reading :D</p> 
 					
 					Code:
-					<pre data-src="sketch.js" class="line-numbers my_code"></pre>
+<pre>
+{% include 'advanced_reacDiff.py' %}
+</pre>
 
 				</div>
 			</div>
@@ -239,13 +244,25 @@
 
 		<hr/>
 		<script src="../../../js/script.js"> </script><!--TARGET-->
-		<script src="../../../js/prism.js"> </script><!--TARGET-->
 		<!-- Bootstrap + JQuery -->
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+    <!-- mathjax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
 
 
 	</body>

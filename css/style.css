@@ -1,7 +1,8 @@
 /* Default theme */
 body {
 	padding-top: 70px;
-	padding-left: 10vw;
+  margin-left: auto;
+  margin-right: auto;
 	font-family: "Cormorant Garamond",sans-serif;
 	font-size: min(36px, 1.5vmax);
 	color:#ffeabc;
@@ -13,8 +14,8 @@ body {
 	padding-left: 25px;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	font-size: 2.2vmax;
-	color: #ffb311 ;
+	font-size: 4vmax;
+	color: #ffeabc;
 	margin-top: 25px;
 	margin-bottom: 25px;
 	border-bottom: 1px dashed #ffeabc;
@@ -43,6 +44,14 @@ h1 {
   background: #363430;
   line-height: 1.21429em;
   margin-bottom: 10px;
+	max-height:500px;
+  overflow: scroll;
+	overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.highlight pre {
+	font-size: min(16px, 1.5vmax);
+	tab-size: 2;
 }
 
 .highlighttable {

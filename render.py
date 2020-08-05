@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from pygments import highlight
 from pygments.lexers import guess_lexer, get_lexer_by_name
 from pygments.formatters import HtmlFormatter
+from pygments.filters import VisibleWhitespaceFilter
 
 try:
     target_file = argv[1]
@@ -44,10 +45,13 @@ for pre in soup.find_all('pre'):
             'output_text' in pclass):
             continue
     # highlighting with pygments
-    if 'createCanvas' in pre.string:
+    if ('createCanvas' in pre.string) or ('this.' in pre.string):
         lexer = get_lexer_by_name('js')
+    elif ('self.' in pre.string):
+        lexer = get_lexer_by_name('py')
     else:
         lexer = guess_lexer(pre.string)
+    lexer.add_filter(VisibleWhitespaceFilter(tabsize=2))
 
     code = highlight(pre.string.rstrip(),
                      lexer,

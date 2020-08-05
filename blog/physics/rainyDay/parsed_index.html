@@ -263,7 +263,7 @@
       The full dynamics is really hard to describe analytically, so lets just consider the angular part of the dynamic. Considering everything we discussed so far we can list only three major forces that act on each segment of the tree: Wind, elasticity and dissipation (differences of normal forces between branch segments will be grouped in the elastic force for simplicity).
      </p>
      <p>
-      The wind will be generated using Perlin noise, and its torque will be just \(F_{wind}.\cos(\theta).\) Dissipation forces can be modeled simply by a constant times the linear speed of the branch segment \(F_{dis} = \gamma v\). The elastic force is not trivial, so I used some tricks. To avoid complicated algebra and reduce the computation complexity (always a good thing) I wrote a "angular elastic force" \(Fel = k\, \Delta\theta\), where all the complex stuff is hidden in the constant $k$. The linear dependency with \(\Delta \theta\) is also an approximation. Since the tree is almost rigid at its basis and very elastic at its top, my first idea was to make $k$ decrease via a power law with the height of the tree to simulate this behavior. To our happiness this gives a nice approximation (considering the project scope).
+      The wind will be generated using Perlin noise, and its torque will be just \(F_{wind}.\cos(\theta).\) Dissipation forces can be modeled simply by a constant times the linear speed of the branch segment \(F_{dis} = \gamma v\). The elastic force is not trivial, so I used some tricks. To avoid complicated algebra and reduce the computation complexity (always a good thing) I wrote a "angular elastic force" \(Fel = k\, \Delta\theta\), where all the complex stuff is hidden in the constant \(k\). The linear dependency with \(\Delta \theta\) is also an approximation. Since the tree is almost rigid at its basis and very elastic at its top, my first idea was to make \(k\) decrease via a power law with the height of the tree to simulate this behavior. To our happiness this gives a nice approximation (considering the project scope).
      </p>
      <div class="sketch-holder" id="branch">
      </div>
@@ -605,9 +605,6 @@
   </script>
   <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
   </script>
-    <!-- mathjax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
    MathJax = {
         tex: {
