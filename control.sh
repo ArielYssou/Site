@@ -271,7 +271,7 @@ function render() {
 #	for file_inclusion in $(cat $1 | grep \{\%\ include | tr -d '\t' | cut -d' ' -f3 | tr -d \'); do
 #		file_inclusion="$basedir/$file_inclusion"
 #		if [[ $file_inclusion == *".ipynb" ]]; then
-#			jupyter nbconvert --to html $file_inclusion
+#			jupyter nbconvert --to html --template basic $file_inclusion
 #		elif [[ ! ($file_inclusion == *".html") ]]; then
 #			name="$(basename $file_inclusion | cut -d'.' -f1 )"
 #			pygmentize -f html -O linenos=1 $file_inclusion > "$basedir/$name.html"

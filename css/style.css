@@ -114,6 +114,7 @@ img {
   margin-left: auto;
   margin-right: auto;
 }
+
 /* ABOUT SECTION */
 
 .about_me {
@@ -290,9 +291,32 @@ canvas {
   margin-right: auto;
 }
 
+.TOC {
+	border: 1px solid black; 
+	border-collapse: collapse;
+}
+
+th, td {
+  padding: 5px 15px 2px 15px;
+}
+
+.TOC tr:nth-child(even) {
+  background-color: #514F48;
+}
+.TOC tr:nth-child(odd) {
+  background-color: #4C4943;
+}
+.TOC th {
+	text-align:center;
+  color: #ffeabc;
+  background-color: #363430;
+} 
+
+.section{
+	border-bottom: 1px solid #ffeabc;
+	padding-bottom: 5px;
+}
  /* Details and Specifics */
-
-
 
 /*Reaction Difussion Specific Formating*/
 .pannel_fig {
