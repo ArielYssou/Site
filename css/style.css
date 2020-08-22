@@ -8,6 +8,7 @@ body {
 	color:#ffeabc;
 	/*min-width: 780px;*/
 	max-width: 1080px;
+	background-color: #42403b;
 }
 
 .main_title {
@@ -101,7 +102,7 @@ img {
 }
 
 .MathJax {
-	font-size:1.5vmax;
+	font-size: min(49px, 1.9vmax);;
 }
 
 .alert {
@@ -255,19 +256,48 @@ canvas {
 	padding-bottom: 5px;
 }
 
-.blog_title {
-	padding-left: 25px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	font-size: 2.2vmax;
-	color: #ffb311 ;
-	margin-top: 25px;
-	margin-bottom: 25px;
-	border-bottom: 1px dashed #ffeabc;
-	border-top: 1px dashed #ffeabc;
-}
+
 
 /* Posts */
+
+.head_container {
+  position: relative;
+  width: 100%;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.head_text {
+  background-color:rgba(66, 64, 59, .7);
+	font-size: 2.8vmax;
+	color: #ffeabc;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	/*border-bottom: 1px dashed #ffeabc;
+	border-top: 1px dashed #ffeabc;*/
+	border: 1px solid #ffeabc;
+  padding: 16px 32px;
+}
+.head_image {
+  opacity: 0.3;
+  display: block;
+  width: 100%;
+	overflow: hidden;
+  height: 200px;
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+}
+.no_blur {
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+}
+.head_middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
 
 .post_body {
 	margin-left: 15px;
@@ -322,4 +352,45 @@ th, td {
 .pannel_fig {
   display: block;
   width: 100%;
+}
+
+/* GALLERY */
+.gal_container {
+  position: relative;
+  width: 100%;
+}
+
+.gal_image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.gal_middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.gal_container:hover .gal_image {
+  opacity: 0.3;
+}
+
+.gal_container:hover .gal_middle {
+  opacity: 1;
+}
+
+.gal_text {
+  background-color: #323027;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
 }

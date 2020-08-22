@@ -6,38 +6,44 @@
 		<meta name="viewport" content="width=device-width, intial-scale=1">
 
 		<!-- Name on tab -->
-		<title>Home - ariel's blog</title>
+		<title>Sun tiles</title>
 
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
 
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<!--<link rel="stylesheet" href="css/bootstrap.css">-->
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/pygments.css">
+		<link rel="stylesheet" href="../../../css/pygments.css"> <!--TARGET-->
+		<link rel="stylesheet" href="../../../css/style.css"> <!--TARGET-->
+
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="sketch.js"></script>
 
 	</head>
 
 	<body style="background-color:#42403b">
+		<!-- Navigation bar -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<a class="navbar-brand" href="#" style="font-weight:bold;">Ariel Yssou</a>
+			<a class="navbar-brand" href="../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home</a><!--TARGET-->
+ 
+					</li>
 					<li class="nav-item active">
-						<a class="nav-link" href="#" style="font-weight:bold;">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="../../../blog" style="font-weight:bold;">Blog </a><!--TARGET-->
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="../../gallery" style="font-weight:bold;">Gallery <span class="sr-only">(current)</span></a><!--TARGET-->
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="blog/" style="font-weight:bold;">Blog </a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="gallery/" style="font-weight:bold;">Gallery </a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="about/" style="font-weight:bold;">About</a>
+						<a class="nav-link" href="../../about" style="font-weight:bold;">About</a><!--TARGET-->
 					</li>
 				</ul>
 			</div>
@@ -52,74 +58,27 @@
 				</ul>
 			</div>
 		</nav>
-		<!-- Header -->
-
-		<h1 class="main_title"> Home</h1>
-
-		<div class="container">
-			<div class="row">
-				<div class="col-6">
-					<!-- COL1 CURRENT_COL_TAG -->
-					<a href="./blog/physics/idealGas/">
-						<div class="panel">
-							<div class="panel_header">
-								The Ideal Gas
-							</div>
-							
-							<div class="panel_body">
-								<img src="./blog/physics/idealGas/main_image.png"/>
-							</div>
-						</div>
-					</a>
-					<a href="./blog/misc/reactionDiffusion/" class="custom_link">
-						<div class="panel">
-							<div class="panel_header">
-								Reaction Diffusion Process
-							</div>
-							<div class="panel_body">
-								<img src="./blog/misc/reactionDiffusion/main_image.png"/>
-							</div>
-						</div>
-					</a>
-
-				</div>
-				<div class="col-6">
-					<!-- COL2 -->
-					<a href="./blog/physics/perlinNoise" class="custom_link">
-						<div class="panel">
-							<div class="panel_header">
-								Perlin Noise
-							</div>
-							<div class="panel_body">
-								<img src="./blog/physics/perlinNoise/main_image.png"/>
-							</div>
-						</div>
-					</a>
-
-					<a href="./blog/physics/rainyDay/">
-						<div class="panel">
-							<div class="panel_header">
-								A Rainy Night
-							</div>
-							<div class="panel_body">
-								<img src="./blog/physics/rainyDay/main_image.png"/>
-							</div>
-						</div>
-					</a>
-
+		<!-- End of navigation bar -->
+		
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+					<div class="sketch-holder" id="c1"></div><br>
+					<hr>
+					{% include 'sketch.js' %}
 				</div>
 			</div>
 		</div>
 
-		<hr>
-
+		<script src="../../../js/script.js"> </script><!--TARGET-->
 		<!-- Bootstrap + JQuery -->
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-		<!-- Custom JS -->
-		<script src="../js/script.js"></script>
 		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+
+
+
 	</body>
 </html>

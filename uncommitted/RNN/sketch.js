@@ -178,9 +178,24 @@ function Node(p, x, y, radius, facecolor = null, edgecolor = "#ffeabc", annot = 
 		p.strokeWeight(1.5)
 		p.ellipse(this.pos.x, this.pos.y, 2 * this.radius, 2 * this.radius);
 		if(this.annot != '') {
+			p.fill(this.edgecolor);
+			p.strokeWeight(.5)
 			p.textSize(this.radius * -1.7);
 			p.textAlign(p.CENTER, p.CENTER)
-			p.text(this.annot, this.pos.x, this.pos.y);
+			if(this.annot.includes('_')){
+				let annots = this.annot.split('_');
+				p.text(annots[0], this.pos.x - 1, this.pos.y);
+
+				p.textSize(this.radius * 0.5);
+				p.textAlign(p.CENTER, p.TOP)
+				p.text(
+					annots[1],
+					this.pos.x + p.textWidth(annots[0]),
+					this.pos.y
+				);
+			} else {
+				p.text(annot, this.pos.x, this.pos.y);
+			}
 		}
 		p.pop();
 	};
@@ -283,6 +298,7 @@ var s = function( p ) { // p could be any variable name
 		p.push();
 		p.stroke('#ffeabc');
 		p.fill('#ffeabc');
+		p.strokeWeight(.5)
 		p.textSize(12);
 		p.textAlign(p.CENTER, p.CENTER)
 		p.text('input layer', 50, 270);
@@ -303,166 +319,6 @@ var s = function( p ) { // p could be any variable name
 	};
 };
 var myp51 = new p5(s, 'c1');
-
-function BlobsCloud(p, x, y, clr = '#ffffff') { 
-	this.pos = p.createVector(x, y);
-	this.clr = clr;
-
-	let max_width = 50; // Max width of ellipses composing the cloud 
-	let min_width = 40; // Min width of ellipses composing the cloud 
-	let max_height = 40; // Max height of ellipses composing the cloud 
-	let min_height = 30; // Min height of ellipses composing the cloud 
-
-	let spread_x = 20;
-	let spread_y = 10;
-
-	let nblobs = p.random(5, 10); //Number of ellipses (blobs)
-
-	//Creates the cloud
-	this.blobs = []
-	for(var i = 0; i < nblobs; i += 1) {
-		this.blobs.push({
-			pos: p.createVector(
-				p.random(-spread_x, spread_x),
-				p.random(-spread_y, spread_y)
-			),
-			a: p.random(min_width, max_width),
-			b: p.random(min_height, max_height),
-		});
-	}
-
-	// Geometric center of the cloud
-	this.center = p.createVector(0, 0);
-	for(var i = 0; i < this.blobs.length; i += 1) {
-		this.center.add(this.blobs[i].pos);
-	};
-	this.center.div(this.blobs.length);
-	
-
-	this.draw = function() {
-		p.push();
-		p.translate(this.pos.x, this.pos.y);
-		for(var i = 0; i < this.blobs.length; i += 1) {
-			let x = this.blobs[i].pos.x;
-			let y = this.blobs[i].pos.y;
-			p.fill(255);
-			p.noStroke();
-			p.ellipse(x, y, this.blobs[i].a, this.blobs[i].b);
-		};
-		p.pop();
-	}
-}
-
-function BezierCloud(p, x, y, clr = '#ffffff') {
-	this.pos = p.createVector(x, y);
-	this.clr = clr;
-
-	this.len = p.random(30, 50); // Flat base
-	//let anchors = p.random(5,10); // Number of anchors
-	let anchors = 6; // Number of anchors
-
-	let anchorAngles = [];
-	let anchorRadius = [];
-	for(var i = 0; i < anchors; i += 1) {
-		anchorAngles.push( (i + 1) * p.TWO_PI/ anchors - p.random(p.TWO_PI / 10));
-		anchorRadius.push( p.random(this.len - 10, this.len + 10) );
-	}
-	anchorAngles.sort()
-	let aux1Angles = [p.random(anchorAngles[0])]
-	let aux2Angles = [p.random(aux1Angles[0], anchorAngles[0])]
-	let aux1Radius = [p.random(anchorRadius[0], anchorRadius[0] + 20)]
-	let aux2Radius = [p.random(anchorRadius[0], anchorRadius[0] + 20)]
-
-	for(var i = 1; i < anchors; i += 1) {
-		aux1Angles.push(p.random(anchorAngles[i - 1], anchorAngles[i]))
-		aux2Angles.push(p.random(aux1Angles[i], anchorAngles[i]))
-		aux1Radius.push(p.random(anchorRadius[i], anchorRadius[i] + 20))
-		aux2Radius.push(p.random(anchorRadius[i], anchorRadius[i] + 20))
-	}
-
-	this.shape = function () {
-		p.beginShape();
-		p.vertex(2*this.len, 0);
-		for(var i = 0; i < anchors; i += 1) {
-			p.bezierVertex(
-				2*aux1Radius[i] * p.cos(aux1Angles[i]),
-				-aux1Radius[i] * p.sin(aux1Angles[i]),
-				2*aux2Radius[i] * p.cos(aux2Angles[i]),
-				-aux2Radius[i] * p.sin(aux2Angles[i]),
-				2*anchorRadius[i] * p.cos(anchorAngles[i]),
-				-anchorRadius[i] * p.sin(anchorAngles[i])
-			)
-		}
-		//p.vertex(-this.len, 0);
-		p.endShape();
-	};
-
-	this.draw = function() {
-		p.push();
-		p.fill(255);
-		p.translate(this.pos.x, this.pos.y);
-		this.shape();
-		p.pop();
-	};
-}
-
-function CartoonCloud(p, x, y, clr = '#ffffff') {
-	this.pos = p.createVector(x, y);
-	this.clr = clr;
-
-	this.len = p.random(30, 50); // Flat base
-	let left_anchor = p.createVector(-this.len, p.random(20, 30));
-	let left_aux = p.createVector(-this.len + left_anchor.x, left_anchor.y / 2)
-	let right_anchor = p.createVector(this.len, p.random(30, 40));
-	let right_aux = p.createVector(this.len + right_anchor.x, right_anchor.y / 2)
-
-	let openning = right_anchor.angleBetween(left_anchor);
-
-	let anchors = 1; // Number of anchors
-
-	let anchorAngles = [right_anchor.heading()];
-	let anchorRadius = [right_anchor.mag()];
-	for(var i = 0; i < anchors; i += 1) {
-		anchorAngles.push( anchorAngles[i] + (openning/(anchors+1))  - p.random(p.PI/20));
-		anchorRadius.push( p.random(0.99 * this.len, 1.1 * this.len) );
-	}
-	anchorAngles.push(left_anchor.heading())
-	anchorRadius.push(left_anchor.mag())
-
-	anchorAngles.sort()
-	let auxAngles = [right_aux.heading()]
-	let auxRadius = [right_aux.mag()]
-	for(var i = 1; i < anchorAngles.length; i += 1) {
-		auxAngles.push((anchorAngles[i - 1] + (anchorAngles[i]-anchorAngles[i-1]) / 2))
-		auxRadius.push(p.random(anchorRadius[i] + 10, anchorRadius[i] + 20))
-	}
-
-
-	this.shape = function () {
-		p.beginShape();
-		p.vertex(this.len, 0);
-		for(var i = 0; i < anchorAngles.length; i += 1) {
-			p.quadraticVertex(
-				auxRadius[i] * p.cos(auxAngles[i]),
-				-auxRadius[i] * p.sin(auxAngles[i]),
-				anchorRadius[i] * p.cos(anchorAngles[i]),
-				-anchorRadius[i] * p.sin(anchorAngles[i])
-			)
-		}
-		p.quadraticVertex(left_aux.x, -left_aux.y, -this.len, 0)
-		p.vertex(this.len, 0)
-		p.endShape();
-	};
-
-	this.draw = function() {
-		p.push();
-		p.fill(255);
-		p.strokeWeight(3)
-		p.translate(this.pos.x, this.pos.y);
-		this.shape();
-		p.pop();
-	};
-}
 
 // ############################################################
 // Sketch Two
@@ -500,8 +356,8 @@ function Cell(p, x, y, width, height, radius, facecolor = null, edgecolor = "#ff
 		);
 
 		if(this.annot != '') {
-			p.strokeWeight(1);
-			p.fill('#ffeabc')
+			p.fill(this.edgecolor);
+			p.strokeWeight(.5)
 			p.textSize(this.radius * -1.7);
 			p.textAlign(p.CENTER, p.CENTER)
 			p.text(this.annot, this.pos.x, this.pos.y);
@@ -619,6 +475,7 @@ function recurrentLayer(p, x, y, width, height, index = '', arrow_style = 'fancy
 	}
 }
 
+
 /*
 function empty_Layer(p, x, y, width, height) {
 	Layer.call(this, p, x, y, width, height, 1); // 1 is the number of nodes, stored in 'total_nodes'
@@ -638,29 +495,29 @@ function empty_Layer(p, x, y, width, height) {
 
 var t = function( p ) { 
 	var RNN = new Network(p, connection_style = 'fancy');
-	RNN.add( new recurrentLayer(p, 50, 10, 80, 250, index = 't', 'fancy',  folded = true));
-	RNN.add( new recurrentLayer(p, 200, 10, 40, 250, index = '0', 'fancy'));
-	RNN.add( new recurrentLayer(p, 300, 10, 40, 250, index = '1', 'fancy'));
+	RNN.add( new recurrentLayer(p, 50, 10, 100, 250, index = 't', 'fancy',  folded = true));
+	RNN.add( new recurrentLayer(p, 200, 10, 50, 250, index = '0', 'fancy'));
+	RNN.add( new recurrentLayer(p, 300, 10, 50, 250, index = '1', 'fancy'));
 	//RNN.add( new empty_Layer(p, 350, 10, 50, 250));
-	RNN.add( new recurrentLayer(p, 450, 10, 40, 250, index = 't', 'fancy'));
+	RNN.add( new recurrentLayer(p, 450, 10, 50, 250, index = 't', 'fancy'));
 
   p.setup = function() {
 		var myWidth = document.getElementById("c2").offsetWidth;
-    p.createCanvas(600, 400);
+    p.createCanvas(600, 300);
   };
 
   p.draw = function() {
 		RNN.show();
 		p.push()
 		p.stroke('#ffeabc')
-		p.strokeWeight(2)
+		p.strokeWeight(1.3)
 		p.line(
-			150, RNN.layers[0].height/2 + 5,
-			165, RNN.layers[0].height/2 + 5  
+			165, RNN.layers[0].height/2 + 5,
+			175, RNN.layers[0].height/2 + 5  
 		)
 		p.line(
-			150, RNN.layers[0].height/2 + 10,
-			165, RNN.layers[0].height/2 + 10
+			165, RNN.layers[0].height/2 + 10,
+			175, RNN.layers[0].height/2 + 10
 		)
 		p.strokeWeight(1);
 		p.fill('#ffeabc')
@@ -680,30 +537,265 @@ var t = function( p ) {
 var myp52 = new p5(t, 'c2');
 
 
+// ### LSTM cell draw
+function LstmCell(p, x, y, width, height, radius, detail_width=33, detail_height=23, output_size = 30, facecolor = null, edgecolor = '#ffeabc', annot = 'A') {
+	Cell.call(this, p, x, y, width, height, radius, facecolor, edgecolor, annot);
+	this.detail_width = detail_width;
+	this.detail_height = detail_height;
 
+	this.show = function() {
+		p.push();
+		if (this.facecolor) {
+			p.fill(this.facecolor);
+		} else {
+			p.noFill();
+		}
 
+		p.stroke(this.edgecolor);
+		p.strokeWeight(1.5);
+		p.translate(this.pos.x, this.pos.y);
+		p.rect(0, 0, this.width, this.height, this.radius);
+		let top_level = 0.15 * this.height;
+		let middle = 0.5 * this.height;
+		let low_level = 0.90 * this.height;
+
+		// Cell state arrow
+		curvedArrow(p,
+			[
+				p.createVector(0, top_level),
+				p.createVector(this.width + output_size, top_level)
+			]
+		);
+		//forget gate arrow
+		curvedArrow(p,
+			[
+				p.createVector(0, low_level),
+				p.createVector(0.15 * this.width, low_level),
+				p.createVector(0.15 * this.width, top_level + this.detail_height / 2)
+			]
+		);
+		// learn gate sigma curve
+		curvedArrow(p,
+			[
+				p.createVector(0, low_level),
+				p.createVector(0.3 * this.width, low_level),
+				p.createVector(0.3 * this.width, middle),
+				p.createVector(0.5 * this.width - this.detail_width /2, middle)
+			]
+		);
+		// learn gate tanh curve
+		curvedArrow(p,
+			[
+				p.createVector(0, low_level),
+				p.createVector(0.5 * this.width, low_level),
+				p.createVector(0.5 * this.width, top_level + this.detail_height / 2)
+			]
+		);
+		// output gate sigma curve
+		curvedArrow(p,
+			[
+				p.createVector(0, low_level),
+				p.createVector(0.65 * this.width, low_level),
+				p.createVector(0.65 * this.width, middle),
+				p.createVector(0.80 * this.width - this.detail_width / 2, middle)
+			]
+		);
+		// output gate tanh curve
+		curvedArrow(p,
+			[
+				p.createVector(0, top_level),
+				p.createVector(0.80 * this.width, top_level),
+				p.createVector(0.80 * this.width, low_level),
+				p.createVector(this.width + output_size, low_level)
+			]
+		);
+		// output curve
+		curvedArrow(p,
+			[
+				p.createVector(0, top_level),
+				p.createVector(0.80 * this.width, top_level),
+				p.createVector(0.80 * this.width, low_level),
+				p.createVector(0.90 * this.width, low_level),
+				p.createVector(0.90 * this.width, -output_size)
+			]
+		);
+		// input curve
+		curvedArrow(p,
+			[
+				p.createVector(0.05 * this.width, this.height + output_size),
+				p.createVector(0.05 * this.width, low_level),
+				p.createVector(0.15 * this.width, low_level)
+			],
+			curvature = 20, clr = '#ffeabc', tip = null
+		);
+
+		//  *** DETAILS ***
+		// Operations
+		p.textAlign(p.CENTER, p.CENTER);
+		let details_level = 0.7 * this.height;
+		let x = 0;
+		let y = 0;
+		let operation_clr = '#86CAE9'
+		let layer_clr = '#FFE570'
+		let text_clr = '#42403b'
+
+		// Cell forget rate inclusion
+		x = 0.15 * this.width
+		y = top_level;
+		p.fill(operation_clr)
+		p.strokeWeight(1.5);
+		p.ellipse(x, y, this.detail_height, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('x', x, y);
+
+		// Cell learn rate inclusion
+		x = 0.5 * this.width
+		y = top_level;
+		p.fill(operation_clr)
+		p.strokeWeight(1.5);
+		p.ellipse(x, y, this.detail_height, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('+', x, y);
+
+		// Cell learn rate junction
+		x = 0.5 * this.width
+		y = middle;
+		p.fill(operation_clr)
+		p.strokeWeight(1.5);
+		p.ellipse(x, y, this.detail_height, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('x', x, y);
+
+		// Cell output junction
+		x = 0.8 * this.width
+		y = middle;
+		p.fill(operation_clr)
+		p.strokeWeight(1.5);
+		p.ellipse(x, y, this.detail_height, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('x', x, y);
+
+		// Cell tanh normalization
+		x = 0.8 * this.width;
+		y = 0.3 * this.height;
+		p.fill(operation_clr)
+		p.strokeWeight(1.5);
+		p.ellipse(x, y, this.detail_width, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('tanh', x, y);
+
+		// Forget layer
+		x = 0.15 * this.width - this.detail_width / 2;
+		y = details_level;
+		p.fill(layer_clr)
+		p.strokeWeight(1.5);
+		p.rect(x, y, this.detail_width, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('σ', x + this.detail_width / 2, y + this.detail_height / 2);
+
+		// Learn sigma layer
+		x = 0.3 * this.width - this.detail_width / 2;
+		y = details_level;
+		p.fill(layer_clr)
+		p.strokeWeight(1.5);
+		p.rect(x, y, this.detail_width, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('σ', x + this.detail_width / 2, y + this.detail_height / 2);
+
+		// Learn tanh layer
+		x = 0.5 * this.width - this.detail_width / 2;
+		y = details_level;
+		p.fill(layer_clr)
+		p.strokeWeight(1.5);
+		p.rect(x, y, this.detail_width, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('tanh', x + this.detail_width / 2, y + this.detail_height / 2);
+
+		// Forget layer
+		x = 0.65 * this.width - this.detail_width / 2;
+		y = details_level;
+		p.fill(layer_clr)
+		p.strokeWeight(1.5);
+		p.rect(x, y, this.detail_width, this.detail_height);
+		p.fill(text_clr)
+		p.strokeWeight(0)
+		p.text('σ', x + this.detail_width / 2, y + this.detail_height / 2);
+
+		// input cells
+		let text = 'x_t'
+		x = 0.05 * this.width;
+		y = this.height + output_size + this.detail_height / 1.5;
+		p.stroke(this.edgecolor);
+		p.strokeWeight(1.5)
+		p.fill('#F7B578');
+		p.ellipse(x, y,  1.5 * this.detail_height, 1.5 * this.detail_height);
+		p.fill(text_clr);
+		p.strokeWeight(.5)
+		p.textSize(this.radius * 1.5);
+		p.textAlign(p.CENTER, p.CENTER)
+		let annots = text.split('_');
+		p.text(annots[0], x - 1, y);
+
+		p.textSize(this.radius);
+		p.textAlign(p.CENTER, p.TOP)
+		p.text(
+			annots[1],
+			x + p.textWidth(annots[0]),
+			y
+		);
+
+		// output cells
+		text = 'h_t'
+		x = 0.9 * this.width;
+		y = 0 - output_size - this.detail_height / 1.5;
+		p.stroke(this.edgecolor);
+		p.strokeWeight(1.5)
+		p.fill('#F7B578');
+		p.ellipse(x, y,  1.5 * this.detail_height, 1.5 * this.detail_height);
+		p.fill(text_clr);
+		p.strokeWeight(.5)
+		p.textSize(this.radius * 1.5);
+		p.textAlign(p.CENTER, p.CENTER)
+		annots = text.split('_');
+		p.text(annots[0], x - 1, y);
+
+		p.textSize(this.radius);
+		p.textAlign(p.CENTER, p.TOP)
+		p.text(
+			annots[1],
+			x + p.textWidth(annots[0]),
+			y
+		);
+
+		p.pop();
+	}
+	
+}
 var t = function( p ) { 
-	//var cloud = new BlobsCloud(p, 100, 100);
-	var cloud = new CartoonCloud(p, 100, 100);
+	var lstm_cell = new LstmCell(p, 50, 80, 330, 200, 10);
 
   p.setup = function() {
 		var myWidth = document.getElementById("c3").offsetWidth;
-		/*var myHeight = document.getElementById("c3").offsetHeight;*/
-
-    p.createCanvas(myWidth, 200);
+    p.createCanvas(600, 390);
   };
 
   p.draw = function() {
-		cloud.draw();
+		lstm_cell.show();
 		p.noLoop();
   };
 
 	p.windowResized = function() {
 		mwidth = document.getElementById("c3").offsetWidth;
-		/*mheight = document.getElementById("c3").offsetHeight;*/
+		/*mheight = document.getElementById("c2").offsetHeight;*/
 		p.resizeCanvas(mwidth, p.height);
 	};
 };
 var myp52 = new p5(t, 'c3');
-
-

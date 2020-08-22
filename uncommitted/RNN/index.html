@@ -17,13 +17,24 @@
 		<link rel="stylesheet" href="../../css/pygments.css"> <!--TARGET-->
 		<link rel="stylesheet" href="../../css/style.css"> <!--TARGET-->
 
-
-
-		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
 
 		<!-- Custom p5js animations -->
 		<script src="sketch.js"></script>
+
+    <!-- mathjax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
 
 	</head>
 
@@ -64,13 +75,14 @@
 		<div class="container post_body">
 			<div class="row post_struct">
 				<div class="col-ld-12">
-					<div class="post_cover">
-						<div class="blog_title">
-							LTSM
+					<div class="head_container">
+						<img src="./cover_image.png" class="head_image no_blur">
+						<div class="head_middle">
+							<div class="head_text"><b>Long Short-Term Memory</b></div>
 						</div>
 					</div>
 
-					<p> In this post we will tackle the task of time series forecasting with <b>Long Short Term Memory (LSTM)</b> neural networks using the "Historical Hourly Weather Data 2012-2017" dataset. The task of predicting the weather is a challenging one, more so without using any specific models or insights from know meteorological models, but we will try to approach this problem armed only with machine learning! </p>
+					<p> In this post we will tackle the task of time series forecasting with <b>Long Short-Term Memory (LSTM)</b> neural networks using the "Historical Hourly Weather Data 2012-2017" dataset. The task of predicting the weather is a challenging one, more so without using any specific models or insights from know meteorological models, but we will try to approach this problem armed only with machine learning! </p>
 
 					<!-- TOC -->
  <table class="TOC">
@@ -84,11 +96,11 @@
 					<!-- Intro -->
 					<a name="RNN"></a>
 					<h2 class="section">1. Recurrent Neural Networks</h2>
-					<p>Our objective will be to build a model that is able to predict the future elements of a given sequence $x_0, x_1, \dots, x_t$ of data. Our first instinct might be to use a "traditional" neural network with sequential fully connected layers such as this:</p>
+					<p>Our objective will be to build a model that is able to predict the future elements of a given sequence $x_0, x_1, \dots, x_t$. The first instinct might be to use a "traditional" neural network with sequential fully connected layers such as this:</p>
 					<div class="sketch-holder" id="c1"></div><br>
 					<!--NN scheme-->
 
-					<p>While effective this type of architecture does not exploit the sequential structure of the data and thus wields poor generalization. The key feature that these networks miss is some sort of "memory". Indeed, at step $t$ the state $h_t$ of a neuron in the hidden layer can be written as:
+					<p>While effective this type of architecture does not exploit the sequential structure of the data and thus yields poor generalization. The key feature that these networks miss is some sort of "memory". Indeed, at step $t$ the state $h_t$ of a neuron in the hidden layer can be written as:
 					$$h_t = f( \vec{w}_t . \vec{x}_t),$$
 					where $\vec{w}_t$ are weights (bias is omitted for simplicity) and $f$ a generic activation function. There is no explicit dependence on the "historic" of the data, as they only affect the way the weights are trained (thus being extremely sensible to the starting point of the data sequence). One way we can try to solve this limitation is by introducing an explicit dependence on the past state of the neuron:
 					$$
@@ -103,7 +115,7 @@
 					<!-- LTSM -->
 					<a name="LSTM"></a><h2 class="section">2. Long Short Term Memory</h2>
 					<p>LSTM addresses the problem of long term memory by making several modifications to the vanilla RNN architecture. Indeed its structure is far more complex:</p>
-					<!-- LTSM scheme -->
+					<div class="sketch-holder" id="c3"></div>
 					<p>I cannot even dream of writing a better explanation on LSTMs than Colah in his amazing blog post, but I'll try to explain then in a different way.</p>
 
 					<p>The idea is to combine a short memory term with a long memory term
@@ -128,16 +140,6 @@
 					$$\boxed{h_t = S_t \tanh(L_t)}.$$</p>
 					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
 					{% include 'weather.html' %}
-
-					
-					<p> Lorem ipsum </p>
-					<div class="sketch-holder" id="c3"></div>
-
-					
-					Code:
-					<pre>
-					</pre>
-
 				</div>
 			</div>
 		</div>
@@ -151,19 +153,7 @@
 
 		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
 
-    <!-- mathjax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-      MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']]
-        },
-        svg: {
-          fontCache: 'global'
-        }
-      };
-    </script>
+
 
 	</body>
 </html>
