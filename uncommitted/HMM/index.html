@@ -78,29 +78,119 @@
 					<div class="head_container">
 						<img src="./cover_image.png" class="head_image no_blur">
 						<div class="head_middle">
-							<div class="head_text"><b></b></div>
+							<div class="head_text"><b>Hidden Markov Model</b></div>
 						</div>
 					</div>
 
-					<p>  </p>
+					<p>In this post we will discuss the Hidden Markv Model and its implementation in Python. We will draw inspiration mainly from two articles: <a></a> and  <a></a>. The first one is more detailed in theory and the second is focused on ituition and implementation, this text is aimed to take the best from both texts providing a intermediate view between then and also get our hand dirty and acctually implement a working HMM in python.</p>
 
-					<!-- TOC -->
- <table class="TOC">
+	 <table class="TOC">
   <tr><th>Contents</th></tr>
-	<tr><td><a href="#HMM">1. Recurrent Neural Networks</a></td></tr>
-	<tr><td><a href="#LSTM">2. Long Short Term Memory</a>	</td></tr>
+	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+	<tr><td><a href="#HMM">2. Hidden Markov Model</a>	</td></tr>
 	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
-</table> 
-<br></br>
+	</table> 
+	<br></br>
 
 					<!-- Intro -->
-					<a name="HMM"></a>
-					<h2 class="section">1. Recurrent Neural Networks</h2>
-					<p>Lorem ipsum</p>
+					<a name="INTRO"></a>
+					<h2 class="section">1. Introduction</h2>
+					<p>As motivation for our study, consider the following situation: You find a cutted tree bark on a park and observe its rings:</p>
+					<p>You know that the growth of a tree depends on the climate its subjected: In hot seasons the tree will grow a lot poducing large rings light in color and in cold seasons the growth will be far slower, giving birth to small dark rings. Weather is not the only factor governing the tree growth though, and sometimes rings of different sizes can be generated on the same season. How can you, given the observation of the tree rings, infer the "most likely" sequence of weathers?</p>
+					<p>The idea here is that there is a sequence of states (seasons) each giving one observation (tree ring). We only have access to the sequence of observations while the model governing the state transitions is hidden to us:</p>
+					<p>The hidden model could be anything and there are many ways to explore this scenario, but here we will discuss how to solve this problem considering that it is a (hidden) Markov process. Firstly we will discuss the theoretical aspects of the problem then delve into its implementation.</p>
 					<div class="sketch-holder" id="c1"></div><br>
+					<a name="HMM"></a><h2 class="section">2. Hidden Markov Model</h2>
+					TO discuss HMMs we need to first define what is a Markov process. Let $q_t$ be a random variable that depends on a parameter $t$. If $t$ represents time, then $q$ is called a <b>stochastic varialbe</b>. We will denote $q_t$ as a <i>state</i> and that $t$ has discrete values up to time $T$ so that we can define a sequence of events $Q_T \equiv q_0, q_1, q_2, \dots, q_{T-1}$. The probability of a given sequence $Q$ can be written as:
+					$$\begin{eqnarray}
+					P(Q_T) &=& (\text{Probability of }q_0\text{ at }t=0) \times (\text{Probability of }q_1\text{ given that we where at }q_0) \times \dots\\
+					 &=& P(q_0) . P(q_1 | q_0) P(q_2 | q_1, q_0) \dots P(q_{T-1} | q_{T-2}, q_{T-3} \dots)\end{eqnarray},
+					 $$</p>
+					 <p>where $P(A|B)$ denotes the conditional probability of having $A$ given $B$. The probability of reaching a state $q_t$ at time $t$ is thus given by the sum of all possible paths to it ( all possible state sequences $Q_{t-1}$):
+					 $$
+					 P(q_T)= \sum_{all\ Q_{T-1}} P(Q_{T-1}).
+					 $$
+					 </p>
+					 <p>A <b>Markov process</b> is a sequence where the probability of a given state is fully determined by <i>only</i> the last state:
+					 $$P(q_i | q_{i-1},q_{i-2},\dots) \underset{\mathrm{Markov}}{=}  P(q_{i} | q_{i-1}).$$
+					 </p>
+					 <p>As $Q_T$ is a temporal sequence, we can write the transition of a state $q_i$ to another $q_j$ simply as $P(q_i|q_t) \equiv a_{ij}$. The probability of obtaining a state $q_t$ is thus given by the sum of all the possible ways to reach it:
+					 $$P(q_i) = \sum_j a_{ji} P(q_j)$$</p>
+					 <p>If we define $A$ as a matrix with all the transition probabilities (known as a <b>stochastic matrix</b>) the equation above can be written simply as (adopting $P(q_i) \equiv P_i$)
+					 $$P_{T-1}  = A P_{T-2} = A^T P_0.$$
+					 </p>
+					 <p>Lets apply this formalism to our motivation example. Each state $q_t$ represents a season, specifically $q_i \in \{``Hot", ``Cold"\}$. The transition probability between each season allow us to write the stochatic matrix $A$:
+					 $$A = \begin{pmatrix} \end{pmatrix}$$
+					 </p>
+					 <p>At each time $t$ the state $q_t$ generate an observation $\mathcal{o}_i \in \{``Large", ``Medium", ``Small"\}$ with probability $b_t(\mathcal{o}_i)$, thus giving the observation sequence $\mathcal{O} = \{ \mathcal{o}_0,\mathcal{o}_1, \dots \}$. The set of all possible probabilities $b_t(\mathcal{o}_j)$ defines the observation matrix $B$:
+					 $$B = \begin{pmatrix} \end{pmatrix}$$
+					 <!--Technical scheme-->
+					 <p>If we define the initial state probability as $\pi \equiv [P(``Hot''\text{ at time }t=0), P(``Cold''\text{ at time }t=0)]$, the probability of obtaining a sequence of events $Q$ and observations $\mathcal{O}$ is then given by:
+					 From this formalism many results follow. The most basic is obtaining the probability of a given the model $\lambda(A, B, \pi)$ determine the probability of a string of states and observations:</p>
+					 $$
+					 \boxed{P(Q, \mathcal{O}) = \pi_{q_o}b_{q_0}(\mathcal{o}_0)a_{q_0,q_1}b_{q_1}(\mathcal{o}_1)a_{q_1,q_2} \dots,}
+					 $$
+					 which can be read as: "Probability of starting at $q_0$, observing $\mathcal{o}_0$, transitioning from $q_0$ to $q_1$ etc. Beyond this, there are 3 main problems that we can solve using HMM, know very appropriately as the "3 basic problems of HMM":
+					 </p>
+					<a name="CODE"></a><h2 class="section">3. The 3 basic Problem's of HMM</h2>
+					<h3>Problem 1 - The evaluation problem</h3>
+					<p>Given the model $\lambda = (A, B, \pi)$ and the observation sequence $\mathcal{O}$, find $P(\mathcal{O}|\lambda)$.</p>
+					<h3>Problem 2 - The ``hidden" problem</h3>
+					<p>Given $\lambda = (A, B, \pi)$ and the observation sequence $\mathcal{O}$, find the ``optimal'' hidden sequence of events $Q$. Notice that in order to solve this problem, one must first define what ``optimal" means (there are multiple possibilities).</p>
+					<h3>Problem 3 - The fit problem</h3>
+					<p>Given the observation sequence $\mathcal{O}$ and the dimensions $M$ and $N$, find the model $\lambda$ that maximizes the probability of $\mathcal{O}$. This problem can be seen a training a model to a dataset.</p>
+					<hr><\hr>
+					Now we provide not only the theoretical solution to these problems (try making a sketch of the solutions before reading then, but be advised that problems 2 and 3 are very tricky) but algorithms to solve them efficiently.
 
-					<!-- LTSM -->
-					<a name="LSTM"></a><h2 class="section">2. Long Short Term Memory</h2>
+					<h3>Solution 1</h3>
+					<p>Intuitively the probability of a given sequence $\mathcal{O}$ can be obtained by summing over all possible state sequences that could generate it. Thus we must first determine the probability of a generic state sequence:
+					$$P(Q | \lambda) = \pi_{q_0} a_{q_0,q_1} a_{q_1, q_2} \dots$$</p>
+					<p>and the probability of $\mathcal{O}$ given a sequence of events:
+					$$P(\mathcal{O} | Q, \lambda) = b_0(q_0) b_1(q_1) \dots$$
+					</p>
+					<p>Thus the probability of the observation sequence can be obtained by summing over all possible $Q$s:
+					$$
+					P(\mathcal{O} | \lambda) = \sum_{Q} P(\mathcal{O}, Q | \lambda) P(Q | \lambda).
+					$$
+					</p>
+					<p>From a theoretical point of view the problem ends here. But how many operations one must do to evaluate $P(\mathcal{O} | \lambda)$ using this equation? Writing it explicitly:
+					$$
+					P(\mathcal{O} | \lambda) = \sum_{q_0}\sum_{q_1}\dots\sum_{q_T} \pi_{q_o}b_{q_0}(\mathcal{o}_0)a_{q_0,q_1}b_{q_1}(\mathcal{o}_1)a_{q_1,q_2} \dots.
+					$$
+					which yields a total of $(2T-1)N^T$ multiplications and $N^T-1$ additions. For small sequences this number of operations is unfeasible even in the most modern computers ($N=5$ and $T=100$ yields $\approx$ $10^{71}$ operations). A more efficient way of solving this can be achieved with an algorithm called <i>forward-backward procedure</i> (should ring some bells on people that have studied neural nets). Its defined as follows.</p> 
+					<h4>$\alpha$ - pass: Forward procedure</h4>
+					<p>Define the forward variable $\alpha$ as: 
+					$$
+					\alpha_t(i) \equiv P(\mathcal{o}_0, \mathcal{o}_1, \mathcal{o}_2 \dots \mathcal{o}_t, q_t | \lambda),
+					$$ which is essentially the probability of beeing at state $q_t$ at time $t$ and having the partial observation $\mathcal{o}_t$. We can evaluate all $\alpha$ in a recurrent manner:</p>
+					<p>
+					<ol>
+						<li>Initialization: $$\alpha_0(i) = \pi_i b_i(\mathcal{o}_0), 1 \leq i\leq N.$$</li>
+						<li>Induction: $$\alpha_{t+1}(j) = \left( \sum_{i=1}^N \alpha_t(i) a_{ij} \right) b_i(\mathcal{o}_{t+1}), 1 \leq t \leq T-1, 1 \leq j \leq N N.$$</li>
+						<li>Termination $$P(\mathcal{O}, \lambda) = \sum_{i=1}^N \alpha_T(i_)$$</li>
+					</ol>
+					With this method we only need to make $N^2 T$ multiplications, as opposed to more than $2T N^T$ for the naı̈ve approach. This step fully solves problem 1, but we will discuss the remaining part of the algorithm as it will be useful for the other problems. The <i>backward</i> procedure consists of:
+					<h4>$\beta$ - pass: Backward procedure</h4>
+					Define the backward variable $\beta_t(i)$ as:
+					$$\beta_t(i) \equiv P(\mathcal{o}_{t+1}, \mathcal{o}_{t+2}, \mathcal{o}_2 \dots \mathcal{o}_{T-1}| q_t, \lambda),$$
+					that can be interpreted as the probability of observing the remaining partial observation sequence after state $q_t$. All backwards variables can be obtained in a recurrent manner:
+					<ol>
+						<li>Initialization: $$\beta_{T-1}(i) = 1$$</li>
+						<li>Induction: $$\beta_{t+1}(j) \sum_{i=1}^N a_{ij} b_i(\mathcal{o}_{t+1}) \beta_{t+1}(j), 1 \leq t \leq T-1, 1 \leq j \leq N N.$$</li>
+					</ol>
+					This procedure will be useful in the next solution.
+					<h3>Solution 2</h3>
+					<p>The objective is to find the ``best'' state sequence given a model $\lambda$ and $\mathcal{O}$. As stated before, the word ``best'' can have many meanings. For example, one might want to find the states $Q$ that are individually most likely (thus minimizing the number of incorrect states). To implement this solution, we define:
+					$$\gamma_t(i) = q_t| \mathcal{O}, \lambda)$$
+					wich is the probability of being at state $q_t$ at time $t$ given the observation sequence $\mathcal{O}$. This variable can be written in terms of the forward and backward variables as:
+					$$\gamma_t(i) = \frac{\alpha_t(i) \beta_t(i)}{P(\mathcal{O} | \lambda)} = \frac{\alpha_t(i) \beta_t(i)}{\sum_i \alpha_t(i) \beta_t(i)}$$.</p>
+					<p>from the equation above its clear that $\sum_i\gamma_t(i) = 1$. As we are seeking the most likely state at each $t$, the solution is given simply as:
+					$$q_t = \underset{i}{\mathrm{argmax}}\ \gamma_t(i).$$
+					</p>
+					<p>The problem with this solution is that the ``best'' sequence might not be even a valid sequence (if the transition between some states is impossible). Another solution to this problem can be achieved by choosing a alternative optimality criteria, such as maximizing the number of correct state pairs, triplets, etc... The most used [2] is maximizing the probability of the whole sequence $Q$ given by $P(Q, \mathcal{O}| \lambda)$. There is a formal solution for finding this optimal solution based on Dynamic Programming called the <b>Viterbi Algorithm</b>. The interested reader is encouraged to read article [1] as its very detailed and reproducing the demonstration here would be outside the scope of this post.</p> 
+
+					<h3>Solution 3</h3>
+
 					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
 					{% include 'weather.html' %}
 				</div>
