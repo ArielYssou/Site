@@ -159,47 +159,62 @@ function curvedArrow(p, points, curvature = 20, clr = '#ffeabc', tip = 'fancy') 
 
 // ############################################################
 function Ray(p, arc_pos, arc_length, arc_weight, clr) {
-	this.arc_pos = arc_pos; # p5 vector
-	this.arc_length = arc_length; # In radians
+	this.arc_pos = arc_pos; // p5 vector
+	this.arc_length = arc_length; // In radians
 	this.arc_weight = arc_weight;
 	this.clr = clr;
 
 	this.mag = this.arc_pos.mag()
-	this.orientation = this.pos.heading()
+	this.orientation = this.arc_pos.heading()
+
+	this.biased_show = function() {
+		p.push();
+		p.noFill();
+		p.stroke(this.clr);
+		p.strokeWeight(this.arc_weight);
+		p.arc(0.7 * this.arc_pos.x, 0.7 * this.arc_pos.y, this.mag, this.mag, this.orientation, this.orientation + this.arc_length);
+		p.pop();
+	}
 
 	this.show = function() {
 		p.push();
 		p.noFill();
 		p.stroke(this.clr);
 		p.strokeWeight(this.arc_weight);
-		p.arc(this.pos.x, this.pos.y, this.mag, this.mag, this.orientation, this.orientation + this.arc_length);
+		p.arc(0, 0, this.mag, this.mag, this.orientation, this.orientation + this.arc_length);
 		p.pop();
 	}
 }
+
 function Sun(p, pos, radius, n_rays, ray_radius) {
 	this.pos = pos;
 	this.radius = radius;
 	this.n_rays = n_rays;
 	this.ray_radius = ray_radius;
-	this.clr = "#ffffff"
+	this.clr = "#f9d71c"
+	this.ray_clw_bttn = '#fcea88'
+	this.ray_clw_top = '#dbbb06'
 
 	this.rays = new Array();
 	for(var i = 0; i < n_rays; i += 1) {
+
 		this.rays.push(
 			new Ray(p,
-				p.random(radius, ray_radius) * p.random2D(),
-				p.random(0, p.TWO_PI / 3),
-				clr)
+				p.constructor.Vector.random2D().mult(p.random(radius,ray_radius)),
+				p.random(0, p.TWO_PI / 5),
+				p.random(),
+				p.lerpColor(p.color(252, 234, 136), p.color(219, 187, 6), p.random())
+			)
 		);
 	}
 
 	this.show = function() {
 		p.push();
+		p.translate(this.pos.x, this.pos.y)
 
 		for(var i = 0; i < this.rays.length; i += 1)
 			this.rays[i].show();
 
-		p.translate(this.pos.x, this.pos.y)
 		p.fill(this.clr)
 		p.stroke(this.clr)
 		p.ellipse(0, 0, this.radius, this.radius);
@@ -207,16 +222,126 @@ function Sun(p, pos, radius, n_rays, ray_radius) {
 	}
 }
 
+function bellDistr(p, x, height, center, deviation) {
+	let ans  = height * p.exp(- ( (x - center) ** 2) / (2 * deviation ** 2) )
+	return ans;
+}
+
+function peakDistr(x, height, center) {
+	return height / (x - center + 0.0001)
+}
+
+function Spike(p, len, spikes, opening, clr) {
+	this.len = len;
+	this.spikes = spikes;
+	this.opening = opening;
+	this.clr = clr
+
+	this.weight = 2
+	this.positions = [];
+	this.sizes_left = [];
+	this.sizes_right = [];
+	this.weights = [];
+
+	for(var i = 1; i <= this.spikes; i += 1) {
+		var size = i * (this.len / this.spikes);
+		this.positions.push( size );
+
+		// In real snowflakes, the spikes in the middle are way larger than the others
+		// so to replicate this we drawn froma distr. of 1/x centered in the middle
+		// A constant 0.001 is added to avoid divergence
+		this.sizes_left.push(
+			bellDistr(p,
+				size,
+				this.len / 4,
+				this.len / 3,
+				this.len / 4
+			) * p.random(0.4, 1))
+		this.sizes_right.push(this.sizes_left[this.sizes_left.length - 1] + p.random()) // small unsymetries for charm
+
+		// The weights are almost of the same saze until the end of the spike
+		this.weights.push(p.min(6, this.len / size))
+	}
+
+	this.show = function() {
+		p.push();
+		p.stroke(this.clr);
+		p.strokeWeight(this.weight)
+		p.line(0, 0, this.len, 0)
+		for(var i = 0; i <  this.spikes; i += 1) {
+			p.push();
+			p.translate(this.positions[i], 0);
+			p.rotate(this.opening);
+			p.strokeWeight(this.weights[i]);
+			p.line(0, 0, this.sizes_left[i], 0);
+			p.rotate( -2 * this.opening) // Correct rotation and go to right
+			p.line(0, 0, this.sizes_right[i], 0);
+			p.pop(); // No futher corrections needed as we pop the draw
+		}
+		p.pop();
+	}
+
+	this.pertubate = function() {
+		for(var i = 0; i <  this.spikes; i += 1) {
+			this.sizes_left[i] += p.random()
+			this.sizes_right[i] += p.random()
+		}
+	}
+}
+
+function Snowflake(p, pos, len, max_spikes, opening, angular_offset, clr = '#E1E7E4') {
+	this.pos = pos;
+	this.len = len;
+	this.max_spikes = max_spikes
+	this.opening = opening;
+	this.angular_offset = angular_offset;
+	this.clr = clr;
+
+	this.spikes = [];
+	this.spikes.push(
+		new Spike(
+			p,
+			this.len,
+			p.random(5, this.max_spikes),
+			this.opening, 
+			this.clr
+		)
+	)
+
+	this.show = function() {
+		p.push();
+		p.translate(this.pos)
+		p.rotate(this.angular_offset);
+		for(var i = 0; i < 6; i += 1){
+			p.rotate(p.TWO_PI / 6)
+			this.spikes[0].show()
+		}
+		p.pop();
+	}
+}
+
 var s = function( p ) { // p could be any variable name
+	var sun = new Sun(p, p.createVector(150, 150), 50, 150, 200);
+	var snow = new Snowflake(
+		p,
+		p.createVector(400, 150),
+		100,
+		15,
+		-p.PI / 3,
+		p.random(0, p.TWO_PI),
+		'#E1E7E4'
+	);
 
   p.setup = function() {
 		//var myWidth = document.getElementById("c1").offsetWidth;
 		/* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(400, 300);
+    p.createCanvas(600, 300);
   };
 
   p.draw = function() {
-		p.noLoop()
+		sun.show();
+		snow.show();
+		p.noLoop();
   };
 
 	p.windowResized = function() {
@@ -228,4 +353,5 @@ var s = function( p ) { // p could be any variable name
 		x = mwidth / 2;
 	};
 };
+
 var myp51 = new p5(s, 'c1');
