@@ -243,7 +243,7 @@ function Spike(p, len, spikes, opening, clr) {
 	this.sizes_right = [];
 	this.weights = [];
 
-	for(var i = 1; i <= this.spikes; i += 1) {
+	for(var i = 1; i < this.spikes + 1; i += 1) {
 		var size = i * (this.len / this.spikes);
 		this.positions.push( size );
 
@@ -270,6 +270,7 @@ function Spike(p, len, spikes, opening, clr) {
 		p.line(0, 0, this.len, 0)
 		for(var i = 0; i <  this.spikes; i += 1) {
 			p.push();
+			console.log(this.positions[i], 0);
 			p.translate(this.positions[i], 0);
 			p.rotate(this.opening);
 			p.strokeWeight(this.weights[i]);

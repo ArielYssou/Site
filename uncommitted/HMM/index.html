@@ -182,7 +182,7 @@
 					<h3>Solution 2</h3>
 					<p>The objective is to find the ``best'' state sequence given a model $\lambda$ and $\mathcal{O}$. As stated before, the word ``best'' can have many meanings. For example, one might want to find the states $Q$ that are individually most likely (thus minimizing the number of incorrect states). To implement this solution, we define:
 					$$\gamma_t(i) = q_t| \mathcal{O}, \lambda)$$
-					wich is the probability of being at state $q_t$ at time $t$ given the observation sequence $\mathcal{O}$. This variable can be written in terms of the forward and backward variables as:
+					which is the probability of being at state $q_t$ at time $t$ given the observation sequence $\mathcal{O}$. This variable can be written in terms of the forward and backward variables as:
 					$$\gamma_t(i) = \frac{\alpha_t(i) \beta_t(i)}{P(\mathcal{O} | \lambda)} = \frac{\alpha_t(i) \beta_t(i)}{\sum_i \alpha_t(i) \beta_t(i)}$$.</p>
 					<p>from the equation above its clear that $\sum_i\gamma_t(i) = 1$. As we are seeking the most likely state at each $t$, the solution is given simply as:
 					$$q_t = \underset{i}{\mathrm{argmax}}\ \gamma_t(i).$$
@@ -190,6 +190,22 @@
 					<p>The problem with this solution is that the ``best'' sequence might not be even a valid sequence (if the transition between some states is impossible). Another solution to this problem can be achieved by choosing a alternative optimality criteria, such as maximizing the number of correct state pairs, triplets, etc... The most used [2] is maximizing the probability of the whole sequence $Q$ given by $P(Q, \mathcal{O}| \lambda)$. There is a formal solution for finding this optimal solution based on Dynamic Programming called the <b>Viterbi Algorithm</b>. The interested reader is encouraged to read article [1] as its very detailed and reproducing the demonstration here would be outside the scope of this post.</p> 
 
 					<h3>Solution 3</h3>
+					<p>This is probably the most important (and difficult) problem of the bunch. Our task is, given the hyper parameters (number of possible states $N$ and observations $M$), fit the model to the data (observation sequence $\mathcal{O})$. That is, find the model $\lambda = (A, B, \pi)$ that $P(\mathcal{O} | \lambda)$ is maximized. There is no know theoretical solution to this problem, and it is in this that HMMs really shine, as they provide a efficient way of finding a local maxima for $P(\mathcal{O} | \lambda)$ that is very similar to the EM algorithm (that is widely know in the machine learning community). The solution is as follows.</p>
+					<p>Define a variable (commonly called ``di-gamma'') $\gamma_t(i, j)$ as:
+					$$\gamma_t(i, j) \equiv P(x_t = q_i, x_{t+1} = q_j | \mathcal{O}, \lambda),$$
+					This probability can be interpreted as the probability of getting the partial observation $\mathcal{O}_t$ and the state $q_t$, transitioning to the state $q_j$ and then getting the partial observation$\mathcal{o}_{t+1},\ \mathcal{o}_{t+2},\ \dots$. In terms of the forward and backward variables this can be expressed as
+
+					$$
+					\begin{eqnarray}\gamma_t(i,j) &=& \frac{\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}{P(\mathcal{O} | \lambda)\\
+					&=& \frac{\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}{\sum_{ij}\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}
+					\end{eqnarray}
+					$$</p>
+					<p>While $\sum_{t=1}^{T}\gamma_t(i)$ can be interpreted as the expected number of transitions from $q_i$ the quantity di-gmma $\sum_{t=1}^T \gamma_t(i,j)$ represents the expected number if transitions from $q_i$ to $q_t$. Following the rationale of the EM (Expectation - Modification) algorithm, we then compute $P(\mathcal{O} | \lambda)$ in two steps. (E step) First we find the expected value of everything and them we update the model. If it did not reached a local maxima (or a precision threshold) then we modify it. The only missing piece now is how to modify the model, which can be done with:</p>
+					<p>
+					$$
+					\begin{eqnarray}
+					\end{eqnarray}
+					$$</p> <++>
 
 					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
 					{% include 'weather.html' %}
