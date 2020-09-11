@@ -190,22 +190,64 @@
 					<p>The problem with this solution is that the ``best'' sequence might not be even a valid sequence (if the transition between some states is impossible). Another solution to this problem can be achieved by choosing a alternative optimality criteria, such as maximizing the number of correct state pairs, triplets, etc... The most used [2] is maximizing the probability of the whole sequence $Q$ given by $P(Q, \mathcal{O}| \lambda)$. There is a formal solution for finding this optimal solution based on Dynamic Programming called the <b>Viterbi Algorithm</b>. The interested reader is encouraged to read article [1] as its very detailed and reproducing the demonstration here would be outside the scope of this post.</p> 
 
 					<h3>Solution 3</h3>
-					<p>This is probably the most important (and difficult) problem of the bunch. Our task is, given the hyper parameters (number of possible states $N$ and observations $M$), fit the model to the data (observation sequence $\mathcal{O})$. That is, find the model $\lambda = (A, B, \pi)$ that $P(\mathcal{O} | \lambda)$ is maximized. There is no know theoretical solution to this problem, and it is in this that HMMs really shine, as they provide a efficient way of finding a local maxima for $P(\mathcal{O} | \lambda)$ that is very similar to the EM algorithm (that is widely know in the machine learning community). The solution is as follows.</p>
+					<p>This is probably the most important (and difficult) problem of the bunch. Our task is, given the hyper-parameters (number of possible states $N$ and observations $M$), fit the model to the data (observation sequence $\mathcal{O})$. That is, find the model $\lambda = (A, B, \pi)$ that $P(\mathcal{O} | \lambda)$ is maximized. There is no know theoretical solution to this problem, and it is in this that HMMs really shine, as they provide a efficient way of finding a local maxima for $P(\mathcal{O} | \lambda)$ that is very similar to the EM algorithm (that is widely know in the machine learning community). The solution is as follows.</p>
 					<p>Define a variable (commonly called ``di-gamma'') $\gamma_t(i, j)$ as:
 					$$\gamma_t(i, j) \equiv P(x_t = q_i, x_{t+1} = q_j | \mathcal{O}, \lambda),$$
 					This probability can be interpreted as the probability of getting the partial observation $\mathcal{O}_t$ and the state $q_t$, transitioning to the state $q_j$ and then getting the partial observation$\mathcal{o}_{t+1},\ \mathcal{o}_{t+2},\ \dots$. In terms of the forward and backward variables this can be expressed as
-
 					$$
-					\begin{eqnarray}\gamma_t(i,j) &=& \frac{\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}{P(\mathcal{O} | \lambda)\\
+					\begin{eqnarray}\gamma_t(i,j) &=& \frac{\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}{P(\mathcal{O} | \lambda)}\\
 					&=& \frac{\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}{\sum_{ij}\alpha_t(i) a_{ij} b_j(\mathcal{o}_{t+1})\beta_{t+1}(j)}
 					\end{eqnarray}
 					$$</p>
-					<p>While $\sum_{t=1}^{T}\gamma_t(i)$ can be interpreted as the expected number of transitions from $q_i$ the quantity di-gmma $\sum_{t=1}^T \gamma_t(i,j)$ represents the expected number if transitions from $q_i$ to $q_t$. Following the rationale of the EM (Expectation - Modification) algorithm, we then compute $P(\mathcal{O} | \lambda)$ in two steps. (E step) First we find the expected value of everything and them we update the model. If it did not reached a local maxima (or a precision threshold) then we modify it. The only missing piece now is how to modify the model, which can be done with:</p>
+					<p>While $\sum_{t=1}^{T}\gamma_t(i)$ can be interpreted as the expected number of transitions from $q_i$ the quantity di-gmma $\sum_{t=1}^T \gamma_t(i,j)$ represents the expected number if transitions from $q_i$ to $q_t$. Both gammas are related via $\gamma_t(i) = \sum_j \gamma_t(i,j)$ Following the rationale of the EM (Expectation - Modification) algorithm, we then compute $P(\mathcal{O} | \lambda)$ in two steps. (E step) First we find the expected value of everything and them we update the model. If it did not reached a local maxima (or a precision threshold) then we modify it. The only missing piece now is how to modify the model to achieve a updated estimation $\bar{\lambda) = (\bar{A}, \bar{B}, \bar{\pi})$, which can be done with the following equations:</p>
 					<p>
 					$$
 					\begin{eqnarray}
+					\bar{\pi} &=& \text{Expected frequency of state }q_i\text{ at time 0}\\
+					&=& \gamma_0(i)\\ \,\\
+					\bar{a}_{ij} &=& \frac{\text{Expected transitions from }q_i\text{ to }q_j}{\text{Expected transitions from }q_i}\\
+					&=& \frac{\sum_t \gamma_t(i, j)}{\sum_t \gamma_t(i)}\\ \,\\
+					\bar{b}_i(k) &=& \frac{\text{Expected number of times in state }q_i\text{ and observing }\mathcal{o}_k}{\text{Expected number of times in state }q_i}\\
+					&=& \frac{\sum_t \gamma_t(i)}{\sum_t \gamma_t(i)}
 					\end{eqnarray}
-					$$</p> <++>
+					$$</p>
+					<p>The procedure to solve problem 3 is then given by the following steps:
+					<ol>
+						<li>(Initialization step) $\lambda = (A, B, \pi)$ randomly.</li>
+						<li>(Expetation step)Compute $alpha_t(i)$, $\beta_t(i)$, $\gamma_t(i,j)$ and $\gamma_t(i)$ for all $i$ and $t$</li>
+						<li>(Modification step) Re-estimate $\bar{\lambda} = (\bar{A}, \bar{B}, \bar{\pi})$</li>
+						<li>(Ecaluation step) If $P(\mathcal{O} | \bar{lambda}) > P(\mathcal{O} | \lambda)$, goto 2. Else terminate and return $\bar{\lambda}$</li>
+					</p>
+					<h4>Scale</h4>
+					As all calculations involve multiplications of really small probabilities (as the number of possible combinations of states and observations is astronomical), the variables have a serious tendency to underflow. TO solve this, we can the scale the variables. Consider the calculation for the forward variable:
+					$$\alpha_t(i) = \sum_j \alpha_{t-1}(j) a_{ij} b_i(\mathcal{o}_t),$$
+					whose interpratiation is the probability of observing $\mathcal{O}t$ and reaching state $q_t$. A normalization idea is to normalize this quantity by the sum of all $\alpha_t(j)$ (over $j$). Ideed, it can be shown (see [1]) that this scale does not interfere in the solution and avoids underflow. Thus we define the <i>scale term</i>:
+					$$c_t \equiv \frac{1}{\sum_j \alpha_t(j)},$$
+					All variables ($\alpha, $\beta$ and $\gamma$s) can then multiplied by this term to avoid underflow. Another nice property is that the probability $P(\mathcal{O} | \lambda)$ can be directly obtained via this scale term:
+					$$\log P(\mathcal{O} \ lambda) = - \sum_{j=0}^{T-1} \log c_j.$$
+					<h4>Model selection</h4>
+					The algorithm we discussed is capable of finding a local maxima for $P(\mathcal{O} | \lambda)$, but is the solution unique? Suppose we have two models, $\lambda_1$, and $lambda_2$, with:
+					$$
+					\begin{eqnarray}
+					A_1 &=& \begin{pmatrix} p & 1-p \\ 1-p & p \end{pmatrix} \hspace{1cm} B_1 = \begin{pmatrix} q & 1-q \\ 1-q & q \end{pmatrix}, \\  
+					A_2 &=& \begin{pmatrix} r & 1-r \\ 1-r & r \end{pmatrix} \hspace{1cm} B_2 = \begin{pmatrix} s & 1-s \\ 1-s & s \end{pmatrix},
+					\end{eqnarray}
+					$$
+					where $\pi_1 = \pi_2 = [1/2, 1/2]$. Both models could be considered equivalent ig the expected value of all observations in $\mathcal{O}$ are individually equal in both models. If we assume arbitrarily (the same values reference [1] used) $p = 0.6$, $q = 0.7$ and $r = 0.2$ then we would get:
+					$$
+					\begin{eqnarray}
+					&\,&pq + (1 - q)(1 - p) = rs + (1 - r)(1-s)\\
+					&\,&\Rightarrow s = \frac{p + q - 2pq}{1 - 2r} \approx 0.43.
+					\end{eqnarray}
+					$$
+					We conclude that these two wildly different models could be considered equivalent! Now an interesting question can be made: how could one measure the similarity between two models? Information theory provides us with a quantity called <b>relative entropy</b> (also know as Kullbak-Leibler divergence or in ML as information gain) that fits this role nicely and can be expressed as
+					$$
+					D(\lambda_1, \lambda_2) = P(\mathcal{O}^{(2)}  | \lambda_1) \log \left( \frac{P(\mathcal{O}^{(2)}  | \lambda_1)}{P(\mathcal{O}^{(2)}  | \lambda_1)} \right),
+					$$
+					where $\mathcal{O}^{(2)}$ is a observation sequence obtained from $\lambda_2$. With this we now can not only measure the distance of a trained model from the true one (when available) or from the random start. We could also measure how different solutions differ from each other.
+					<h4>Further topics and variations</h4>
+					There are several variants to the HMM. Many of then are discussed in depth in reference [1] and are very interesting such as HMM with absorbing states (breaking the engodicidy of the model) and HMM with contiguous values. As interesting these topics are, we refrain from discussing then to reduce the scope of this text, but I felt important to say that this model can be taken further and is a very interesting topic to study :D. Now we shall focus on how to implement this model in python, as most sources only provide pseudo code for the implementation.
+
 
 					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
 					{% include 'weather.html' %}
