@@ -321,6 +321,27 @@ function Snowflake(p, pos, len, max_spikes, opening, angular_offset, clr = '#E1E
 	}
 }
 
+function Ring(p, radius, clr, detail_clr) {
+	this.radius = radius;
+	this.clr = clr
+	this.detail_clr = detail_clr;
+
+	this.show = function() {
+	}
+}
+
+function Tree(p, pos) {
+	this.pos = pos;
+
+	this.colors = {
+		'large': '#F',
+		'medium':'#F',
+		'small': '#0'
+	};
+
+	this.rings = [];
+}
+
 var s = function( p ) { // p could be any variable name
 	var sun = new Sun(p, p.createVector(150, 150), 50, 150, 200);
 	var snow = new Snowflake(
