@@ -22,7 +22,7 @@ function arrowTip(p, arrowSize, tip = 'simple') {
 	}
 }
 
-function drawArrow(p, base, vec, clr = '#ffeabc', tip = 'simple') {
+function Arrow(p, base, vec, clr = '#ffeabc', tip = 'simple') {
 	vec = vec.copy().sub(base).copy();
   p.push();
   p.stroke(clr);
@@ -83,7 +83,7 @@ function pathArrow(p, coords, clr = '#ffeabc', tip = 'simple') {
 	p.pop();
 }
 
-function curvedArrow(p, points, curvature = 20, clr = '#ffeabc', tip = 'fancy') {
+function smoothArrow(p, points, curvature = 20, clr = '#ffeabc', tip = 'fancy') {
 	// Draws a arrow throught the list of given points with curved corners
 	// INPUT:
 	// 	p: P5.JS
@@ -154,6 +154,65 @@ function curvedArrow(p, points, curvature = 20, clr = '#ffeabc', tip = 'fancy') 
 	p.translate(vec.mag() - arrowSize, 0);
 	arrowTip(p, arrowSize, tip);
 
+	p.pop();
+}
+
+function arcArrow(p, center, radius, start_angle, final_angle, clr, tip = 'fancy') {
+	p.push();
+	p.noFill();
+	p.stroke(clr);
+	p.arc(
+		center.x,
+		center.y,
+		radius,
+		radius,
+		start_angle,
+		final_angle
+	)
+
+	let ending = p.fromAngle(final_angle)
+	let arrowSize = 7;
+	p.rotate(ending.heading());
+	p.translate(radius, 0);
+	p.rotate(-p.HALF_PI);
+	arrowTip(p, arrowSize, tip);
+
+	p.pop();
+}
+
+function curvedArrow(p, start, control, anchor, clr = '#ffeabc', tip = 'fancy') {
+	p.push();
+	p.stroke(clr);
+	p.strokeWeight(2);
+	p.noFill();
+	p.beginShape();
+	p.vertex(start.x, start.y);
+	p.quadraticVertex(control.x, control.y, anchor.x, anchor.y);
+	p.endShape();
+
+	let ending = anchor.copy().sub(control)
+	let arrowSize = 7;
+	p.translate(anchor.x, anchor.y);
+	p.rotate(ending.heading());
+	arrowTip(p, arrowSize, tip);
+	p.pop();
+}
+
+function bezierArrow(p, start, aux, control, anchor, clr = '#ffeabc', tip = 'fancy') {
+	p.push();
+	p.stroke(clr);
+	p.strokeWeight(2);
+	p.noFill();
+	p.beginShape();
+	p.vertex(start.x, start.y);
+	p.bezierVertex(aux.x, aux.y, control.x, control.y, anchor.x, anchor.y);
+	p.endShape();
+
+	let ending = anchor.copy().sub(control)
+	let arrowSize = 7;
+	p.translate(anchor.x, anchor.y);
+	p.rotate(ending.heading());
+	arrowTip(p, arrowSize, tip);
 	p.pop();
 }
 
@@ -270,7 +329,6 @@ function Spike(p, len, spikes, opening, clr) {
 		p.line(0, 0, this.len, 0)
 		for(var i = 0; i <  this.spikes; i += 1) {
 			p.push();
-			console.log(this.positions[i], 0);
 			p.translate(this.positions[i], 0);
 			p.rotate(this.opening);
 			p.strokeWeight(this.weights[i]);
@@ -321,33 +379,196 @@ function Snowflake(p, pos, len, max_spikes, opening, angular_offset, clr = '#E1E
 	}
 }
 
-function Ring(p, radius, clr, detail_clr) {
-	this.radius = radius;
-	this.clr = clr
-	this.detail_clr = detail_clr;
+function Ring(p, inner_radius, outer_radius, clr, n_meshes, noise_amplitude, zoff) {
+	this.inner_radius = inner_radius;
+	this.outer_radius = outer_radius;
+	this.clr = clr;
+	this.zoff = zoff;
+	this.noise_amplitude = noise_amplitude;
+
+	this.dTheta = p.TWO_PI / n_meshes;
+	this.noise_radius = outer_radius - inner_radius / 3
+
+	this.points = []
+	this.radii = []
+
+	for(var theta = 0; theta < p.TWO_PI; theta += this.dTheta) {
+		let xoff = p.map(p.cos(theta), -1, 1, 0, this.noise_amplitude)
+		let yoff = p.map(p.sin(theta), -1, 1, 0, this.noise_amplitude)
+		let r = p.map(
+			p.noise(xoff, yoff, this.zoff),
+			0, 1,
+			this.outer_radius - this.noise_radius, this.outer_radius
+		)
+
+		this.radii.push( r );
+		this.points.push(p.createVector(r * p.cos(theta), r * p.sin(theta)));
+	}
 
 	this.show = function() {
+		p.push()
+		p.stroke('#79271c')
+		p.fill(this.clr)
+		p.beginShape()
+		for(var i = 0; i < this.points.length; i += 1) {
+			p.vertex(this.points[i].x, this.points[i].y);
+		}
+		p.endShape(p.CLOSE);
+		p.pop()
+	}
+
+	this.show_minimalist = function() {
+		p.push()
+		p.stroke('#79271c')
+		p.fill(this.clr)
+		p.circle(0,0, this.outer_radius)
+		p.endShape(p.CLOSE);
+		p.pop()
+
+	}
+
+	this.rescale = function(scale) {
+		for(var i = 0; i < this.points.length; i += 1) {
+			this.points[i].mult(scale);
+		}
 	}
 }
 
-function Tree(p, pos) {
+function Tree(p, pos, max_radius = 150) {
 	this.pos = pos;
-
-	this.colors = {
-		'large': '#F',
-		'medium':'#F',
-		'small': '#0'
-	};
+	this.max_radius = max_radius; // Max radius of tree
 
 	this.rings = [];
+	this.current_radius = 0;
+	this.zoff = 0; // Noise offset
+	this.z_inc = 0.02 // Noise increment
+
+	this.codes = {
+		0: 'small',
+		1 : 'medium',
+		2 : 'large',
+		3 : 'bark',
+	}
+
+	this.colors = {
+		'small': '#b95939',
+		'medium':'#e78c4d',
+		'large': '#fcc473',
+		'bark': '#79271c',
+	};
+
+	this.radius = {
+		'small': 20,
+		'medium': 30,
+		'large': 40,
+		'bark' : 30,
+	}
+
+
+	this.scale = function() {
+		if(this.current_radius > this.max_radius) {
+			// Scale all rings
+			let scl = this.max_radius / this.current_radius;
+			for(var i = 0; i < this.rings.length; i += 1) {
+				this.rings[i].rescale(scl);
+			}
+
+			// Scale default radii
+			for (var key of Object.keys(this.radius)) {
+				this.radius[key] *= scl;
+			}
+
+			this.current_radius *= scl
+		} else {
+			//pass
+		}
+	}
+
+	this.add = function(size_code) {
+		let size = this.codes[size_code];
+		let meshes = p.max(Math.floor(this.current_radius) ** 2, 20)
+		let noise_amplitude = p.map(this.current_radius, 0 ,this.max_radius, 0.1, 1.5)
+
+		if( size == 'bark' ) {
+			noise_amplitude = 1.5
+		}
+
+		this.rings.push(
+			new Ring(
+				p,
+				this.current_radius,
+				this.current_radius + this.radius[size],
+				this.colors[size],
+				meshes,
+				noise_amplitude,
+				this.zoff
+			)
+		)
+		this.current_radius += this.radius[size]
+		this.scale();
+		this.zoff += this.z_inc;
+	}
+
+	this.show = function() {
+		p.push();
+		p.translate(this.pos.x, this.pos.y);
+		for(var i =  this.rings.length - 1; i > -1; i -= 1) {
+			this.rings[i].show()
+		}
+		p.pop();
+	}
 }
 
+/*
 var s = function( p ) { // p could be any variable name
 	var sun = new Sun(p, p.createVector(150, 150), 50, 150, 200);
 	var snow = new Snowflake(
 		p,
 		p.createVector(400, 150),
 		100,
+		15,
+		-p.PI / 3,
+		p.random(0, p.TWO_PI),
+		'#E1E7E4'
+	);
+
+	var tree = new Tree(p, p.createVector(300, 450))
+	for(var i = 0; i < 15; i += 1) {
+		tree.add(Math.floor(p.random(3)));
+	}
+	tree.add(3);
+
+  p.setup = function() {
+		//var myWidth = document.getElementById("c1").offsetWidth;
+    p.createCanvas(600, 600);
+  };
+
+  p.draw = function() {
+		sun.show();
+		snow.show();
+		tree.show()
+		p.noLoop();
+  };
+
+	p.windowResized = function() {
+		mwidth = document.getElementById("c1").offsetWidth;
+		p.resizeCanvas(mwidth, p.height);
+
+		// Don't forget to resize all positions as well
+		x = mwidth / 2;
+	};
+};
+
+var myp51 = new p5(s, 'c1');
+*/
+
+var s = function( p ) { // p could be any variable name
+	var horizon = 200
+	var sun = new Sun(p, p.createVector(100, horizon), 50, 200, 180);
+	var snow = new Snowflake(
+		p,
+		p.createVector(500, horizon),
+		80,
 		15,
 		-p.PI / 3,
 		p.random(0, p.TWO_PI),
@@ -363,11 +584,44 @@ var s = function( p ) { // p could be any variable name
   p.draw = function() {
 		sun.show();
 		snow.show();
+
+		// Hot cold arrow
+		curvedArrow(
+			p,
+			p.createVector(210, horizon - 20),
+			p.createVector(300, horizon - 50),
+			p.createVector(390, horizon - 20)
+		);
+
+		// cold Hot arrow
+		curvedArrow(
+			p,
+			p.createVector(390, horizon + 20),
+			p.createVector(300, horizon + 50),
+			p.createVector(210, horizon + 20),
+		);
+
+		// hot Hot arrow
+		bezierArrow(
+			p,
+			p.createVector(80, 100),
+			p.createVector(30, 0),
+			p.createVector(170, 0),
+			p.createVector(120, 100),
+		);
+
+		bezierArrow(
+			p,
+			p.createVector(480, 100),
+			p.createVector(430, 0),
+			p.createVector(570, 0),
+			p.createVector(520, 100),
+		);
 		p.noLoop();
   };
 
 	p.windowResized = function() {
-		mwidth = document.getElementById("c1").offsetWidth;
+		mwidth = document.getElementById("c2").offsetWidth;
 		/*mheight = document.getElementById("c1").offsetHeight;*/
 		p.resizeCanvas(mwidth, p.height);
 
@@ -376,4 +630,4 @@ var s = function( p ) { // p could be any variable name
 	};
 };
 
-var myp51 = new p5(s, 'c1');
+var myp52 = new p5(s, 'c2');
