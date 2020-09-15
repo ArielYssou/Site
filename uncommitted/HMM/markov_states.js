@@ -22,7 +22,7 @@ function arrowTip(p, arrowSize, tip = 'simple') {
 	}
 }
 
-function arrow(p, base, vec, clr = '#ffeabc', tip = 'simple') {
+function Arrow(p, base, vec, clr = '#ffeabc', tip = 'simple') {
 	vec = vec.copy().sub(base).copy();
   p.push();
   p.stroke(clr);
@@ -561,153 +561,79 @@ var s = function( p ) { // p could be any variable name
 
 var myp51 = new p5(s, 'c1');
 */
-function text_box(p, text, x, y, fontsize = 20) {
+function text_box(p, text, x, y) {
 	p.push();
 	p.strokeWeight(1);
 	p.fill('#ffeabc')
-	p.textSize(fontsize);
+	p.textSize(20);
 	p.textAlign(p.CENTER, p.CENTER)
 	p.text(text, x, y)
 	p.pop();
 }
 
 var s = function( p ) { // p could be any variable name
-	var top_height = 120
-	var btn_height = 300
-	var anot = 100
-	var t0 = 200
-	var t1 = 300
-	var t2 = 400
-	var t3 = 500
-	var t4 = 600
-
-	var middle = (top_height + btn_height) / 2 
-	
-	var sun0 = new Sun(p, p.createVector(t0, top_height), 20, 70, 50);
-	var sun3 = new Sun(p, p.createVector(t3, top_height), 20, 70, 50);
-	var sun4 = new Sun(p, p.createVector(t4, top_height), 20, 70, 50);
-
-	var snow1 = new Snowflake(
-		p, p.createVector(t1, top_height),
-		25, 7, -p.PI / 3, p.random(0, p.TWO_PI), '#E1E7E4'
+	var horizon = (p.height / 2) + 70
+	var alignment_left = 150
+	var alignment_right = 450
+	var middle = (alignment_right + alignment_left) / 2 
+	var sun = new Sun(p, p.createVector(alignment_left, horizon), 50, 170, 140);
+	var snow = new Snowflake(
+		p,
+		p.createVector(alignment_right, horizon),
+		70,
+		15,
+		-p.PI / 3,
+		p.random(0, p.TWO_PI),
+		'#E1E7E4'
 	);
-	var snow2 = new Snowflake(
-		p, p.createVector(t2, top_height),
-		25, 7, -p.PI / 3, p.random(0, p.TWO_PI), '#E1E7E4'
-	);
-
-	var tree = new Tree(p, p.createVector(t0, btn_height), 50);
-	tree.add(2);
 
   p.setup = function() {
 		//var myWidth = document.getElementById("c1").offsetWidth;
 		/* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(800, 400);
+    p.createCanvas(600, 200);
   };
 
   p.draw = function() {
-		sun0.show();
-		sun3.show();
-		sun4.show();
-		snow1.show();
-		snow2.show();
-		tree.show();
-
-		tree.pos.x = t1;
-		tree.add(1)
-		tree.show();
-
-		tree.pos.x = t2;
-		tree.add(2)
-		tree.show();
-
-		tree.pos.x = t3;
-		tree.add(0)
-		tree.show();
-
-		tree.pos.x = t4;
-		tree.add(1)
-		tree.show();
-
-		arrow(
-			p,
-			p.createVector(t0 + 32, top_height),
-			p.createVector(t1 - 34, top_height)
-		);
-		arrow(
-			p,
-			p.createVector(t1 + 32, top_height),
-			p.createVector(t2 - 34, top_height)
-		);
-		arrow(
-			p,
-			p.createVector(t2 + 32, top_height),
-			p.createVector(t3 - 34, top_height)
-		);
-		arrow(
-			p,
-			p.createVector(t3 + 32, top_height),
-			p.createVector(t4 - 34, top_height)
-		);
+		sun.show();
+		snow.show();
 
 		// Hot cold arrow
-		arrow(
+		text_box(p, '0.3', middle, horizon - 60)
+		curvedArrow(
 			p,
-			p.createVector(t0, top_height + 40),
-			p.createVector(t0, btn_height - 40)
+			p.createVector(alignment_left + 90, horizon - 20),
+			p.createVector(middle, horizon - 60),
+			p.createVector(alignment_right - 90, horizon - 20)
 		);
-		arrow(
+
+		// cold Hot arrow
+		text_box(p, '0.6', middle, horizon + 60)
+		curvedArrow(
 			p,
-			p.createVector(t1, top_height + 40),
-			p.createVector(t1, btn_height - 40)
+			p.createVector(alignment_right - 90, horizon + 20),
+			p.createVector(middle, horizon + 60),
+			p.createVector(alignment_left + 90 , horizon + 20),
 		);
-		arrow(
+
+		// hot Hot arrow
+		text_box(p, '0.7', alignment_left - 110, horizon - 55)
+		bezierArrow(
 			p,
-			p.createVector(t2, top_height + 40),
-			p.createVector(t2, btn_height - 40)
+			p.createVector(alignment_left - 80, horizon - 10),
+			p.createVector(0, horizon - 70),
+			p.createVector(0, horizon + 70),
+			p.createVector(alignment_left - 80, horizon + 10),
 		);
-		arrow(
+
+		// Cold cold arrow
+		text_box(p, '0.4', alignment_right + 110, horizon - 55)
+		bezierArrow(
 			p,
-			p.createVector(t3, top_height + 40),
-			p.createVector(t3, btn_height - 40)
+			p.createVector(alignment_right + 80, horizon - 10),
+			p.createVector(p.width, horizon - 70),
+			p.createVector(p.width, horizon + 70),
+			p.createVector(alignment_right + 80, horizon + 10),
 		);
-		arrow(
-			p,
-			p.createVector(t4, top_height + 40),
-			p.createVector(t4, btn_height - 40)
-		);
-		
-		text_box(p, 'Hidden Markov', anot, top_height - 10, 16)
-		text_box(p, 'Process', anot, top_height + 10, 16)
-		text_box(p, 'Observation', anot, btn_height - 10, 16)
-		text_box(p, 'Sequence', anot, btn_height + 10, 16)
-
-		text_box(p, 'A', (t0 + t1) / 2, top_height - 10, 11)
-		text_box(p, 'A', (t1 + t2) / 2, top_height - 10, 11)
-		text_box(p, 'A', (t2 + t3) / 2, top_height - 10, 11)
-		text_box(p, 'A', (t3 + t4) / 2, top_height - 10, 11)
-
-		text_box(p, 'B', t0 + 11, middle, 11)
-		text_box(p, 'B', t1 + 11, middle, 11)
-		text_box(p, 'B', t2 + 11, middle, 11)
-		text_box(p, 'B', t3 + 11, middle, 11)
-		text_box(p, 'B', t4 + 11, middle, 11)
-
-		text_box(p, 'o_0', t0, btn_height + 40, 11)
-		text_box(p, 'o_1', t1, btn_height + 40, 11)
-		text_box(p, 'o_2', t2, btn_height + 40, 11)
-		text_box(p, 'o_3', t3, btn_height + 40, 11)
-		text_box(p, 'o_4', t4, btn_height + 40, 11)
-
-		text_box(p, 't=0', t0, top_height - 40, 11)
-		text_box(p, 't=1', t1, top_height - 40, 11)
-		text_box(p, 't=2', t2, top_height - 40, 11)
-		text_box(p, 't=3', t3, top_height - 40, 11)
-		text_box(p, 't=4', t4, top_height - 40, 11)
-
-		text_box(p, 'p(small) = 0.7', right + 49, btn_height - 0, 11)
-		text_box(p, 'p(average) = 0.2', right + 55, btn_height - 22, 11)
-		text_box(p, 'p(large) = 0.1', right + 49, btn_height - 47, 11)
 
 		p.noLoop();
   };
