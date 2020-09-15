@@ -568,158 +568,105 @@ var myp51 = new p5(s, 'c1');
 */
 function text_box(p, text, x, y, fontsize = 20) {
 	p.push();
-	p.strokeWeight(1);
+	p.strokeWeight(0.2);
 	p.fill('#ffeabc')
 	p.textSize(fontsize);
 	p.textAlign(p.CENTER, p.CENTER)
-	p.text(text, x, y)
+
+	if(text.includes('_')){
+		let annots = text.split('_');
+		p.text(annots[0], x , y);
+
+		p.textSize(fontsize * 0.5);
+		p.textAlign(p.CENTER, p.TOP)
+		p.text(
+			annots[1],
+			x + 1.5 * p.textWidth(annots[0]),
+			y
+		);
+	} else {
+		p.text(text, x, y);
+	}
 	p.pop();
 }
 
 var s = function( p ) { // p could be any variable name
-	var top_height = 120
-	var btn_height = 300
-	var anot = 100
-	var t0 = 200
-	var t1 = 300
-	var t2 = 400
-	var t3 = 500
-	var t4 = 600
-
-	var middle = (top_height + btn_height) / 2 
-	
-	var sun0 = new Sun(p, p.createVector(t0, top_height), 20, 70, 50);
-	var sun3 = new Sun(p, p.createVector(t3, top_height), 20, 70, 50);
-	var sun4 = new Sun(p, p.createVector(t4, top_height), 20, 70, 50);
-
-	var snow1 = new Snowflake(
-		p, p.createVector(t1, top_height),
-		25, 7, -p.PI / 3, p.random(0, p.TWO_PI), '#E1E7E4'
-	);
-	var snow2 = new Snowflake(
-		p, p.createVector(t2, top_height),
-		25, 7, -p.PI / 3, p.random(0, p.TWO_PI), '#E1E7E4'
-	);
-
-	var tree = new Tree(p, p.createVector(t0, btn_height), 70);
-	tree.add(2);
+	var left = 20
+	var right = 90
+	var radius = 5
 
   p.setup = function() {
 		//var myWidth = document.getElementById("c1").offsetWidth;
 		/* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(800, 400);
+    p.createCanvas(400, 200);
   };
 
   p.draw = function() {
-		sun0.show();
-		sun3.show();
-		sun4.show();
-		snow1.show();
-		snow2.show();
+		var padding = (p.height - 2 * radius) / 5
+		var middle = p.height / 2
 
-		tree.show('minimalist');
+		// circles
+		p.push();
+		p.stroke('#ffeabc')
+		p.fill('#ffeabc')
+		let y0 = radius
+		p.circle(left, y0, radius)
+		text_box(p, 'q_0', left - 15, y0, 15)
 
-		tree.pos.x = t1;
-		tree.add(1)
-		tree.show('minimalist');
+		let y1 = radius + padding
+		p.circle(left, y1, radius)
+		text_box(p, 'q_1', left - 15, y1, 15)
 
-		tree.pos.x = t2;
-		tree.add(2)
-		tree.show('minimalist');
+		let y2 = radius + 2 * padding
+		p.circle(left, y2, radius)
+		text_box(p, 'q_2', left - 15, y2, 15)
 
-		tree.pos.x = t3;
-		tree.add(0)
-		tree.show('minimalist');
+		let y3 = radius + 3 * padding
+		p.circle(left, y3 - 10, 2)
+		p.circle(left, y3, 2)
+		p.circle(left, y3 + 10, 2)
 
-		tree.pos.x = t4;
-		tree.add(1)
-		tree.show('minimalist');
 
-		arrow(
-			p,
-			p.createVector(t0 + 32, top_height),
-			p.createVector(t1 - 34, top_height)
-		);
-		arrow(
-			p,
-			p.createVector(t1 + 32, top_height),
-			p.createVector(t2 - 34, top_height)
-		);
-		arrow(
-			p,
-			p.createVector(t2 + 32, top_height),
-			p.createVector(t3 - 34, top_height)
-		);
-		arrow(
-			p,
-			p.createVector(t3 + 32, top_height),
-			p.createVector(t4 - 34, top_height)
-		);
+		let y4 = radius + 4 * padding
+		p.circle(left, y4, radius)
+		text_box(p, 'q_N', left - 15, y4, 15)
 
-		// Hot cold arrow
+		p.circle(right, middle, radius)
+		text_box(p, 'q_j', right + 12, middle, 15)
+		p.pop();
+
+		p.strokeWeight(2)	
 		arrow(
 			p,
-			p.createVector(t0, top_height + 40),
-			p.createVector(t0, btn_height - 60)
+			p.createVector(left, y0),
+			p.createVector(right, middle),
+			'#ffeabc',
+			'none',
 		);
 		arrow(
 			p,
-			p.createVector(t1, top_height + 40),
-			p.createVector(t1, btn_height - 60)
+			p.createVector(left, y1),
+			p.createVector(right, middle),
+			'#ffeabc',
+			'none',
 		);
 		arrow(
 			p,
-			p.createVector(t2, top_height + 40),
-			p.createVector(t2, btn_height - 60)
+			p.createVector(left, y2),
+			p.createVector(right, middle),
+			'#ffeabc',
+			'none',
 		);
 		arrow(
 			p,
-			p.createVector(t3, top_height + 40),
-			p.createVector(t3, btn_height - 60)
-		);
-		arrow(
-			p,
-			p.createVector(t4, top_height + 40),
-			p.createVector(t4, btn_height - 60)
+			p.createVector(left, y4),
+			p.createVector(right, middle),
+			'#ffeabc',
+			'none',
 		);
 		
-		text_box(p, 'Hidden Markov', anot, top_height - 10, 14)
-		text_box(p, 'Process', anot, top_height + 10, 14)
-		text_box(p, ':', anot + 15, top_height + 10, 14)
-		text_box(p, 'Observation', anot, btn_height - 10, 14)
-		text_box(p, 'Sequence', anot, btn_height + 10, 14)
-
-		text_box(p, 'A', (t0 + t1) / 2, top_height - 10, 11)
-		text_box(p, 'A', (t1 + t2) / 2, top_height - 10, 11)
-		text_box(p, 'A', (t2 + t3) / 2, top_height - 10, 11)
-		text_box(p, 'A', (t3 + t4) / 2, top_height - 10, 11)
-
-		text_box(p, 'B', t0 + 11, middle, 11)
-		text_box(p, 'B', t1 + 11, middle, 11)
-		text_box(p, 'B', t2 + 11, middle, 11)
-		text_box(p, 'B', t3 + 11, middle, 11)
-		text_box(p, 'B', t4 + 11, middle, 11)
-
-		text_box(p, 'o', t0, btn_height + 45, 11)
-		text_box(p, '0', t0 + p.textWidth('o'), btn_height + 48, 7)
-
-		text_box(p, 'o', t1, btn_height + 45, 11)
-		text_box(p, '1', t1 + p.textWidth('o'), btn_height + 48, 7)
-
-		text_box(p, 'o', t2, btn_height + 45, 11)
-		text_box(p, '2', t2 + p.textWidth('o'), btn_height + 48, 7)
-
-		text_box(p, 'o', t3, btn_height + 45, 11)
-		text_box(p, '3', t3 + p.textWidth('o'), btn_height + 48, 7)
-
-		text_box(p, 'o', t4, btn_height + 45, 11)
-		text_box(p, '4', t4 + p.textWidth('o'), btn_height + 48, 7)
-
-		text_box(p, 't=0', t0, top_height - 40, 11)
-		text_box(p, 't=1', t1, top_height - 40, 11)
-		text_box(p, 't=2', t2, top_height - 40, 11)
-		text_box(p, 't=3', t3, top_height - 40, 11)
-		text_box(p, 't=4', t4, top_height - 40, 11)
+		//text_box(p, 'o', t4, btn_height + 45, 11)
+		//text_box(p, '4', t4 + p.textWidth('o'), btn_height + 48, 7)
 
 		p.noLoop();
   };

@@ -601,7 +601,7 @@ var s = function( p ) { // p could be any variable name
 		25, 7, -p.PI / 3, p.random(0, p.TWO_PI), '#E1E7E4'
 	);
 
-	var tree = new Tree(p, p.createVector(t0, btn_height), 70);
+	var tree = new Tree(p, p.createVector(t0, btn_height), 80, 7, 14, 21);
 	tree.add(2);
 
   p.setup = function() {
