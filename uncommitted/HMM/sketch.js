@@ -435,7 +435,7 @@ function Ring(p, inner_radius, outer_radius, clr, n_meshes, noise_amplitude, zof
 	}
 }
 
-function Tree(p, pos, max_radius = 150, sr = 20, mr = 30, lr = 40, br = 30) {
+function Tree(p, pos, max_radius = 150, sr = 7, mr = 14, lr = 28, br = 30) {
 	this.pos = pos;
 	this.max_radius = max_radius; // Max radius of tree
 
@@ -487,7 +487,7 @@ function Tree(p, pos, max_radius = 150, sr = 20, mr = 30, lr = 40, br = 30) {
 
 	this.add = function(size_code) {
 		let size = this.codes[size_code];
-		let meshes = p.max(Math.floor(this.current_radius) ** 2, 20)
+		let meshes = p.min(p.max(Math.floor(this.current_radius) ** 2, 20), 100)
 		let noise_amplitude = p.map(this.current_radius, 0 ,this.max_radius, 0.1, 1.5)
 
 		if( size == 'bark' ) {
@@ -524,48 +524,6 @@ function Tree(p, pos, max_radius = 150, sr = 20, mr = 30, lr = 40, br = 30) {
 	}
 }
 
-/*
-var s = function( p ) { // p could be any variable name
-	var sun = new Sun(p, p.createVector(150, 150), 50, 150, 200);
-	var snow = new Snowflake(
-		p,
-		p.createVector(400, 150),
-		100,
-		15,
-		-p.PI / 3,
-		p.random(0, p.TWO_PI),
-		'#E1E7E4'
-	);
-
-	var tree = new Tree(p, p.createVector(300, 450))
-	for(var i = 0; i < 15; i += 1) {
-		tree.add(Math.floor(p.random(3)));
-	}
-	tree.add(3);
-
-  p.setup = function() {
-		//var myWidth = document.getElementById("c1").offsetWidth;
-    p.createCanvas(600, 600);
-  };
-
-  p.draw = function() {
-		sun.show();
-		snow.show();
-		tree.show()
-		p.noLoop();
-  };
-
-	p.windowResized = function() {
-		mwidth = document.getElementById("c1").offsetWidth;
-		p.resizeCanvas(mwidth, p.height);
-
-		// Don't forget to resize all positions as well
-		x = mwidth / 2;
-	};
-};
-
-var myp51 = new p5(s, 'c1');
-*/
 function text_box(p, text, x, y, fontsize = 20) {
 	p.push();
 	p.strokeWeight(0.2);
@@ -591,88 +549,28 @@ function text_box(p, text, x, y, fontsize = 20) {
 }
 
 var s = function( p ) { // p could be any variable name
-	var left = 20
-	var right = 90
-	var radius = 5
+	var tree;
+	var sun = new Sun();
+	var snow = new Snowflake();
 
   p.setup = function() {
 		//var myWidth = document.getElementById("c1").offsetWidth;
 		/* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(400, 200);
+    p.createCanvas(350, 350);
   };
 
   p.draw = function() {
-		var padding = (p.height - 2 * radius) / 5
-		var middle = p.height / 2
-
-		// circles
-		p.push();
-		p.stroke('#ffeabc')
-		p.fill('#ffeabc')
-		let y0 = radius
-		p.circle(left, y0, radius)
-		text_box(p, 'q_0', left - 15, y0, 15)
-
-		let y1 = radius + padding
-		p.circle(left, y1, radius)
-		text_box(p, 'q_1', left - 15, y1, 15)
-
-		let y2 = radius + 2 * padding
-		p.circle(left, y2, radius)
-		text_box(p, 'q_2', left - 15, y2, 15)
-
-		let y3 = radius + 3 * padding
-		p.circle(left, y3 - 10, 2)
-		p.circle(left, y3, 2)
-		p.circle(left, y3 + 10, 2)
-
-
-		let y4 = radius + 4 * padding
-		p.circle(left, y4, radius)
-		text_box(p, 'q_N', left - 15, y4, 15)
-
-		p.circle(right, middle, radius)
-		text_box(p, 'q_j', right + 12, middle, 15)
-		p.pop();
-
-		p.strokeWeight(2)	
-		arrow(
-			p,
-			p.createVector(left, y0),
-			p.createVector(right, middle),
-			'#ffeabc',
-			'none',
-		);
-		arrow(
-			p,
-			p.createVector(left, y1),
-			p.createVector(right, middle),
-			'#ffeabc',
-			'none',
-		);
-		arrow(
-			p,
-			p.createVector(left, y2),
-			p.createVector(right, middle),
-			'#ffeabc',
-			'none',
-		);
-		arrow(
-			p,
-			p.createVector(left, y4),
-			p.createVector(right, middle),
-			'#ffeabc',
-			'none',
-		);
-		
-		//text_box(p, 'o', t4, btn_height + 45, 11)
-		//text_box(p, '4', t4 + p.textWidth('o'), btn_height + 48, 7)
-
+		tree = new Tree(p, p.createVector(p.width / 2, p.height / 2), 230)
+		for(var i = 0; i < 30; i += 1) {
+			tree.add(p.random([0,1,2]))
+		}
+		tree.add(3);
+		tree.show();
 		p.noLoop();
   };
 
 	p.windowResized = function() {
-		mwidth = document.getElementById("c2").offsetWidth;
+		mwidth = document.getElementById("c1").offsetWidth;
 		/*mheight = document.getElementById("c1").offsetHeight;*/
 		p.resizeCanvas(mwidth, p.height);
 
@@ -681,4 +579,4 @@ var s = function( p ) { // p could be any variable name
 	};
 };
 
-var myp52 = new p5(s, 'c2');
+var myp52 = new p5(s, 'c1');

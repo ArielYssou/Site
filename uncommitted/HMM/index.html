@@ -38,7 +38,7 @@
 
 	</head>
 
-	<body style="background-color:#42403b">
+	<body>
 		<!-- Navigation bar -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			<a class="navbar-brand" href="../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
@@ -71,18 +71,17 @@
 			</div>
 		</nav>
 		<!-- End of navigation bar -->
-		
+		<div class="head_container">
+			<img src="./cover_image.png" class="head_image no_blur">
+			<div class="head_middle">
+				<div class="head_text"><b>Hidden Markov Model</b></div>
+			</div>
+		</div>
 		<div class="container post_body">
 			<div class="row post_struct">
 				<div class="col-ld-12">
-					<div class="head_container">
-						<img src="./cover_image.png" class="head_image no_blur">
-						<div class="head_middle">
-							<div class="head_text"><b>Hidden Markov Model</b></div>
-						</div>
-					</div>
 
-					<p>In this post we will discuss the Hidden Markv Model and its implementation in Python. We will draw inspiration mainly from <a href="" target="_blank">Rabiner</a> and <a href = '' target = '_blank'></a>, where the first article is focused on theory and the second on intuition and implementation. This text should provide an intermediate view between then, explaining the basics of HMMs in detail and also providing an implementation of this model in native python.</p>
+					<p>In this post we will discuss the Hidden Markv Model and its implementation in Python. We will draw inspiration mainly from <a href="https://www.cs.ubc.ca/~murphyk/Bayes/rabiner.pdf" target="_blank">Lawrence R. Rabiner (1989)</a> and <a href = 'https://www.researchgate.net/publication/288957333_A_revealing_introduction_to_hidden_markov_models' target = '_blank'>Mark Stamp (2018)</a>, trying to provide an intermediate view between the more technical article by Rabiner and the more practical and educational article by Stamp. In the first half of the text we will explain the basics of HMMs in detail and establish the motivations behind our study and the second part will be dedicated to the implementation of this model in python.</p>
 
 	 <table class="TOC">
   <tr><th>Contents</th></tr>
@@ -95,13 +94,13 @@
 					<!-- Intro -->
 					<a name="INTRO"></a>
 					<h2 class="section">1. Introduction</h2>
-					<p>Many process in nature produce a sequence of observable outputs, such as the atmospheric variables generating different types of clouds (observations) depending on the state of the weather (a state could be a humid cold day, for example). The model that generates the clouds is ``hidden'' in the sense that its not directly observable, but its output is (the clouds). The problem then consists in modeling this hidden processes not only to study how it transitions between its states but also to use it to predict future observations. Lets start then by building a situation to motivate our study. Consider that during a stroll to the park you observe a cut tree. Investigating it you see the following pattern:</p>
+					<p>Many process in nature produce a sequence of observable outputs, such as the atmospheric variables generating different types of clouds (observations) depending on the state of the weather (a state could be a humid cold day, for example). The model that generates the clouds is $``$hidden$"$ in the sense that its not directly observable, but its output is (the clouds). The problem then consists in modeling this hidden processes not only to study how the state transitions but also to use it to predict future observations. Lets start our discussion with an example situation to motivate our study. Consider that during a stroll in the park you observe a cutted tree. Investigating it closely you see the following pattern:</p>
 					<figure>
-						<img src="tree.jpg" alt="tree_rings" style="width: 100%", class="img_format">
+						<img src="tree.jpg" alt="tree_rings" class= "large_img">
 					</figure>
-					<p>You then wonder if you could use the sequence of ring sizes (observations) to model the transition between climates in the local region. Lets start by making some simplifications and consider that each year the tree can grow a Small, Medium or Large ring, and the years can be considered only as Hot or Cold (the states of the hidden process, in this case the weather itself). As temperature is not the only factor that governs the growth of the tree, each observation (ring size) could be generated from both states, but with different probabilities. There are several ways of tackling this problem, but one interesting way to approach it is by considering that the weather transition only depends on the current weather, not on the full sequence of states. In other words, we consider that the weather sequence is a <i>Markov</i> chain (a ``hidden'' Markov chain if you like). To actually build this model, we will start our discussion by remembering what is exactly a Markov process and build from it.</p>
+					<p>You then wonder if you could use the sequence of ring sizes (observations) to model the weather transitions in the local region. Firstly lets make some simplifications and consider that each year the tree can grow a Small, Average or Large ring, and that the years can be considered only Hot or Cold (the states of the hidden process). As temperature is not the only factor that governs the growth of the tree, each observation (ring size) could be generated from both states, but with different probabilities. There are several ways of tackling this problem, but one interesting way to approach it is by considering that the weather transition only depends on the current state, not on the full sequence of states. In other words, we consider that the weather sequence is a <i>Markov</i> chain (a $``$hidden$"$ Markov chain if you like). To further discuss this model we need to first define what exactly is a Markov process and then build from it.</p>
+					<p>To illustrate this discussion we will use the p5.js library to procedurally generate some images. Most images where incorporated as snapshots of a code to improve the performance of the page</p> <++>
 					<div class="sketch-holder" id="c1"></div><br>
-					<div class="sketch-holder" id="c2"></div><br>
 					<a name="HMM"></a><h2 class="section">2. Hidden Markov Model: Theory</h2>
 					To discuss HMMs we need to first define what is a Markov process. Let $x_t$ be a random variable that depends on a parameter $t$. If $t$ represents time, then $x$ is called a <b>stochastic variable</b>. We will denote $x_t$ as a <i>state</i> and that $t$ has discrete values up to time $T$ so that we can define a sequence of events $X_T \equiv x_0, x_1, x_2, \dots, x_{T-1}$. Each state can take values from a set of $M$ possible states $x \in Q = \{q_0, q_1, \dots q_M$. The probability of a given state sequence $X$ can be written as:
 					$$\begin{eqnarray}
