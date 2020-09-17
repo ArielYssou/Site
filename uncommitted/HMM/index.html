@@ -87,7 +87,8 @@
   <tr><th>Contents</th></tr>
 	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
 	<tr><td><a href="#HMM">2. Hidden Markov Model</a>	</td></tr>
-	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
+	<tr><td><a href="#PROBLEMS">3. The Three Problems</a>	</td></tr>
+	<tr><td><a href="#CODE">4. Implementation</a></a></td></tr>
 	</table> 
 	<br></br>
 
@@ -99,15 +100,15 @@
 						<img src="tree.jpg" alt="tree_rings" class= "large_img">
 					</figure>
 					<p>You then wonder if you could use the sequence of ring sizes (observations) to model the weather transitions in the local region. Firstly lets make some simplifications and consider that each year the tree can grow a Small, Average or Large ring, and that the years can be considered only Hot or Cold (the states of the hidden process). As temperature is not the only factor that governs the growth of the tree, each observation (ring size) could be generated from both states, but with different probabilities. There are several ways of tackling this problem, but one interesting way to approach it is by considering that the weather transition only depends on the current state, not on the full sequence of states. In other words, we consider that the weather sequence is a <i>Markov</i> chain (a $``$hidden$"$ Markov chain if you like). To further discuss this model we need to first define what exactly is a Markov process and then build from it.</p>
-					<p>To illustrate this discussion we will use the p5.js library to procedurally generate some images. Most images where incorporated as snapshots of a code to improve the performance of the page</p> <++>
+					<p>To illustrate this discussion we will use the p5.js library to procedurally generate all figures. Most images where incorporated as snapshots to improve the performance of the page, but the full code is available here.</p> 
 					<div class="sketch-holder" id="c1"></div><br>
 					<a name="HMM"></a><h2 class="section">2. Hidden Markov Model: Theory</h2>
-					To discuss HMMs we need to first define what is a Markov process. Let $x_t$ be a random variable that depends on a parameter $t$. If $t$ represents time, then $x$ is called a <b>stochastic variable</b>. We will denote $x_t$ as a <i>state</i> and that $t$ has discrete values up to time $T$ so that we can define a sequence of events $X_T \equiv x_0, x_1, x_2, \dots, x_{T-1}$. Each state can take values from a set of $M$ possible states $x \in Q = \{q_0, q_1, \dots q_M$. The probability of a given state sequence $X$ can be written as:
+					To discuss HMMs we need to first define what is a Markov process. Let $x_t$ be a random variable that depends on a parameter $t$. If $t$ represents time, then $x$ is called a <b>stochastic variable</b>. We will denote $x_t$ as a <i>state</i> and assume that $t$ has discrete values up to time $T$ so that we can define a sequence of events $X_T \equiv x_0, x_1, x_2, \dots, x_{T-1}$. Each state can take values from a set of $M$ possible states $x \in Q = \{q_0, q_1, \dots q_M$. The probability of a given state sequence $X$ can be written as:
 					$$\begin{eqnarray}
 					P(X_T) &=& (\text{Probability of state }x_0 = q_i\text{ at time }t = 0) \times (\text{Probability of }x_1 = q_j\text{ given that we where at }q_i) \times \dots\\
-					 &=& P(x_0) . P(x_1 | x_0) P(x_2 | x_1, x_0) \dots P(x_{T-1} | x_{T-2}, x_{T-3}, \dots)\end{eqnarray},
-					 $$</p>
-					 <p>where $P(A|B)$ denotes the conditional probability of having $A$ given $B$. The probability of reaching a state $x_t$ at time $t$ is thus given by the sum of all possible paths to it ( all possible state sequences $X_{t-1}$):
+					 &=& P(x_0) . P(x_1 | x_0) P(x_2 | x_1, x_0) \dots P(x_{T-1} | x_{T-2}, x_{T-3}, \dots),\end{eqnarray}
+					 $$
+					 where $P(A|B)$ denotes the conditional probability of having $A$ given $B$. The probability of reaching a state $x_t$ at time $t$ is thus given by the sum of all possible paths to it ( all possible state sequences $X_{t-1}$):
 					 $$
 					 P(x_t)= \sum_{all\ X} P(X_{t-1}).
 					 $$
@@ -120,33 +121,54 @@
 					 <p>If we define $A$ as a matrix with all the transition probabilities (a <b>stochastic matrix</b> as its columns add up to $1$) the equation above can be written simply as (adopting $P(x_t = q_i) \equiv P_i$)
 					 $$P_{T-1}  = A P_{T-2} = A^T P_0.$$
 					 </p>
-					 <p>Lets apply this formalism to our motivation example. Each state $x_t$ represents a season, specifically $x_i \in \{q_0 : ``Hot",q_1 : ``Cold"\}$. The transition probability between each season allow us to write the stochastic matrix $A$:
-					 $$A = \begin{pmatrix} \end{pmatrix}$$
+					 <p>Lets apply this formalism to our motivation example. Each state $x_t$ represents a season, specifically $x_i \in \{q_0 : ``Hot",q_1 : ``Cold"\}$. The transition probability between each season allow us to write the stochastic matrix $A$ (with generic values):
+					 $$A = \begin{pmatrix} 0.7 & 0.3 \\ 0.6 & 0.4 \end{pmatrix},$$
+					 which can be interpreted as:
+					 <figure>
+						 <img src="markov_chain.png" alt="markov chain" class="img_format">
+					 </figure>
 					 </p>
 					 <p>At each time $t$ the state $x_t$ generate an observation $\mathcal{o}_i \in \{``Large", ``Medium", ``Small"\}$ with probability $b_t(\mathcal{o}_i)$, thus giving the observation sequence $\mathcal{O} = \{ \mathcal{o}_0,\mathcal{o}_1, \dots \}$. The set of all possible probabilities $b_t(\mathcal{o}_j)$ defines the observation matrix $B$:
-					 $$B = \begin{pmatrix} \end{pmatrix}$$
-					 <!--Technical scheme-->
+					 $$B = \begin{pmatrix} 0.1 & 0.4 & 0.5 \\ 0.7 & 0.2 & 0.1\end{pmatrix}$$
+					 that can be interpreted as:
+					 <figure>
+						 <img src="observations.png" alt="observation probability"  class="center" style = "width:70%; height:70%;">
+					 </figure>
 					 <p>If we define the initial state probability as $\pi \equiv [P(``Hot''\text{ at time }t=0), P(``Cold''\text{ at time }t=0)]$, the probability of obtaining a sequence of events $X$ and observations $\mathcal{O}$ is then given by:
-					 From this formalism many results follow. The most basic is, given the model $\lambda(A, B, \pi)$, determine the probability of a string of states and observations:</p>
 					 $$
 					 \boxed{P(X, \mathcal{O}) = \pi_{x_o}b_{x_0}(\mathcal{o}_0)a_{x_0,x_1}b_{x_1}(\mathcal{o}_1)a_{x_1,x_2} \dots,}
 					 $$
-					 which can be read as: "Probability of starting at $x_0$, observing $\mathcal{o}_0$, transitioning from $x_0$ to $x_1$ etc. Beyond this, there are 3 main problems that we can solve using HMM, know very appropriately as the "3 basic problems of HMM":
+					 which can be read as: "Probability of starting at $x_0$, observing $\mathcal{o}_0$, transitioning from $x_0$ to $x_1$ etc. From what we have discussed we can illustrate the full scheme of the HMM as:</p>
+					 <figure>
+						 <img src="unfolded_process_circular.png" alt="unfolded hmm" style = "width: 100%;">
+					 </figure>
+					 <p>From this formalism more results follow. Between then there are 3 main problems that we can solve using HMMs, know very appropriately as the "3 basic problems of HMM".
 					 </p>
-					<a name="PROBLEMS"></a><h2 class="section">3. The 3 basic Problem's of HMM</h2>
-					<h3>Problem 1 - The evaluation problem</h3>
+					<a name="PROBLEMS"></a><h2 class="section">3. The Three Problems</h2>
+					<h3>1 - The evaluation problem</h3>
 					<p>Given the model $\lambda = (A, B, \pi)$ and the observation sequence $\mathcal{O}$, find $P(\mathcal{O}|\lambda)$.</p>
-					<h3>Problem 2 - The $``$hidden$"$ problem</h3>
-					<p>Given $\lambda = (A, B, \pi)$ and the observation sequence $\mathcal{O}$, find the ``optimal'' hidden sequence of events $Q$. Notice that in order to solve this problem, one must first define what ``optimal" means (there are multiple possibilities).</p>
-					<h3>Problem 3 - The fit problem</h3>
+					<h3>2 - The $``$hidden$"$ problem</h3>
+					<p>Given $\lambda = (A, B, \pi)$ and the observation sequence $\mathcal{O}$, find the $``$optimal$"$ hidden sequence of events $Q$. Notice that in order to solve this problem, one must first define what $``$optimal$"$ means.</p>
+					<h3>3 - The fit problem</h3>
 					<p>Given the observation sequence $\mathcal{O}$ and the dimensions $M$ and $N$, find the model $\lambda$ that maximizes the probability of $\mathcal{O}$. This problem can be seen a training a model to a dataset.</p>
-					<hr></hr>
+					<!--
+				</div>
+			</div>
+		</div>
+		<hr class = "large"></hr>
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+					-->
+					<hr class='solid'></hr>
 					Now we provide not only the theoretical solution to these problems (try making a sketch of the solutions before reading then, but be advised that problems 2 and 3 are very tricky) but also algorithms to solve them efficiently.
+					<br></br>
 
-					<h3>Solution 1</h3>
+					<button class="collapsible">Solution 1</button>
+					<div class="content">
 					<p>Intuitively the probability of a given sequence $\mathcal{O}$ can be obtained by summing over all possible state sequences that could generate it. Thus we must first determine the probability of a generic state sequence:
-					$$P(X | \lambda) = \pi_{x_0} a_{x_0,x_1} a_{x_1, x_2} \dots$$</p>
-					<p>and the probability of $\mathcal{O}$ given a sequence of events:
+					$$P(X | \lambda) = \pi_{x_0} a_{x_0,x_1} a_{x_1, x_2} \dots$$
+					and the probability of $\mathcal{O}$ given a sequence of events:
 					$$P(\mathcal{O} | X, \lambda) = b_0(x_0) b_1(x_1) \dots$$
 					</p>
 					<p>Thus the probability of the observation sequence can be obtained by summing over all possible $X$s:
@@ -164,7 +186,6 @@
 					$$
 					\alpha_t(i) \equiv P(\mathcal{o}_0, \mathcal{o}_1, \mathcal{o}_2, \dots, \mathcal{o}_t, x_t = q_i | \lambda),
 					$$ which is essentially the probability of being at state $x_t = q_i$ at time $t$ and having the partial observation $\mathcal{o}_t$. We can evaluate all $\alpha$ in a recurrent manner:</p>
-					<p>
 					<ol>
 						<li>Initialization: $$\alpha_0(i) = \pi_i b_i(\mathcal{o}_0),\hspace{1.5cm} 0 \leq i \leq N.$$</li>
 						<li>Induction: $$\alpha_{t+1}(j) = \left( \sum_{i=1}^N \alpha_t(i) a_{ij} \right) b_i(\mathcal{o}_{t+1}),
@@ -174,11 +195,11 @@
 													\end{array}	$$</li>
 						<li>Termination $$P(\mathcal{O}, \lambda) = \sum_{i=1}^N \alpha_T(i)$$</li>
 					</ol>
-					With this method we only need to make $N^2 T$ multiplications, as opposed to more than $2T N^T$ for the naı̈ve approach. This step fully solves problem 1, but we will discuss the remaining part of the algorithm as it will be useful for the other problems. The <i>backward</i> procedure consists of:
+					<p>With this method we only need to make $N^2 T$ multiplications, as opposed to more than $2T N^T$ for the naı̈ve approach. This step fully solves problem 1, but we will discuss the remaining part of the algorithm as it will be useful for the other problems. The <i>backward</i> procedure consists of:</p>
 					<h4>$\beta$ - pass: Backward procedure</h4>
-					Define the backward variable $\beta_t(i)$ as:
+					<p>Define the backward variable $\beta_t(i)$ as:
 					$$\beta_t(i) \equiv P(\mathcal{o}_{t+1}, \mathcal{o}_{t+2}, \mathcal{o}_2, \dots, \mathcal{o}_{T-1}| x_t = q_i, \lambda),$$
-					that can be interpreted as the probability of observing the remaining partial observation sequence after state $x_t$. All backwards variables can be obtained in a recurrent manner:
+					that can be interpreted as the probability of observing the remaining partial observation sequence after state $x_t$. All backwards variables can be obtained in a recurrent manner:</p>
 					<ol>
 						<li>Initialization: $$\beta_{T-1}(i) = 1$$</li>
 						<li>Induction: $$\beta_{t+1}(j) \sum_{i=1}^N a_{ij} b_i(\mathcal{o}_{t+1}) \beta_{t+1}(j)
@@ -188,7 +209,9 @@
 													\end{array}	$$</li>
 					</ol>
 					This procedure will be useful in the next solution.
-					<h3>Solution 2</h3>
+					</div>
+					<button class="collapsible">Solution 2</button>
+					<div class="content">
 					<p>The objective is to find the $``$best$''$ state sequence given a model $\lambda$ and $\mathcal{O}$. As stated before, the word ``best'' can have many meanings. For example, one might want to find the states $Q$ that are individually most likely (thus minimizing the number of incorrect states). To implement this solution, we define:
 					$$\gamma_t(i) = P(x_t = q_i | \mathcal{O}, \lambda),$$
 					which is the probability of being at state $q_t$ at time $t$ given the observation sequence $\mathcal{O}$. This variable can be written in terms of the forward and backward variables as:
@@ -198,8 +221,10 @@
 					</p>
 					<p>The problem with this solution is that the ``best'' sequence might not be even a valid sequence (if the transition between some states is impossible). Another solution to this problem can be achieved by choosing a alternative optimality criteria, such as maximizing the number of correct state pairs, triplets, etc... The most used [2] is maximizing the probability of the whole sequence $Q$ given by $P(Q, \mathcal{O}| \lambda)$. There is a formal solution for finding this optimal solution based on Dynamic Programming called the <b>Viterbi Algorithm</b>. The interested reader is encouraged to read article [1] as its very detailed and reproducing the demonstration here would be outside the scope of this post.</p> 
 
-					<h3>Solution 3</h3>
-					<p>This is probably the most important (and difficult) problem of the bunch. Our task is, given the hyper-parameters (number of possible states $N$ and observations $M$), fit the model to the data (observation sequence $\mathcal{O})$. That is, find the model $\lambda = (A, B, \pi)$ that $P(\mathcal{O} | \lambda)$ is maximized. There is no know theoretical solution to this problem, and it is in this that HMMs really shine, as they provide a efficient way of finding a local maxima for $P(\mathcal{O} | \lambda)$ that is very similar to the EM algorithm (that is widely know in the machine learning community). The solution is as follows.</p>
+					</div>
+					<button class="collapsible">Solution 3</button>
+					<div class="content">
+					<p>This is probably the most important (and difficult) problem of the bunch. Our task is, given the hyper-parameters (number of possible states $N$ and observations $M$), fit the model to the data (observation sequence $\mathcal{O})$. That is, find the model $\lambda = (A, B, \pi)$ so that $P(\mathcal{O} | \lambda)$ is maximized. There is no know theoretical solution to this problem, and it is in this that HMMs really shine, as it provides an efficient way of finding a local maxima for $P(\mathcal{O} | \lambda)$ that is very similar to the EM algorithm (that is widely know in the machine learning community). The solution can be outlined as follows.</p>
 					<p>Define a variable (commonly called $``$di-gamma$''$) $\gamma_t(i, j)$ as:
 					$$\gamma_t(i, j) \equiv P(x_t = q_i, x_{t+1} = q_j | \mathcal{O}, \lambda),$$
 					This probability can be interpreted as the probability of getting the partial observation $\mathcal{O}_t$ and arrive at state $q_t$, transitioning to the state $q_j$ and then getting the rest of the partial observation $\mathcal{o}_{t+1},\ \mathcal{o}_{t+2},\ \dots$. In terms of the forward and backward variables this can be expressed as
@@ -223,19 +248,22 @@
 					<p>The procedure to solve problem 3 is then given by the following steps:
 					<ol>
 						<li>(Initialization step) Initialize $\lambda = (A, B, \pi)$ randomly.</li>
-						<li>(Expetation step) Compute $\alpha_t(i)$, $\beta_t(i)$, $\gamma_t(i,j)$ and $\gamma_t(i)$ for all $i$ and $t$;</li>
+						<li>(Expectation step) Compute $\alpha_t(i)$, $\beta_t(i)$, $\gamma_t(i,j)$ and $\gamma_t(i)$ for all $i$ and $t$;</li>
 						<li>(Modification step) Re-estimate $\bar{\lambda} = (\bar{A}, \bar{B}, \bar{\pi})$;</li>
-						<li>(Ecaluation step) If $P(\mathcal{O} | \bar{\lambda}) > P(\mathcal{O} | \lambda)$, goto 2. Else terminate and return $\bar{\lambda}$.</li>
+						<li>(Evaluation step) If $P(\mathcal{O} | \bar{\lambda}) > P(\mathcal{O} | \lambda)$, goto 2. Else terminate and return $\bar{\lambda}$.</li>
 					</p>
-					<h4>Scale</h4>
-					As all calculations involve multiplications of really small probabilities (as the number of possible combinations of states and observations is huge), the variables have a serious tendency to underflow. To solve this, we can the scale the variables. Consider the calculation for the forward variable:
+					</div>
+					<br></br>
+					<p><b>Be sure that you have read all three solutions before going forward</b> as we will use the methods described there to further our discussion and to implement HMM in the final chapter.<p>
+					<h3>Scale</h3>
+					<p>As all calculations involve multiplications of really small probabilities (as the number of possible combinations of states and observations is huge), the variables have a serious tendency to underflow. To solve this, we can the scale the variables. Consider the calculation for the forward variable:
 					$$\alpha_t(i) = \sum_j \alpha_{t-1}(j) a_{ij} b_i(\mathcal{o}_t),$$
 					whose interpratiation is the probability of observing $\mathcal{O}t$ and reaching state $q_t$. A normalization idea is to normalize this quantity by the sum of all $\alpha_t(j)$ (over $j$). Ideed, it can be shown (see [1]) that this scale does not interfere in the solution and avoids underflow. Thus we define the <i>scale term</i>:
-					$$c_t \equiv \frac{1}{\sum_j \alpha_t(j)},$$
-					All variables ($\alpha$, $\beta$ and $\gamma$'s) can then multiplied by this term to avoid underflow. Another nice property is that the probability $P(\mathcal{O} | \lambda)$ can be directly obtained via this scale term:
-					$$\log P(\mathcal{O} | \lambda) = - \sum_{j=0}^{T-1} \log c_j.$$
+					$$c_t \equiv \frac{1}{\sum_j \alpha_t(j)},$$</p>
+					<p>All variables ($\alpha$, $\beta$ and $\gamma$'s) can then multiplied by this term to avoid underflow. Another nice property is that the probability $P(\mathcal{O} | \lambda)$ can be directly obtained via this scale term:
+					$$\log P(\mathcal{O} | \lambda) = - \sum_{j=0}^{T-1} \log c_j.$$</p>
 					<h4>Model selection</h4>
-					The algorithm we discussed is capable of finding a local maxima for $P(\mathcal{O} | \lambda)$, but is the solution unique? Suppose we have two models, $\lambda_1$, and $\lambda_2$, with:
+					<p>The algorithm we discussed is capable of finding a local maxima for $P(\mathcal{O} | \lambda)$, but is the solution unique? Suppose we have two models, $\lambda_1$, and $\lambda_2$, with:
 					$$
 					\begin{eqnarray}
 					A_1 &=& \begin{pmatrix} p & 1-p \\ 1-p & p \end{pmatrix} \hspace{1cm} B_1 = \begin{pmatrix} q & 1-q \\ 1-q & q \end{pmatrix}, \\  
@@ -249,17 +277,17 @@
 					&\,& \Rightarrow pq + (1 - q)(1 - p) = rs + (1 - r)(1-s)\\
 					&\,& \therefore s = \frac{p + q - 2pq}{1 - 2r} \approx 0.43.
 					\end{eqnarray}
+					$$</p>
+					<p>From this we have that  these two (very) different models could be considered equivalent! Now an interesting question can be made: how could one measure the similarity between two models? Information theory provides us with a quantity called <b>relative entropy</b> (also know as Kullbak-Leibler divergence or information gain in machine learning contexts) that fits this role nicely and can be expressed as
 					$$
-					We conclude that these two wildly different models could be considered equivalent! Now an interesting question can be made: how could one measure the similarity between two models? Information theory provides us with a quantity called <b>relative entropy</b> (also know as Kullbak-Leibler divergence or information gain in machine learning contexts) that fits this role nicely and can be expressed as
+					D(\lambda_1, \lambda_2) = P(\mathcal{O}^{(2)}  | \lambda_1) \log \left( \frac{P(\mathcal{O}^{(2)}  | \lambda_1)}{P(\mathcal{O}^{(2)}  | \lambda_2)} \right),
 					$$
-					D(\lambda_1, \lambda_2) = P(\mathcal{O}^{(2)}  | \lambda_1) \log \left( \frac{P(\mathcal{O}^{(2)}  | \lambda_1)}{P(\mathcal{O}^{(2)}  | \lambda_1)} \right),
-					$$
-					where $\mathcal{O}^{(2)}$ is a observation sequence obtained from $\lambda_2$. With this we now can not only measure the distance of a trained model from the true one (when available) or from the random start. We could also measure how different solutions differ from each other.
-					<h4>Further topics and variations</h4>
-					There are several variants to the HMM. Many of then are discussed in depth in reference [1] and are very interesting such as HMM with absorbing states (breaking the engodicidy of the model) and HMM with continuous values. As interesting these topics are, we refrain from discussing then to reduce the scope of this post, but I felt that it was important to say that this model can be taken further and is a very interesting topic to study :D. Now we shall focus on how to implement this model in python, as most sources only provide pseudo code for the implementation.
+					where $\mathcal{O}^{(2)}$ is a observation sequence obtained from $\lambda_2$. With this we now can not only measure the distance between a trained model and the true one (when available) but also could measure how two solutions are different from each other.</p>
+					<h3>Further topics and variations</h3>
+					<p>There are several variants to the HMM. Many of then are discussed in depth in the article by Rabiner and are very interesting, such as HMM with absorbing states (breaking the engodicidy of the model) and HMM with continuous values. As interesting these topics are, we refrain from discussing then to reduce the scope of this post, but I felt that it was important to say that this model can be taken further and is a very interesting topic to study. Now we shall focus on how to implement this model in python, as most sources only provide pseudo code for the implementation.</p>
 
 					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
-					{% include 'weather.html' %}
+					{% include 'hmm.html' %}
 				</div>
 			</div>
 		</div>

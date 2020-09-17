@@ -550,22 +550,34 @@ function text_box(p, text, x, y, fontsize = 20) {
 
 var s = function( p ) { // p could be any variable name
 	var tree;
-	var sun = new Sun();
-	var snow = new Snowflake();
+	var sun;
+	var snow;
 
   p.setup = function() {
 		//var myWidth = document.getElementById("c1").offsetWidth;
 		/* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(350, 350);
+    p.createCanvas(800, 250);
   };
 
   p.draw = function() {
-		tree = new Tree(p, p.createVector(p.width / 2, p.height / 2), 230)
+		tree = new Tree(p, p.createVector(400, p.height / 2), 120)
 		for(var i = 0; i < 30; i += 1) {
 			tree.add(p.random([0,1,2]))
 		}
 		tree.add(3);
 		tree.show();
+
+		sun = new Sun(p, p.createVector(200, p.height / 2), 50, 200, 200)
+		sun.show()
+		snow = new Snowflake(
+			p,
+			p.createVector(600, p.height / 2),
+			100,
+			15,
+			-p.PI / 3,
+			p.random(0, p.TWO_PI)
+		) 
+		snow.show()
 		p.noLoop();
   };
 

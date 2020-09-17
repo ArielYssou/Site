@@ -104,8 +104,22 @@ figcaption {
 
 }
 
+hr.dashed {
+	width: 80%;
+  border-color: #ffeabc;
+  border-style: dashed none;
+  border-width: 0.5px 0;
+}
+
+hr.solid {
+	width: 100%;
+	border-top: 0.5px solid;
+  border-color: #ffeabc;
+	border-radius: 5px;
+}
+
 .MathJax {
-	font-size: min(49px, 1.9vmax);;
+	font-size: min(49px, 1.9vmax);
 }
 
 .alert {
@@ -169,6 +183,43 @@ canvas {
 .summary_text{
 	text-align: left;
 	padding-left: 30px;
+}
+
+
+.collapsible {
+  background-color: #56544D;
+	color: #ffeabc;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+}
+
+.active_collapsible, .collapsible:hover {
+  background-color: #3D3D3D;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: #ffeabc;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active_collapsible:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #363430;
 }
 
 /* Home */
