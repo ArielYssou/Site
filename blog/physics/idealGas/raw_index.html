@@ -73,7 +73,7 @@
 		<!-- End of navigation bar -->
 
 		<div class="head_container">
-			<img src="./cover_image.png" class="head_image">
+			<img src="./cover_image.png" class="head_image no_blur">
 			<div class="head_middle">
 				<div class="head_text"><b>The Ideal Gas</b></div>
 			</div>
@@ -192,14 +192,14 @@
 					<p>
 					Using the Maxwell-Boltzman distribution (a direct result of the kinetic theory of gasses), the fraction $f(v)$ of molecules with speed between $v$ and $v + dv$ can be expressed as
 					$$
-					f(v) = 4 \pi \left( \frac{m}{2 \pi k T} \right)^{\frac{3}{2}} v^2 e^{-\frac{mv^2}{2kT}},
+					f(v) = 4 \pi \left( \frac{m}{2 \pi k_b T} \right)^{\frac{3}{2}} v^2 e^{-\frac{mv^2}{2kT}},
 					$$
 					Integrating this equation we get that the root mean square speed is
 					$$
-					v^2_{rms} = \frac{2kT}{m} \hspace{1cm}(4),
+					v^2_{rms} \equiv  \sqrt{\langle v^2 \rangle} = \frac{3k_b T}{m} \hspace{1cm}(4),
 					$$
 					which can be united with (3), giving us the final equation
-					$$PV = NkT.$$
+					$$PV = Nk_b T.$$
 					</p>
 					<h3>Statistical mechanics derivation</h3>
 					The kinetic energy of a particle with position $\vec{q}$ and momentum $\vec{p}$ can be expressed in terms of the net force $\vec{F}$ on that particle as (simply using Newton's second law again):
@@ -226,7 +226,7 @@
 					$$
 					P = \frac{F}{A} = \frac{1}{A}\frac{d\vec{p}}{dt} = \frac{-\langle\sum_{k=0}^N \vec{q}_k.\vec{F}_k \rangle}{\int_S \vec{q} . d\vec{S}},
 					$$
-					where we sum over all particles. Using the divergence theorem and the fact that $\div \vec{q} = 3$ we get:
+					where we sum over all particles. Using the divergence theorem and the fact that $\nabla \vec{q} = 3$ we get:
 					$$
 					P = \frac{-\langle\sum_{k=0}^N \vec{q}_k.\vec{F}_k \rangle }{3V} = \frac{N k_b T}{V},
 					$$
@@ -235,7 +235,7 @@
  
 
 					<a name="IMPLEMENTATION"></a>
-					<h2 class="section">2. Implementation</h2>
+					<h2 class="section">3. Implementation</h2>
 					<p>To simulate this system we must create a simple physics engine that can deal with collisions. A good place to start is by remembering that if a body of mass \(m_1\) collides elastically with another body of mass \(m_2\) their velocities after the collision can be expressed as
 					$$
 					\begin{equation*}
@@ -249,83 +249,26 @@
 					\end{equation*}
 					$$	
 					where \(M \equiv m_1 + m_2\). A full demonstration of these equations can be found <a class="custom_link" href="https://en.wikipedia.org/wiki/Elastic_collision">here</a>, but it is a direct implication of the conservation of linear momentum and kinetic energy.</p>
-					<p>Now we only need to translate these ideas into code. We want a <code>Particle</code> class with the following methods in it (in python $``$pseudocode$"$):
-
-					Here is the outline: Firstly we will build a <code>Particle</code> constructor to generate our particles, each with a position, velocity, mass and radius. To check for collisions we must build a <code>overlap</code> method, that will also check the boundary conditions. Finally each particle must be updated via an <code>update</code> method.</p>
-					<p> To build the collision detection method we will use a brute force approach, where we just compare each possible particle pairs. It's worth mentioning that collisions could be dealt with in a much better way using <a class="custom_link" href="https://en.wikipedia.org/wiki/Quadtree">quadtrees</a> and other fancy methods, but we will leave this to a future post.</p>
-					<p>To update the velocities we must check if there are any collisions. If there are overlaps we update the velocities accordingly, if not we keep then untouched. In this step we also verify the boundary conditions: if a particle collided with a wall it is simply reflected. Finally we update the position by just summing its vector with the velocity (by fixing the time frame at 1 we avoid having to multiply the velocity by it every time). In JavaScript:</p>
-					<pre>
-Particle = function(p, x, y, vx, vy, radius = p.width / 75, mass = 1, clr = p.color(50,50,50)) {
-  var particle = {};
-
-  particle.pos = p.createVector(x, y);
-  particle.vel = p.createVector(vx, vy);
-  particle.mass = mass;
-  particle.radius = radius;
-
-  particle.clr = clr;
-
-  particle.colisions = [particle.pos.copy()];
-
-  particle.show = function() {
-    p.push();
-    p.fill(particle.clr);
-    p.strokeWeight(0);
-    p.ellipse(
-      particle.pos.x,
-      particle.pos.y,
-      particle.radius,
-      particle.radius
-    );
-    p.pop();
-  }
-
-  particle.overlaps = function(other) {
-    // If the distance between centers is less part 2*radius then they overlap
-    
-    ans = Math.sqrt(((particle.pos.x - other.pos.x) ** 2) + ((particle.pos.y - other.pos.y) ** 2));
-    return (ans < (particle.radius + other.radius) / 2 ? true : false);
-  }
-
-  particle.update = function() {
-    // Cheks bouncing
-    if ((particle.pos.x + particle.radius > p.width) || (particle.pos.x - particle.radius < 0)) {
-      particle.vel.x *= -1;
-      particle.colisions.push( particle.pos.copy() )
-    }
-    if ((particle.pos.y + particle.radius > p.height) || (particle.pos.y - particle.radius < 0)) {
-      particle.vel.y *= -1;
-      particle.colisions.push( particle.pos.copy() )
-    }
-
-    // Check boundry violation
-    if( particle.pos.x > p.width )
-      particle.pos.x = p.width - (p.width - particle.pos.x)
-    if( particle.pos.y > p.height )
-      particle.pos.y = p.height - (p.height - particle.pos.y)
-    particle.pos.x = p.abs(particle.pos.x)
-    particle.pos.y = p.abs(particle.pos.y)
-
-    // Updates the position
-    particle.pos = particle.pos.add(particle.vel)
-  }
-
-  particle.clr_update = function(max_vel) {
-    particle.clr = p.lerpColor(
-      p.color(color_slow[0], color_slow[1], color_slow[2]),
-      p.color(color_fast[0], color_fast[1], color_fast[2]),
-      particle.vel.mag() / max_vel
-    )
-  }
-
-  return particle;
-}
-					</pre>
-					<p>Another interesting thing to study is the mean free path (MFP) of the particles, which is the average distance that any particle walks before it collides with another particle. For this we store the position of the last collision of each particle in the <code>particle</code> object and store an array of the last mean free paths, updating it after any collision happens. If we hide all particles and display only their mean free path we get something like this</p>
+					<p>Now we only need to translate these ideas into code. We want a <code>Particle</code> class such that each particle has a position, speed, radius and a mass. The position will be updated using only its speed (as there are no internal or external forces and the collisions are considered instantaneous). As we do not want any particles leaking from the container, we will also check if its position is inside the container before updating it. In python $``$pseudocode$"$:
+					</p>
+					{% include snippet_1.py %}
+					<p>
+					The simulation will check, at each iteration for collisions, updating the speeds accordingly based on the equations we described. The steps are:
+					</p>
+					<ol>
+						<li>1. Initialize the system with $N$ non-overlaping particles (before adding a new particle, check if it does not collide with any other particle. If after a number of tries you still haven't added any new particle then start only with the number that managed to get included))</li>
+						<li>For each particle, check for collisions and update speeds accordingly</li>
+						<li>For each particle, update the position. Goto 2.</li>
+					</ol>
+					<p>
+						To build the collision detection method we will use a brute force approach, where we just compare each possible particle pairs. It's worth mentioning that collisions could be dealt with in a much better way using <a class="custom_link" href="https://en.wikipedia.org/wiki/Quadtree">quadtrees</a> and other fancy methods, but we will leave this to a future post.
+					</p>
+					<p>
+						To update the velocities we must check if there are any collisions. If there are overlaps we update the velocities accordingly, if not we keep then untouched. By fixing the time frame at 1 we avoid having to multiply the velocity by it every time.
+					</p>
+					<p>One can also keep track of the mean free path (MFP) of the particles, which is the average distance that any particle walks before it collides with another particle. For this we store the position of the last collision of each particle in the <code>particle</code> object and store an array of the last mean free paths, updating it after any collision happens. If we hide all particles and display only their mean free path we get something like this</p>
 
 					<div class="sketch-holder" id="c2"></div>
-					<!--<div class="sketch-holder" id="mfp"></div>-->
-
 					<p>
 					This problem can be explored further by looking into the dependence of the mean free path \(l\) with the overall density of particles and the radius of each particle. It is expected to behave as \( l \sim (\sigma A)^{-1} \), where \(\sigma\) is the superficial particle density. Another possibility is considering a mix of different gasses or even modeling inter-molecular forces to study the threshold where the ideal gas approximation is no longer acceptable.
 					</p>
