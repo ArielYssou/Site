@@ -24,8 +24,8 @@
 
 	</head>
 
-	<body style="background-color:#42403b">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom ">
 			<a class="navbar-brand" href=".." style="font-weight:bold;">Ariel Yssou</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -36,7 +36,10 @@
 						<a class="nav-link" href=".." style="font-weight:bold;">Home </a>
 					</li>
 					<li class="nav-item active">
-						<a class="nav-link" href="#" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+						<a class="nav-link nav-blog" href="#" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../gallery/" style="font-weight:bold;">Gallery </a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../about" style="font-weight:bold;">About</a>
@@ -57,18 +60,20 @@
 
 		<!-- Header -->
 
-		<h1 class="main_title">Blog</h1>
+		<h1 class="blog_title">Blog</h1>
 
-		<div class="container blog">
+		<div class="container main_container">
 			<div class="row">
 
 				<div class="col-lg-12">
 
 					<!-- BLOG_TOP -->
 					<div class="blog_post">
-						<h2 class="blog-post-title">
-							<a href="./misc/reactionDiffusion" class="custom_link">Reaction Diffusion Process</a> <span class="float-right"> <div class="tag"> <!--DOT_TAG--> </div> </span>
-						</h2>
+						<a href="./misc/reactionDiffusion">
+							<h2 class="blog-post-title">
+								Reaction Diffusion Process <span class="float-right"> <div class="tag"> <!--DOT_TAG--> </div> </span>
+							</h2>
+						</a>
 						<h6 class="post-meta">
 								Posted by:
 								<a href="../about">ariel</a>
@@ -76,7 +81,7 @@
 						</h6>
 						<div class="clearfix">
 							<a href="./misc/reactionDiffusion">
-									<img class="float-left" src="./misc/reactionDiffusion/main_image.png" align="left">
+									<img class="float-left blog-img" src="./misc/reactionDiffusion/main_image.png" align="left">
 							</a>
 							<p class="align-self-start">
 						Reaction-diffusion models wield simple formulation but quite complex dynamics emerge and give birth to beautiful patterns. These models are intensely studied to this day and their implementation will be a nice case-study of some interesting computational methods. <a href="./misc/reactionDiffusion" class="custom_link">Read more</a>
@@ -86,9 +91,11 @@
 					<br>
 
 					<div class="blog_post">
-						<h2 class="blog-post-title">
-							<a href="./physics/perlinNoise" class="custom_link">Perlin Noise</a> <span class="float-right"> <div class="tag"> <!--DOT_TAG--> </div> </span>
-						</h2>
+						<a href="./physics/perlinNoise">
+							<h2 class="blog-post-title">
+								Perlin Noise<span class="float-right"> <div class="tag"> <!--DOT_TAG--> </div> </span>
+							</h2>
+						</a>
 						<h6 class="post-meta">
 								Posted by:
 								<a href="../about">ariel</a>
@@ -96,7 +103,7 @@
 						</h6>
 						<div class="clearfix">
 							<a href="./physics/perlinNoise">
-									<img class="float-left" src="./physics/perlinNoise/main_image.png" align="left">
+									<img class="float-left blog-img" src="./physics/perlinNoise/main_image.png" align="left">
 							</a>
 							<p class="align-self-start">
 						Simulating natural noise patterns has been a topic of interest both in science and in graphical areas. The Perlin noise is possibly the most common way of doing this and can be used in many interesting ways.	 <a href="./physics/perlinNoise" class="custom_link">Read more</a>
@@ -106,9 +113,11 @@
 					<br>
 
 					<div class="blog_post">
-						<h2 class="blog-post-title">
-							<a href="./physics/idealGas/">Ideal Gas</a> <span class="float-right"> <div class="tag"> <div class="dot phys_dot"> </div> <div class="tag_content"> Physics </div> </div> <!-- --><div class="tag"> <div class="dot p5js_dot"> </div> <div class="tag_content"> P5js </div> </div>   </span>
-						</h2>
+						<a href="./physics/idealGas/">
+							<h2 class="blog-post-title">
+								Ideal Gas<span class="float-right"> <div class="tag"> <div class="dot phys_dot"> </div> <div class="tag_content"> Physics </div> </div> <!-- --><div class="tag"> <div class="dot p5js_dot"> </div> <div class="tag_content"> P5js </div> </div>   </span>
+							</h2>
+						</a>
 						<h6 class="post-meta">
 								Posted by:
 								<a href="../about">ariel</a>
@@ -116,7 +125,7 @@
 						</h6>
 						<div class="clearfix">
 							<a href="./physics/idealGas/">
-									<img class="float-left" src="./physics/idealGas/main_image.png" align="left">
+									<img class="float-left blog-img" src="./physics/idealGas/main_image.png" align="left">
 							</a>
 							<p class="post_content align-self-start">
 									The ideal gas approximation is perhaps one of the most important concepts in classical thermodynamics and we seek to simulate a gas in such a limit using p5js. We also look into the mean free path concept and make a nice visualization of it. <a href="./physics/idealGas">Read more</a>
@@ -126,9 +135,11 @@
 					<br>
 
 					<div class="blog_post">
-						<h2 class="blog-post-title">
-							<a href="./physics/rainyDay/">A Rainy Night</a> <span class="float-right"> <div class="tag"> <div class="dot phys_dot"> </div> <div class="tag_content"> Physics </div> </div> <!-- --><div class="tag"> <div class="dot p5js_dot"> </div> <div class="tag_content"> P5js </div> </div>  </span>
-						</h2>
+						<a href="./physics/rainyDay/">
+							<h2 class="blog-post-title">
+								A Rainy Night <span class="float-right"> <div class="tag"> <div class="dot phys_dot"> </div> <div class="tag_content"> Physics </div> </div> <!-- --><div class="tag"> <div class="dot p5js_dot"> </div> <div class="tag_content"> P5js </div> </div>  </span>
+							</h2>
+						</a>
 						<h6 class="post-meta">
 								Posted by:
 								<a href="../about">ariel</a>
@@ -136,7 +147,7 @@
 						</h6>
 						<div class="clearfix">
 							<a href="./physics/rainyDay/">
-									<img class="float-left" src="./physics/rainyDay/main_image.png" align="left">
+									<img class="float-left blog-img" src="./physics/rainyDay/main_image.png" align="left">
 							</a>
 
 							<p class="post_content align-self-start">

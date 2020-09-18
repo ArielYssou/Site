@@ -19,9 +19,9 @@
   <script src="sketch.js">
   </script>
  </head>
- <body style="background-color:#42403b">
+ <body>
   <!-- Navigation bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
    <a class="navbar-brand" href="../../.." style="font-weight:bold;">
     Ariel Yssou
    </a>
@@ -36,7 +36,7 @@
        Home
       </a>
      </li>
-     <li class="nav-item active">
+     <li class="nav-item nav-blog active">
       <a class="nav-link" href="../.." style="font-weight:bold;">
        Blog
        <span class="sr-only">
@@ -44,6 +44,9 @@
        </span>
       </a>
      </li>
+		<li class="nav-item">
+			<a class="nav-link" href="gallery/" style="font-weight:bold;">Gallery </a>
+		</li>
      <li class="nav-item">
       <a class="nav-link" href="../../../about" style="font-weight:bold;">
        About
@@ -69,15 +72,16 @@
    </div>
   </nav>
   <!-- End of navigation bar -->
+	<div class="head_container">
+		<img src="./cover_image.png" class="head_image">
+		<div class="head_middle">
+			<div class="head_text"><b>The Ideal Gas</b></div>
+		</div>
+	</div>
   <div class="container post_body">
    <div class="row post_struct">
     <div class="col-ld-12">
-			<div class="head_container">
-				<img src="./cover_image.png" class="head_image">
-				<div class="head_middle">
-					<div class="head_text"><b>The Ideal Gas</b></div>
-				</div>
-			</div>
+
      <p>
       In this project we simulate an ideal gas using
       <a class="custom_link" href="https://p5js.org/" target="_blank">
