@@ -11,10 +11,9 @@ var s = function( p ) {
 
   p.setup = function() {
     var myWidth = document.getElementById("c1").offsetWidth;
-    //var myHeight = document.getElementById("c1").style.height;
-    let myHeight = 0.5 * myWidth;
+    var myHeight = document.getElementById("c1").offsetHeight;
+    //let myHeight = 0.5 * myWidth;
     p.createCanvas(myWidth, myHeight);
-    //my_canvas.parent('sketch-holder-test')
     p.colorMode(p.RGB);
     
     let show_mfp = false;
