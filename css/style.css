@@ -417,6 +417,7 @@ h1.about_title {
   filter: blur(0px);
   -webkit-filter: blur(0px);
 }
+
 .head_middle {
   position: absolute;
   top: 50%;

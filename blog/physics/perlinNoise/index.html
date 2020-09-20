@@ -1,740 +1,170 @@
 <!DOCTYPE html>
-<html lang="pt">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, intial-scale=1" name="viewport"/>
-  <!-- Name on tab -->
-  <title>
-   Perlin Noise
-  </title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
-  <!-- Custom CSS -->
-  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
-  <link href="../../../css/style.css" rel="stylesheet"/>
-  <!--TARGET-->
-  <link href="../../../css/pygments.css" rel="stylesheet"/>
-  <!--TARGET-->
-  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
-  </script>
-  <!-- Custom p5js animations -->
-  <script src="sketch.js">
-  </script>
- </head>
- <body style="background-color:#42403b">
-  <!-- Navigation bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-   <a class="navbar-brand" href="../../.." style="font-weight:bold;">
-    Ariel Yssou
-   </a>
-   <!--TARGET-->
-   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-    <span class="navbar-toggler-icon">
-    </span>
-   </button>
-   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-     <li class="nav-item">
-      <a class="nav-link" href="../../.." style="font-weight:bold;">
-       Home
-      </a>
-      <!--TARGET-->
-     </li>
-     <li class="nav-item active">
-      <a class="nav-link" href="../../" style="font-weight:bold;">
-       Blog
-       <span class="sr-only">
-        (current)
-       </span>
-      </a>
-      <!--TARGET-->
-     </li>
-     <li class="nav-item">
-      <a class="nav-link" href="../../../about" style="font-weight:bold;">
-       About
-      </a>
-      <!--TARGET-->
-     </li>
-    </ul>
-   </div>
-   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-     <li class="nav-item">
-      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
-       <i class="fab fa-github fa-lg">
-       </i>
-      </a>
-     </li>
-     <li class="nav-item">
-      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
-       <i class="fab fa-linkedin fa-lg">
-       </i>
-      </a>
-     </li>
-    </ul>
-   </div>
-  </nav>
-  <!-- End of navigation bar -->
-  <div class="container post_body">
-   <div class="row post_struct">
-    <div class="col-ld-12">
+<html lang='pt'>
+	<head>
 
-			<div class="head_container">
-				<img src="./cover_image.png" class="head_image" style="opacity:0.3;">
-				<div class="head_middle">
-					<div class="head_text"><b>Perlin Noise</b></div>
+		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>Perlin Noise</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../css/style.css"> <!--TARGET-->
+		<link rel="stylesheet" href="../../../css/pygments.css"> <!--TARGET-->
+
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="sketch.js"></script>
+
+	</head>
+
+	<body>
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a><!--TARGET-->
+ 
+					</li>
+					<li class="nav-item nav-blog active">
+						<a class="nav-link" href="../../" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../gallery" style="font-weight:bold;">Gallery </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a><!--TARGET-->
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		
+		<div class="head_container">
+			<img src="./cover_image.png" class="head_image no_blur">
+			<div class="head_middle">
+				<div class="head_text"><b>Perlin Noise</b></div>
+			</div>
+		</div>
+
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+
+					<p>Random events are present in many physical systems, and create several intriguing behaviors and patterns</p>
+					<img src="collage.jpg" alt="Nature Random Paterns", class="img_format">
+
+					<!-- TOC -->
+ <table class="TOC">
+  <tr><th>Contents</th></tr>
+	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+	<tr><td><a href="#RNN">1. Recurrent Neural Networks</a></td></tr>
+	<tr><td><a href="#LSTM">2. Long Short Term Memory</a>	</td></tr>
+	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
+</table> 
+<br></br>
+					<a name="INTRO"></a>
+					<h2 class="section">1. Introduction</h2>
+					<p>
+					<p>As we discussed in another post ..., randomness is present all throughout nature and is vastly studied to this day. But the patters we observe by plotting random colors in a picture is very different from what we observe in real world systems</p>
+
+				<div class="row">
+					<div class="col">
+						<figure>
+							<img src="random_noise.jpg" alt="Random Noise" class='img_format'>
+							<figcaption>Random noise</figcaption>
+						</figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="dry_paint.jpeg" alt="Dry paint" class='img_format'>
+							<figcaption>Pattern observed in nature.</figcaption>
+						<figure>
+					</div>
+				</div>
+				<p>The different is very visible, but what is it? It seems that 'real' patterns have a continuous feel to its randomness, while our random patter is discontinuous. Now the question that remains is how to generate continuous,(therefore differenciable) but still random, sequences. In the 80s Ken Perlin faced this challenge when he was trying to make realistic textures to the (good but very aged) movie Tron. The movie received an Oscar for especial effects in part to his algorithm, which we will take a closer look now. To build a function with random values but that is still continues he generated a grid of discrete values and then interpolated then with a function. Of course his grid of random numbers and interpolation technique have produce good properties (computationally efficient, well behaved derivative, ...). If you wish to read Perlin article about his method in detail, why not read his original article at .... (He published many articles about this until he came with the final algorithm). This schema to build a noise function is fairly simple, so we might as well build our own noise function. A worthwhile read about this topic can be found in the <a href="https://thebookofshaders.com/11/" target='_'>Book of Shaders</a>, which has some very nice ideas for possible visualizations of noise.</p>
+
+				<div class="row">
+					<div class="col">
+						<figure>
+							<img src="neg_plot.png" alt="Random Noise" class='img_format'>
+							<figcaption>\(1D\) Perlin noise function.</figcaption>
+						</figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="tron.jpg" alt="Scene from 'Tron'" class='img_format'>
+							<figcaption>Tron (1982).</figcaption>
+						</figure>
+					</div>
+				</div>
+
+				<p>As the number of possible applications is almost infinite (a funny expression as nothing is truly 'almost infinite'), we will start with a classical one: generating a force field where the direction of the forces are generated via a noise function. Writing a step by step implementation would be very dull to write (and almost lethally boring to read) so I will just describe the key insights and refer to Daniel Shiffman <a href='https://www.youtube.com/watch?v=BjoM9oKOAKY' target='_'>excellent video</a>  (his entire Youtube channel is amazing and a must see for all code enthusiasts)</p>
+				<p>To visualize the field one might plot the usual arrow stream that consists of basically putting an arrow to represent the field in each point of a grid. But a far more beautiful way to visualize the effects of such a field is to generate particles that are subjected to the forces and plot their trajectory. The most 'logical' way to implement this is to create a <code>Particle()</code> generator function (or class if you wish), that generates a particle objects (in JavaScript a prototype object of the class, in python and most decent programming languages a instance of the class). There are many ways to implement the force field, I just set the module of all forces to 1 and generated a random direction via a noise function (not in a \(2\pi\) range to give a "global direction" to the field). Here is the code for the generator function (one of many ways of doing this in JS):</p> 	
+<br></br>
+<pre>
+{% include 'particle_code.js' %}
+</pre>
+				<p>Each particle holds its current and previous positions and at each step we pot a line between then. Here is the final result</p>
+					<p><span class='alert'>Click on the panel bellow to start/stop the simulation.</span> (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)</p>
+					<div class = 'sketch-holder' id="perlin_field"></div>
+					<p>I experimented with some ideas that I had, like adding a central potential to the field (achieving orbits is quite impossible without cheating (adding radial noise that don't affect the circular motion) and sowing only regions where the noise function is bigger than a given threshold (I presume that some video game use this method or some variant to generate maps. If not I just gave you a nice idea for a game).</p>
+					<p><span class='alert'>Click on the panels bellow to start/stop the simulation.</span> (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)</p>
+
+					<div class="row">
+						<div class="col">
+							<div class = 'sketch-holder' id="perlin_alt"></div>
+						</div>
+						<div class="col">
+							<div class = 'sketch-holder' id="ink"></div>
+						</div>
+					</div>
+
+					<p>I hope you liked it! There are many other interesting visualisations that can be achieved using a simple noise function. In the future I'll try to generate terrain with Perlin noise and see if we can make the classical vaporwave sunset that we all know and love. Until the next time, bye :D</p>
+
+					<p>Full code:</p>
+<pre>
+{% include 'sketch.js' %}
+</pre>
+
 				</div>
 			</div>
-
-     <p>
-      Random events are present in many physical systems, and create several intriguing behaviors and patterns
-     </p>
-     <img ,="" alt="Nature Random Paterns" class="img_format" src="collage.jpg"/>
-     <p>
-      As we discussed in another post ..., randomness is present all throughout nature and is vastly studied to this day. But the patters we observe by plotting random colors in a picture is very different from what we observe in real world systems
-     </p>
-     <div class="row">
-      <div class="col">
-       <figure>
-        <img alt="Random Noise" class="img_format" src="random_noise.jpg"/>
-        <figcaption>
-         Random noise
-        </figcaption>
-       </figure>
-      </div>
-      <div class="col">
-       <figure>
-        <img alt="Dry paint" class="img_format" src="dry_paint.jpeg"/>
-        <figcaption>
-         Pattern observed in nature.
-        </figcaption>
-        <figure>
-        </figure>
-       </figure>
-      </div>
-     </div>
-     <p>
-      The different is very visible, but what is it? It seems that 'real' patterns have a continuous feel to its randomness, while our random patter is discontinuous. Now the question that remains is how to generate continuous,(therefore differenciable) but still random, sequences. In the 80s Ken Perlin faced this challenge when he was trying to make realistic textures to the (good but very aged) movie Tron. The movie received an Oscar for especial effects in part to his algorithm, which we will take a closer look now. To build a function with random values but that is still continues he generated a grid of discrete values and then interpolated then with a function. Of course his grid of random numbers and interpolation technique have produce good properties (computationally efficient, well behaved derivative, ...). If you wish to read Perlin article about his method in detail, why not read his original article at .... (He published many articles about this until he came with the final algorithm). This schema to build a noise function is fairly simple, so we might as well build our own noise function. A worthwhile read about this topic can be found in the
-      <a href="https://thebookofshaders.com/11/" target="_">
-       Book of Shaders
-      </a>
-      , which has some very nice ideas for possible visualizations of noise.
-     </p>
-     <div class="row">
-      <div class="col">
-       <figure>
-        <img alt="Random Noise" class="img_format" src="neg_plot.png"/>
-        <figcaption>
-         \(1D\) Perlin noise function.
-        </figcaption>
-       </figure>
-      </div>
-      <div class="col">
-       <figure>
-        <img alt="Scene from 'Tron'" class="img_format" src="tron.jpg"/>
-        <figcaption>
-         Tron (1982).
-        </figcaption>
-       </figure>
-      </div>
-     </div>
-     <p>
-      As the number of possible applications is almost infinite (a funny expression as nothing is truly 'almost infinite'), we will start with a classical one: generating a force field where the direction of the forces are generated via a noise function. Writing a step by step implementation would be very dull to write (and almost lethally boring to read) so I will just describe the key insights and refer to Daniel Shiffman
-      <a href="https://www.youtube.com/watch?v=BjoM9oKOAKY" target="_">
-       excellent video
-      </a>
-      (his entire Youtube channel is amazing and a must see for all code enthusiasts)
-     </p>
-     <p>
-      To visualize the field one might plot the usual arrow stream that consists of basically putting an arrow to represent the field in each point of a grid. But a far more beautiful way to visualize the effects of such a field is to generate particles that are subjected to the forces and plot their trajectory. The most 'logical' way to implement this is to create a
-      <code>
-       Particle()
-      </code>
-      generator function (or class if you wish), that generates a particle objects (in JavaScript a prototype object of the class, in python and most decent programming languages a instance of the class). There are many ways to implement the force field, I just set the module of all forces to 1 and generated a random direction via a noise function (not in a \(2\pi\) range to give a "global direction" to the field). Here is the code for the generator function (one of many ways of doing this in JS):
-     </p>
-     <br/>
-     <div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">Particle</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w"> </span><span class="c1">Constructor</span><span class="w"> </span><span class="c1">function</span><span class="w"> </span><span class="c1">for</span><span class="w"> </span><span class="c1">particles.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w"> </span><span class="c1">Parameters:</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">pos</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">current</span><span class="w"> </span><span class="c1">position.</span><span class="w"> </span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">last_pos:</span><span class="w"> </span><span class="c1">last</span><span class="w"> </span><span class="c1">position.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">vel:</span><span class="w"> </span><span class="c1">velocity</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">acc</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">acceleration</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">max_vel:</span><span class="w"> </span><span class="c1">velocity</span><span class="w"> </span><span class="c1">cap.</span><span class="w"> </span><span class="c1">There</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">no</span><span class="w"> </span><span class="c1">dissipation</span><span class="w"> </span><span class="c1">so</span><span class="w"> </span><span class="c1">this</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">vital</span><span class="w"> </span><span class="c1">so</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">speed</span><span class="w"> </span><span class="c1">doesn&#39;t</span><span class="w"> </span><span class="c1">just</span><span class="w"> </span><span class="c1">increase</span><span class="w"> </span><span class="c1">indefinitely.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">External</span><span class="w"> </span><span class="c1">GLOBAL</span><span class="w"> </span><span class="c1">variables:</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">   </span><span class="c1">scl:</span><span class="w"> </span><span class="c1">Scale</span><span class="w"> </span><span class="c1">of</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">canvas.</span><span class="w"> </span><span class="c1">The</span><span class="w"> </span><span class="c1">canvas</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">divided</span><span class="w"> </span><span class="c1">into</span><span class="w"> </span><span class="c1">sectors</span><span class="w"> </span><span class="c1">of</span><span class="w"> </span><span class="c1">dimension</span><span class="w"> </span><span class="c1">scl*scl.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">methods:</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">update:</span><span class="w"> </span><span class="c1">Updates</span><span class="w"> </span><span class="c1">IN</span><span class="w"> </span><span class="c1">ORDER:</span><span class="w"> </span><span class="c1">vel,</span><span class="w"> </span><span class="c1">pos,</span><span class="w"> </span><span class="c1">acc.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">applyForce:</span><span class="w"> </span><span class="c1">Apply</span><span class="w"> </span><span class="c1">an</span><span class="w"> </span><span class="c1">external</span><span class="w"> </span><span class="c1">force.</span><span class="w"> </span><span class="c1">Basically</span><span class="w"> </span><span class="c1">updates</span><span class="w"> </span><span class="c1">acc.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">follow:</span><span class="w"> </span><span class="c1">Determines</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">position</span><span class="w"> </span><span class="c1">in</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">force</span><span class="w"> </span><span class="c1">field</span><span class="w"> </span><span class="c1">and</span><span class="w"> </span><span class="c1">applies</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">local</span><span class="w"> </span><span class="c1">force.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">edges:</span><span class="w"> </span><span class="c1">Apllies</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">boundary</span><span class="w"> </span><span class="c1">conditions</span><span class="w"> </span><span class="c1">(spherical)</span><span class="w"> </span><span class="c1">updating</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">pos</span><span class="w"> </span><span class="c1">and</span><span class="w"> </span><span class="c1">last_pos</span><span class="w"> </span><span class="c1">variables</span><span class="w"> </span><span class="c1">accordingly.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">show:</span><span class="w"> </span><span class="c1">Draws</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">path</span><span class="w"> </span><span class="c1">of</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">particle</span><span class="w"> </span><span class="c1">in</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">canvas.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createVector</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="nx">width</span><span class="p">),</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="nx">height</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"> </span><span class="c1">//Used</span><span class="w"> </span><span class="c1">in</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">show()</span><span class="w"> </span><span class="c1">function</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p5</span><span class="p">.</span><span class="nx">Vector</span><span class="p">.</span><span class="nx">random2D</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">max_vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">If</span><span class="w"> </span><span class="c1">not</span><span class="w"> </span><span class="c1">capped</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">speed</span><span class="w"> </span><span class="c1">only</span><span class="w"> </span><span class="c1">increases</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Updates</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">velocity,</span><span class="w"> </span><span class="c1">position</span><span class="w"> </span><span class="c1">and</span><span class="w"> </span><span class="c1">then</span><span class="w"> </span><span class="c1">acceleration</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">max_vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">applyForce</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">force</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Future</span><span class="w"> </span><span class="c1">proof.</span><span class="w"> </span><span class="c1">Could</span><span class="w"> </span><span class="c1">just</span><span class="w"> </span><span class="c1">be</span><span class="w"> </span><span class="c1">an</span><span class="w"> </span><span class="c1">inline</span><span class="w"> </span><span class="c1">function.</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">force</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">follow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">vectors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Follows</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">force</span><span class="w"> </span><span class="c1">field</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">/</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">/</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vectors</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">applyForce</span><span class="p">(</span><span class="nx">force</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">edges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Boundary</span><span class="w"> </span><span class="c1">conditions</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">height</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">width</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">width</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">height</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">height</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Prints</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">last</span><span class="w"> </span><span class="c1">trajectory</span><span class="w"> </span><span class="c1">(a</span><span class="w"> </span><span class="c1">line</span><span class="w"> </span><span class="c1">between</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">current</span><span class="w"></span>
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">position</span><span class="w"> </span><span class="c1">and</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">previous)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">stroke</span><span class="p">(</span><span class="nx">clr</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">line</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-</pre></div>
-     <p>
-      Each particle holds its current and previous positions and at each step we pot a line between then. Here is the final result
-     </p>
-     <p>
-      <span class="alert">
-       Click on the panel bellow to start/stop the simulation.
-      </span>
-      (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)
-     </p>
-     <div class="sketch-holder" id="perlin_field">
-     </div>
-     <p>
-      I experimented with some ideas that I had, like adding a central potential to the field (achieving orbits is quite impossible without cheating (adding radial noise that don't affect the circular motion) and sowing only regions where the noise function is bigger than a given threshold (I presume that some video game use this method or some variant to generate maps. If not I just gave you a nice idea for a game).
-     </p>
-     <p>
-      <span class="alert">
-       Click on the panels bellow to start/stop the simulation.
-      </span>
-      (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)
-     </p>
-     <div class="row">
-      <div class="col">
-       <div class="sketch-holder" id="perlin_alt">
-       </div>
-      </div>
-      <div class="col">
-       <div class="sketch-holder" id="ink">
-       </div>
-      </div>
-     </div>
-     <p>
-      I hope you liked it! There are many other interesting visualisations that can be achieved using a simple noise function. In the future I'll try to generate terrain with Perlin noise and see if we can make the classical vaporwave sunset that we all know and love. Until the next time, bye :D
-     </p>
-     <p>
-      Full code:
-     </p>
-     <div class="highlight"><pre><span></span><span class="cm">/*</span><span class="w"></span>
-<span class="cm">var</span><span class="w"> </span><span class="cm">s</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">function(</span><span class="w"> </span><span class="cm">p</span><span class="w"> </span><span class="cm">)</span><span class="w"> </span><span class="cm">{</span><span class="w"></span>
-<span class="w">  </span><span class="cm">var</span><span class="w"> </span><span class="cm">scl</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">5;</span><span class="w"></span>
-<span class="w">  </span><span class="cm">var</span><span class="w"> </span><span class="cm">rows,</span><span class="w"> </span><span class="cm">cols;</span><span class="w"></span>
-
-<span class="w">  </span><span class="cm">p.setup</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">function()</span><span class="w"> </span><span class="cm">{</span><span class="w"></span>
-<span class="w">    </span><span class="cm">var</span><span class="w"> </span><span class="cm">myWidth</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">document.getElementById(&quot;random_2d&quot;).offsetWidth;</span><span class="w"></span>
-<span class="w">    </span><span class="cm">let</span><span class="w"> </span><span class="cm">c</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">p.createCanvas(myWidth,</span><span class="w"> </span><span class="cm">200);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">rows</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">p.height</span><span class="w"> </span><span class="cm">/</span><span class="w"> </span><span class="cm">scl;</span><span class="w"></span>
-<span class="w">    </span><span class="cm">cols</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">p.width</span><span class="w"> </span><span class="cm">/</span><span class="w"> </span><span class="cm">scl;</span><span class="w"></span>
-<span class="w">    </span><span class="cm">p.saveCanvas(c,</span><span class="w"> </span><span class="cm">&#39;random_noise&#39;,</span><span class="w"> </span><span class="cm">&#39;jpg&#39;);</span><span class="w"></span>
-<span class="w">  </span><span class="cm">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="cm">p.draw</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">function()</span><span class="w"> </span><span class="cm">{</span><span class="w"></span>
-<span class="w">    </span><span class="cm">for(var</span><span class="w"> </span><span class="cm">y</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">0;</span><span class="w"> </span><span class="cm">y</span><span class="w"> </span><span class="cm">&lt;</span><span class="w"> </span><span class="cm">rows;</span><span class="w"> </span><span class="cm">y++)</span><span class="w"> </span><span class="cm">{</span><span class="w"></span>
-<span class="w">      </span><span class="cm">for(var</span><span class="w"> </span><span class="cm">x</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">0;</span><span class="w"> </span><span class="cm">x</span><span class="w"> </span><span class="cm">&lt;</span><span class="w"> </span><span class="cm">cols;</span><span class="w"> </span><span class="cm">x++){</span><span class="w"></span>
-<span class="w">        </span><span class="cm">var</span><span class="w"> </span><span class="cm">r</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">p.random()</span><span class="w"> </span><span class="cm">*</span><span class="w"> </span><span class="cm">255;</span><span class="w"></span>
-<span class="w">        </span><span class="cm">p.fill(r);</span><span class="w"></span>
-<span class="w">        </span><span class="cm">p.stroke(0)</span><span class="w"></span>
-<span class="w">        </span><span class="cm">p.rect(x</span><span class="w"> </span><span class="cm">*</span><span class="w"> </span><span class="cm">scl,</span><span class="w"> </span><span class="cm">y</span><span class="w"> </span><span class="cm">*</span><span class="w"> </span><span class="cm">scl,</span><span class="w"> </span><span class="cm">scl,</span><span class="w"> </span><span class="cm">scl);</span><span class="w"></span>
-<span class="w">      </span><span class="cm">}</span><span class="w"></span>
-<span class="w">    </span><span class="cm">}</span><span class="w"></span>
-<span class="w">    </span><span class="cm">if(</span><span class="w"> </span><span class="cm">p.frameCount</span><span class="w"> </span><span class="cm">&gt;</span><span class="w"> </span><span class="cm">1)</span><span class="w"></span>
-<span class="w">      </span><span class="cm">p.noLoop();</span><span class="w"></span>
-<span class="w">  </span><span class="cm">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="cm">p.windowResized</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">function()</span><span class="w"> </span><span class="cm">{</span><span class="w"></span>
-<span class="w">    </span><span class="cm">mwidth</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">document.getElementById(&quot;random_2d&quot;).offsetWidth;</span><span class="w"></span>
-<span class="w">    </span><span class="cm">scl</span><span class="w"> </span><span class="cm">*=</span><span class="w"> </span><span class="cm">(mwidth</span><span class="w"> </span><span class="cm">/</span><span class="w"> </span><span class="cm">p.width);</span><span class="w"> </span><span class="cm">//</span><span class="w"> </span><span class="cm">Resizing</span><span class="w"> </span><span class="cm">the</span><span class="w"> </span><span class="cm">scale</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">p.resizeCanvas(mwidth,</span><span class="w"> </span><span class="cm">p.height);</span><span class="w"></span>
-<span class="w">  </span><span class="cm">};</span><span class="w"></span>
-<span class="cm">}</span><span class="w"></span>
-<span class="cm">var</span><span class="w"> </span><span class="cm">myp51</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">new</span><span class="w"> </span><span class="cm">p5(s,</span><span class="w"> </span><span class="cm">&#39;random_2d&#39;);</span><span class="w"></span>
-<span class="cm">*/</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="c1">//scale</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">inc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">zoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">running</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">clr</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">particles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">flowfield</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;perlin_field&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="mi">400</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">52</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">232</span><span class="p">,</span><span class="w"> </span><span class="mi">226</span><span class="p">,</span><span class="w"> </span><span class="mi">136</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">800</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nx">Particle</span><span class="p">());</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">flowfield</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nb">Array</span><span class="p">(</span><span class="nx">cols</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">rows</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">yoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rows</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">xoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">xoff</span><span class="p">,</span><span class="w"> </span><span class="nx">yoff</span><span class="p">,</span><span class="w"> </span><span class="nx">zoff</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">TWO_PI</span><span class="p">;</span><span class="w"> </span><span class="c1">//Try</span><span class="w"> </span><span class="c1">2</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p5</span><span class="p">.</span><span class="nx">Vector</span><span class="p">.</span><span class="nx">fromAngle</span><span class="p">(</span><span class="nx">angle</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="nx">v</span><span class="p">.</span><span class="nx">setMag</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="w"></span>
-<span class="w">        </span><span class="nx">flowfield</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">v</span><span class="w"></span>
-
-<span class="w">        </span><span class="nx">xoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">inc</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="nx">yoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">inc</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="nx">zoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.001</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">follow</span><span class="p">(</span><span class="nx">flowfield</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">();</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">();</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">edges</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">mwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;perlin_field&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scl</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">);</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Resizing</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">scale</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">pos</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">52</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">Particle</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">),</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p5</span><span class="p">.</span><span class="nx">Vector</span><span class="p">.</span><span class="nx">random2D</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">max_vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">max_vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">applyForce</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">force</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">force</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">follow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">vectors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">/</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">/</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vectors</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">applyForce</span><span class="p">(</span><span class="nx">force</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">edges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="nx">clr</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">line</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w">  </span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">mousePressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Check</span><span class="w"> </span><span class="c1">if</span><span class="w"> </span><span class="c1">mouse</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">inside</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">circle</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="nx">running</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">loop</span><span class="p">();</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp53</span><span class="p">.</span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp53</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp54</span><span class="p">.</span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp54</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="c1">//console.log(&quot;PARTICLES</span><span class="w"> </span><span class="c1">running&quot;)</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">();</span><span class="w"></span>
-<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="c1">//console.log(&quot;PARTICLES</span><span class="w"> </span><span class="c1">stoped&quot;)</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="p">}</span><span class="w"></span>
-<span class="kd">var</span><span class="w"> </span><span class="nx">myp52</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;perlin_field&#39;</span><span class="p">);</span><span class="w"></span>
-
-<span class="c1">//</span><span class="w"> </span><span class="c1">#######################################################</span><span class="w"></span>
-<span class="c1">//</span><span class="w"> </span><span class="c1">#######################################################</span><span class="w"></span>
-<span class="c1">//</span><span class="w"> </span><span class="c1">#######################################################</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="c1">//scale</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">inc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">zoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">running</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">fr</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">particles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">flowfield</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">externalField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;perlin_alt&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">600</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">600</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="mi">400</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">400</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nx">Particle</span><span class="p">());</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">flowfield</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nb">Array</span><span class="p">(</span><span class="nx">cols</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">rows</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">externalField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nb">Array</span><span class="p">(</span><span class="nx">cols</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">rows</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rows</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">).</span><span class="nx">mult</span><span class="p">(</span><span class="nx">scl</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">toCenter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">center</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span>
-<span class="w">        </span><span class="nx">toCenter</span><span class="p">.</span><span class="nx">setMag</span><span class="p">(</span><span class="w"> </span><span class="nx">toCenter</span><span class="p">.</span><span class="nx">magSq</span><span class="p">()</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="nx">toCenter</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="w"> </span><span class="mf">0.000025</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="nx">externalField</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">toCenter</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">yoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rows</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">xoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">xoff</span><span class="p">,</span><span class="w"> </span><span class="nx">yoff</span><span class="p">,</span><span class="w"> </span><span class="nx">zoff</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">TWO_PI</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p5</span><span class="p">.</span><span class="nx">Vector</span><span class="p">.</span><span class="nx">fromAngle</span><span class="p">(</span><span class="nx">angle</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="nx">v</span><span class="p">.</span><span class="nx">setMag</span><span class="p">(</span><span class="mf">0.1</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="w"></span>
-<span class="w">        </span><span class="nx">flowfield</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">v</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="w"> </span><span class="nx">externalField</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-
-<span class="w">        </span><span class="nx">xoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">inc</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="nx">yoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">inc</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="nx">zoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.001</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">follow</span><span class="p">(</span><span class="nx">flowfield</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">();</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">mwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;perlin_alt&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scl</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">);</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Resizing</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">scale</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">pos</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">Particle</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//this.pos</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">p.createVector(p.random(p.width),</span><span class="w"> </span><span class="c1">p.random(p.height));</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="w"> </span><span class="nx">p5</span><span class="p">.</span><span class="nx">Vector</span><span class="p">.</span><span class="nx">random2D</span><span class="p">().</span><span class="nx">setMag</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">),</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">toCenter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">center</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">toCenter</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">PI</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">setMag</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">max_vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">max_vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">applyForce</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">force</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">force</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">follow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">vectors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">/</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">/</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vectors</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">applyForce</span><span class="p">(</span><span class="nx">force</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">strokeWeight</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="s1">&#39;#ff5323&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">line</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w">  </span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">mousePressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Check</span><span class="w"> </span><span class="c1">if</span><span class="w"> </span><span class="c1">mouse</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">inside</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">circle</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="nx">running</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">loop</span><span class="p">();</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp52</span><span class="p">.</span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp52</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp54</span><span class="p">.</span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp54</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;CIRCLE</span><span class="w"> </span><span class="s2">running&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">();</span><span class="w"></span>
-<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;CIRCLE</span><span class="w"> </span><span class="s2">stopped&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="k">else</span><span class="w"></span>
-<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;CIRCLE</span><span class="w"> </span><span class="s2">not</span><span class="w"> </span><span class="s2">within</span><span class="w"> </span><span class="s2">X</span><span class="w"> </span><span class="s2">border&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="k">else</span><span class="w"></span>
-<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;CIRCLE</span><span class="w"> </span><span class="s2">not</span><span class="w"> </span><span class="s2">within</span><span class="w"> </span><span class="s2">Y</span><span class="w"> </span><span class="s2">border&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="kd">var</span><span class="w"> </span><span class="nx">myp53</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;perlin_alt&#39;</span><span class="p">);</span><span class="w"></span>
-
-
-<span class="c1">//</span><span class="w"> </span><span class="c1">#######################################################</span><span class="w"></span>
-<span class="c1">//</span><span class="w"> </span><span class="c1">#######################################################</span><span class="w"></span>
-<span class="c1">//</span><span class="w"> </span><span class="c1">#######################################################</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">zoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">inc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">sites</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">clr</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;ink&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">600</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">600</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="mi">400</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">52</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">186</span><span class="p">,</span><span class="w"> </span><span class="mi">91</span><span class="p">,</span><span class="w"> </span><span class="mi">129</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">sites</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nb">Array</span><span class="p">(</span><span class="nx">cols</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">rows</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">cols</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">rows</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">sites</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">noStroke</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">yoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">zoff</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rows</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="nx">xoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">zoff</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">cols</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">xoff</span><span class="p">,</span><span class="w"> </span><span class="nx">yoff</span><span class="p">,</span><span class="w"> </span><span class="nx">zoff</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">cols</span><span class="w"></span>
-
-<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.4</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">sites</span><span class="p">[</span><span class="nx">index</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nx">sites</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">52</span><span class="p">);</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">.</span><span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">scl</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">scl</span><span class="p">,</span><span class="w"> </span><span class="nx">scl</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nx">scl</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="nx">sites</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nx">sites</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="nx">clr</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">.</span><span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">scl</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">scl</span><span class="p">,</span><span class="w"> </span><span class="nx">scl</span><span class="p">,</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="nx">xoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">inc</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="nx">yoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">inc</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">zoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.01</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="c1">//yoff</span><span class="w"> </span><span class="c1">+=</span><span class="w"> </span><span class="c1">inc;</span><span class="w"></span>
-<span class="w">  </span><span class="c1">//zoff</span><span class="w"> </span><span class="c1">+=</span><span class="w"> </span><span class="c1">0.001;</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">mwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;ink&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scl</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">);</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Resizing</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">scale</span><span class="w"></span>
-<span class="w">    </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">mousePressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Check</span><span class="w"> </span><span class="c1">if</span><span class="w"> </span><span class="c1">mouse</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">inside</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">circle</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="nx">running</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">loop</span><span class="p">();</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp52</span><span class="p">.</span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp52</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp53</span><span class="p">.</span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="nx">myp53</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">();</span><span class="w"></span>
-<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="kd">var</span><span class="w"> </span><span class="nx">myp54</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ink&#39;</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-    </div>
-   </div>
-  </div>
-  <hr/>
-  <script src="../../../js/script.js">
-  </script>
-  <!--TARGET-->
-  <!-- Bootstrap + JQuery -->
-  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
-  </script>
-  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
-  </script>
-  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
-  </script>
-  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
-  </script>
-  <!-- mathjax -->
-  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
-  </script>
-  <script>
-   MathJax = {
+		</div>
+
+		<hr/>
+		<script src="../../../js/script.js"> </script><!--TARGET-->
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+
+    <!-- mathjax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      MathJax = {
         tex: {
           inlineMath: [['$', '$'], ['\\(', '\\)']]
         },
@@ -742,6 +172,7 @@
           fontCache: 'global'
         }
       };
-  </script>
- </body>
+    </script>
+
+	</body>
 </html>

@@ -40,7 +40,7 @@
 
 	<body>
 		<!-- Navigation bar -->
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
 			<a class="navbar-brand" href="../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -51,8 +51,11 @@
 						<a class="nav-link" href="../.." style="font-weight:bold;">Home</a><!--TARGET-->
  
 					</li>
-					<li class="nav-item active">
+					<li class="nav-item nav-blog active">
 						<a class="nav-link" href="../../blog" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../gallery/" style="font-weight:bold;">Gallery </a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../../about" style="font-weight:bold;">About</a><!--TARGET-->
@@ -71,22 +74,27 @@
 			</div>
 		</nav>
 		<!-- End of navigation bar -->
-		
+		<div class="head_container">
+			<img src="./cover_image.png" class="head_image no_blur">
+			<div class="head_middle">
+				<div class="head_text"><b>Long Short-Term Memory</b></div>
+			</div>
+		</div>
+
 		<div class="container post_body">
 			<div class="row post_struct">
 				<div class="col-ld-12">
-					<div class="head_container">
-						<img src="./cover_image.png" class="head_image no_blur">
-						<div class="head_middle">
-							<div class="head_text"><b>Long Short-Term Memory</b></div>
-						</div>
-					</div>
-
-					<p> In this post we will tackle the task of time series forecasting with <b>Long Short-Term Memory (LSTM)</b> neural networks using the "Historical Hourly Weather Data 2012-2017" dataset. The task of predicting the weather is a challenging one, more so without using any specific models or insights from know meteorological models, but we will try to approach this problem armed only with machine learning! </p>
+					<p> 
+						In this post we will tackle the task of time series forecasting with <b>Long Short-Term Memory (LSTM)</b> networks using the $``$<a href="https://www.kaggle.com/selfishgene/historical-hourly-weather-data" target="_blank">Historical Hourly Weather Data 2012-2017</a>$"$ dataset. Time series usually involve several complex mechanics that result in patterns that are  Weather prediction is not an easy thing to do  more so without using any specific models or insights from know meteorological models, but we will try to approach this problem armed only with machine learning! 
+					</p>
+					<p>
+					The theoretical part of this text is heavily inspired by <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank">Colah's excellent blog post</a> and <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb" target="_blank">Chapter 10 of the Deep Learning Book</a> with the objective of combining then, providing an intermediate view and hopefully adding further insights where needed. The second part of this post will be dedicated to the implementation of the ideas we have discussed in python using the <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb" target='_'>sklearn</a> library.
+					</p>
 
 					<!-- TOC -->
  <table class="TOC">
   <tr><th>Contents</th></tr>
+	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
 	<tr><td><a href="#RNN">1. Recurrent Neural Networks</a></td></tr>
 	<tr><td><a href="#LSTM">2. Long Short Term Memory</a>	</td></tr>
 	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
@@ -94,15 +102,23 @@
 <br></br>
 
 					<!-- Intro -->
-					<a name="RNN"></a>
-					<h2 class="section">1. Recurrent Neural Networks</h2>
+					<a name="INTRO"></a>
+					<h2 class="section">1. Introduction</h2>
+					<p>
+					Predicting the temporal behavior of a system can be very challenging even if there are few simple mechanics involved, and this is usually not the case as most things in real life are product of the interaction between several complex mechanics. These mechanics usually 
+					</p>
 					<p>Our objective will be to build a model that is able to predict the future elements of a given sequence $x_0, x_1, \dots, x_t$. The first instinct might be to use a "traditional" neural network with sequential fully connected layers such as this:</p>
 					<div class="sketch-holder" id="c1"></div><br>
 					<!--NN scheme-->
 
 					<p>While effective this type of architecture does not exploit the sequential structure of the data and thus yields poor generalization. The key feature that these networks miss is some sort of "memory". Indeed, at step $t$ the state $h_t$ of a neuron in the hidden layer can be written as:
 					$$h_t = f( \vec{w}_t . \vec{x}_t),$$
-					where $\vec{w}_t$ are weights (bias is omitted for simplicity) and $f$ a generic activation function. There is no explicit dependence on the "historic" of the data, as they only affect the way the weights are trained (thus being extremely sensible to the starting point of the data sequence). One way we can try to solve this limitation is by introducing an explicit dependence on the past state of the neuron:
+					where $\vec{w}_t$ are weights (bias is omitted for simplicity) and $f$ a generic activation function. There is no explicit dependence on the "historic" of the data, as they only affect the way the weights are trained (thus being extremely sensible to the starting point of the data sequence). 
+
+					<!-- Intro -->
+					<a name="RNN"></a>
+					<h2 class="section">2. Recurrent Neural Networks</h2>
+					One way we can try to solve this limitation is by introducing an explicit dependence on the past state of the neuron:
 					$$
 					h_t = f(\vec{w}_t . \vec{x}_t + \vec{u}_t . \vec{h}_{t-1}),
 					$$
@@ -113,13 +129,13 @@
 					<!-- Conclusion RNN -->
 					<p>Although "traditional" RNNs are quite powerful they have some limitations. While there is no theoretical limit to a RNN memory, practice shows that its hard to learn long term dependencies with (see <a href = "https://ieeexplore.ieee.org/document/279181" target="_">Bengio <i>et al</i></a>) as their effects are heavily "diluted" as the recurrence is iterated. This limitation arises from the recurrence itself as the network is as deep as the length of the sequence and thus the same weights are used several times. If we were dealing, for example, with a time series of 100 steps; the recurrence will apply the same weights $100$ times, thus the final state $h_{100}$ will depend on the weight matrix $ W^{100} $. The gradients (used in gradient descent) linked to eigenvalues slightly different than 1 will wither vanish or explode, thus making training a hard task. <b>LSTM</b> is one popular RNN model that tackles this problem and is specially built to deal with both long and short term dependencies.</p>
 					<!-- LTSM -->
-					<a name="LSTM"></a><h2 class="section">2. Long Short Term Memory</h2>
+					<a name="LSTM"></a><h2 class="section">3. Long Short Term Memory</h2>
 					<p>LSTM addresses the problem of long term memory by making several modifications to the vanilla RNN architecture. Indeed its structure is far more complex:</p>
 					<div class="sketch-holder" id="c3"></div>
-					<p>I cannot even dream of writing a better explanation on LSTMs than Colah in his amazing blog post, but I'll try to explain then in a different way.</p>
-
-					<p>The idea is to combine a short memory term with a long memory term
-					$$h_t = (``Short\ memory") \times (``Long\ memory") \equiv S_t + L_t.$$</p>
+					<p>
+					The idea is to add a $``$cell state$"$ that stores memory throughout the network. This cell state is only affected by some minor linear iterations and is responsible for carrying part of the memory of the network forward. We also add terms for both short memory and long memory in the hidden state:
+					$$h_t = (``Short\ memory") \times (``Long\ memory") \equiv S_t . L_t,$$
+					</p>
 					<p>The short memory term $S_t$ will only combine the input with the very last state of the cell. This short memory will be learned via a usual neural net layer with a $\sigma$ activation function.
 					$$S_t = \sigma ( w_s [h_{t-1}, x_t] + b_s ),$$
 					where $w_s$ and $b_s$ are the weights and bias of this layer.The $[,]$ is the concatenation operator. The long memory term $L_t$ will be responsible of carrying the memory of the cell, forgetting any currently held information (old information") and adding new information based on the current input and state. We can think of it like:</p>
@@ -138,7 +154,10 @@
 					\end{eqnarray*}$$
 					where all the $w$ are separate sets of weights and $b$ the biases that need to be learned. In order to "smoothly normalize" the long memory term (as it can exceed unity as its is the sum of two things that can be at maximum 1) the LSTM model applies a $tanh$ to it. This leads us to the final form of the state of the LSTM cell:
 					$$\boxed{h_t = S_t \tanh(L_t)}.$$</p>
-					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
+					<p>
+					Further modifications can be made to this scheme such as adding peepholes or update gates. These variations are explained in <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target='_'>Colah's post</a> in great detail and I highly recommend you check it out.Now we will focus on how we can use LSTM in python.
+					</p>
+					<a name="CODE"></a><h2 class="section">4. Implementation</h2>
 					{% include 'weather.html' %}
 				</div>
 			</div>

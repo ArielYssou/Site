@@ -1,611 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, intial-scale=1" name="viewport"/>
-  <!-- Name on tab -->
-  <title>
-   Rainy Night
-  </title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
-  <!-- Custom CSS -->
-  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
-  <link href="../../../css/style.css" rel="stylesheet"/>
-  <link href="../../../css/pygments.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
-  </script>
-  <!-- Custom p5js animations -->
-  <script src="rain.js">
-  </script>
-  <script src="tree.js">
-  </script>
-  <script src="sketch.js">
-  </script>
- </head>
- <body style="background-color:#42403b">
-  <!-- Navigation bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-   <a class="navbar-brand" href="../../.." style="font-weight:bold;">
-    Ariel Yssou
-   </a>
-   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-    <span class="navbar-toggler-icon">
-    </span>
-   </button>
-   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-     <li class="nav-item">
-      <a class="nav-link" href="../../.." style="font-weight:bold;">
-       Home
-      </a>
-     </li>
-     <li class="nav-item active">
-      <a class="nav-link" href="../.." style="font-weight:bold;">
-       Blog
-       <span class="sr-only">
-        (current)
-       </span>
-      </a>
-     </li>
-     <li class="nav-item">
-      <a class="nav-link" href="../../../about" style="font-weight:bold;">
-       About
-      </a>
-     </li>
-    </ul>
-   </div>
-   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-     <li class="nav-item">
-      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
-       <i class="fab fa-github fa-lg">
-       </i>
-      </a>
-     </li>
-     <li class="nav-item">
-      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
-       <i class="fab fa-linkedin fa-lg">
-       </i>
-      </a>
-     </li>
-    </ul>
-   </div>
-  </nav>
-  <!-- End of navigation bar -->
-  <div class="container post_body">
-   <div class="row post_struct">
-    <div class="col-ld-12">
-			<div class="head_container">
-				<img src="./cover_image.png" class="head_image" style='opacity:0.7;'>
-				<div class="head_middle">
-					<div class="head_text"><b>A Rainy Night</b></div>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>Rainy Night</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../css/style.css">
+		<link rel="stylesheet" href="../../../css/pygments.css">
+
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="rain.js"></script>
+		<script src="tree.js"></script>
+		<script src="sketch.js"></script>
+	</head>
+
+	<body style="background-color:#42403b">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a>
+					</li>
+					<li class="nav-item nav-blog active">
+						<a class="nav-link" href="../.." style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+					</li>
+				<li class="nav-item">
+						<a class="nav-link" href="../../gallery/" style="font-weight:bold;">Gallery </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a>
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		<div class="head_container">
+			<img src="./cover_image.png" class="head_image no_blur">
+			<div class="head_middle">
+				<div class="head_text"><b>A Rainy Night</b></div>
+			</div>
+		</div>	
+
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+
+					<p>In this project we simulate a relaxing windy rainy night using the <a href="https://p5js.org/" target="_blank" class="custom_link">p5.js</a> framework.</p>
+					<div class='sketch-holder' id='tree_rain'></div>
+					<!--<a href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank"><div id="sketch-holder"></div></a>-->
+<!-- TOC -->
+ <table class="TOC">
+  <tr><th>Contents</th></tr>
+	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+	<tr><td><a href="#THEORY">1. Theory</a></td></tr>
+	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
+</table> 
+<br></br>
+
+					<a name="INTRO"></a>
+					<h2 class="section">1. Introduction</h2>
+					<p>
+					<p>This is actually a combination of two smaller simulations with different dynamics: the tree and the rain. Lets start by the easiest, the rain.</p>
+					<p> The fist step is to make a droplet class, since the rain itself is just a collection of droplets of different sizes. The distribution of droplet sizes is very skewed and have a (relatively) small variance to its mean (there is a <a class="custom_link" href=' https://www.nature.com/articles/nphys1385?draft=collection&proof=true' target='_blank'>very interesting article in Nature about it</a>). Considering this we choose our rain drop sizes from a Gaussian distribution with a small variance.</p>
+					<p> We can add the notion of depth by introducing a third coordinate to all vectors and scale the droplets (and their dynamics since distances are warped by perspective) by this new coordinate. This will gives us a more realistic rain.</p>
+					<div class='sketch-holder' id='rain'></div>
+					<br></br>
+<pre>
+{% include 'rain.js' %}
+</pre>
+
+					<p>Now to the hard part, the tree. Modeling the dynamics of a tree can be very challenging indeed. As the book "Eurographics" say: "Whenever the mechanics become complex, ignore the complexity". Following the steps outlined in this book we can start building our model to the tree.</p>
+					<p>We can start by making some simplifications: Gravity does not contribute significantly to the dynamics, the density on the tree is uniform, there are no collisions between branches and leafs, the tree does not affect the wind flow. To make our task even easier lets model a pine tree, which has no subbranches or any complex substructure.</p>
+					<p>The full dynamics is really hard to describe analytically, so lets just consider the angular part of the dynamic. Considering everything we discussed so far we can list only three major forces that act on each segment of the tree: Wind, elasticity and dissipation (differences of normal forces between branch segments will be grouped in the elastic force for simplicity).</p>
+					<p>The wind will be generated using Perlin noise, and its torque will be just \(F_{wind}.\cos(\theta).\) Dissipation forces can be modeled simply by a constant times the linear speed of the branch segment \(F_{dis} = \gamma v\). The elastic force is not trivial, so I used some tricks. To avoid complicated algebra and reduce the computation complexity (always a good thing) I wrote a "angular elastic force" \(Fel = k\, \Delta\theta\), where all the complex stuff is hidden in the constant \(k\). The linear dependency with \(\Delta \theta\) is also an approximation. Since the tree is almost rigid at its basis and very elastic at its top, my first idea was to make \(k\) decrease via a power law with the height of the tree to simulate this behavior. To our happiness this gives a nice approximation (considering the project scope).</p>
+					<div class='sketch-holder' id='branch'></div>
+					<br></br>
+<pre>
+{% include 'tree.js' %}
+</pre>
+					<p>To wrap it up we join both simulations. I made some additional work to simulate the splashes of the rain and some leafs falling off the tree, but this is purely cosmetic. Since the tree foliage is triangular I made the falling leafs small triangles, but one could try to make then more realistic (though I think the end result is cute). </p>
+					<p>Here is the full code. There is much that can be improved in this small project but the final result is satisfying, at least to me.</p>
+
+<pre>
+{% include 'sketch.js' %}
+</pre>
+
 				</div>
 			</div>
-     <p>
-      In this project we simulate a relaxing windy rainy night using the
-      <a class="custom_link" href="https://p5js.org/" target="_blank">
-       p5.js
-      </a>
-      framework.
-     </p>
-     <div class="sketch-holder" id="tree_rain">
-     </div>
-     <!--<a href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank"><div id="sketch-holder"></div></a>-->
-     <p>
-      This is actually a combination of two smaller simulations with different dynamics: the tree and the rain. Lets start by the easiest, the rain.
-     </p>
-     <p>
-      The fist step is to make a droplet class, since the rain itself is just a collection of droplets of different sizes. The distribution of droplet sizes is very skewed and have a (relatively) small variance to its mean (there is a
-      <a class="custom_link" href=" https://www.nature.com/articles/nphys1385?draft=collection&proof=true" target="_blank">
-       very interesting article in Nature about it
-      </a>
-      ). Considering this we choose our rain drop sizes from a Gaussian distribution with a small variance.
-     </p>
-     <p>
-      We can add the notion of depth by introducing a third coordinate to all vectors and scale the droplets (and their dynamics since distances are warped by perspective) by this new coordinate. This will gives us a more realistic rain.
-     </p>
-     <div class="sketch-holder" id="rain">
-     </div>
-     <br/>
-     <div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">Droplet</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">mass</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">,</span><span class="w"> </span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">velx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mass</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="mi">600</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span><span class="w"></span>
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">mass</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">z</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">  </span><span class="c1">//drop.len</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">map(drop.mass,</span><span class="w"> </span><span class="c1">0,</span><span class="w"> </span><span class="c1">10,</span><span class="w"> </span><span class="c1">20,</span><span class="w"> </span><span class="c1">40);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">mass</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">wind</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">drop</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">250</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">wind</span><span class="w"> </span>
-<span class="w">    </span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">drop</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="nx">drop</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">vec</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">mass</span><span class="p">));</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">drop</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="mi">185</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//p.strokeWeight(p.map(drop.mass,</span><span class="w"> </span><span class="c1">0,</span><span class="w"> </span><span class="c1">10,</span><span class="w"> </span><span class="c1">0.5,</span><span class="w"> </span><span class="c1">2));</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">strokeWeight</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="nx">drop</span><span class="p">.</span><span class="nx">mass</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">line</span><span class="p">(</span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">drop</span><span class="p">.</span><span class="nx">len</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">drop</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kd">function</span><span class="w"> </span><span class="nx">Splash</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">velx</span><span class="p">,</span><span class="w"> </span><span class="nx">vely</span><span class="p">,</span><span class="w"> </span><span class="nx">accx</span><span class="p">,</span><span class="w"> </span><span class="nx">accy</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">part</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">  </span><span class="nx">part</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">part</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">velx</span><span class="p">,</span><span class="w"> </span><span class="nx">vely</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">part</span><span class="p">.</span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">accx</span><span class="p">,</span><span class="w"> </span><span class="nx">accy</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">part</span><span class="p">.</span><span class="nx">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">m</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">part</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">185</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">ellipse</span><span class="p">(</span><span class="nx">part</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">part</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">part</span><span class="p">.</span><span class="nx">m</span><span class="p">,</span><span class="w"> </span><span class="nx">part</span><span class="p">.</span><span class="nx">m</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">part</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">part</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">part</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">part</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">part</span><span class="p">.</span><span class="nx">acc</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">part</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kd">function</span><span class="w"> </span><span class="nx">Rain</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">drops</span><span class="p">,</span><span class="w"> </span><span class="nx">splash_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">rain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">drops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">drops</span><span class="w"></span>
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splash_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">splash_prob</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">drops</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"></span>
-<span class="w">      </span><span class="nx">Droplet</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"></span>
-<span class="w">        </span><span class="nx">rain</span><span class="p">.</span><span class="nx">grav</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nx">rain</span><span class="p">.</span><span class="nx">wind</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">(</span><span class="nx">wind</span><span class="p">);</span><span class="w"></span>
-
-
-<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">If</span><span class="w"> </span><span class="c1">rain</span><span class="w"> </span><span class="c1">has</span><span class="w"> </span><span class="c1">reached</span><span class="w"> </span><span class="c1">floor,</span><span class="w"> </span><span class="c1">create</span><span class="w"> </span><span class="c1">a</span><span class="w"> </span><span class="c1">new</span><span class="w"> </span><span class="c1">one</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Original</span><span class="w"> </span><span class="c1">drop</span><span class="w"></span>
-<span class="w">        </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Droplet</span><span class="p">(</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"></span>
-<span class="w">          </span><span class="nx">rain</span><span class="p">.</span><span class="nx">grav</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"></span>
-<span class="w">          </span><span class="nx">rain</span><span class="p">.</span><span class="nx">wind</span><span class="p">,</span><span class="w"></span>
-<span class="w">          </span><span class="nx">dp</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">x</span><span class="w"></span>
-<span class="w">        </span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splash_prob</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"></span>
-<span class="w">            </span><span class="nx">Splash</span><span class="p">(</span><span class="w"></span>
-<span class="w">              </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="nx">dp</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="nx">dp</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="mi">5</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="o">-</span><span class="nx">dp</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="nx">wind</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="nx">grav</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">          </span><span class="p">);</span><span class="w"></span>
-<span class="w">          </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"></span>
-<span class="w">            </span><span class="nx">Splash</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">dp</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">dp</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nx">dp</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">          </span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">();</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">start</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">end</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;background&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="nx">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="nx">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;foreground&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">      </span><span class="nx">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">start</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">end</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">rain</span><span class="p">.</span><span class="nx">droplets</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="p">};</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">rain</span><span class="p">.</span><span class="nx">show_splashes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">rain</span><span class="p">.</span><span class="nx">splashes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">rain</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-</pre></div>
-     <p>
-      Now to the hard part, the tree. Modeling the dynamics of a tree can be very challenging indeed. As the book "Eurographics" say: "Whenever the mechanics become complex, ignore the complexity". Following the steps outlined in this book we can start building our model to the tree.
-     </p>
-     <p>
-      We can start by making some simplifications: Gravity does not contribute significantly to the dynamics, the density on the tree is uniform, there are no collisions between branches and leafs, the tree does not affect the wind flow. To make our task even easier lets model a pine tree, which has no subbranches or any complex substructure.
-     </p>
-     <p>
-      The full dynamics is really hard to describe analytically, so lets just consider the angular part of the dynamic. Considering everything we discussed so far we can list only three major forces that act on each segment of the tree: Wind, elasticity and dissipation (differences of normal forces between branch segments will be grouped in the elastic force for simplicity).
-     </p>
-     <p>
-      The wind will be generated using Perlin noise, and its torque will be just \(F_{wind}.\cos(\theta).\) Dissipation forces can be modeled simply by a constant times the linear speed of the branch segment \(F_{dis} = \gamma v\). The elastic force is not trivial, so I used some tricks. To avoid complicated algebra and reduce the computation complexity (always a good thing) I wrote a "angular elastic force" \(Fel = k\, \Delta\theta\), where all the complex stuff is hidden in the constant $k$. The linear dependency with \(\Delta \theta\) is also an approximation. Since the tree is almost rigid at its basis and very elastic at its top, my first idea was to make $k$ decrease via a power law with the height of the tree to simulate this behavior. To our happiness this gives a nice approximation (considering the project scope).
-     </p>
-     <div class="sketch-holder" id="branch">
-     </div>
-     <br/>
-     <div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">pineLeaf</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">clr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">leaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">clr</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">wdth</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="nx">leaf</span><span class="p">.</span><span class="nx">clr</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">triangle</span><span class="p">(</span><span class="w"></span>
-<span class="w">      </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">wdth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">len</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">wdth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="w"></span>
-<span class="w">    </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">leaf</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kd">function</span><span class="w"> </span><span class="nx">Leaf</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">velx</span><span class="p">,</span><span class="w"> </span><span class="nx">vely</span><span class="p">,</span><span class="w"> </span><span class="nx">accx</span><span class="p">,</span><span class="w"> </span><span class="nx">accy</span><span class="p">,</span><span class="w"> </span><span class="nx">clr</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">leaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">velx</span><span class="p">,</span><span class="w"> </span><span class="nx">vely</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">accx</span><span class="p">,</span><span class="w"> </span><span class="nx">accy</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">m</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">m</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">clr</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">display_clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">clr</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">hei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">frames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">max_frames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">acc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">wind</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">leaf</span><span class="p">.</span><span class="nx">acc</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">leaf</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">frames</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">display_clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">lerpColor</span><span class="p">(</span><span class="w"></span>
-<span class="w">      </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">clr</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">55</span><span class="p">),</span><span class="w"> </span><span class="c1">//Background</span><span class="w"> </span><span class="c1">color</span><span class="w"></span>
-<span class="w">      </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">frames</span><span class="o">/</span><span class="nx">leaf</span><span class="p">.</span><span class="nx">max_frames</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">strokeWeight</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="nx">leaf</span><span class="p">.</span><span class="nx">display_clr</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">triangle</span><span class="p">(</span><span class="w"></span>
-<span class="w">      </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">hei</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">leaf</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"></span>
-<span class="w">    </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">leaf</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kd">function</span><span class="w"> </span><span class="nx">Branch</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">mass</span><span class="p">,</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">clr</span><span class="p">,</span><span class="w"> </span><span class="nx">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">omega</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">branch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mass</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">k</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">len</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">clr</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">wdth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">len</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">theta</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">omega</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">omega</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">alpha</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">Fres</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">CM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">len</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">leafs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">branch</span><span class="p">.</span><span class="nx">omega</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">alpha</span><span class="w"> </span>
-<span class="w">    </span><span class="nx">branch</span><span class="p">.</span><span class="nx">theta</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">omega</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="nx">branch</span><span class="p">.</span><span class="nx">clr</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">rect</span><span class="p">(</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">wdth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nx">branch</span><span class="p">.</span><span class="nx">wdth</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nx">branch</span><span class="p">.</span><span class="nx">len</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">branch</span><span class="p">.</span><span class="nx">draw_leafs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">leafs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span>
-<span class="w">      </span><span class="nx">branch</span><span class="p">.</span><span class="nx">leafs</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">draw</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">wdth</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">branch</span><span class="p">.</span><span class="nx">len</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">branch</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="kd">function</span><span class="w"> </span><span class="nx">Tree</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">segments</span><span class="p">,</span><span class="w"> </span><span class="nx">leaf_prob</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">leaf_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">leaf_prob</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="c1">//tree.btn_clr</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">color(38,</span><span class="w"> </span><span class="c1">104,</span><span class="w"> </span><span class="c1">36)</span><span class="w"></span>
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">btn_clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">91</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">top_clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">130</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">brk_clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">170</span><span class="p">,</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w"> </span><span class="mi">76</span><span class="p">);</span><span class="w"></span>
-
-
-<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">segments</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Branch</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">0.03</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mf">2.3</span><span class="o">*</span><span class="p">(</span><span class="nx">i</span><span class="o">+</span><span class="mi">2</span><span class="p">)),</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">brk_clr</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">leafs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="nx">pineLeaf</span><span class="p">(</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
-<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">lerpColor</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">btn_clr</span><span class="p">,</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">top_clr</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">segments</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">else</span><span class="w"></span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">show_leafs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">show_dropped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">draw</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">len</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">show_leafs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">();</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">draw_leafs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">len</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">show_dropped</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">()</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">tree</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">Fwind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">Fel</span><span class="p">,</span><span class="w"> </span><span class="nx">Fres</span><span class="p">,</span><span class="w"> </span><span class="nx">Ftot</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">posx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">posy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">theta</span><span class="w"></span>
-<span class="w">    </span><span class="nx">posx</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">len</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="nx">posy</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">len</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">sine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="w"></span>
-<span class="w">      </span><span class="nx">Fel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">displacement</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">k</span><span class="w"> </span>
-<span class="w">      </span><span class="nx">Fres</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">omega</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.1</span><span class="w"></span>
-
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">PI</span><span class="w"> </span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nx">Fwind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
-
-<span class="w">      </span><span class="nx">Ftot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Fwind</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">Fel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">Fres</span><span class="w"></span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Ftot</span><span class="w"> </span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">()</span><span class="w"></span>
-
-<span class="w">      </span><span class="nx">posx</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">len</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">posy</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">len</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">theta</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">branches</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">theta</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">leaf_prob</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"></span>
-<span class="w">          </span><span class="nx">Leaf</span><span class="p">(</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="nx">posx</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">),</span><span class="w"></span>
-<span class="w">            </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="nx">posy</span><span class="p">,</span><span class="w"> </span><span class="mf">0.07</span><span class="p">),</span><span class="w"></span>
-<span class="w">            </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">,</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">top_clr</span><span class="w"></span>
-<span class="w">          </span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Falling</span><span class="w"> </span><span class="c1">leafs</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">update</span><span class="p">(</span><span class="nx">Fwind</span><span class="p">,</span><span class="w"> </span><span class="nx">grav</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">frames</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">max_frames</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="nx">tree</span><span class="p">.</span><span class="nx">dropped_leafs</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">j</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">};</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">tree</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-     <p>
-      To wrap it up we join both simulations. I made some additional work to simulate the splashes of the rain and some leafs falling off the tree, but this is purely cosmetic. Since the tree foliage is triangular I made the falling leafs small triangles, but one could try to make then more realistic (though I think the end result is cute).
-     </p>
-     <p>
-      Here is the full code. There is much that can be improved in this small project but the final result is satisfying, at least to me.
-     </p>
-     <div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;tree_rain&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="w"></span>
-<span class="w">    </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">myWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Scene</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">55</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">show</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">Scene</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">segments</span><span class="p">,</span><span class="w"> </span><span class="nx">drops</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Tree</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">segments</span><span class="p">,</span><span class="w"> </span><span class="nx">leaf_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Rain</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">drops</span><span class="p">,</span><span class="w"> </span><span class="nx">splash_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//console.log(scene.rain)</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">frameCount</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">frameCount</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span><span class="s1">&#39;background&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">show</span><span class="p">()</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span><span class="s1">&#39;foreground&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">show_splashes</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">scene</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">myp51</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;tree_rain&#39;</span><span class="p">);</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;rain&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="w"></span>
-<span class="w">    </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">myWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">rain_scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Rain_Scene</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">55</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">rain_scene</span><span class="p">.</span><span class="nx">show</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">Rain_Scene</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">segments</span><span class="p">,</span><span class="w"> </span><span class="nx">drops</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Rain</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">drops</span><span class="p">,</span><span class="w"> </span><span class="nx">splash_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//console.log(scene.rain)</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">frameCount</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">frameCount</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">show_splashes</span><span class="p">();</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">rain</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">scene</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">myp51</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;rain&#39;</span><span class="p">);</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;branch&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//myHeight</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">document.getElementById(&quot;branch&quot;).offsetHeight</span><span class="w"></span>
-<span class="w">    </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">myWidth</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">branch_scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Branch_Scene</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">55</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">branch_scene</span><span class="p">.</span><span class="nx">show</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">Branch_Scene</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">segments</span><span class="p">,</span><span class="w"> </span><span class="nx">drops</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Tree</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">segments</span><span class="p">,</span><span class="w"> </span><span class="nx">leaf_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//console.log(scene.rain)</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">    </span><span class="nx">scene</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">frameCount</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">frameCount</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">300</span><span class="w"></span>
-
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span><span class="nx">show_leafs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">show_dropped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="nx">scene</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">scene</span><span class="p">.</span><span class="nx">wind</span><span class="p">,</span><span class="w"> </span><span class="nx">scene</span><span class="p">.</span><span class="nx">grav</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">scene</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
-
-<span class="kd">var</span><span class="w"> </span><span class="nx">myp53</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;branch&#39;</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-    </div>
-   </div>
-  </div>
-  <hr/>
-  <script src="../../../js/script.js">
-  </script>
-  <!-- Bootstrap + JQuery -->
-  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
-  </script>
-  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
-  </script>
-  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
-  </script>
-  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
-  </script>
+		</div>
+
+		<hr/>
+		<script src="../../../js/script.js"></script>
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
     <!-- mathjax -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -619,5 +135,5 @@
         }
       };
   </script>
- </body>
+	</body>
 </html>

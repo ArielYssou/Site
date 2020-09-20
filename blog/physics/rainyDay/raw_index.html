@@ -26,7 +26,7 @@
 
 	<body style="background-color:#42403b">
 		<!-- Navigation bar -->
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
 			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -36,8 +36,11 @@
 					<li class="nav-item">
 						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a>
 					</li>
-					<li class="nav-item active">
+					<li class="nav-item nav-blog active">
 						<a class="nav-link" href="../.." style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+					</li>
+				<li class="nav-item">
+						<a class="nav-link" href="../../gallery/" style="font-weight:bold;">Gallery </a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a>
@@ -56,19 +59,28 @@
 			</div>
 		</nav>
 		<!-- End of navigation bar -->
-		
+		<div class="head_container">
+			<img src="./cover_image.png" class="head_image no_blur">
+			<div class="head_middle">
+				<div class="head_text"><b>A Rainy Night</b></div>
+			</div>
+		</div>	
+
 		<div class="container post_body">
 			<div class="row post_struct">
 				<div class="col-ld-12">
-					<div class="post_cover">
-						<div class="blog_title">
-							A Rainy Night
-						</div>
-					</div>
 
 					<p>In this project we simulate a relaxing windy rainy night using the <a href="https://p5js.org/" target="_blank" class="custom_link">p5.js</a> framework.</p>
 					<div class='sketch-holder' id='tree_rain'></div>
 					<!--<a href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank"><div id="sketch-holder"></div></a>-->
+<!-- TOC -->
+ <table class="TOC">
+  <tr><th>Contents</th></tr>
+	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+	<tr><td><a href="#THEORY">1. Theory</a></td></tr>
+	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
+</table> 
+<br></br>
 
 					<p>This is actually a combination of two smaller simulations with different dynamics: the tree and the rain. Lets start by the easiest, the rain.</p>
 					<p> The fist step is to make a droplet class, since the rain itself is just a collection of droplets of different sizes. The distribution of droplet sizes is very skewed and have a (relatively) small variance to its mean (there is a <a class="custom_link" href=' https://www.nature.com/articles/nphys1385?draft=collection&proof=true' target='_blank'>very interesting article in Nature about it</a>). Considering this we choose our rain drop sizes from a Gaussian distribution with a small variance.</p>
