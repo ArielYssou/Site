@@ -15,7 +15,7 @@ var s = function( p ) {
   function Scene(p, segments, drops) {
     var scene = {}
     scene.tree =  new Tree(p, segments, leaf_prob = 0.01);
-    scene.rain = Rain(p, drops, splash_prob = 0.2);
+    scene.rain = new Rain(p, drops, splash_prob = 0.2);
     //console.log(scene.rain)
 
     scene.grav = 1
@@ -56,7 +56,7 @@ var s = function( p ) {
 
   function Rain_Scene(p, segments, drops) {
     var scene = {}
-    scene.rain = Rain(p, drops, splash_prob = 0.2);
+    scene.rain = new Rain(p, drops, splash_prob = 0.2);
     //console.log(scene.rain)
 
     scene.grav = 1
