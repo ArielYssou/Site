@@ -92,7 +92,7 @@ hr.solid {
 
 .nav-blog{
 	border-bottom: 1px solid;
-  border-color: #98d5a3;
+  border-color: #77A65E;
 }
 
 .nav-gallery{
@@ -102,7 +102,7 @@ hr.solid {
 
 .nav-about{
 	border-bottom: 1px solid;
-  border-color: #5c7cff;
+  border-color: #7175E0;
 }
 
 
@@ -113,10 +113,10 @@ h1.home_title {
 	padding-top: 8px;
 	padding-bottom: 8px;
 	font-size: 60px;
-	color: #FFCB5C;
+	color: #FFeabc;
 	margin-top: 24px;
 	margin-bottom: 24px;
-	/*border-top: 1px solid #FFCB5C;*/
+	border-bottom: 2px double #FFCB5C;
 	/*border-bottom: 1px solid #FFCB5C;*/
 }
 
@@ -156,11 +156,10 @@ h1.blog_title {
 	padding-top: 8px;
 	padding-bottom: 8px;
 	font-size: 60px;
-	color: #98d5a3;
 	margin-top: 24px;
 	margin-bottom: 24px;
-	/*border-bottom: 1px solid #C1DBB3;
-	border-top: 1px solid #C1DBB3;*/
+	border-bottom: 2px double #77A65E;
+	/*border-top: 1px solid #C1DBB3;*/
 }
 
 .blog-img {
@@ -228,11 +227,10 @@ h1.gal_title {
 	padding-top: 8px;
 	padding-bottom: 8px;
 	font-size: 60px;
-	color: #FF7577;
 	margin-top: 24px;
 	margin-bottom: 24px;
-	/*border-bottom: 1px solid #FF7577;
-	border-top: 1px solid #FF7577*/
+	border-bottom: 2px double #FF7577;
+	/*border-top: 2px solid #FF7577;*/
 }
 
 h2.gal_section {
@@ -249,6 +247,8 @@ h2.gal_section {
   width: 100%;
 	height: 20vh;
 	min-height: 200px;
+	margin-bottom: 16px;
+	margin-top: 16px;
 }
 
 .gal_image {
@@ -281,8 +281,8 @@ h2.gal_section {
 
 .gal_text {
   background-color: #323027;
-  color: white;
-  font-size: 16px;
+	color: #ffeabc;
+  font-size: 1em;
   padding: 16px 32px;
 }
 
@@ -294,11 +294,10 @@ h1.about_title {
 	padding-top: 8px;
 	padding-bottom: 8px;
 	font-size: 60px;
-	color: #5c7cff;
 	margin-top: 24px;
 	margin-bottom: 24px;
-	/*border-bottom: 1px solid #FF7577;
-	border-top: 1px solid #FF7577*/
+	border-bottom: 2px double #7175E0;
+	/*border-top: 1px solid #FF7577*/
 }
 
 .about_me {
@@ -525,3 +524,36 @@ th, td {
 .linenodiv pre {
 	color:#ffeabc;
 }
+
+/*
+.header-container {
+  position: relative;
+  width: 100%;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.header-text {
+  background-color:rgba(43, 43, 38, .8);
+	font-size: 2em;
+	color: #ffeabc;
+	margin-top: 25px;
+	margin-bottom: 25px;
+  padding: 16px 32px;
+}
+
+.header-image {
+  display: block;
+  width: 100%;
+	overflow: hidden;
+  height: 100px;
+}
+
+.header-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+*/

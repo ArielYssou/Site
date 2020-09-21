@@ -1,55 +1,56 @@
 function Droplet(p, mass, grav, wind = 0, velx = 0) {
   var drop = {};
-  drop.mass = mass;
-  drop.pos = p.createVector(p.random(-500, p.width), -600, p.random(0.7,3));
-  drop.vel = p.createVector(0, 2 * drop.mass, 0);
-  drop.acc = p.createVector(wind, grav, 0);
-  drop.vel.mult(1/drop.pos.z)
+  this.mass = mass;
+  this.pos = p.createVector(
+		p.random(-500, p.width),
+		-600,
+		p.random(0.7, 3)
+	);
 
-  //drop.len = map(drop.mass, 0, 10, 20, 40);
-  drop.len = 2 * drop.mass;
+  this.vel = p.createVector(0, 4 * this.mass, 0);
+  this.acc = p.createVector(wind, grav, 0);
+  this.vel.mult(1/this.pos.z)
 
-  drop.update = function(wind) {
-    drop.acc.x = 250 * wind 
-    drop.pos.add(drop.vel);
-    var vec = drop.acc.copy()
-    drop.vel.add(vec.mult(drop.pos.z / drop.mass));
+  //this.len = map(this.mass, 0, 10, 20, 40);
+  this.len = 4 * this.mass;
+
+  this.update = function(wind) {
+    this.acc.x = 250 * wind 
+    this.pos.add(this.vel);
+    var vec = this.acc.copy()
+    this.vel.add(vec.mult(this.pos.z / this.mass));
   }
 
-  drop.show = function() {
+  this.show = function() {
     p.push();
-    p.stroke(185);
-    //p.strokeWeight(p.map(drop.mass, 0, 10, 0.5, 2));
-    p.strokeWeight( (drop.mass / 8) );
-    p.line(drop.pos.x, drop.pos.y,
-      drop.pos.x + drop.vel.x, drop.pos.y + drop.len);
+    p.stroke(125);
+		p.translate(this.pos.x, this.pos.y)
+    //p.strokeWeight(p.map(this.mass, 0, 10, 0.5, 2));
+    p.strokeWeight( (this.mass / 10) );
+    p.line(0, 0, this.vel.x, this.len);
     p.pop();
   }
 
-  return drop;
 }
 
 function Splash(p, x, y, velx, vely, accx, accy, m) {
-  var part = {}
-  part.pos = p.createVector(x, y, 0);
-  part.vel = p.createVector(velx, vely, 0);
-  part.acc = p.createVector(accx, accy, 0);
+  this.pos = p.createVector(x, y, 0);
+  this.vel = p.createVector(velx, vely, 0);
+  this.acc = p.createVector(accx, accy, 0);
+  this.m = m
 
-  part.m = m
-
-  part.show = function() {
+  this.show = function() {
     p.push()
-    p.fill(185);
-    p.ellipse(part.pos.x, part.pos.y, part.m, part.m)
+    p.fill(125);
+		p.strokeWeight(0);
+    p.circle(this.pos.x, this.pos.y, this.m)
     p.pop()
   };
 
-  part.update = function() {
-    part.pos.add(part.vel);
-    part.vel.add(part.acc);
+  this.update = function() {
+    this.pos.add(this.vel);
+    this.vel.add(this.acc);
   };
-
-  return part;
 }
 
 function Rain(p, drops, splash_prob = 0.2) {
@@ -61,7 +62,7 @@ function Rain(p, drops, splash_prob = 0.2) {
 
   while (rain.droplets.length < rain.drops) {
     rain.droplets.push(
-      Droplet(
+      new Droplet(
         p,
         p.randomGaussian(15, 2),
         rain.grav,
@@ -73,35 +74,44 @@ function Rain(p, drops, splash_prob = 0.2) {
     for(var i = 0 ; i < rain.droplets.length; i += 1) {
       rain.droplets[i].update(wind);
 
-
       // If rain has reached floor, create a new one
       if(rain.droplets[i].pos.y > p.height ) {
         dp = rain.droplets[i]; // Original drop
-        rain.droplets[i] = Droplet(
+        rain.droplets[i] = new Droplet(
           p,
           p.randomGaussian(15,2),
           rain.grav * 20,
           rain.wind,
           dp.vel.x
         );
+
+				// Splash uppon reaching the floor
         if(p.random() < rain.splash_prob) {
           rain.splashes.push(
-            Splash(
+            new Splash(
               p,
               dp.pos.x,
               dp.pos.y,
               5,
-              -dp.vel.y / 3,
+              -dp.vel.y / 6,
               wind,
               grav,
-              4)
+              3)
           );
           rain.splashes.push(
-            Splash(p, dp.pos.x, dp.pos.y,
-              -5, -dp.vel.y / 3,
-              wind, grav, 4)
+            new Splash(
+							p,
+							dp.pos.x,
+							dp.pos.y,
+              -5,
+							-dp.vel.y / 6,
+              wind,
+							grav,
+							3
+						)
           );
         }
+
       }
     }
 
@@ -112,7 +122,6 @@ function Rain(p, drops, splash_prob = 0.2) {
       }
     }
   }
-
 
   rain.show = function(mode = 'all') {
     let start;

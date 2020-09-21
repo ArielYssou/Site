@@ -1,199 +1,215 @@
 function pineLeaf(p, clr) {
-  var leaf = {};
-  leaf.clr = clr
+  this.clr = clr
 
-  leaf.draw = function(x, y, wdth, len) {
+  this.show = function(width, len) {
     p.push()
-    p.fill(leaf.clr)
-    p.triangle(
-      x + wdth/2, y,
-      x, y + len,
-      x - wdth/2, y
-    );
+    p.fill(this.clr)
+    p.stroke('#333333')
+		p.beginShape();
+		p.vertex(width / 2, 0)
+		p.quadraticVertex(width / 6, len / 3, 0, len)
+		p.quadraticVertex( - width / 6,  + len / 3,  - width / 2, 0)
+		p.endShape(p.CLOSE);
     p.pop()
   }
-  return leaf
 }
 
-function Leaf(p, x, y, velx, vely, accx, accy, clr, m = 25) {
-  var leaf = {};
+function Leaf(p, x, y, velx, vely, accx, accy, clr, m = 20) {
+  this.pos = p.createVector(x, y, 0);
+  this.vel = p.createVector(velx, vely, 0);
+  this.acc = p.createVector(accx, accy, 0);
+  this.acc.mult(1 / m)
 
-  leaf.pos = p.createVector(x, y, 0);
-  leaf.vel = p.createVector(velx, vely, 0);
-  leaf.acc = p.createVector(accx, accy, 0);
-  leaf.acc.mult(1 / m)
+  this.m = m
+  this.clr = clr
+  this.display_clr = clr
+  this.len = 12;
+  this.height = 5;
 
-  leaf.m = m
-  leaf.clr = clr
-  leaf.display_clr = clr
-  leaf.len = 8;
-  leaf.hei = 12;
+	this.rotation = 0;
+	this.ang_speed = p.noise(x, y);
 
-  leaf.frames = 0
-  leaf.max_frames = p.randomGaussian(130, 30)
+  this.frames = 0
+  this.max_frames = p.randomGaussian(100, 30)
 
-  leaf.update = function(wind, grav) {
-    leaf.acc.x = 5 * wind;
+  this.update = function(wind, grav) {
+    this.acc.x = 10 * wind;
 
-    leaf.vel.add(leaf.acc);
-    leaf.pos.add(leaf.vel);
-    leaf.frames += 1;
-    leaf.display_clr = p.lerpColor(
-      leaf.clr,
-      p.color(55,55,55), //Background color
-      leaf.frames/leaf.max_frames);
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.frames += 1;
+    this.display_clr = p.lerpColor(
+      this.clr,
+      p.color(55, 55, 55), //Background color
+      this.frames / this.max_frames);
   };
 
-  leaf.show = function() {
+  this.show = function() {
     p.push()
+		p.translate(this.pos.x, this.pos.y)
+		//p.circle(0, 0, this.height)
+		p.rotate( this.rotation)
+		this.rotation += this.ang_speed;
     p.strokeWeight(0)
-    p.fill(leaf.display_clr)
-    p.triangle(
-      leaf.pos.x + leaf.len, leaf.pos.y,
-      leaf.pos.x, leaf.pos.y + leaf.hei,
-      leaf.pos.x - leaf.len, leaf.pos.y
-    );
+    p.fill(this.display_clr)
+		p.beginShape()
+		p.vertex(0, 0);
+		p.quadraticVertex(
+			this.len / 3,
+			this.height,
+			this.len,
+			0,
+		)
+		p.quadraticVertex(
+			this.len / 3,
+			- this.height,
+			0,
+			0
+		)
+		p.endShape(p.CLOSE)
     p.pop()
   }
-  return leaf;
 }
 
-function Branch(p, mass, k, len, clr, theta = 0, omega = 0, alpha = 0) {
-  var branch = {}
-  branch.mass = mass
-  branch.k = k
-  branch.len = len
-  branch.clr = clr
-  branch.wdth = branch.len / 3
+function Branch(p, pos, mass, k, len, clr) {
+	this.pos = pos;
+  this.mass = mass;
+  this.k = k;
+  this.len = len;
+  this.clr = clr;
+  this.width = this.len / 2.2;
 
-  branch.theta = theta
-  branch.omega = omega
-  branch.alpha = alpha
+  this.theta =  0
+  this.omega = 0;
+  this.alpha = 0;
+	this.sine = 1;
+	this.cossine = 0;
 
-  branch.Fres = 0
-  branch.CM = branch.len / 2
-  branch.leafs = []
+  this.leafs = []
 
-  branch.update = function() {
-    branch.omega += branch.alpha 
-    branch.theta += branch.omega
+  this.update_angle = function(fWind) {
+		let Fel = - this.theta * this.k 
+		let Fres =  - this.omega * 0.1
+
+		if( p.abs(this.theta) > p.HALF_PI) {
+			fWind = 0
+		}
+
+		let Ftot = fWind * this.cossine + Fel + Fres
+
+		this.alpha = Ftot 
+    this.omega += this.alpha 
+    this.theta += this.omega
+
+		this.sine = p.sin(this.theta)
+		this.cossine = p.cos(this.theta)
   }
 
-  branch.draw = function(x, y) {
+	this.update_pos = function(last_branch) {
+		// The postition of the base of the last branch
+		this.pos = last_branch.pos.copy().add(
+			p.constructor.Vector.fromAngle(-last_branch.theta + p.HALF_PI).mult(last_branch.len));
+	}
+
+  this.show = function() {
     p.push()
-    p.fill(branch.clr);
-    p.rect(x + branch.wdth/2, y, -branch.wdth, -branch.len)
+    p.fill(this.clr);
+    p.stroke(this.clr);
+    p.rect(this.width/2, 0, -this.width, -this.len)
     p.pop()
   }
 
-  branch.draw_leafs = function(x, y) {
+  this.show_leafs = function() {
     p.push()
-    for(j = 0; j < branch.leafs.length; j += 1) 
-      branch.leafs[j].draw(x, y, - 6 * branch.wdth, -2 * branch.len);
+    for(j = 0; j < this.leafs.length; j += 1) 
+      this.leafs[j].show(- 6 * this.width, -2.5 * this.len);
     p.pop()
   }
-  return branch;
 }
 
-function Tree(p, segments, leaf_prob) {
-  var tree = {}
-  tree.branches = []
-  tree.dropped_leafs = []
-  tree.leaf_prob = leaf_prob;
+function Tree(p, segments, leaf_prob, visible_leafs = true) {
+  this.branches = []
+  this.dropped_leafs = []
+  this.leaf_prob = leaf_prob;
+	this.visible_leafs = visible_leafs;
 
-  //tree.btn_clr = color(38, 104, 36)
-  tree.btn_clr = p.color(79, 91, 25);
-  tree.top_clr = p.color(48, 130, 45);
-  tree.brk_clr = p.color(170, 126, 76);
+	this.pos = p.createVector(p.width / 2, p.height);
+  //this.btn_clr = color(38, 104, 36)
+  this.btn_clr = p.color(79, 91, 25);
+  this.top_clr = p.color(48, 130, 45);
+  this.brk_clr = p.color('#824e2e');
 
 
   for(i = 0; i < segments; i += 1) {
-      tree.branches.push(Branch(p, 3, 0.03, p.height / (2.3*(i+2)), tree.brk_clr));
+		let len = i * 70 * (0.85 ** i);
+		this.branches.push(
+			new Branch(
+				p,
+				p.createVector(0, p.height - (len / i)),
+				3,
+				0.03,
+				70 * (0.85 ** i),
+				this.brk_clr
+			)
+		);
     if(i > 0)
-      tree.branches[i].leafs.push(
-        pineLeaf(
+      this.branches[i].leafs.push(
+        new pineLeaf(
           p,
-          p.lerpColor(tree.btn_clr, tree.top_clr, i / segments)
+          p.lerpColor(this.btn_clr, this.top_clr, i / segments)
         )
       );
     else
-      tree.branches[i].len = p.height / 10;
+      this.branches[i].len = 40;
   }
 
-  tree.show = function(show_leafs = true, show_dropped = true) {
-    p.push();
-    p.translate(p.width / 2, p.height);
-    for(i = 0; i < tree.branches.length; i += 1) {
-      tree.branches[i].draw(0, 0);
-      p.rotate(tree.branches[i].theta);
-      p.translate(0, -tree.branches[i].len);
-
-    }
-    p.pop();
-
-    if(show_leafs) {
-      p.push();
-      p.translate(p.width / 2, p.height)
-      for(i = 0; i < tree.branches.length; i += 1) {
-        tree.branches[i].draw_leafs(0, 0);
-        p.rotate(tree.branches[i].theta);
-        p.translate(0, -tree.branches[i].len);
-      }
-      p.pop();
-    };
+  this.show = function(show_dropped = true) {
 
     if(show_dropped) {
-      for(var i = 0; i < tree.dropped_leafs.length; i += 1) {
-        tree.dropped_leafs[i].show()
+      for(var i = 0; i < this.dropped_leafs.length; i += 1) {
+        this.dropped_leafs[i].show()
       }
     }
+
+    p.push();
+    p.translate(this.pos);
+    for(i = 0; i < this.branches.length; i += 1) {
+      this.branches[i].show();
+			if(this.visible_leafs)
+				this.branches[i].show_leafs();
+      p.rotate(this.branches[i].theta);
+      p.translate(0, -this.branches[i].len);
+    }
+    p.pop();
   }
 
-  tree.update = function(Fwind = 0, grav = 0.2) {
-    displacement = 0;
-    var Fel, Fres, Ftot;
+  this.update = function(fWind = 0, fGrav = 0.2) {
+		this.branches[0].update_angle(fWind);
 
-    var posx = p.width / 2
-    var posy = p.height
-    var theta = scene.tree.branches[0].theta
-    posx += tree.branches[0].len * p.cos(theta)
-    posy -= tree.branches[0].len * p.cos(theta)
+    for(i = 1; i < this.branches.length; i += 1) {
+			this.branches[i].update_angle(fWind);
+			this.branches[i].update_pos( this.branches[i - 1] );
 
-    for(i = 0; i < tree.branches.length; i += 1) {
-      sine = p.sin(tree.branches[i].theta)
-      displacement = tree.branches[i].theta
-      Fel = - displacement * tree.branches[i].k 
-      Fres =  - tree.branches[i].omega * 0.1
-
-      if( p.abs(tree.branches[i].theta) > p.PI /2) {Fwind = 0};
-
-      Ftot = Fwind * p.cos(tree.branches[i].theta) + Fel + Fres
-      tree.branches[i].alpha = Ftot 
-      tree.branches[i].update()
-
-      posx += tree.branches[i].len * p.sin(theta)
-      posy -= tree.branches[i].len * p.cos(theta)
-      theta += tree.branches[i].theta
-      if(p.random() < tree.leaf_prob ) {
-        tree.dropped_leafs.push(
-          Leaf(
+      if(p.random() < this.leaf_prob ) {
+				let dx = p.random(0, this.branches[i].len * this.branches[i].cossine)
+        this.dropped_leafs.push(
+          new Leaf(
             p,
-            p.randomGaussian(posx, 0.1),
-            p.randomGaussian(posy, 0.07),
-            6, 0, 0, grav, tree.top_clr
+            (p.width / 2) + this.branches[i].pos.x + dx,
+            p.height - this.branches[i].pos.y,
+            6, 0, 0, fGrav, this.top_clr
           )
         );
-      }
+			}
     }
 
     // Falling leafs
-    for(var j = 0; j < tree.dropped_leafs.length; j += 1) {
-      tree.dropped_leafs[j].update(Fwind, grav);
-      if(tree.dropped_leafs[j].frames > tree.dropped_leafs[j].max_frames)
-        tree.dropped_leafs.splice(j, 1);
+    for(var j = 0; j < this.dropped_leafs.length; j += 1) {
+      this.dropped_leafs[j].update(fWind, fGrav);
+      if(this.dropped_leafs[j].frames > this.dropped_leafs[j].max_frames)
+        this.dropped_leafs.splice(j, 1);
+			else if(this.dropped_leafs[j].pos.x > (p.width))
+        this.dropped_leafs.splice(j, 1);
     };
   }
-
-  return tree;
 }
-
