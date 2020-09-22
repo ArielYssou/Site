@@ -40,7 +40,7 @@
 
 	<body>
 		<!-- Navigation bar -->
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
 			<a class="navbar-brand" href="../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -51,8 +51,11 @@
 						<a class="nav-link" href="../.." style="font-weight:bold;">Home</a><!--TARGET-->
  
 					</li>
-					<li class="nav-item active">
+					<li class="nav-item nav-blog active">
 						<a class="nav-link" href="../../blog" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../gallery/" style="font-weight:bold;">Gallery </a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../../about" style="font-weight:bold;">About</a><!--TARGET-->
@@ -83,14 +86,14 @@
 
 					<p>In this post we will discuss the Hidden Markv Model and its implementation in Python. We will draw inspiration mainly from <a href="https://www.cs.ubc.ca/~murphyk/Bayes/rabiner.pdf" target="_blank">Lawrence R. Rabiner (1989)</a> and <a href = 'https://www.researchgate.net/publication/288957333_A_revealing_introduction_to_hidden_markov_models' target = '_blank'>Mark Stamp (2018)</a>, trying to provide an intermediate view between the more technical article by Rabiner and the more practical and educational article by Stamp. In the first half of the text we will explain the basics of HMMs in detail and establish the motivations behind our study and the second part will be dedicated to the implementation of this model in python.</p>
 
-	 <table class="TOC">
-  <tr><th>Contents</th></tr>
-	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
-	<tr><td><a href="#HMM">2. Hidden Markov Model</a>	</td></tr>
-	<tr><td><a href="#PROBLEMS">3. The Three Problems</a>	</td></tr>
-	<tr><td><a href="#CODE">4. Implementation</a></a></td></tr>
-	</table> 
-	<br></br>
+					 <table class="TOC">
+					<tr><th>Contents</th></tr>
+					<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+					<tr><td><a href="#HMM">2. Hidden Markov Model</a>	</td></tr>
+					<tr><td><a href="#PROBLEMS">3. The Three Problems</a>	</td></tr>
+					<tr><td><a href="#CODE">4. Implementation</a></a></td></tr>
+					</table> 
+					<br>
 
 					<!-- Intro -->
 					<a name="INTRO"></a>
@@ -287,7 +290,9 @@
 					<p>There are several variants to the HMM. Many of then are discussed in depth in the article by Rabiner and are very interesting, such as HMM with absorbing states (breaking the engodicidy of the model) and HMM with continuous values. As interesting these topics are, we refrain from discussing then to reduce the scope of this post, but I felt that it was important to say that this model can be taken further and is a very interesting topic to study. Now we shall focus on how to implement this model in python, as most sources only provide pseudo code for the implementation.</p>
 
 					<a name="CODE"></a><h2 class="section">3. Implementation</h2>
+					<div class = 'notebook'>
 					{% include 'hmm.html' %}
+					</div>
 				</div>
 			</div>
 		</div>

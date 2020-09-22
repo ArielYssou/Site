@@ -14,7 +14,7 @@ var s = function( p ) { // p could be any variable name
   //  var k = 0.065;
 
   p.setup = function(){
-    p.createCanvas(200, 200);
+    p.createCanvas(300, 300);
     p.pixelDensity(1);
     grid = [];
     next = [];

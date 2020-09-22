@@ -59,6 +59,13 @@ class Simulation(object):
             vals[:, 1] = np.linspace(116/256, 52/256, N)
             vals[:, 2] = np.linspace(20/256, 52/256, N)
             newcmp = ListedColormap(vals)
+        elif newcmp == 'banana':
+            N = 256
+            vals = np.ones((N, 4))
+            vals[:, 0] = np.linspace(255/256, 52/256, N)
+            vals[:, 1] = np.linspace(234/256, 52/256, N)
+            vals[:, 2] = np.linspace(188/256, 52/256, N)
+            newcmp = ListedColormap(vals)
         else:
             pass
 
@@ -191,9 +198,9 @@ if __name__ == '__main__':
     f = patterns[pttrn]['f']
     k = patterns[pttrn]['k']
     #cmap = patterns[pttrn]['cmap']
-    cmap = 'gnuplot2_r'
+    cmap = 'banana'
 
-    simulation = Simulation(400, 60000, Da, Db, f, k)
+    simulation = Simulation(500, 60000, Da, Db, f, k)
     try:
         simulation.load()
     except OSError: 

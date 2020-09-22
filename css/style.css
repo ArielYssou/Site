@@ -13,7 +13,7 @@ body {
 
 h1 {
 	margin:auto;
-	font-size: 4em;
+	font-size: 3em;
 	color: #ffeabc;
 	vertical-align: middle;
 	text-align: center;
@@ -439,6 +439,10 @@ h1.about_title {
 	display: block;
 }
 
+.col-ld-12 {
+	display: block;
+}
+
 .my_code {
   overflow: hidden;
 	max-height:500px;
@@ -557,3 +561,9 @@ th, td {
   text-align: center;
 }
 */
+
+
+.notebook {
+	display: inline-block;
+	max-width: 100px;
+}
