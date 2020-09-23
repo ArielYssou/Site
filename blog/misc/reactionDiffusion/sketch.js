@@ -66,8 +66,8 @@ var s = function( p ) { // p could be any variable name
         //c = p.constrain(c, 110, 255);
         
         p.pixels[pix + 0] = c;
-        p.pixels[pix + 1] = 40;
-        p.pixels[pix + 2] = 40;
+        p.pixels[pix + 1] = 30;
+        p.pixels[pix + 2] = 30;
         p.pixels[pix + 3] = 255;
       }
     }
