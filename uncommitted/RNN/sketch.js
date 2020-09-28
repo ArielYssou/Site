@@ -493,6 +493,32 @@ function empty_Layer(p, x, y, width, height) {
 }
 */
 
+function text_box(p, text, x, y, fontsize = 20) {
+	p.push();
+	p.strokeWeight(0.2);
+	p.fill('#ffeabc')
+	p.textSize(fontsize);
+	p.textAlign(p.CENTER, p.CENTER)
+
+	if(text.includes('_')){
+		let annots = text.split('_');
+		p.text(annots[0], x , y);
+
+		p.textSize(fontsize * 0.5);
+		p.textAlign(p.CENTER, p.TOP)
+		p.text(
+			annots[1],
+			x + p.textWidth(annots[0]) + p.textWidth(annots[1]) / 1.5,
+			y
+		);
+	} else {
+		p.text(text, x, y);
+	}
+	p.pop();
+}
+
+
+
 var t = function( p ) { 
 	var RNN = new Network(p, connection_style = 'fancy');
 	RNN.add( new recurrentLayer(p, 50, 10, 100, 250, index = 't', 'fancy',  folded = true));
@@ -558,6 +584,11 @@ function LstmCell(p, x, y, width, height, radius, detail_width=33, detail_height
 		let top_level = 0.15 * this.height;
 		let middle = 0.5 * this.height;
 		let low_level = 0.90 * this.height;
+
+		text_box(p, 'C_t-1', - p.textWidth('h_t-1'), top_level)
+		text_box(p, 'h_t-1', - p.textWidth('h_t-1'), low_level)
+		text_box(p, 'C_t', this.width + output_size +  p.textWidth('C_t'), top_level)
+		text_box(p, 'h_t', this.width + output_size + p.textWidth('h_t'), low_level)
 
 		// Cell state arrow
 		curvedArrow(p,
@@ -706,7 +737,6 @@ function LstmCell(p, x, y, width, height, radius, detail_width=33, detail_height
 		p.strokeWeight(1.5);
 		p.rect(x, y, this.detail_width, this.detail_height);
 		p.fill(text_clr)
-		p.strokeWeight(0)
 		p.text('σ', x + this.detail_width / 2, y + this.detail_height / 2);
 
 		// Learn tanh layer

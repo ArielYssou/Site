@@ -7,10 +7,11 @@
   border-radius: 2px;
 	font-size: min(16px, 1.5vmax);
 	tab-size: 2;
+	max-width: 100%;
 }
 
 .output_png img{
-	width : 60%;
+	width : 100%;
 	max-width : 600px;
   display: block;
   margin-left: auto;
@@ -29,8 +30,7 @@ div.prompt,
  padding-left: 0px;
  padding-right: 1px;
  text-align: right !important;
- min-width: 11.5ex !important;
- width: 11.5ex !important;
+ max-width: 100%;
 }
 div.prompt.input_prompt {
  font-size: 9pt !important;

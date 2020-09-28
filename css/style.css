@@ -428,21 +428,10 @@ h1.about_title {
   align-items: center;
 	width: 70%;
 	max-width: 1000px;
-	/*margin-left: 15px;*/
-	/*margin-left: 15px;*/
 }
 
 .post_struct {
 	display: block;
-}
-
-.col-ld-12 {
-	display: block;
-}
-
-.my_code {
-  overflow: hidden;
-	max-height:500px;
 }
 
 .sketch-holder {
@@ -500,8 +489,9 @@ th, td {
   background: #363430;
   line-height: 1.21429em;
   margin-bottom: 10px;
-	max-height:500px;
+	max-height: 500px;
   overflow: scroll;
+	width: 100%;
 	overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
@@ -560,8 +550,14 @@ th, td {
 }
 */
 
-
 .notebook {
-	display: inline-block;
-	max-width: 100px;
+	width:100%;
+	height: auto;
+	overflow: auto;
+}
+
+.hl-ipython3{
+	width: 100%
+	min-width: 0px;
+	max-width: 900px;
 }
