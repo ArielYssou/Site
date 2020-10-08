@@ -1,7 +1,7 @@
 function Cluster(p, anchor) {
 	this.anchor = anchor;
 	this.points = [anchor];
-	this.angles = [];
+	this.angles = [anchor.heading()];
 	this.convexHull = [];
 
 	this.add = function(point) {
@@ -23,41 +23,43 @@ function Cluster(p, anchor) {
 		const dsu = (arr1, arr2) => arr1
 			.map((item, index) => [arr2[index], item]) // add the args to sort by
 			.sort(([arg1], [arg2]) => arg2 - arg1) // sort by the args
-			//.reverse() // We want the angles in increasing order
+			.reverse() // We want the angles in increasing order
 			.map(([, item]) => item); // extract the sorted items
 
 		this.points = dsu(this.points, this.angles);
 		this.angles.sort()
-		
+
+		const min_angle = this.cols
 		const ccw = function(p1, p2, p3) {
 			// Counter Clock Wise detector.
 			// Returns ccw > 0 if counter clockwise, 0 if colinear and < 0 if clock wise
 			return ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x))
 		}
 
-		var stack = [];
+		var stack = [this.anchor];
 		for(var i = 0; i < this.points.length; i += 1) {
-			// pop the last point from the stack if we turn clockwise to reach this point
-			if(i > 0) {
-				if(this.angles[i] > this.angles[i - 1])
-					stack.pop();
-			}
-
 			var l = stack.length; // Improve readability
 			if(l > 1) {
-				while((l > 1)	&& (ccw(stack[l - 2], stack[l - 1], this.points[i]) <= 0)) {
+				while((l > 1)	&& (ccw(stack[l - 2], stack[l - 1], this.points[i]) < 0)) {
 					stack.pop();
 					l -= 1;
 				}
 			}
 			stack.push(this.points[i]);
 		}
-		this.convexHull = stack;
+
+		if(stack.length < 3) {
+			this.convexHull = [];
+		} else {
+			console.log(stack)
+			this.convexHull = stack;
+		}
 	}
 
 	this.show = function() {
 		p.push();
-		p.fill(255);
+		p.stroke(255)
+		p.noFill();
 		p.beginShape()
 		for(var i = 0; i < this.convexHull.length; i += 1) {
 			p.vertex(this.convexHull[i].x, this.convexHull[i].y)
@@ -236,11 +238,7 @@ function perlinMaze(p, scl, thresh = 0.5, clr = 255, background = 0) {
 
 		for(var cluster_index in this.clusters) {
 			if(Object.prototype.hasOwnProperty.call(this.clusters, cluster_index)) {
-				if(this.clusters[cluster_index].points.length <= 2){
-					delete this.clusters.cluster_index;
-				} else {
-					this.clusters[cluster_index].detectHull();
-				}
+				this.clusters[cluster_index].detectHull();
 			}
 		}
 	}
@@ -257,8 +255,8 @@ var s = function( p ) {
   }
 
   p.draw = function() {
-		//maze.show()
 		console.log(maze);
+		maze.show()
 		maze.showClusters();
 		p.noLoop();
   }
