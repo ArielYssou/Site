@@ -69,7 +69,7 @@ function Cluster(p, anchor) {
 	}
 }
 
-function perlinMaze(p, scl, thresh = 0.5, clr = 255, background = 0) {
+function perlinMaze(p, scl, thresh = 0.4, clr = 255, background = 0) {
 	this.scl = scl;
 	this.thresh = thresh;
 	this.clr = clr;
@@ -128,7 +128,6 @@ function perlinMaze(p, scl, thresh = 0.5, clr = 255, background = 0) {
     for(var y = 0; y < this.rows; y++) {
       for(var x = 0; x < this.cols; x++){
 				let index = x + y * this.cols
-        var r = p.noise(this.xoff, this.yoff, this.zoff);
 				var c = this.sites[index] ? this.clr : this.background;
 
 				if(this.labels[index] in colors) {
@@ -144,6 +143,17 @@ function perlinMaze(p, scl, thresh = 0.5, clr = 255, background = 0) {
       }
     }
   }
+
+	this.show_fuzzy = function() {
+    for(var y = 0; y < this.rows; y++) {
+      for(var x = 0; x < this.cols; x++){
+				let index = x + y * this.cols
+				var c = this.sites[index] ? this.clr : this.background;
+				p.fill(c);
+				p.circle(x * this.scl, y * this.scl, this.scl);
+      }
+    }
+	}
 
 	this.showClusters = function() {
 		for(var cluster_index in this.clusters) {
@@ -249,13 +259,12 @@ var s = function( p ) {
   p.setup = function() {
     var myWidth = document.getElementById("perlinMaze").offsetWidth;
     p.createCanvas(myWidth, 400);
-		maze = new perlinMaze(p, 10);
+		maze = new perlinMaze(p, 4);
 		maze.detect_clusters();
 		maze.form_clusters();
   }
 
   p.draw = function() {
-		console.log(maze);
 		maze.show()
 		maze.showClusters();
 		p.noLoop();
