@@ -51,7 +51,6 @@ function Cluster(p, anchor) {
 		if(stack.length < 3) {
 			this.convexHull = [];
 		} else {
-			console.log(stack)
 			this.convexHull = stack;
 		}
 	}
