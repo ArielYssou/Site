@@ -13,20 +13,15 @@ waterBall = function(p, scl, mouseRadius = 5, thresh = 0.5, ceil = 10, clr = 255
 	this.noise = new Array(this.cols * this.rows);
 	this.neighbors = new Array()
 	this.mask = new Array()
+	this.needUpdate = new Array()
 
 	this.xoff = this.yoff = this.zoff = 0;
 	this.xSpeed = this.ySpeed = 0.3; // noise space speed
 	this.zSpeed = 0.01;
 	this.noiseMax = 0.9 * this.ceil;
+	this.recoverSpeed = 1 / 10; // After hidden, cells will take 10 frames to show completely
 
-	for(var y = 0; y < this.rows; y++) {
-		for(var x = 0; x < this.cols; x++){
-			var index = x + y * this.cols;
-			this.sites[index] = 0;
-		}
-	}
-
-	this.radius = 70 * this.scl;
+	this.radius = 20 * this.scl;
 	this.shape_function = function(x, y) {
 		let xs = (x - (p.width/2) - this.radius) * (x - (p.width/2) + this.radius);
 		let ys = (y - (p.height/2) - this.radius) * (y - (p.height/2) + this.radius);
@@ -42,18 +37,21 @@ waterBall = function(p, scl, mouseRadius = 5, thresh = 0.5, ceil = 10, clr = 255
 				this.neighbors.push([])
 				this.mask.push([])
 
-				for(var i = -this.mouseRadius; i <= this.mouseRadius; i += 1) {
-					if((x + i < 0) || (x + i < this.rows))
+				for(var dx = -this.mouseRadius; dx <= this.mouseRadius; dx += 1) {
+					if((x + dx < 0) || (x + dx > this.cols))
 						continue;
-					for(var j = -this.mouseRadius; j <= this.mouseRadius; j += 1) {
-						if((y + j < 0) || (j + y > this.cols))
+					for(var dy = -this.mouseRadius; dy <= this.mouseRadius; dy += 1) {
+						if((y + dy < 0) || (y + dy > this.rows))
 							continue;
-						let d = p.dist(x, y, i, j)
-						if(d < this.mouseRadius) {
-							this.neighbors[index].push(index - i - j * cols)
-							let xs = (i - this.mouseRadius) * (i + this.mouseRadius)  
-							let ys = (j - this.mouseRadius) * (j + this.mouseRadius)  
-							this.mask[index].push(1 - xs - ys);
+
+						if(p.dist(0, 0, dx, dy) < this.mouseRadius) {
+							this.neighbors[index].push(
+								{
+									'x' : x + dx,
+									'y': y + dy
+								}
+							)
+							this.mask[index].push( ((dx * dx) + (dy * dy)) / (2 * this.mouseRadius ** 2) );
 						}
 					}
 				}
@@ -69,7 +67,7 @@ waterBall = function(p, scl, mouseRadius = 5, thresh = 0.5, ceil = 10, clr = 255
 	}
 	this.init();
 
-	this.update_noise = function() {
+	this.updateNoise = function() {
 		this.yoff = this.zoff;
     for(var y = 0; y < this.rows; y++) {
 			this.xoff = this.zoff;
@@ -82,12 +80,27 @@ waterBall = function(p, scl, mouseRadius = 5, thresh = 0.5, ceil = 10, clr = 255
     }
     this.zoff += this.zSpeed;
   }
-	this.update_noise();
+	this.updateNoise();
 
-	this.apply_mouse = function() {
-		let index = p.floor((p.mouseX / this.scl) + (p.mouseY / this.scl) * this.cols);
-		for(var i = 0; i < this.neighbors[index].length; i += 1) {
-			this.sites[this.neighbors[index][i]] *= this.mask[index][i];
+	this.applyMouse = function(mx, my) {
+		let index = p.floor((mx / this.scl) + (my / this.scl) * this.cols);
+		p.fill(0,255,0)
+		p.rect(mx, my ,10,10)
+
+		if((index < this.neighbors.length) && (index > 0)) {
+			for(var i = 0; i < this.neighbors[index].length; i += 1) {
+				p.push()
+				p.fill(0,255,0,1)
+				p.rect(this.neighbors[index][i]['x'] ,this.neighbors[index][i]['y']*this.scl,10,10)
+				p.pop()
+				this.needUpdate.push(
+					{
+						'health': this.mask[index][i],
+						'x' : this.neighbors[index][i]['x'],
+						'y' : this.neighbors[index][i]['y']
+					}
+				)
+			}
 		}
 	}
 
@@ -97,13 +110,39 @@ waterBall = function(p, scl, mouseRadius = 5, thresh = 0.5, ceil = 10, clr = 255
 				let index = x + y * this.cols
 				let c = this.clr
 				if(this.sites[index] + this.noise[index] < (this.ceil + this.noiseMax) * this.thresh) {
-					c = this.background;
+					//c = this.background
+					continue;
 				}
 				p.fill(c);
+				p.noStroke();
 				p.circle(x * this.scl, y * this.scl, this.scl);
       }
     }
   }
+
+	this.updateShow = function() {
+		for(var i = 0; i < this.needUpdate.length; i++) {
+			p.fill(
+				p.lerpColor(
+					p.color(this.background, this.background, this.background),
+					p.color(this.clr,this.clr, this.clr),
+					this.needUpdate[i]['health']
+				)
+			)
+			p.noStroke()
+			p.circle(
+				this.needUpdate[i]['x'] * this.scl,
+				this.needUpdate[i]['y'] * this.scl,
+				this.scl
+			)
+			//console.log(this.needUpdate[i]['x'])
+			//console.log(this.needUpdate[i]['y'])
+			this.needUpdate[i]['health'] += this.recoverSpeed;
+			if(this.needUpdate[i]['health'] > 1) {
+				this.needUpdate.splice(i, 1);
+			}
+		}
+	}
 }
 
 var s = function( p ) {
@@ -111,13 +150,18 @@ var s = function( p ) {
   p.setup = function() {
     var myWidth = document.getElementById("waterBall").offsetWidth;
     p.createCanvas(myWidth, 400);
-		ball = new waterBall(p, 4);
-		console.log(ball.sites)
+		ball = new waterBall(p, 6);
+		console.log(ball.mask)
   }
 
   p.draw = function() {
+		p.background(ball.background)
 		ball.show()
-		p.noLoop();
+		ball.applyMouse(p.mouseX, p.mouseY)
+		//ball.updateNoise();
+		//ball.applyMouse(p.width / 2, p.height / 2)
+		ball.updateShow();
+		//p.noLoop();
   }
 
   p.windowResized = function() {
