@@ -1,4 +1,3 @@
-var background = '#363530';
 
 function Ball(p, pos, radialSpeed = 0, angularSpeed = 0.03, mass = 10) {
 	this.pos = pos;

@@ -57,8 +57,8 @@ function Cluster(p, anchor) {
 
 	this.show = function() {
 		p.push();
+		p.fill(255)
 		p.stroke(255)
-		p.noFill();
 		p.beginShape()
 		for(var i = 0; i < this.convexHull.length; i += 1) {
 			p.vertex(this.convexHull[i].x, this.convexHull[i].y)
@@ -122,7 +122,7 @@ function perlinMaze(p, scl, thresh = 0.4, clr = 255, background = 0) {
   }
 	this.update();
 
-	this.show = function() {
+	this.showClusters = function() {
 		var colors = {0 : 0}
     for(var y = 0; y < this.rows; y++) {
       for(var x = 0; x < this.cols; x++){
@@ -143,7 +143,7 @@ function perlinMaze(p, scl, thresh = 0.4, clr = 255, background = 0) {
     }
   }
 
-	this.show_fuzzy = function() {
+	this.show = function() {
     for(var y = 0; y < this.rows; y++) {
       for(var x = 0; x < this.cols; x++){
 				let index = x + y * this.cols
@@ -154,7 +154,7 @@ function perlinMaze(p, scl, thresh = 0.4, clr = 255, background = 0) {
     }
 	}
 
-	this.showClusters = function() {
+	this.showClustersHull = function() {
 		for(var cluster_index in this.clusters) {
 			if(Object.prototype.hasOwnProperty.call(this.clusters, cluster_index)) {
 				this.clusters[cluster_index].show();
@@ -253,6 +253,31 @@ function perlinMaze(p, scl, thresh = 0.4, clr = 255, background = 0) {
 	}
 }
 
+var maze;
+
+var s = function( p ) {
+	var maze;
+  p.setup = function() {
+    var myWidth = document.getElementById("perlinMazeClusters").offsetWidth;
+    p.createCanvas(myWidth, 400);
+		maze = new perlinMaze(p, 4);
+		maze.detect_clusters();
+		maze.form_clusters();
+  }
+
+  p.draw = function() {
+		maze.showClusters();
+		p.noLoop();
+  }
+
+  p.windowResized = function() {
+    mwidth = document.getElementById("perlinMazeClusters").offsetWidth;
+
+    p.resizeCanvas(mwidth, p.height);
+  };
+}
+var myp56 = new p5(s, 'perlinMazeClusters');
+
 var s = function( p ) {
 	var maze;
   p.setup = function() {
@@ -265,7 +290,6 @@ var s = function( p ) {
 
   p.draw = function() {
 		maze.show()
-		maze.showClusters();
 		p.noLoop();
   }
 
@@ -275,4 +299,27 @@ var s = function( p ) {
     p.resizeCanvas(mwidth, p.height);
   };
 }
-var myp51 = new p5(s, 'perlinMaze');
+var myp57 = new p5(s, 'perlinMaze');
+
+var s = function( p ) {
+	var maze;
+  p.setup = function() {
+    var myWidth = document.getElementById("perlinMazeHull").offsetWidth;
+    p.createCanvas(myWidth, 400);
+		maze = new perlinMaze(p, 4);
+		maze.detect_clusters();
+		maze.form_clusters();
+  }
+
+  p.draw = function() {
+		maze.showClustersHull()
+		p.noLoop();
+  }
+
+  p.windowResized = function() {
+    mwidth = document.getElementById("perlinMazeHull").offsetWidth;
+
+    p.resizeCanvas(mwidth, p.height);
+  };
+}
+var myp58 = new p5(s, 'perlinMazeHull');

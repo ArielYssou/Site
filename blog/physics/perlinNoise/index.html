@@ -21,8 +21,6 @@
 		<!-- Custom p5js animations -->
 		<script src="sketch.js"></script>
 		<script src="perlinMaze.js"></script>
-		<script src="waterBall.js"></script>
-		<script src="circularMotion.js"></script>
 
 	</head>
 
@@ -74,9 +72,7 @@
 			<div class="row post_struct">
 				<div class="col-ld-12">
 
-					<div class = 'sketch-holder' id="circularMotion"></div>
-					<!--<div class = 'sketch-holder' id="perlinMaze"></div>-->
-					<p>Random events are present in many physical systems and create several intriguing behaviors and patterns. In fact, many systems in nature that we call $``$random$'' are actually deterministic, but just extremely complex and our brains can't comprehend all the patterns in the system as a whole. Computer generated randomness may feel artificial as it is perfectly random and don't exhibit any correlations that generate the rich structures we observe in $``$natural randomness$"$. In this post we will discuss methods to generate random patterns that resemble natural noises, focusing on the famous Perlin noise. We will also discuss some applications as well.</p>
+					<p>Random events are present in many physical systems and create several intriguing behaviors and patterns. In fact, many systems in nature that we call $``$random$''$ are actually deterministic, but just extremely complex and our brains can't comprehend all the patterns in the system as a whole. Computer generated randomness may feel artificial as it is perfectly random and don't exhibit any correlations that generate the rich structures we observe in $``$natural randomness$"$. In this post we will discuss methods to generate random patterns that resemble natural noises, focusing on the famous Perlin noise. We will also discuss some applications as well.</p>
 					<img src="collage.jpg" alt="Nature Random Paterns", class="img_format">
 
 					<!-- TOC -->
@@ -120,41 +116,84 @@
 					<figcaption>\(1D\) Perlin noise function.</figcaption>
 				</figure>-->
 				<p>
-				This pattern is continuous locally but globally has a nice random feel to it. We can use it to simulate several interesting things, specially when we don't want to actually model a complex system, but still simulate its behavior. Lets now see some 
+				This pattern is continuous locally but globally has a nice random feel to it. We can use it to simulate several interesting things, specially when we don't want to actually model a complex system, but still simulate its behavior. In the next session we will implement some simple cases to observe the effects of perlin noise.
+				</p>
 				
 				<a name="CODE"></a>
 				<h2 class="section">2. Applications</h2>
 				<p>
-				Of course that the number of applications for a function that simulates natural noises is vast. Lets take a look into some demonstrations of different complexities
+				Lets implement some simple system where the effects of the Perlin Noise function are explicit. 
 				</p>
-				<h3>Procedual Caves</h3>
+				<h3>Procedural Caves</h3>
 				<p>
-				A simple way of using the noise function is just truncating all noise values to be either $0$ or $1$ based on a threshold. This gives us the following pattern:
-				This patter is very simmilar to an cave or dungeon! We could generate an map for an RPG based on this first approximation. TO make it more interesting, we can 
-
-				<h3>Unstable orbits 1</h3>
-				<h3>Perlin field</h3>
-				<h3>Unstable orbits 1</h3>
+				Our first example will use the noise function itself to generate a maze or dungeon! Lets start by remembering the Perlin noise is built interpolating a function to a grid of random values. This generates a continuous space of locally correlated values but random in a global scale. We will refer to this space as the <b>noise space</b>. If we take several points in a small neighborhood they will be very similar, but if the points are take from distant places they will be uncorrelated. Indeed, we can pick values from the noise space in small or huge steps, and this will generate very different patterns:
 				</p>
- This schema to build a noise function is fairly simple, so we might as well build our own noise function. A worthwhile read about this topic can be found in the <a href="https://thebookofshaders.com/11/" target='_'>Book of Shaders</a>, which has some very nice ideas for possible visualizations of noise.
-				<p>As the number of possible applications is almost infinite (a funny expression as nothing is truly 'almost infinite'), we will start with a classical one: generating a force field where the direction of the forces are generated via a noise function. Writing a step by step implementation would be very dull to write (and almost lethally boring to read) so I will just describe the key insights and refer to Daniel Shiffman <a href='https://www.youtube.com/watch?v=BjoM9oKOAKY' target='_'>excellent video</a>  (his entire Youtube channel is amazing and a must see for all code enthusiasts)</p>
-				<p>To visualize the field one might plot the usual arrow stream that consists of basically putting an arrow to represent the field in each point of a grid. But a far more beautiful way to visualize the effects of such a field is to generate particles that are subjected to the forces and plot their trajectory. The most 'logical' way to implement this is to create a <code>Particle()</code> generator function (or class if you wish), that generates a particle objects (in JavaScript a prototype object of the class, in python and most decent programming languages a instance of the class). There are many ways to implement the force field, I just set the module of all forces to 1 and generated a random direction via a noise function (not in a \(2\pi\) range to give a "global direction" to the field). Here is the code for the generator function (one of many ways of doing this in JS):</p> 	
+				<div class = 'sketch-holder' id="perlinMaze"></div>
+				<p>
+				We can apply a threshold function (Heavyside theta) so all noise values above a certain value are set to $1$ and all below will be set to $0$. This generates a maze-like pattern. The resulting maze will be different depending on where we pick the noise values, so this allow us to generate different maps in a procedural way. If we transverse the noise space and generate a new pattern on each iteration the maze will vary in a interesting way:
+				</p>
+				<div class = 'sketch-holder' id="ink"></div>
+				<p>
+				But this is just an image, we need to convert it into an object so it can be used (to detect collisions, for example). To do this we need to:
+				</p>
+				<ol>
+					<li>Detect clusters of active sites</li>
+					<li>Generate the borders of each cluster</li>
+				</ol>
+				<h4>Cluster Detection</h4>
+				<p>
+				To detect the clusters of active sites efficiently we will implement the <b>Hoshen - KopelMan</b> algorithm. The algorithm is based on a raster scan (a horizontal sweep on the lattice from left-to-right at a steady rate) and a union-find algorithm (also know as disjoint-set or merge-set). The union - find operation generates equivalence classes, thus the <code>union(A, B)</code> specifies that classes $A$ and $B$ are equivalent (members of the same equivalence class). As equivalence are transitive ($A \equiv B \Leftrightarrow B \equiv A$) we have that all the items labeled as $A$ are equivalent to all the items labeled as $B$. 
+				</p>
+				<p>
+				During the raster scan we label each active site (i.e. $noise \geq threshold$) based on its neighbors. If some of then is already labeled, the current site inherits the label from the neighbor. If no neighboring site has a label, we assign it a new label and go to the next. This procedure, however, does not guarantee that all sites in the same cluster will have the same label, so we need to set equivalence classes to unite all labels inside each cluster. For details on the implementation please refer to this wiki page and this more technical presentation, as the wiki pseudo code in the wiki is <b>very</b> confusing. My implementation is as follows:
+				<!--COde-->
+					<div class = 'sketch-holder' id="perlinMazeClusters"></div>
+				If we apply this final algorithm to the Perlin maze that we generated previously the result is as intended:
+				</p>
+				<h4>Border detection</h4>
+				<p>
+				This task is more challenging than the previous as defining the border of an arbitrary irregular polygon is no so simple. One solution might be to try to identify all sites on the exterior on a visual manner (pick an external site, look in all direction, add the first occupied site in each direction to an array (if already not included). Repeat for all external points.). This, however, is very inefficient and does not generates an ordered array, so we would still need to buil yet another algorithm to determine the correct order of points on the border. Another limitation is that a cluster may have internal holes, so how we differentiate these holes from the external hull?
+				</p>
+				<p>
+				A more elegant solution would be to determine the <b>convex hull</b> of the cluster in a single pass. For this we implement the <b>Graham scan</b> algorithm, which uses a stack to detect and remove concavities in the boundary efficiently. This is not an ideal solution as it only detects a hull that encompass the entire cluster, like a gift wrap, but is not exactly the true exterior hull. For now we want to focus on the Perlin noise,so we will not go into the implementation itself, but you can read more about it <a href="https://en.wikipedia.org/wiki/Graham_scan" target='_'>here</a>. The resulting code identifies the hull of each cluster in our maze:
+				</p>
+				<div class = 'sketch-holder' id="perlinMazeHull"></div>
+				<p>
+				A even better solution would be to find a <b>concave hull</b> for each cluster, which would be the ideal solution. We will dedicate a entire post for this problem as the implementation is very interesting and deserves proper attention.
+				</p> 	
+				<h3>Unstable orbits 1</h3>
+				<p>
+				Movements in nature usually are perturbated by random exterior forces. To simulate a particle suffering from small perturbations we can make its speed (or acceleration) be perturbated via a Perlin noise. To illustrate this we can implement a perturbated circular motion where the radial speed is affected by a noise. A linear motion would be hard to visualize as the particle would just escape the canvas. This system would look like this:
+				</p>
+				<div class = 'sketch-holder' id="circularMotion"></div>
+				<!-- Circular motion -->
+				<p>
+				A nice thing to consider is if the total angular momentum of the system is affected by this external force. As the noise was 'hard coded' into the system and did not use any conservation law to update the angular speed accordingly (as implementing these dynamics would affect performance a little bit), the conservation laws do not apply. A interesting exercise would be to implement this system with a physics system. In the next examples we will start to build an actual physics engine with random forces!
+				</p>
+				<h3>Perlin field</h3>
+				<p>
+				An interesting application of the perlin noise is to use it as a force field. As forces are vectors, we need to not only generate a value at each position, but a direction as well. Daniel Shiffman made and <a href='https://www.youtube.com/watch?v=BjoM9oKOAKY' target='_'>excellent video</a> about this application and I highly recommend it (as he is not only an amazing programmer, but also emanates good vibes). His idea was to use the noise space values as random orientations, and generate vectors at each position based on this orientation.
+				</p>
+				<p>
+				The implementation is too big for this post so we will just outline it. The force field is generated as random unit vectors whose directions are given by the noise function (mapped to a $0$ $2\pi$ interval). Each particle has a position, speed and acceleration, and at each step we update its acceleration as the force on its position, then update its speed and position accordingly. If we plot the trajectory of some particles in this field we get this pattern:
+				</p>
+					<p><span class='alert'>Click on the panel bellow to start/stop the simulation.</span> (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)</p>
+					<div class = 'sketch-holder' id="perlin_field"></div>
+				<p>
+				We can add a central potential to the force field to generate random orbits as well:
+				</p>
+				<div class = 'sketch-holder' id="perlin_alt"></div>
+				These are just some simple applications of the Perlin noise! I hope the inspire you to make some beautiful visualizations and some interesting simulations! Thanks for reading :D
 <br></br>
+<p>Code:</p>
 <pre>
 {% include 'particle_code.js' %}
 </pre>
-				<p>Each particle holds its current and previous positions and at each step we pot a line between then. Here is the final result</p>
-					<p><span class='alert'>Click on the panel bellow to start/stop the simulation.</span> (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)</p>
-					<div class = 'sketch-holder' id="perlin_field"></div>
-					<p>I experimented with some ideas that I had, like adding a central potential to the field (achieving orbits is quite impossible without cheating (adding radial noise that don't affect the circular motion) and sowing only regions where the noise function is bigger than a given threshold (I presume that some video game use this method or some variant to generate maps. If not I just gave you a nice idea for a game).</p>
-					<p><span class='alert'>Click on the panels bellow to start/stop the simulation.</span> (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)</p>
 
 					<div class="row">
 						<div class="col">
-							<div class = 'sketch-holder' id="perlin_alt"></div>
 						</div>
 						<div class="col">
-							<div class = 'sketch-holder' id="ink"></div>
 						</div>
 					</div>
 
