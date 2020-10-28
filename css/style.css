@@ -561,3 +561,33 @@ th, td {
 	min-width: 0px;
 	max-width: 900px;
 }
+
+.output_subarea{
+	width: 100%
+	min-width: 0px;
+	max-width: 900px;
+}
+
+.text_cell_rendered {
+	width: 100%
+	min-width: 0px;
+	max-width: 900px;
+}
+
+.text_cell_render {
+	width: 100%
+	min-width: 0px;
+	max-width: 900px;
+}
+
+.input {
+	width: 100%
+	min-width: 0px;
+	max-width: 900px;
+}
+
+.cell {
+	width: 100%
+	min-width: 0px;
+	max-width: 900px;
+}

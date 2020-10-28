@@ -17,7 +17,7 @@
   <!--TARGET-->
   <link href="../../css/style.css" rel="stylesheet"/>
   <!--TARGET-->
-  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js">
   </script>
   <!-- Custom p5js animations -->
   <script src="sketch.js">
@@ -38,9 +38,9 @@
       };
   </script>
  </head>
- <body style="background-color:#42403b">
+ <body>
   <!-- Navigation bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
    <a class="navbar-brand" href="../.." style="font-weight:bold;">
     Ariel Yssou
    </a>
@@ -57,7 +57,7 @@
       </a>
       <!--TARGET-->
      </li>
-     <li class="nav-item active">
+     <li class="nav-item nav-blog active">
       <a class="nav-link" href="../../blog" style="font-weight:bold;">
        Blog
        <span class="sr-only">
@@ -65,6 +65,11 @@
        </span>
       </a>
       <!--TARGET-->
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../gallery/" style="font-weight:bold;">
+       Gallery
+      </a>
      </li>
      <li class="nav-item">
       <a class="nav-link" href="../../about" style="font-weight:bold;">
@@ -92,25 +97,59 @@
    </div>
   </nav>
   <!-- End of navigation bar -->
+  <div class="head_container">
+   <img class="head_image no_blur" src="./cover_image.png"/>
+   <div class="head_middle">
+    <div class="head_text">
+     <b>
+      Long Short-Term Memory
+     </b>
+    </div>
+   </div>
+  </div>
   <div class="container post_body">
    <div class="row post_struct">
     <div class="col-ld-12">
-     <div class="head_container">
-      <img class="head_image no_blur" src="./cover_image.png"/>
-      <div class="head_middle">
-       <div class="head_text">
-        <b>
-         Long Short-Term Memory
-        </b>
-       </div>
-      </div>
-     </div>
      <p>
-      In this post we will tackle the task of time series forecasting with
+      Temporal data is an especially hard type of data to model as it usually has many kinds of dynamics, both periodic and non periodic in nature. Algorithms such as dense neural networks struggle to grasp all behaviors in temporal sequences as they only consider one element of the sequence at a time and are $``$ blind$"$ to the historic of inputs. One can solve this problem by increasing the complicity of the model and add more layers and nodes, but this can become very unwieldy. Another way of approaching this problem is to explicitly add an dependence on the previous inputs that the network received. As the state of the network depends recurrently on the previous state, the network models that include this explicit dependence are know as
+      <b>
+       Recurrent Neural Networks (RNN)
+      </b>
+      and are especially suited to deal with sequential data.
+     </p>
+     <p>
+      Although very powerful, RNNs struggle with temporal sequences with long term dependencies. This limitation is practical as theoretically there is no limit to the length of the correlations learned by RNNs. An variation of this algorithms was thus proposed, the
       <b>
        Long Short-Term Memory (LSTM)
       </b>
-      neural networks using the "Historical Hourly Weather Data 2012-2017" dataset. The task of predicting the weather is a challenging one, more so without using any specific models or insights from know meteorological models, but we will try to approach this problem armed only with machine learning!
+      network, which will be the focus of this text. In this algorithm, both long and short term memories are introduced in an explicit manner and allows the network to generalize very well. LSTM where actually the cutting edge of sequential data forecasting, but now
+      <b>
+       Transformers
+      </b>
+      are the new bleeding edge (see the excellent
+      <a href="https://www.youtube.com/watch?v=S27pHKBEp30" target="_blank">
+       talk by Leo Dirac
+      </a>
+      for more details), although LSTMs are still used in many modern real world problems.
+     </p>
+     <p>
+      The theoretical part of this text is heavily inspired by
+      <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank">
+       Colah's excellent blog post
+      </a>
+      and
+      <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb" target="_blank">
+       Chapter 10 of the Deep Learning Book
+      </a>
+      with the objective of combining then, providing an intermediate view and hopefully adding further insights where needed. The second part of this post will be dedicated to the implementation of the ideas we have discussed in python using the
+      <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb" target="_">
+       sklearn
+      </a>
+      library and the $``$
+      <a href="https://www.kaggle.com/selfishgene/historical-hourly-weather-data" target="_blank">
+       Historical Hourly Weather Data 2012-2017
+      </a>
+      $"$ dataset.
      </p>
      <!-- TOC -->
      <table class="TOC">
@@ -118,6 +157,13 @@
        <th>
         Contents
        </th>
+      </tr>
+      <tr>
+       <td>
+        <a href="#INTRO">
+         1. Introduction
+        </a>
+       </td>
       </tr>
       <tr>
        <td>
@@ -148,47 +194,54 @@
 </html>
 <br/>
 <!-- Intro -->
-<a name="RNN">
+<a name="INTRO">
 </a>
 <h2 class="section">
- 1. Recurrent Neural Networks
+ 1. Introduction
 </h2>
 <p>
- Our objective will be to build a model that is able to predict the future elements of a given sequence $x_0, x_1, \dots, x_t$. The first instinct might be to use a "traditional" neural network with sequential fully connected layers such as this:
+ The importance of fitting an model to a complex time series is unquestionable as many very important problems such as weather forecasting, stock price prediction and pandemic spread are very hard to describe analytically, and making better predictions in these cases could have a major impact in society. One of the most obvious candidates for a model is Dense Neural Networks as they are famous for dealing with complex systems and generalize very well. Although they can be used to fit a time series, there are some shortcomings. Lets start our discussion considering a common, fully connected, neura network:
 </p>
 <div class="sketch-holder" id="c1">
 </div>
 <br/>
 <!--NN scheme-->
 <p>
- While effective this type of architecture does not exploit the sequential structure of the data and thus yields poor generalization. The key feature that these networks miss is some sort of "memory". Indeed, at step $t$ the state $h_t$ of a neuron in the hidden layer can be written as:
-					$$h_t = f( \vec{w}_t . \vec{x}_t),$$
-					where $\vec{w}_t$ are weights (bias is omitted for simplicity) and $f$ a generic activation function. There is no explicit dependence on the "historic" of the data, as they only affect the way the weights are trained (thus being extremely sensible to the starting point of the data sequence). One way we can try to solve this limitation is by introducing an explicit dependence on the past state of the neuron:
+ This network only receives one input at a time and the previous events don't affect the current result in any direct way. Indeed, at step $t$ the state $h_t$ of a neuron in the hidden layer can be written as:
+					$$\hspace{2cm}h_t = f( \vec{w}_t . \vec{x}_t), \hspace{2cm}(1)$$
+					where $\vec{w}_t$ are weights (bias is omitted for simplicity) and $f$ a generic activation function. This model will learn the correlations in a very non linear way during training and can be very sensitive on the way the data is presented to it. There is also the problem that, in some cases, there is no way of obtaining many observations to train the model as data is very scarce (e.g. Population growth in a country is only measured a few times in a year and has a somewhat limited historic). These $``$limitations$"$ can be addressed by simply increasing the overall complexity of the network or performing a fancy statistical analysis on the data, but we will discuss one way we can modify the algorithm including an explicit memory term.
+</p>
+<!-- Intro -->
+<a name="RNN">
+</a>
+<h2 class="section">
+ 2. Recurrent Neural Networks
+</h2>
+One way we can try to solve the problems discussed in the previous session is by introducing an explicit dependence on the past state of the neuron:
 					$$
 					h_t = f(\vec{w}_t . \vec{x}_t + \vec{u}_t . \vec{h}_{t-1}),
 					$$
-					where $\vec{u}_t$ is a new set of parameters that control how much of the past information (or "memory") is used. This transforms the expression of the state of the neuron into a
- <i>
-  recurrence
- </i>
- relation as $h_t$ now depends on $h_{t-1}$. This is one of the ideas that inspired the formulation of
- <b>
-  Recurrent Neural Networks (RNN)
- </b>
- (not to be confused with
- <i>
-  Recursive neural nets
- </i>
- that share the same acronym and sound similar,
- <a href="https://en.wikipedia.org/wiki/Recursive_neural_network" target="_">
-  but have differences
- </a>
- ). As the hidden units use their own past output to proceed, the same parameters are used over and over again. This
- <i>
-  parameter sharing
- </i>
- can be loosely interpreted as the network keeping what it has already leaned previously and is one of the reasons why RNN are best suited for sequential data. The structure of a RNN can be illustrated as:
-</p>
+					where $\vec{u}_t$ is a new set of parameters that control how much of the past information (or "memory") is used. This transforms equation $(1)$ into a
+<i>
+ recurrence
+</i>
+relation as $h_t$ now depends on $h_{t-1}$. This is one of the ideas that inspired the formulation of
+<b>
+ Recurrent Neural Networks (RNN)
+</b>
+(not to be confused with
+<i>
+ Recursive neural nets
+</i>
+that share the same acronym and sound similar,
+<a href="https://en.wikipedia.org/wiki/Recursive_neural_network" target="_">
+ but have differences
+</a>
+). As the hidden units use their own past output to proceed, the same parameters are used over and over again. This
+<i>
+ parameter sharing
+</i>
+can be loosely interpreted as the network keeping what it has already leaned previously and is one of the reasons why RNN are best suited for sequential data. The structure of a RNN can be illustrated as:
 <!-- rnn SCHEME -->
 <div class="sketch-holder" id="c2">
 </div>
@@ -205,14 +258,14 @@
 </p>
 <!-- Conclusion RNN -->
 <p>
- Although "traditional" RNNs are quite powerful they have some limitations. While there is no theoretical limit to a RNN memory, practice shows that its hard to learn long term dependencies with (see
+ While there is no theoretical limit to the memory of a RNN, practice shows that its hard to learn long term dependencies (see
  <a href="https://ieeexplore.ieee.org/document/279181" target="_">
   Bengio
   <i>
    et al
   </i>
  </a>
- ) as their effects are heavily "diluted" as the recurrence is iterated. This limitation arises from the recurrence itself as the network is as deep as the length of the sequence and thus the same weights are used several times. If we were dealing, for example, with a time series of 100 steps; the recurrence will apply the same weights $100$ times, thus the final state $h_{100}$ will depend on the weight matrix $ W^{100} $. The gradients (used in gradient descent) linked to eigenvalues slightly different than 1 will wither vanish or explode, thus making training a hard task.
+ ) as their effects are heavily "diluted" as the recurrence is iterated. This comes from the recurrence itself as the network is as deep as the length of the sequence and thus the same weights are used several times. If we were dealing, for example, with a time series of 100 steps the recurrence will apply the same weights $100$ times, thus the final state $h_{100}$ will depend on the weight matrix $ W^{100} $. The gradients (used in gradient descent) linked to eigenvalues slightly different than $1$ will wither vanish or explode, thus making training a hard task.
  <b>
   LSTM
  </b>
@@ -222,22 +275,23 @@
 <a name="LSTM">
 </a>
 <h2 class="section">
- 2. Long Short Term Memory
+ 3. Long Short Term Memory
 </h2>
 <p>
- LSTM addresses the problem of long term memory by making several modifications to the vanilla RNN architecture. Indeed its structure is far more complex:
+ LSTM addresses the problem of long term memory by making several modifications to the vanilla RNN architecture. Indeed its structure is far more complex (adapted from
+ <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_">
+  here
+ </a>
+ ):
 </p>
 <div class="sketch-holder" id="c3">
 </div>
 <p>
- I cannot even dream of writing a better explanation on LSTMs than Colah in his amazing blog post, but I'll try to explain then in a different way.
+ The idea is to add a $``$cell state$"$ that stores memory throughout the network. This cell state is only affected by some minor linear iterations and is responsible for carrying part of the memory of the network forward. We also add terms for both short memory and long memory in the hidden state:
+					$$h_t = (``Short\ memory") \times (``Long\ memory") \equiv S_t . L_t,$$
 </p>
 <p>
- The idea is to combine a short memory term with a long memory term
-					$$h_t = (``Short\ memory") \times (``Long\ memory") \equiv S_t + L_t.$$
-</p>
-<p>
- The short memory term $S_t$ will only combine the input with the very last state of the cell. This short memory will be learned via a usual neural net layer with a $\sigma$ activation function.
+ The short memory term $S_t$ will only combine the current input with the very last state of the cell. This short memory will be learned via a usual neural net layer with a $\sigma$ activation function.
 					$$S_t = \sigma ( w_s [h_{t-1}, x_t] + b_s ),$$
 					where $w_s$ and $b_s$ are the weights and bias of this layer.The $[,]$ is the concatenation operator. The long memory term $L_t$ will be responsible of carrying the memory of the cell, forgetting any currently held information (old information") and adding new information based on the current input and state. We can think of it like:
 </p>
@@ -258,10 +312,17 @@
 					where all the $w$ are separate sets of weights and $b$ the biases that need to be learned. In order to "smoothly normalize" the long memory term (as it can exceed unity as its is the sum of two things that can be at maximum 1) the LSTM model applies a $tanh$ to it. This leads us to the final form of the state of the LSTM cell:
 					$$\boxed{h_t = S_t \tanh(L_t)}.$$
 </p>
+<p>
+ Further modifications can be made to this scheme such as adding peepholes or update gates. These variations are explained in
+ <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_">
+  Colah's post
+ </a>
+ in great detail and I highly recommend you check it out. Now we will focus on how we can use LSTM in python.
+</p>
 <a name="CODE">
 </a>
 <h2 class="section">
- 3. Implementation
+ 4. Implementation
 </h2>
 <div class="cell border-box-sizing text_cell rendered">
  <div class="prompt input_prompt">
