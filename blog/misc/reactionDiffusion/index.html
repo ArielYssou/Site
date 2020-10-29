@@ -1,148 +1,386 @@
 <!DOCTYPE html>
-<html lang='en'>
-	<head>
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, intial-scale=1">
-
-		<!-- Name on tab -->
-		<title>Reaction Diffusion</title>
-
-		<!-- Google Fonts -->
-		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
-
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" href="../../../css/style.css"> <!--TARGET-->
-		<link rel="stylesheet" href="../../../css/pygments.css"> <!--TARGET-->
-
-		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
-
-		<!-- Custom p5js animations -->
-		<script src="sketch.js"></script>
-
-	</head>
-
-	<body>
-		<!-- Navigation bar -->
-		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
-			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a><!--TARGET-->
- 
-					</li>
-					<li class="nav-item nav-blog active">
-						<a class="nav-link" href="../../blog" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../../../gallery/" style="font-weight:bold;">Gallery </a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a><!--TARGET-->
-					</li>
-				</ul>
-			</div>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-		<!-- End of navigation bar -->
-	<div class="head_container">
-		<img src="./cover_image.png" class="head_image no_blur">
-		<div class="head_middle">
-			<div class="head_text"><b>Reaction Diffusion</b></div>
-		</div>
-	</div>		
-		<div class="container post_body">
-			<div class="row post_struct">
-				<div class="col-ld-12">
-
-
-					<p>In this post we will study the Gray Scott model which describes the reaction between two substances. This model has been the focus of many recent studies (<a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>[1]</a>, <a href="https://www.sciencedirect.com/science/article/pii/S1468121803000208" target='_'>[2]</a>, <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>[3]</a>) for its complex behavior, chaotic nature and relatively simple formulation. It also generates beautiful patterns that are widely used by graphical artists (<a href="https://www.mdpi.com/1424-8220/20/4/1135/htm" target='_'>creating procedual generated textures</a>) and has applications in many theoretical fields such as biology in the modeling of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model/figures?lo=1" target='_'>human brain development</a> and in physics in the study of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>phase transitions in complex patterns</a>.</p>
-					<figure>
-						<img src="copper_shadder.png" alt="coral pattern" class = 'center' style='max-width : 400px'>
-					</figure>
-
-
-				 <table class="TOC">
-				<tr><th>Contents</th></tr>
-				<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
-				<tr><td><a href="#THEORY">2. Implementation</a>	</td></tr>
-				<tr><td><a href="#USE">3. Application</a></a></td></tr>
-				</table> 
-				<br></br>
-
-					<a name="INTRO"></a>
-					<h2 class="section">1. Results</h2>
-					<p>
-					<p>The model may seem simple at first glance, but implementing it will provide some challenges that will help us study very powerful computational methods that can be used in many other algorithms and are a valuable tool for any programmer or scientist. The theoretical aspects will be discussed in a surface level as a proper discussion would be way more mathematically intensive and out of the scope of this post.</p>
-					<p>The Gray Scott model describes the reaction of two chemicals: a reactant $``B"$ can transform another reactant $``A"$ into becoming a inert substance. One substance is feed to the system at rate $f$ and the other is removed (or "killed") at rate $k$ and both substances are free to diffuse with rates $D_{A,B}$. The evolution of the system is described by the following equations:</p>
-					 <p>
-					 $$\begin{eqnarray}
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, intial-scale=1" name="viewport"/>
+  <!-- Name on tab -->
+  <title>
+   Reaction Diffusion
+  </title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+  <link href="../../../css/style.css" rel="stylesheet"/>
+  <!--TARGET-->
+  <link href="../../../css/pygments.css" rel="stylesheet"/>
+  <!--TARGET-->
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  </script>
+  <!-- Custom p5js animations -->
+  <script src="sketch.js">
+  </script>
+ </head>
+ <body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+   <a class="navbar-brand" href="../../.." style="font-weight:bold;">
+    Ariel Yssou
+   </a>
+   <!--TARGET-->
+   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+      <a class="nav-link" href="../../.." style="font-weight:bold;">
+       Home
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item nav-blog active">
+      <a class="nav-link" href="../../blog" style="font-weight:bold;">
+       Blog
+       <span class="sr-only">
+        (current)
+       </span>
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../gallery/" style="font-weight:bold;">
+       Gallery
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../about" style="font-weight:bold;">
+       About
+      </a>
+      <!--TARGET-->
+     </li>
+    </ul>
+   </div>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
+       <i class="fab fa-github fa-lg">
+       </i>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
+       <i class="fab fa-linkedin fa-lg">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </nav>
+  <!-- End of navigation bar -->
+  <div class="head_container">
+   <img class="head_image no_blur" src="./cover_image.png"/>
+   <div class="head_middle">
+    <div class="head_text">
+     <b>
+      Reaction Diffusion
+     </b>
+    </div>
+   </div>
+  </div>
+  <div class="container post_body">
+   <div class="row post_struct">
+    <div class="col-ld-12">
+     <p>
+      In this post we will study the Gray Scott model which describes the reaction between two substances. This model has been the focus of many recent studies (
+      <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target="_">
+       [1]
+      </a>
+      ,
+      <a href="https://www.sciencedirect.com/science/article/pii/S1468121803000208" target="_">
+       [2]
+      </a>
+      ,
+      <a href="https://arxiv.org/pdf/1610.09097.pdf" target="_">
+       [3]
+      </a>
+      ) for its complex behavior, chaotic nature and relatively simple formulation. It also generates beautiful patterns that are widely used by graphical artists (
+      <a href="https://www.mdpi.com/1424-8220/20/4/1135/htm" target="_">
+       creating procedual generated textures
+      </a>
+      ) and has applications in many theoretical fields such as biology in the modeling of
+      <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model/figures?lo=1" target="_">
+       human brain development
+      </a>
+      and in physics in the study of
+      <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target="_">
+       phase transitions in complex patterns
+      </a>
+      .
+     </p>
+     <figure>
+      <img alt="coral pattern" class="center" src="copper_shadder.png" style="max-width : 400px"/>
+     </figure>
+     <table class="TOC">
+      <tr>
+       <th>
+        Contents
+       </th>
+      </tr>
+      <tr>
+       <td>
+        <a href="#INTRO">
+         1. Introduction
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#THEORY">
+         2. Implementation
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#USE">
+         3. Application
+        </a>
+       </td>
+      </tr>
+     </table>
+     <br/>
+     <a name="INTRO">
+     </a>
+     <h2 class="section">
+      1. Results
+     </h2>
+     <p>
+      <p>
+       The model may seem simple at first glance, but implementing it will provide some challenges that will help us study very powerful computational methods that can be used in many other algorithms and are a valuable tool for any programmer or scientist. The theoretical aspects will be discussed in a surface level as a proper discussion would be way more mathematically intensive and out of the scope of this post.
+      </p>
+      <p>
+       The Gray Scott model describes the reaction of two chemicals: a reactant $``B"$ can transform another reactant $``A"$ into becoming a inert substance. One substance is feed to the system at rate $f$ and the other is removed (or "killed") at rate $k$ and both substances are free to diffuse with rates $D_{A,B}$. The evolution of the system is described by the following equations:
+      </p>
+      <p>
+       $$\begin{eqnarray}
 					 \frac{\partial}{\partial t} A(t) =  D_A \nabla^2 A - A B^2 + f (1 - A),\\
 					 \frac{\partial}{\partial t} B(t) =  D_B \nabla^2 B + A B^2 - (f + k) B.
 					 \end{eqnarray}
 					 $$
-					 </p>
-					 <p>Postponing the theoretical discussion, lets start by solving these equations numerically to get acquainted with the problem. This can be done by considering discrete time intervals and by dividing the system into a grid, where each site has a local concentration of A and B that can diffuse to the neighboring sites. These conditions lead us to the following set of equations for a given time interval $j$ (notice that since the particular position in the lattice don't matter, as all rates are the same everywhere, we will avoid indexing the position to simplify the notation)</p> 
-					 <p>
-					 $$\begin{eqnarray}
+      </p>
+      <p>
+       Postponing the theoretical discussion, lets start by solving these equations numerically to get acquainted with the problem. This can be done by considering discrete time intervals and by dividing the system into a grid, where each site has a local concentration of A and B that can diffuse to the neighboring sites. These conditions lead us to the following set of equations for a given time interval $j$ (notice that since the particular position in the lattice don't matter, as all rates are the same everywhere, we will avoid indexing the position to simplify the notation)
+      </p>
+      <p>
+       $$\begin{eqnarray}
 					 A_{j+1} =  D_A \nabla^2 A_j - A_j B_j^2 + f (1 - A_j),\\
 					 B_{j+1} =  D_B \nabla^2 B_j + A_j B_j^2 - (f + k) B_j.
 					 \end{eqnarray}
-					 $$ 
-					 </p>
-					 <p>The first question that comes to mind is how to compute the Laplacian operator. The discretization of \(\nabla^2\) can be done in many ways (you can read more about it <a href="https://en.wikipedia.org/wiki/Discrete_Laplace_operator" target='_'>here</a>), but for reasons that will become clear soon we will use the <i>five point stencil</i> method, which comprises of estimating the Laplacian (in a square lattice) via: </p> 
-					 <p>
 					 $$
+      </p>
+      <p>
+       The first question that comes to mind is how to compute the Laplacian operator. The discretization of \(\nabla^2\) can be done in many ways (you can read more about it
+       <a href="https://en.wikipedia.org/wiki/Discrete_Laplace_operator" target="_">
+        here
+       </a>
+       ), but for reasons that will become clear soon we will use the
+       <i>
+        five point stencil
+       </i>
+       method, which comprises of estimating the Laplacian (in a square lattice) via:
+      </p>
+      <p>
+       $$
 					 \begin{equation}
 					 \nabla^2 f(x, y) \approx f(x-1, y) + f(x+1, y) + f(x, y-1) + f(x, y+1) - 4 f(x,y)
 					 \end{equation}
 					 $$
-					 </p>
-					 <p>This type of discretization is based on simple Taylor series (here for a <a href="https://en.wikipedia.org/wiki/Finite_difference_method" target='_'>quick "proof"</a>). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click on it in the panel below and see it for yourself: </p> 
-					<p><span class='alert'>Click on the panel bellow to start/stop the simulation.</span> </p>
+      </p>
+      <p>
+       This type of discretization is based on simple Taylor series (here for a
+       <a href="https://en.wikipedia.org/wiki/Finite_difference_method" target="_">
+        quick "proof"
+       </a>
+       ). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click on it in the panel below and see it for yourself:
+      </p>
+      <p>
+       <span class="alert">
+        Click on the panel bellow to start/stop the simulation.
+       </span>
+      </p>
+      <div class="sketch-holder" id="c1">
+      </div>
+      <br/>
+      <p>
+       Here is the code that generated this simulation, which is a simple implementation of the equations we talked about:
+      </p>
+      <div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">p</span><span class="w"> </span><span class="c1">could</span><span class="w"> </span><span class="c1">be</span><span class="w"> </span><span class="c1">any</span><span class="w"> </span><span class="c1">variable</span><span class="w"> </span><span class="c1">name</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">grid</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
 
-					<div class='sketch-holder' id="c1"></div>
-					<br></br>
-					<p>
-					Here is the code that generated this simulation, which is a simple implementation of the equations we talked about:
-					</p> 
-<pre>
-{% include 'sketch.js' %}
-</pre>
-					<p>
-						This code is correct from a theoretical point of view, but very inefficient and unwieldy for any serious numerical analysis. Currently here are $N^2$ sites that need to be updated on each iteration, each site requires 16 sums and 10 multiplications to be updated. Additionally we need to painfully check each site of the matrix, perform operations locally, and then jump to the next until you evaluated all sites. To our luck, there are several aspects of the code that can be optimized which we will be discussed in the next section.
-					</p>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">dA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">dB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">feed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0208</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0576</span><span class="p">;</span><span class="w"></span>
 
-					<a name="CODE"></a>
-					<h2 class="section">2. Implementation</h2>
-					<p>
-					The code we built in the last section has some computational bottlenecks that, since it is a small and fairly simple code, we can identify relatively easily. The first one we will discuss is how to best handle data that is naturally representable by a matrix (in our case, a system defined in a lattice).
-					</p>
-					<p>
-					While easier and more readable, writing matrices as actual 2D arrays is suboptimal from a computational point of view. An array is basically a pointer that... well... points to a place in memory where the array values are stored sequentially. A 2D array is an array of pointers, each pointing to the location of a line of the matrix. So every time we access a 2D array, we have to follow two pointers (the pointer to the pointer that points to the value) instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optimizing how we access the values of a matrix. Here is a scheme of how this works:
-					</p> 
-					<figure>
-						<img src="array_pointer_neg.png" alt="array scheme was supposed to be here :c" class = 'center'>
-					</figure>
-					<p>This technique of $``$flattening$"$ the matrices is already a big improvement in term of computation complexity, but we can go even further. Another big bottleneck is the calculation the Laplacian in each site. We used the five point stencil to estimate it, but it is a local operation in a matrix. There is actually a way to write this operator in matrix form which will help us a lot and make the code run much faster. But why using a matrix operator (thus having to multiply two huge matrices) is actually <b>any</b> faster than just sum the neighbors of each site (as in the five point stencil method)?
-					</p>
-					<p>It is easy to overlook the fact that squaring a matrix or doing matrix operations in code is relatively $``$fast$"$ when we are executing a simple code, but its is unclear to why this is true without looking into the actual implementation of these functions in a low level. If we look into the implementation of matrix operations in numpy (or any other numerical library for all big programming languages) we see that these operations are <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target='_'>vectorized</a>, which is a far better and optimized way of performing array operations. Contrary to locally updating each site of an array individually using just own computational thread, vectorization allow us to use the multiple computational threads of a processor to perform operation simultaneously, thus bringing all the might of the processor to bear.</p>
-					<p>To use the vectorized nature of numpy functions we need to find a way to write the Laplacian operator as a matrix. Lets start thinking on the action of the Laplacian on some position \((x, y)\) and its neighboring sites. The operator could be written as:<p>
-					<p>$$
+<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">var</span><span class="w"> </span><span class="c1">dA</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">0.14;</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">var</span><span class="w"> </span><span class="c1">dB</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">0.06;</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">var</span><span class="w"> </span><span class="c1">feed</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">0.035;</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//</span><span class="w">  </span><span class="c1">var</span><span class="w"> </span><span class="c1">k</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">0.065;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(){</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="w"> </span><span class="mi">300</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pixelDensity</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">    </span><span class="nx">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">      </span><span class="nx">next</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">a</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="nx">next</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">a</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="p">};</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="nx">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">grid</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">].</span><span class="nx">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">next</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">dA</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">laplaceA</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">feed</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">a</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="nx">next</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">dB</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">laplaceB</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nx">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">feed</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">//next[x][y].a</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">p.constrain(next[x][y].a,</span><span class="w"> </span><span class="c1">0,</span><span class="w"> </span><span class="c1">1);</span><span class="w"></span>
+<span class="w">        </span><span class="c1">//next[x][y].b</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">p.constrain(next[x][y].b,</span><span class="w"> </span><span class="c1">0,</span><span class="w"> </span><span class="c1">1);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">loadPixels</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span><span class="w"> </span><span class="nx">x</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span><span class="w"> </span><span class="nx">y</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">pix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">next</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">next</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">255</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">//c</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">p.constrain(c,</span><span class="w"> </span><span class="c1">110,</span><span class="w"> </span><span class="c1">255);</span><span class="w"></span>
+<span class="w">        </span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">pixels</span><span class="p">[</span><span class="nx">pix</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">pixels</span><span class="p">[</span><span class="nx">pix</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">pixels</span><span class="p">[</span><span class="nx">pix</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">pixels</span><span class="p">[</span><span class="nx">pix</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">updatePixels</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">swap</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">laplaceA</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">sumA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumA</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumA</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumA</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumA</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">].</span><span class="nx">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumA</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">].</span><span class="nx">a</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">sumA</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">laplaceB</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">sumB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumB</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumB</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumB</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="nx">y</span><span class="p">].</span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumB</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">].</span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">sumB</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">].</span><span class="nx">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">sumB</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">swap</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grid</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">temp</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">mousePressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Check</span><span class="w"> </span><span class="c1">if</span><span class="w"> </span><span class="c1">mouse</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">inside</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">circle</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseY</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">mouseX</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="nx">running</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">loop</span><span class="p">();</span><span class="w"></span>
+<span class="w">          </span><span class="c1">//myp53.running</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">false;</span><span class="w"></span>
+<span class="w">          </span><span class="c1">//myp53.noLoop()</span><span class="w"></span>
+<span class="w">          </span><span class="c1">//myp54.running</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">false;</span><span class="w"></span>
+<span class="w">          </span><span class="c1">//myp54.noLoop()</span><span class="w"></span>
+<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="c1">//console.log(&quot;PARTICLES</span><span class="w"> </span><span class="c1">running&quot;)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">();</span><span class="w"></span>
+<span class="w">          </span><span class="nx">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="c1">//console.log(&quot;PARTICLES</span><span class="w"> </span><span class="c1">stoped&quot;)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">myp51</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;c1&#39;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+      <p>
+       This code is correct from a theoretical point of view, but very inefficient and unwieldy for any serious numerical analysis. Currently here are $N^2$ sites that need to be updated on each iteration, each site requires 16 sums and 10 multiplications to be updated. Additionally we need to painfully check each site of the matrix, perform operations locally, and then jump to the next until you evaluated all sites. To our luck, there are several aspects of the code that can be optimized which we will be discussed in the next section.
+      </p>
+      <a name="CODE">
+      </a>
+      <h2 class="section">
+       2. Implementation
+      </h2>
+      <p>
+       The code we built in the last section has some computational bottlenecks that, since it is a small and fairly simple code, we can identify relatively easily. The first one we will discuss is how to best handle data that is naturally representable by a matrix (in our case, a system defined in a lattice).
+      </p>
+      <p>
+       While easier and more readable, writing matrices as actual 2D arrays is suboptimal from a computational point of view. An array is basically a pointer that... well... points to a place in memory where the array values are stored sequentially. A 2D array is an array of pointers, each pointing to the location of a line of the matrix. So every time we access a 2D array, we have to follow two pointers (the pointer to the pointer that points to the value) instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optimizing how we access the values of a matrix. Here is a scheme of how this works:
+      </p>
+      <figure>
+       <img alt="array scheme was supposed to be here :c" class="center" src="array_pointer_neg.png"/>
+      </figure>
+      <p>
+       This technique of $``$flattening$"$ the matrices is already a big improvement in term of computation complexity, but we can go even further. Another big bottleneck is the calculation the Laplacian in each site. We used the five point stencil to estimate it, but it is a local operation in a matrix. There is actually a way to write this operator in matrix form which will help us a lot and make the code run much faster. But why using a matrix operator (thus having to multiply two huge matrices) is actually
+       <b>
+        any
+       </b>
+       faster than just sum the neighbors of each site (as in the five point stencil method)?
+      </p>
+      <p>
+       It is easy to overlook the fact that squaring a matrix or doing matrix operations in code is relatively $``$fast$"$ when we are executing a simple code, but its is unclear to why this is true without looking into the actual implementation of these functions in a low level. If we look into the implementation of matrix operations in numpy (or any other numerical library for all big programming languages) we see that these operations are
+       <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target="_">
+        vectorized
+       </a>
+       , which is a far better and optimized way of performing array operations. Contrary to locally updating each site of an array individually using just own computational thread, vectorization allow us to use the multiple computational threads of a processor to perform operation simultaneously, thus bringing all the might of the processor to bear.
+      </p>
+      <p>
+       To use the vectorized nature of numpy functions we need to find a way to write the Laplacian operator as a matrix. Lets start thinking on the action of the Laplacian on some position \((x, y)\) and its neighboring sites. The operator could be written as:
+       <p>
+        <p>
+         $$
 					\begin{eqnarray*}
 				\nabla^2 f(x, y) &\approx& f(x-1, y) + f(x+1, y) + f(x, y-1) + f(x, y+1) - 4 f(x,y) =\\
 				\\
@@ -158,140 +396,390 @@
 						f(x-1,y+1) & f(x,y+1) & f(x+1,y+1)
 						\end{pmatrix}}_{f(x,y)}
 					\end{eqnarray*}
-					$$</p> 
-					<p>This means that the Laplacian acts as a matrix on each site! If our lattice has $n^2$ sites we will need to build a $n^2 \times n^2$ operator where each line is an operation on a single site and its neighbors. The best way to understand this is by doing it by hand for a relatively small case ($3 \times 3$ for example) and convince yourself that is a matrix with $-4$ on the main diagonal, $1$ on the diagonals above and below the main diagonal and $1$ in diagonals $\pm n$ away from the main diagonal.In python: </p>
-<pre>
-diags = [-4*main, inf, sup, main, main]
-offsets = [0, -1, 1, -n, n]
-self.Laplacian = dia_matrix((diags, offsets), shape=(n**2, n**2) )
-</pre>
-					<p>Implementing these changes make the code (available in the end of this post) run MUCH faster. With this we can explore some know parameter combinations and see the sheer variety of patterns that a single model can generate.
-					<a name="RESULTS"></a>
-					<h2 class="section">3. Results</h2>
-
-					The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed). So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Turing patterns, in honor of Alan Turing, atheist, homosexual, war hero and father of computer science).</p>
-				<div class="row">
-					<div class="col">
-						<figure>
-							<img src="config_a_jet_r.png" alt="Random Noise" class='pannel_fig'>
-							<figcaption>
-								(A) - Self replicating spots
-								(Pearson \(\lambda\) pattern)<br>
-								\(
+					$$
+        </p>
+        <p>
+         This means that the Laplacian acts as a matrix on each site! If our lattice has $n^2$ sites we will need to build a $n^2 \times n^2$ operator where each line is an operation on a single site and its neighbors. The best way to understand this is by doing it by hand for a relatively small case ($3 \times 3$ for example) and convince yourself that is a matrix with $-4$ on the main diagonal, $1$ on the diagonals above and below the main diagonal and $1$ in diagonals $\pm n$ away from the main diagonal.In python:
+        </p>
+        <div class="highlight"><pre><span></span><span class="n">diags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">main</span><span class="p">,</span><span class="w"> </span><span class="n">inf</span><span class="p">,</span><span class="w"> </span><span class="n">sup</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="p">]</span><span class="w"></span>
+<span class="n">offsets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">]</span><span class="w"></span>
+<span class="bp">self</span><span class="o">.</span><span class="n">Laplacian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dia_matrix</span><span class="p">((</span><span class="n">diags</span><span class="p">,</span><span class="w"> </span><span class="n">offsets</span><span class="p">),</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+</pre></div>
+        <p>
+         Implementing these changes make the code (available in the end of this post) run MUCH faster. With this we can explore some know parameter combinations and see the sheer variety of patterns that a single model can generate.
+         <a name="RESULTS">
+         </a>
+         <h2 class="section">
+          3. Results
+         </h2>
+         The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed). So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Turing patterns, in honor of Alan Turing, atheist, homosexual, war hero and father of computer science).
+        </p>
+        <div class="row">
+         <div class="col">
+          <figure>
+           <img alt="Random Noise" class="pannel_fig" src="config_a_jet_r.png"/>
+           <figcaption>
+            (A) - Self replicating spots
+								(Pearson \(\lambda\) pattern)
+            <br/>
+            \(
 								\begin{eqnarray*}
 								f = 0.0392\\
 								k = 0.0649
 								\end{eqnarray*}\)
-							</figcaption>
-						</figure>
-					</div>
-					<div class="col">
-						<figure>
-							<img src="config_b_jet_r.png" alt="Random Noise" class='pannel_fig'>
-							<figcaption>
-								(B) - "Worms" Pattern
-								(Pearson \(\mu\) pattern)<br>
-								\(
+           </figcaption>
+          </figure>
+         </div>
+         <div class="col">
+          <figure>
+           <img alt="Random Noise" class="pannel_fig" src="config_b_jet_r.png"/>
+           <figcaption>
+            (B) - "Worms" Pattern
+								(Pearson \(\mu\) pattern)
+            <br/>
+            \(
 								\begin{eqnarray*}
 								f = 0.0416\\
 								k = 0.0625
 								\end{eqnarray*}\)
-							</figcaption>
-						<figure>
-					</div>
-					<div class="col">
-						<figure>
-							<img src="config_c_jet_r.png" alt="Random Noise" class='pannel_fig'>
-							<figcaption>
-								(C) - Mixed phase
-								(Pearson \(\eta\) pattern)<br>
-								\(
+           </figcaption>
+           <figure>
+           </figure>
+          </figure>
+         </div>
+         <div class="col">
+          <figure>
+           <img alt="Random Noise" class="pannel_fig" src="config_c_jet_r.png"/>
+           <figcaption>
+            (C) - Mixed phase
+								(Pearson \(\eta\) pattern)
+            <br/>
+            \(
 								\begin{eqnarray*}
 								f = 0.0404\\
 								k = 0.0638
 								\end{eqnarray*}\)
-							</figcaption>
-						<figure>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<figure>
-							<img src="config_d_YlGnBu.png" alt="Random Noise" class='pannel_fig'>
-							<figcaption>
-								(D) - Spatial temporal chaos
-								(Pearson \(\epsilon\) pattern)<br>
-								\(
+           </figcaption>
+           <figure>
+           </figure>
+          </figure>
+         </div>
+        </div>
+        <div class="row">
+         <div class="col">
+          <figure>
+           <img alt="Random Noise" class="pannel_fig" src="config_d_YlGnBu.png"/>
+           <figcaption>
+            (D) - Spatial temporal chaos
+								(Pearson \(\epsilon\) pattern)
+            <br/>
+            \(
 								\begin{eqnarray*}
 								f = 0.0175\\
 								k = 0.0504
 								\end{eqnarray*}\)
-							</figcaption>
-						</figure>
-					</div>
-					<div class="col">
-						<figure>
-							<img src="config_e_YlGnBu.png" alt="Random Noise" class='pannel_fig'>
-							<figcaption>
-								(E) - Waves
-								(Pearson \(\alpha\) pattern)<br>
-								\(
+           </figcaption>
+          </figure>
+         </div>
+         <div class="col">
+          <figure>
+           <img alt="Random Noise" class="pannel_fig" src="config_e_YlGnBu.png"/>
+           <figcaption>
+            (E) - Waves
+								(Pearson \(\alpha\) pattern)
+            <br/>
+            \(
 								\begin{eqnarray*}
 								f = 0.0175\\
 								k = 0.0504
 								\end{eqnarray*}\)
-							</figcaption>
-						<figure>
-					</div>
-					<div class="col">
-						<figure>
-							<img src="config_f_jet_r.png" alt="Random Noise" class='pannel_fig'>
-							<figcaption>
-								(F) - Labyrinthine pattern
-								(Pearson \(\theta\) pattern)<br>
-								\(
+           </figcaption>
+           <figure>
+           </figure>
+          </figure>
+         </div>
+         <div class="col">
+          <figure>
+           <img alt="Random Noise" class="pannel_fig" src="config_f_jet_r.png"/>
+           <figcaption>
+            (F) - Labyrinthine pattern
+								(Pearson \(\theta\) pattern)
+            <br/>
+            \(
 								\begin{eqnarray*}
 								f = 0.0295\\
 								k = 0.0561
 								\end{eqnarray*}\)
-							</figcaption>
-						<figure>
-					</div>
-				</div>
-					
-				<p>The full phase diagram of this system in terms of the complexity of each patterns is quite intricate as well, and reveals that even more phases exist in this model (extracted from <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>"Generative complexity of Gray-Scott model", A. Adamatzky</a>):</p> 
-						<img src="phase_diagram_neg.png" alt="Continuos diagram", class='center' style="width: 60%">
-						<p>Many more interesting things could be studied, but as a closing note lets try to visualize a segment of the phase diagram. This can be done by making a simulation where the parameters depend on the location of the lattice, thus each part of the system will be in a different regime. Here is a slice of the phase diagram with $k$ randing from $0.0576$ to $0.0649$ and $f$ from $0.0208$ to $0.0416$:</p> 
-					<figure>
-						<img src="continuous_diagram_Spectral.png" alt="Continuos diagram", class = 'center' style="width: 35vw; height: 35vw">
-						<figcaption>Reaction diffusion patterns where the value for \(k\) ranges from 0.0576 <br>to 0.0649 in the x axis and \(f\) ranges from 0.0208 to 0.0416 in the y axis. </figcaption>
-					</figure>
-					 
-					<!--<div class="sketch-holder" id="c2"></div>-->
-					<p>Thanks or reading :D</p> 
-					
-					Code:
-<pre>
-{% include 'advanced_reacDiff.py' %}
-</pre>
+           </figcaption>
+           <figure>
+           </figure>
+          </figure>
+         </div>
+        </div>
+        <p>
+         The full phase diagram of this system in terms of the complexity of each patterns is quite intricate as well, and reveals that even more phases exist in this model (extracted from
+         <a href="https://arxiv.org/pdf/1610.09097.pdf" target="_">
+          "Generative complexity of Gray-Scott model", A. Adamatzky
+         </a>
+         ):
+        </p>
+        <img ,="" alt="Continuos diagram" class="center" src="phase_diagram_neg.png" style="width: 60%"/>
+        <p>
+         Many more interesting things could be studied, but as a closing note lets try to visualize a segment of the phase diagram. This can be done by making a simulation where the parameters depend on the location of the lattice, thus each part of the system will be in a different regime. Here is a slice of the phase diagram with $k$ randing from $0.0576$ to $0.0649$ and $f$ from $0.0208$ to $0.0416$:
+        </p>
+        <figure>
+         <img ,="" alt="Continuos diagram" class="center" src="continuous_diagram_Spectral.png" style="width: 35vw; height: 35vw"/>
+         <figcaption>
+          Reaction diffusion patterns where the value for \(k\) ranges from 0.0576
+          <br/>
+          to 0.0649 in the x axis and \(f\) ranges from 0.0208 to 0.0416 in the y axis.
+         </figcaption>
+        </figure>
+        <!--<div class="sketch-holder" id="c2"></div>-->
+        <p>
+         Thanks or reading :D
+        </p>
+        Code:
+        <div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="w"></span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span><span class="w"></span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">dia_matrix</span><span class="w"></span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.random</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">random</span><span class="w"></span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">LightSource</span><span class="p">,</span><span class="w"> </span><span class="n">ListedColormap</span><span class="w"></span>
 
-				</div>
-			</div>
-		</div>
+<span class="k">class</span><span class="w"> </span><span class="nc">Simulation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span><span class="w"></span>
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">iters</span><span class="p">,</span><span class="w"> </span><span class="n">Da</span><span class="p">,</span><span class="w"> </span><span class="n">Db</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">Size</span><span class="w"> </span><span class="c1">of</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">grid</span><span class="w"> </span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iters</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">Max</span><span class="w"> </span><span class="c1">iterations</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">Da</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Da</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">A</span><span class="w"> </span><span class="c1">substance</span><span class="w"> </span><span class="c1">diffusion</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">Db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Db</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">B</span><span class="w"> </span><span class="c1">substance</span><span class="w"> </span><span class="c1">diffusion</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">Feed</span><span class="w"> </span><span class="c1">rate</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">Kill</span><span class="w"> </span><span class="c1">rate</span><span class="w"></span>
 
-		<hr/>
-		<script src="../../../js/script.js"> </script><!--TARGET-->
-		<!-- Bootstrap + JQuery -->
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="w"></span>
 
-		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
-    <!-- mathjax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-      MathJax = {
+<span class="w">        </span><span class="c1">#</span><span class="w"> </span><span class="c1">Build</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">discrete</span><span class="w"> </span><span class="c1">laplacian</span><span class="w"> </span><span class="c1">operator</span><span class="w"> </span><span class="c1">useing</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">5</span><span class="w"> </span><span class="c1">point</span><span class="w"> </span><span class="c1">stencil</span><span class="w"></span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">For</span><span class="w"> </span><span class="c1">readability</span><span class="w"></span>
+<span class="w">        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">inf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="n">sup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">diags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">main</span><span class="p">,</span><span class="w"> </span><span class="n">inf</span><span class="p">,</span><span class="w"> </span><span class="n">sup</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="n">offsets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">]</span><span class="w"></span>
+
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">Laplacian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dia_matrix</span><span class="p">((</span><span class="n">diags</span><span class="p">,</span><span class="w"> </span><span class="n">offsets</span><span class="p">),</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">initial_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;center&#39;</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="sd">Sets</span><span class="w"> </span><span class="sd">the</span><span class="w"> </span><span class="sd">initial</span><span class="w"> </span><span class="sd">conditions</span><span class="w"></span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;center&#39;</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">radius</span><span class="w"></span>
+<span class="w">            </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="c1">#self.A[mid-r:mid+r,</span><span class="w"> </span><span class="c1">mid-r:mid+r]</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">0.50</span><span class="w"></span>
+<span class="w">            </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">mid</span><span class="o">-</span><span class="n">r</span><span class="p">:</span><span class="n">mid</span><span class="o">+</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="o">-</span><span class="n">r</span><span class="p">:</span><span class="n">mid</span><span class="o">+</span><span class="n">r</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">elif</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;random&#39;</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="c1">#self.A</span><span class="w"> </span><span class="c1">+=</span><span class="w"> </span><span class="c1">random(</span><span class="w"> </span><span class="c1">(self.size,</span><span class="w"> </span><span class="c1">self.size)</span><span class="w"> </span><span class="c1">)</span><span class="w"> </span>
+<span class="w">            </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">pass</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">newcmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;plasma_r&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;custom&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">False</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="sd">Plots</span><span class="w"> </span><span class="sd">the</span><span class="w"> </span><span class="sd">final</span><span class="w"> </span><span class="sd">B</span><span class="w"> </span><span class="sd">concentration</span><span class="w"></span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">#</span><span class="w"> </span><span class="c1">Custom</span><span class="w"> </span><span class="c1">color</span><span class="w"> </span><span class="c1">map</span><span class="w"> </span><span class="c1">contruction</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">newcmp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;oranges&#39;</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">252</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">52</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">116</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">52</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="p">[:,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">20</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">52</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">newcmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">elif</span><span class="w"> </span><span class="n">newcmp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;banana&#39;</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">255</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">52</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">234</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">52</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">vals</span><span class="p">[:,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">188</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">52</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">newcmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">pass</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span><span class="w"> </span><span class="n">cmap</span><span class="o">=</span><span class="n">newcmp</span><span class="p">,</span><span class="w"> </span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;kaiser&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">save</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;config_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">cmap</span><span class="si">}</span><span class="s1">.png&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">transparent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">True</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">pass</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">fancy_show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="w"></span>
+<span class="w">        </span><span class="n">ls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LightSource</span><span class="p">(</span><span class="n">azdeg</span><span class="o">=</span><span class="mi">315</span><span class="p">,</span><span class="w"> </span><span class="n">altdeg</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">rgb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ls</span><span class="o">.</span><span class="n">shade</span><span class="p">(</span><span class="w"></span>
+<span class="w">                </span><span class="n">z</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">copper</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">vert_exag</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="w"></span>
+<span class="w">                </span><span class="n">blend_mode</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">Laplacian</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="p">):</span><span class="w"></span>
+<span class="w">            </span><span class="k">try</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="n">ABB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">*</span><span class="n">B</span><span class="o">*</span><span class="n">B</span><span class="w"> </span><span class="c1">#</span><span class="w"> </span><span class="c1">To</span><span class="w"> </span><span class="c1">avoid</span><span class="w"> </span><span class="c1">doing</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">operation</span><span class="w"> </span><span class="c1">twice</span><span class="w"></span>
+<span class="w">            </span><span class="k">except</span><span class="w"> </span><span class="ne">RuntimeWarning</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="k">break</span><span class="w"></span>
+<span class="w">            </span><span class="n">A</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">Da</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">L</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ABB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">B</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">Db</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">L</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ABB</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="w"></span>
+
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="w"></span>
+
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;./configurations&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sa">f</span><span class="s2">&quot;/iters_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sa">f</span><span class="s2">&quot;/f_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sa">f</span><span class="s2">&quot;/k_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">/config_A.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">/config_B.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;./configurations&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sa">f</span><span class="s2">&quot;/iters_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sa">f</span><span class="s2">&quot;/f_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="nb">dir</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sa">f</span><span class="s2">&quot;/k_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"></span>
+
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">/config_A.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">/config_B.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span>
+<span class="k">if</span><span class="w"> </span><span class="vm">__name__</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">argv</span><span class="w"></span>
+<span class="w">    </span><span class="n">patterns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="s1">&#39;a&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Da&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Db&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0392</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;k&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.0649</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;cmap&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;YlGnBu&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="s1">&#39;b&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Da&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Db&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0416</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;k&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.0625</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;YlGnBu&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;cmap&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Spectral&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="s1">&#39;c&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Da&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Db&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0404</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;k&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.0638</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;YlGnBu&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;cmap&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Spectral&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;nipy_spectral&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="s1">&#39;d&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Da&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Db&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0208</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;k&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.0576</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;cmap&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;YlGnBu&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="s1">&#39;e&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Da&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Db&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0175</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;k&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.0504</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;Blues&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;cmap&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;YlGnBu&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;Spectral&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="s1">&#39;f&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Da&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;Db&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0295</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;k&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.0561</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;oranges&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;YlGnBu&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="s1">&#39;cmap&#39;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;jet_r&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="c1">#&#39;cmap&#39;</span><span class="w"> </span><span class="c1">:</span><span class="w"> </span><span class="c1">&#39;nipy_spectral&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">pttrn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">pttrn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Da</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">[</span><span class="n">pttrn</span><span class="p">][</span><span class="s1">&#39;Da&#39;</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">Db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">[</span><span class="n">pttrn</span><span class="p">][</span><span class="s1">&#39;Db&#39;</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">[</span><span class="n">pttrn</span><span class="p">][</span><span class="s1">&#39;f&#39;</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">patterns</span><span class="p">[</span><span class="n">pttrn</span><span class="p">][</span><span class="s1">&#39;k&#39;</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="c1">#cmap</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">patterns[pttrn][&#39;cmap&#39;]</span><span class="w"></span>
+<span class="w">    </span><span class="n">cmap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;banana&#39;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">simulation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Simulation</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w"> </span><span class="n">Da</span><span class="p">,</span><span class="w"> </span><span class="n">Db</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">try</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">simulation</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">except</span><span class="w"> </span><span class="ne">OSError</span><span class="p">:</span><span class="w"> </span>
+<span class="w">        </span><span class="n">simulation</span><span class="o">.</span><span class="n">initial_conditions</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="n">simulation</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="n">simulation</span><span class="o">.</span><span class="n">save</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">finally</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">simulation</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pttrn</span><span class="p">,</span><span class="w"> </span><span class="n">save</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">True</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+       </p>
+      </p>
+     </p>
+    </div>
+   </div>
+  </div>
+  <hr/>
+  <script src="../../../js/script.js">
+  </script>
+  <!--TARGET-->
+  <!-- Bootstrap + JQuery -->
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+  </script>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
+  </script>
+  <!-- mathjax -->
+  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script>
+   MathJax = {
         tex: {
           inlineMath: [['$', '$'], ['\\(', '\\)']]
         },
@@ -299,8 +787,6 @@ self.Laplacian = dia_matrix((diags, offsets), shape=(n**2, n**2) )
           fontCache: 'global'
         }
       };
-    </script>
-
-
-	</body>
+  </script>
+ </body>
 </html>

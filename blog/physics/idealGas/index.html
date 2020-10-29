@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<html lang='en'>
-	<head>
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, intial-scale=1">
-
-		<!-- Name on tab -->
-		<title>Ideal Gas</title>
-
-		<!-- Google Fonts -->
-		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
-
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" href="../../../css/style.css">
-		<link rel="stylesheet" href="../../../css/pygments.css">
-		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
-
-		<!-- Custom p5js animations -->
-		<script src="sketch.js"></script>
-
-    <!-- mathjax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-      MathJax = {
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, intial-scale=1" name="viewport"/>
+  <!-- Name on tab -->
+  <title>
+   Ideal Gas
+  </title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+  <link href="../../../css/style.css" rel="stylesheet"/>
+  <link href="../../../css/pygments.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  </script>
+  <!-- Custom p5js animations -->
+  <script src="sketch.js">
+  </script>
+  <!-- mathjax -->
+  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script>
+   MathJax = {
         tex: {
           inlineMath: [['$', '$'], ['\\(', '\\)']]
         },
@@ -32,98 +32,168 @@
           fontCache: 'global'
         }
       };
-    </script>
-
-	</head>
-
-	<body>
-		<!-- Navigation bar -->
-		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
-			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a>
-					</li>
-					<li class="nav-item nav-blog active">
-						<a class="nav-link" href="../.." style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../../../gallery/" style="font-weight:bold;">Gallery </a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a>
-					</li>
-				</ul>
-			</div>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-		<!-- End of navigation bar -->
-
-		<div class="head_container">
-			<img src="./cover_image.png" class="head_image no_blur">
-			<div class="head_middle">
-				<div class="head_text"><b>The Ideal Gas</b></div>
-			</div>
-		</div>
-		
-		<div class="container post_body">
-			<div class="row post_struct">
-				<div class="col-ld-12">
-
-					<p>In this project we simulate an ideal gas using <a href="https://p5js.org/" target="_blank">p5.js</a>, exploring some interesting theoretical aspects of this model like analysing the mean free path.</p>
-
-					<div class="sketch-holder" id="c1"></div>
-
-				 <table class="TOC">
-				<tr><th>Contents</th></tr>
-				<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
-				<tr><td><a href="#THEORY">2. Theory</a>	</td></tr>
-				<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
-				</table> 
-				<br></br>
-
-					<a name="INTRO"></a>
-					<h2 class="section">1. Introduction</h2>
-					<p>
-						In the late 17 and early 18 centuries physicists where beginning to make bold experiments and theories, following the great scientific revolution in the late 16 century by Newton and many others. It was at this time that the first serious studies into heat and temperature begun, that one day would result in the industrial revolution and start a new era for humanity. Early studies begun by trying to understand how gases behaved as they where compressed, heated or pressurized.
-					</p>
-					<p>
-						Scientists like Boyle, Charles and Avogrado begun to formulate experimental laws that described how heat, temperature, pressure and volume where related (although their understanding of the true meaning of these terms was still premature). Although still only experimental, the relationships discovered where surprisingly simple and powerful, and led to some intriguing discoveries and gave birth to some advanced discussions for their time. For example, Charles's law, that describes the relationship between volume and temperature of a gas as
+  </script>
+ </head>
+ <body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+   <a class="navbar-brand" href="../../.." style="font-weight:bold;">
+    Ariel Yssou
+   </a>
+   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+      <a class="nav-link" href="../../.." style="font-weight:bold;">
+       Home
+      </a>
+     </li>
+     <li class="nav-item nav-blog active">
+      <a class="nav-link" href="../.." style="font-weight:bold;">
+       Blog
+       <span class="sr-only">
+        (current)
+       </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../gallery/" style="font-weight:bold;">
+       Gallery
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../about" style="font-weight:bold;">
+       About
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
+       <i class="fab fa-github fa-lg">
+       </i>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
+       <i class="fab fa-linkedin fa-lg">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </nav>
+  <!-- End of navigation bar -->
+  <div class="head_container">
+   <img class="head_image no_blur" src="./cover_image.png"/>
+   <div class="head_middle">
+    <div class="head_text">
+     <b>
+      The Ideal Gas
+     </b>
+    </div>
+   </div>
+  </div>
+  <div class="container post_body">
+   <div class="row post_struct">
+    <div class="col-ld-12">
+     <p>
+      In this project we simulate an ideal gas using
+      <a href="https://p5js.org/" target="_blank">
+       p5.js
+      </a>
+      , exploring some interesting theoretical aspects of this model like analysing the mean free path.
+     </p>
+     <div class="sketch-holder" id="c1">
+     </div>
+     <table class="TOC">
+      <tr>
+       <th>
+        Contents
+       </th>
+      </tr>
+      <tr>
+       <td>
+        <a href="#INTRO">
+         1. Introduction
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#THEORY">
+         2. Theory
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#CODE">
+         3. Implementation
+        </a>
+       </td>
+      </tr>
+     </table>
+     <br/>
+     <a name="INTRO">
+     </a>
+     <h2 class="section">
+      1. Introduction
+     </h2>
+     <p>
+      In the late 17 and early 18 centuries physicists where beginning to make bold experiments and theories, following the great scientific revolution in the late 16 century by Newton and many others. It was at this time that the first serious studies into heat and temperature begun, that one day would result in the industrial revolution and start a new era for humanity. Early studies begun by trying to understand how gases behaved as they where compressed, heated or pressurized.
+     </p>
+     <p>
+      Scientists like Boyle, Charles and Avogrado begun to formulate experimental laws that described how heat, temperature, pressure and volume where related (although their understanding of the true meaning of these terms was still premature). Although still only experimental, the relationships discovered where surprisingly simple and powerful, and led to some intriguing discoveries and gave birth to some advanced discussions for their time. For example, Charles's law, that describes the relationship between volume and temperature of a gas as
 						$$
 						\frac{V_1}{T_1} = \frac{V_2}{T_2},
 						$$
 						appears to imply that, according to Gay-Lusscac's figures, the volume of a gas will descend to zero at a certain temperature ($−266.66 °C$) or even $−273.15 °C$.	He would claim that his law was not valid as $V=0$ does not make a lot of sense, but the discussion of a lower bound on temperature was intriguing. Shockingly, the values he obtained via extrapolation are very close to the true value of the absolute zero ($\approx - 273.15$$ °C$).
-					</p>
-					<p>
-					The discoveries made at this time would lay the ground for not only the industrial revolution but to the formulation of thermodynamics itself. It was Clapayron that would first state the idal gas law in 1834 using only the empirical laws know at that time, combining several insights into one simple equation. After him Classisus (and apparently August Lrönig independently) would also derive the same equation using kinetic theory <a href="https://zenodo.org/record/1423644#.X2S7s4Z7mrw" target='_blank'>in 1857</a>. In the next chapter we will discuss its theory in greater depth.
-					</p>
-					<a name="THEORY"></a>
-					<h2 class="section">2. Theory</h2>
-					<p>
-					The state of a gas is determined by pressure $P$, volume $V$ and temperature $T$. The ideal gas law is an equation that models the relationship between these parameters for an gas, and can be stated as:
+     </p>
+     <p>
+      The discoveries made at this time would lay the ground for not only the industrial revolution but to the formulation of thermodynamics itself. It was Clapayron that would first state the idal gas law in 1834 using only the empirical laws know at that time, combining several insights into one simple equation. After him Classisus (and apparently August Lrönig independently) would also derive the same equation using kinetic theory
+      <a href="https://zenodo.org/record/1423644#.X2S7s4Z7mrw" target="_blank">
+       in 1857
+      </a>
+      . In the next chapter we will discuss its theory in greater depth.
+     </p>
+     <a name="THEORY">
+     </a>
+     <h2 class="section">
+      2. Theory
+     </h2>
+     <p>
+      The state of a gas is determined by pressure $P$, volume $V$ and temperature $T$. The ideal gas law is an equation that models the relationship between these parameters for an gas, and can be stated as:
 					$$
 					\boxed{PV = nRT,}
 					$$
 					where $n$ is the number of moles of the substance and $R$ is the universal gas constant. This equation does not include any information about the molecular size and inter molecular attractions and is thus only an approximation, but a really good one (especially if the gas itself does not have strong iterations, e.g. noble gases, and is monoatomic).
-					</p>
-					<p>
-					We will now focus on deriving this equation using three different approaches. One empirical, one using kinetic theory and a final one using statistical mechanics. 
-					</p>
-					<h3>Empirical derivation</h3>
-					One can combine the empirical laws of <a href="https://en.wikipedia.org/wiki/Boyle%27s_law" target='_blank'>Boyle</a>, <a href="https://en.wikipedia.org/wiki/Charles%27s_law" target="_blank">Charles</a> and <a href="https://en.wikipedia.org/wiki/Avogadro's_law" target="_blanck">Avogadro</a> and derive the ideal gas law with simple algebra. These relations can be written as
+     </p>
+     <p>
+      We will now focus on deriving this equation using three different approaches. One empirical, one using kinetic theory and a final one using statistical mechanics.
+     </p>
+     <h3>
+      Empirical derivation
+     </h3>
+     <p>
+      One can combine the empirical laws of
+      <a href="https://en.wikipedia.org/wiki/Boyle%27s_law" target="_blank">
+       Boyle
+      </a>
+      ,
+      <a href="https://en.wikipedia.org/wiki/Charles%27s_law" target="_blank">
+       Charles
+      </a>
+      and
+      <a href="https://en.wikipedia.org/wiki/Avogadro's_law" target="_blanck">
+       Avogadro
+      </a>
+      and derive the ideal gas law with simple algebra. These relations can be written as
 					$$
 					\begin{eqnarray}
 					\frac{V_1}{V_2} &=& \frac{N_1}{N_2},\hspace{1cm}(1) \hspace{2cm}\text{Avogadro}\\
@@ -132,42 +202,46 @@
 					\end{eqnarray}
 					$$
 					where $1$ and $2$ represent two arbritrary states of the gas. Isolation $V_2$ in (3) and using it in (2) one can get:
-					$$
+     </p>
+     <p>
+      $$
 					P_1 V_1 = P_2 V_1 \frac{T_2}{T_1}.
 					$$
-					</p>
-					<p>
-					Now isolating $V_1$ in (1) one can directly get:
+     </p>
+     <p>
+      Now isolating $V_1$ in (1) one can directly get:
 					$$
 					\frac{P_1 V_1}{N_1 T_1} = \frac{P_2 V_2}{N_2 T_2} = \text{cte.}
 					$$
-					</p>
-					<p>
-					Adopting an arbitrary state and renaming the constant as $R$ (for absolutely no reason whatsoever), we arrive at:
+     </p>
+     <p>
+      Adopting an arbitrary state and renaming the constant as $R$ (for absolutely no reason whatsoever), we arrive at:
 					$$
 					\frac{P V}{N T} = R.
 					$$
-					</p>
-					<p>
-					As $R$ does not depend on the gas itself, it is know as the universal gas constant.
-					</p>
-					<h3>Kinetic theory derivation</h3>
-					<p>
-						We start by considering a gas with $N$ particles enclosed in a box of volume $V$. The collisions are considered to be perfectly elastic and that the gas can not interact with itself unless via direct collision between molecules (ideal gas approximation). The pressure exerted by the gas on each wall can be found using Newton's second Law (in its most simple form):
+     </p>
+     <p>
+      As $R$ does not depend on the gas itself, it is know as the universal gas constant.
+     </p>
+     <h3>
+      Kinetic theory derivation
+     </h3>
+     <p>
+      We start by considering a gas with $N$ particles enclosed in a box of volume $V$. The collisions are considered to be perfectly elastic and that the gas can not interact with itself unless via direct collision between molecules (ideal gas approximation). The pressure exerted by the gas on each wall can be found using Newton's second Law (in its most simple form):
 						$$
 						\vec{F} = \frac{\Delta\vec{p}}{\Delta t}.
 						$$
-					</p>
-					<p>
-					As each collision is perfectly elastic, the momentum transferred to the wall by each molecule can be written as
+     </p>
+     <p>
+      As each collision is perfectly elastic, the momentum transferred to the wall by each molecule can be written as
 					$$
 					|\Delta \vec{p}| = 2 m v_x. \hspace{1cm}(1)
 					$$
-					</p>
-					<p>
-					To hit the wall of area $A$ in that time interval $\Delta t$, a molecule must be within the distance $v_x A \Delta t$ to start with. The number of collisions made in this time interval can thus be expressed as:
+     </p>
+     <p>
+      To hit the wall of area $A$ in that time interval $\Delta t$, a molecule must be within the distance $v_x A \Delta t$ to start with. The number of collisions made in this time interval can thus be expressed as:
 					$$
-					(\text{# collisions}) = v_x \Delta t A \frac{1}{2} (\text{# molecules per volume}), \hspace{1cm}(2)
+					(\text{ # collisions}) = v_x \Delta t A \frac{1}{2} (\text{ # molecules per volume}), \hspace{1cm}(2)
 					$$
 					as all molecules in distances shorter than $v_x A \Delta t$ will also collide with the wall. The $1/2$ represents the fact that, in average, only half the particles are going in the direction of a wall (and other half moving in the opposite direction) as there is no reason to the molecules to have a preferential orientation. The number of molecules per volume can be easily written as $N/V$. Using equations (1) and (2) and the definition of pressure, one can get:
 					$$
@@ -176,21 +250,21 @@
 					&=& m v_x^2 \frac{N}{V}
 					\end{eqnarray}
 					$$
-					</p>
-					<p>
-					But not all particles have the same speed $v$, and thus an average must be taken. As there is no preferential orientation, all components of the speed are equal (in average):
+     </p>
+     <p>
+      But not all particles have the same speed $v$, and thus an average must be taken. As there is no preferential orientation, all components of the speed are equal (in average):
 					$$
 					\langle v^2 \rangle = \langle v_x^2 \rangle + \langle v_y^2 \rangle + \langle v_z^2 \rangle = 3 \langle v_x^2 \rangle.
 					$$
-					</p>
-					<p>
-					Using this in the last equation we get that:
+     </p>
+     <p>
+      Using this in the last equation we get that:
 					$$
 					P = \frac{1}{3} \frac{N}{V} m \langle v^2 \rangle. \hspace{1cm}(3)
 					$$
-					</p>
-					<p>
-					Using the Maxwell-Boltzman distribution (a direct result of the kinetic theory of gasses), the fraction $f(v)$ of molecules with speed between $v$ and $v + dv$ can be expressed as
+     </p>
+     <p>
+      Using the Maxwell-Boltzman distribution (a direct result of the kinetic theory of gasses), the fraction $f(v)$ of molecules with speed between $v$ and $v + dv$ can be expressed as
 					$$
 					f(v) = 4 \pi \left( \frac{m}{2 \pi k_b T} \right)^{\frac{3}{2}} v^2 e^{-\frac{mv^2}{2kT}},
 					$$
@@ -200,15 +274,18 @@
 					$$
 					which can be united with (3), giving us the final equation
 					$$PV = Nk_b T.$$
-					</p>
-					<h3>Statistical mechanics derivation</h3>
-					The kinetic energy of a particle with position $\vec{q}$ and momentum $\vec{p}$ can be expressed in terms of the net force $\vec{F}$ on that particle as (simply using Newton's second law again):
+     </p>
+     <h3>
+      Statistical mechanics derivation
+     </h3>
+     <p>
+      The kinetic energy of a particle with position $\vec{q}$ and momentum $\vec{p}$ can be expressed in terms of the net force $\vec{F}$ on that particle as (simply using Newton's second law again):
 					$$
 					K = \langle \vec{q}.\vec{F} \rangle = \sum_i \langle q_i \frac{d p_x}{d t} \rangle.
 					$$
-					</p>
-					<p>
-					Using Hamilton's equations:
+     </p>
+     <p>
+      Using Hamilton's equations:
 					$$
 					\frac{d\vec{p}}{dt}=-\frac{d\mathcal{H}}{d\vec{q}},
 					$$
@@ -220,9 +297,9 @@
 					$$
 					K = -3 k_b T.
 					$$
-					</p>
-					<p>
-					The pressure applied on the wall of the container is thus given by
+     </p>
+     <p>
+      The pressure applied on the wall of the container is thus given by
 					$$
 					P = \frac{F}{A} = \frac{1}{A}\frac{d\vec{p}}{dt} = \frac{-\langle\sum_{k=0}^N \vec{q}_k.\vec{F}_k \rangle}{\int_S \vec{q} . d\vec{S}},
 					$$
@@ -231,12 +308,14 @@
 					P = \frac{-\langle\sum_{k=0}^N \vec{q}_k.\vec{F}_k \rangle }{3V} = \frac{N k_b T}{V},
 					$$
 					which is the ideal gas law.
-					</p>
- 
-
-					<a name="IMPLEMENTATION"></a>
-					<h2 class="section">3. Implementation</h2>
-					<p>To simulate this system we must create a simple physics engine that can deal with collisions. A good place to start is by remembering that if a body of mass \(m_1\) collides elastically with another body of mass \(m_2\) their velocities after the collision can be expressed as
+     </p>
+     <a name="IMPLEMENTATION">
+     </a>
+     <h2 class="section">
+      3. Implementation
+     </h2>
+     <p>
+      To simulate this system we must create a simple physics engine that can deal with collisions. A good place to start is by remembering that if a body of mass \(m_1\) collides elastically with another body of mass \(m_2\) their velocities after the collision can be expressed as
 					$$
 					\begin{equation*}
 \vec{u}_1 = \vec{v}_1 - \frac{2m_2}{M}\frac{(\vec{v}_1 - \vec{v}_2)\cdot(\vec{r}_1 - \vec{r}_2)}{|\vec{r}_1 - \vec{r}_2|^2}(\vec{r}_1 - \vec{r}_2),
@@ -248,52 +327,442 @@
 \vec{u}_2 = \vec{v}_2 - \frac{2m_1}{M}\frac{(\vec{v}_2 - \vec{v}_1)\cdot(\vec{r}_2 - \vec{r}_1)}{|\vec{r}_2 - \vec{r}_1|^2}(\vec{r}_2 - \vec{r}_1),
 					\end{equation*}
 					$$	
-					where \(M \equiv m_1 + m_2\). A full demonstration of these equations can be found <a class="custom_link" href="https://en.wikipedia.org/wiki/Elastic_collision">here</a>, but it is a direct implication of the conservation of linear momentum and kinetic energy.</p>
-					<p>Now we only need to translate these ideas into code. We want a <code>Particle</code> class such that each particle has a position, speed, radius and a mass. The position will be updated using only its speed (as there are no internal or external forces and the collisions are considered instantaneous). As we do not want any particles leaking from the container, we will also check if its position is inside the container before updating it. In python $``$pseudocode$"$:
-					</p>
-					{% include snippet_1.py %}
-					<p>
-					The simulation will check, at each iteration for collisions, updating the speeds accordingly based on the equations we described. The steps are:
-					</p>
-					<ol>
-						<li>1. Initialize the system with $N$ non-overlaping particles (before adding a new particle, check if it does not collide with any other particle. If after a number of tries you still haven't added any new particle then start only with the number that managed to get included))</li>
-						<li>For each particle, check for collisions and update speeds accordingly</li>
-						<li>For each particle, update the position. Goto 2.</li>
-					</ol>
-					<p>
-						To build the collision detection method we will use a brute force approach, where we just compare each possible particle pairs. It's worth mentioning that collisions could be dealt with in a much better way using <a class="custom_link" href="https://en.wikipedia.org/wiki/Quadtree">quadtrees</a> and other fancy methods, but we will leave this to a future post.
-					</p>
-					<p>
-						To update the velocities we must check if there are any collisions. If there are overlaps we update the velocities accordingly, if not we keep then untouched. By fixing the time frame at 1 we avoid having to multiply the velocity by it every time.
-					</p>
-					<p>One can also keep track of the mean free path (MFP) of the particles, which is the average distance that any particle walks before it collides with another particle. For this we store the position of the last collision of each particle in the <code>particle</code> object and store an array of the last mean free paths, updating it after any collision happens. If we hide all particles and display only their mean free path we get something like this</p>
+					where \(M \equiv m_1 + m_2\). A full demonstration of these equations can be found
+      <a class="custom_link" href="https://en.wikipedia.org/wiki/Elastic_collision">
+       here
+      </a>
+      , but it is a direct implication of the conservation of linear momentum and kinetic energy.
+     </p>
+     <p>
+      Now we only need to translate these ideas into code. We want a
+      <code>
+       Particle
+      </code>
+      class such that each particle has a position, speed, radius and a mass. The position will be updated using only its speed (as there are no internal or external forces and the collisions are considered instantaneous). As we do not want any particles leaking from the container, we will also check if its position is inside the container before updating it. In python $``$pseudocode$"$:
+     </p>
+     <div class="highlight"><pre><span></span><span class="w">          </span><span class="kr">class</span><span class="w"> </span><span class="nx">Particle</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="s1">Particle</span><span class="w"> </span><span class="s1">object</span><span class="w"> </span><span class="s1">with</span><span class="w"> </span><span class="s1">simple</span><span class="w"> </span><span class="s1">physics</span><span class="w"></span>
 
-					<div class="sketch-holder" id="c2"></div>
-					<p>
-					This problem can be explored further by looking into the dependence of the mean free path \(l\) with the overall density of particles and the radius of each particle. It is expected to behave as \( l \sim (\sigma A)^{-1} \), where \(\sigma\) is the superficial particle density. Another possibility is considering a mix of different gasses or even modeling inter-molecular forces to study the threshold where the ideal gas approximation is no longer acceptable.
-					</p>
+<span class="w">    </span><span class="s1">Properties:</span><span class="w"></span>
+<span class="w">        </span><span class="s1">pos:</span><span class="w"> </span><span class="s1">Position</span><span class="w"> </span><span class="s1">(vector)</span><span class="w"></span>
+<span class="w">        </span><span class="s1">speed:</span><span class="w"> </span><span class="s1">Speed</span><span class="w"> </span><span class="s1">(vector)</span><span class="w"></span>
+<span class="w">        </span><span class="s1">radius:</span><span class="w"> </span><span class="s1">radius</span><span class="w"> </span><span class="s1">(scalar)</span><span class="w"></span>
+<span class="w">        </span><span class="s1">mass:</span><span class="w"> </span><span class="s1">mass</span><span class="w"> </span><span class="s1">(scalar)</span><span class="w"></span>
 
-					<p>That should do it! Here is the full source code with some added functionality to make the display prettier. If there are any doubts or criticism I will be more than happy to hear then out :D Try messing with the code in the <a class="custom_link" href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank">p5js editor</a>.
-					</p>
+<span class="w">    </span><span class="s1">Methods:</span><span class="w"></span>
+<span class="w">        </span><span class="s1">update:</span><span class="w"> </span><span class="s1">Check</span><span class="w"> </span><span class="s1">boundry</span><span class="w"> </span><span class="s1">condition</span><span class="w"> </span><span class="s1">and</span><span class="w"> </span><span class="s1">update</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">position</span><span class="w"> </span><span class="s1">based</span><span class="w"> </span><span class="s1">on</span><span class="w"> </span><span class="s1">speed</span><span class="w"></span>
+<span class="w">        </span><span class="s1">collision:</span><span class="w"> </span><span class="s1">Check</span><span class="w"> </span><span class="s1">for</span><span class="w"> </span><span class="s1">a</span><span class="w"> </span><span class="s1">colision</span><span class="w"> </span><span class="s1">with</span><span class="w"> </span><span class="s1">other</span><span class="w"> </span><span class="s1">particle</span><span class="w"></span>
+<span class="w">            </span><span class="s1">INPUT:</span><span class="w"></span>
+<span class="w">                </span><span class="s1">other:</span><span class="w"> </span><span class="s1">Another</span><span class="w"> </span><span class="s1">Particle</span><span class="w"> </span><span class="s1">object.</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;&#39;&#39;</span><span class="w"></span>
 
-					Final code:
-<pre>
-{% include 'sketch.js' %}
-</pre>
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="w"> </span><span class="nx">pos</span><span class="p">,</span><span class="w"> </span><span class="nx">speed</span><span class="p">,</span><span class="w"> </span><span class="nx">radius</span><span class="p">,</span><span class="w"> </span><span class="nx">mass</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pos</span><span class="w"></span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">speed</span><span class="w"></span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">radius</span><span class="w"></span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mass</span><span class="w"></span>
 
-				</div>
-			</div>
-		</div>
-		<hr/>
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">update</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">        </span><span class="s1">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="s1">Checks</span><span class="w"> </span><span class="s1">boundry</span><span class="w"> </span><span class="s1">conditions</span><span class="w"> </span><span class="s1">and</span><span class="w"> </span><span class="s1">updates</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">position</span><span class="w"> </span><span class="s1">based</span><span class="w"> </span><span class="s1">on</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">current</span><span class="w"> </span><span class="s1">speed.</span><span class="w"></span>
+<span class="w">        </span><span class="s1">Another</span><span class="w"> </span><span class="s1">check</span><span class="w"> </span><span class="s1">that</span><span class="w"> </span><span class="s1">must</span><span class="w"> </span><span class="s1">be</span><span class="w"> </span><span class="s1">made</span><span class="w"> </span><span class="s1">is</span><span class="w"> </span><span class="s1">if</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">center</span><span class="w"> </span><span class="s1">of</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">particle</span><span class="w"> </span><span class="s1">acctually</span><span class="w"></span>
+<span class="w">        </span><span class="s1">is</span><span class="w"> </span><span class="s1">after</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">wall</span><span class="w"> </span><span class="s1">due</span><span class="w"> </span><span class="s1">to</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">speed</span><span class="w"> </span><span class="s1">beeing</span><span class="w"> </span><span class="s1">too</span><span class="w"> </span><span class="s1">great.</span><span class="w"> </span><span class="s1">In</span><span class="w"> </span><span class="s1">this</span><span class="w"> </span><span class="s1">case</span><span class="w"> </span><span class="s1">we</span><span class="w"> </span><span class="s1">must</span><span class="w"> </span><span class="s1">also</span><span class="w"></span>
+<span class="w">        </span><span class="s1">manually</span><span class="w"> </span><span class="s1">reflect</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">particle</span><span class="w"> </span><span class="s1">back</span><span class="w"> </span><span class="s1">into</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">conteiner</span><span class="w"></span>
+<span class="w">        </span><span class="s1">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="nx">Check</span><span class="w"> </span><span class="nx">colision</span><span class="w"> </span><span class="kd">with</span><span class="w"> </span><span class="nx">horizontal</span><span class="w"> </span><span class="nx">walls</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">right_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">right_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">right_wall</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nx">right_wall</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nx">elif</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">left_wall</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">left_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">left_wall</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">left_wall</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="nx">pass</span><span class="w"></span>
 
-		<script src="../../../js/script.js"></script>
+<span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="nx">Check</span><span class="w"> </span><span class="nx">colision</span><span class="w"> </span><span class="kd">with</span><span class="w"> </span><span class="nx">vertical</span><span class="w"> </span><span class="nx">walls</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">top_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">top_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">top_wall</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nx">top_wall</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="nx">elif</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">bottom_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">bottom_wall</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">bottom_wall</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">bottom_wall</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span><span class="w"></span>
 
-		<!-- Bootstrap + JQuery -->
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="nx">Update</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">position</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">np</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">)</span><span class="w"></span>
 
-		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">colision</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="w"> </span><span class="nx">other</span><span class="p">)</span><span class="o">:</span><span class="w"></span>
+<span class="w">        </span><span class="s1">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="s1">If</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">distance</span><span class="w"> </span><span class="s1">of</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">center</span><span class="w"> </span><span class="s1">is</span><span class="w"> </span><span class="s1">less</span><span class="w"> </span><span class="s1">than</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">sum</span><span class="w"> </span><span class="s1">of</span><span class="w"> </span><span class="s1">the</span><span class="w"> </span><span class="s1">radius</span><span class="w"> </span><span class="s1">then</span><span class="w"></span>
+<span class="w">        </span><span class="s1">they</span><span class="w"> </span><span class="s1">collide.</span><span class="w"></span>
+<span class="w">        </span><span class="s1">OUTPUT:</span><span class="w"></span>
+<span class="w">            </span><span class="s1">True</span><span class="w"> </span><span class="s1">for</span><span class="w"> </span><span class="s1">colision,</span><span class="w"> </span><span class="s1">else</span><span class="w"> </span><span class="s1">False</span><span class="w"></span>
+<span class="w">        </span><span class="s1">&#39;&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">np</span><span class="p">.</span><span class="nx">subtract</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">,</span><span class="w"> </span><span class="nx">other</span><span class="p">.</span><span class="nx">pos</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">other</span><span class="p">.</span><span class="nx">radius</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+     <p>
+      The simulation will check, at each iteration for collisions, updating the speeds accordingly based on the equations we described. The steps are:
+     </p>
+     <ol>
+      <li>
+       1. Initialize the system with $N$ non-overlaping particles (before adding a new particle, check if it does not collide with any other particle. If after a number of tries you still haven't added any new particle then start only with the number that managed to get included))
+      </li>
+      <li>
+       For each particle, check for collisions and update speeds accordingly
+      </li>
+      <li>
+       For each particle, update the position. Goto 2.
+      </li>
+     </ol>
+     <p>
+      To build the collision detection method we will use a brute force approach, where we just compare each possible particle pairs. It's worth mentioning that collisions could be dealt with in a much better way using
+      <a class="custom_link" href="https://en.wikipedia.org/wiki/Quadtree">
+       quadtrees
+      </a>
+      and other fancy methods, but we will leave this to a future post.
+     </p>
+     <p>
+      To update the velocities we must check if there are any collisions. If there are overlaps we update the velocities accordingly, if not we keep then untouched. By fixing the time frame at 1 we avoid having to multiply the velocity by it every time.
+     </p>
+     <p>
+      One can also keep track of the mean free path (MFP) of the particles, which is the average distance that any particle walks before it collides with another particle. For this we store the position of the last collision of each particle in the
+      <code>
+       particle
+      </code>
+      object and store an array of the last mean free paths, updating it after any collision happens. If we hide all particles and display only their mean free path we get something like this
+     </p>
+     <div class="sketch-holder" id="c2">
+     </div>
+     <p>
+      This problem can be explored further by looking into the dependence of the mean free path \(l\) with the overall density of particles and the radius of each particle. It is expected to behave as \( l \sim (\sigma A)^{-1} \), where \(\sigma\) is the superficial particle density. Another possibility is considering a mix of different gasses or even modeling inter-molecular forces to study the threshold where the ideal gas approximation is no longer acceptable.
+     </p>
+     <p>
+      That should do it! Here is the full source code with some added functionality to make the display prettier. If there are any doubts or criticism I will be more than happy to hear then out :D Try messing with the code in the
+      <a class="custom_link" href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank">
+       p5js editor
+      </a>
+      .
+     </p>
+     Final code:
+     <div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">color_slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">186</span><span class="p">,</span><span class="w"> </span><span class="mi">91</span><span class="p">,</span><span class="w"> </span><span class="mi">129</span><span class="p">];</span><span class="w"></span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">color_fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">252</span><span class="p">,</span><span class="w"> </span><span class="mi">116</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">];</span><span class="w"></span>
 
-	</body>
+<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">simulation</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">xi</span><span class="p">,</span><span class="w"> </span><span class="nx">yi</span><span class="p">,</span><span class="w"> </span><span class="nx">xf</span><span class="p">,</span><span class="w"> </span><span class="nx">yf</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">color_slow</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">color_fast</span><span class="p">;</span><span class="w">   </span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetHeight</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//let</span><span class="w"> </span><span class="c1">myHeight</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">0.5</span><span class="w"> </span><span class="c1">*</span><span class="w"> </span><span class="c1">myWidth;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">show_mfp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Simulation</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">show_mfp</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="p">.</span><span class="nx">color_update</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="nx">t</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetHeight</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">myp51</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;c1&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">simulation</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">xi</span><span class="p">,</span><span class="w"> </span><span class="nx">yi</span><span class="p">,</span><span class="w"> </span><span class="nx">xf</span><span class="p">,</span><span class="w"> </span><span class="nx">yf</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//var</span><span class="w"> </span><span class="c1">myHeight</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">document.getElementById(&quot;c2&quot;).offsetHeight</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">myWidth</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//my_canvas.parent(&#39;sketch-holder-test&#39;)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">colorMode</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">RGB</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">show_mfp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Simulation</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">show_mfp</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="p">.</span><span class="nx">color_update</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">background</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">simulation</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="nx">t</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">myHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">).</span><span class="nx">offsetHeight</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">myWidth</span><span class="p">,</span><span class="w"> </span><span class="nx">myHeight</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">myp52</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;c2&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="nx">Particle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">vx</span><span class="p">,</span><span class="w"> </span><span class="nx">vy</span><span class="p">,</span><span class="w"> </span><span class="nx">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span><span class="w"> </span><span class="nx">mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">particle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">vx</span><span class="p">,</span><span class="w"> </span><span class="nx">vy</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mass</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">radius</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">clr</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">colisions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()];</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">clr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">strokeWeight</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">ellipse</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">other</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">If</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">distance</span><span class="w"> </span><span class="c1">between</span><span class="w"> </span><span class="c1">centers</span><span class="w"> </span><span class="c1">is</span><span class="w"> </span><span class="c1">less</span><span class="w"> </span><span class="c1">part</span><span class="w"> </span><span class="c1">2*radius</span><span class="w"> </span><span class="c1">then</span><span class="w"> </span><span class="c1">they</span><span class="w"> </span><span class="c1">overlap</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(((</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">other</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">other</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">ans</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">other</span><span class="p">.</span><span class="nx">radius</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Cheks</span><span class="w"> </span><span class="c1">bouncing</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">colisions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">colisions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Check</span><span class="w"> </span><span class="c1">boundry</span><span class="w"> </span><span class="c1">violation</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Updates</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">position</span><span class="w"></span>
+<span class="w">    </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">particle</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">vel</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">particle</span><span class="p">.</span><span class="nx">clr_update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">max_vel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">particle</span><span class="p">.</span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">lerpColor</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="nx">color_slow</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="nx">color_slow</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="nx">color_slow</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="nx">color_fast</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="nx">color_fast</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="nx">color_fast</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="w"></span>
+<span class="w">      </span><span class="nx">particle</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">mag</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">max_vel</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">particle</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="nx">Simulation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">show_mfp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">that</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">show_mfp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">show_mfp</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">max_mfp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">n_particles</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">candidate</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">fails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="p">((</span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">n_particles</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">fails</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">500</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">candidate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Particle</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">randomGaussian</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">);</span><span class="w"></span>
+
+<span class="w">      </span><span class="nx">overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">particle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">candidate</span><span class="p">.</span><span class="nx">overlaps</span><span class="p">(</span><span class="nx">particle</span><span class="p">)</span><span class="w"> </span><span class="p">){</span><span class="w"> </span>
+<span class="w">          </span><span class="nx">overlaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">overlaps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">fails</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">candidate</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">candidate</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">fails</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="nx">candidate</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">candidate</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">fails</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">candidate</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">candidate</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">fails</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">candidate</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">candidate</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">fails</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">candidate</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">colision</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">p1</span><span class="p">,</span><span class="w"> </span><span class="nx">p2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">M</span><span class="p">,</span><span class="w"> </span><span class="nx">factor</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">mass</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">p2</span><span class="p">.</span><span class="nx">mass</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p2</span><span class="p">.</span><span class="nx">mass</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">M</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Accont</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">mean</span><span class="w"> </span><span class="c1">free</span><span class="w"> </span><span class="c1">paths</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p1</span><span class="p">.</span><span class="nx">colisions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">p1</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p2</span><span class="p">.</span><span class="nx">colisions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">p2</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">p1</span><span class="p">.</span><span class="nx">colisions</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">p2</span><span class="p">.</span><span class="nx">colisions</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Reset</span><span class="w"> </span><span class="c1">mean</span><span class="w"> </span><span class="c1">free</span><span class="w"> </span><span class="c1">paths</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p1</span><span class="p">.</span><span class="nx">colisions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p2</span><span class="p">.</span><span class="nx">colisions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">p2</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">pos11</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">We</span><span class="w"> </span><span class="c1">will</span><span class="w"> </span><span class="c1">need</span><span class="w"> </span><span class="c1">2</span><span class="w"> </span><span class="c1">copies</span><span class="w"> </span><span class="c1">of</span><span class="w"> </span><span class="c1">p1.pos</span><span class="w"></span>
+<span class="w">    </span><span class="nx">pos12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="nx">vel11</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">The</span><span class="w"> </span><span class="c1">same</span><span class="w"> </span><span class="c1">for</span><span class="w"> </span><span class="c1">the</span><span class="w"> </span><span class="c1">speed</span><span class="w"></span>
+<span class="w">    </span><span class="nx">vel12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">pos2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p2</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="nx">vel2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p2</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">copy</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">pos_dif</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pos11</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="nx">pos2</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">vel_dif</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vel11</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="nx">vel2</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">factor</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="nx">vel_dif</span><span class="p">.</span><span class="nx">dot</span><span class="p">(</span><span class="nx">pos_dif</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">factor</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="nx">pos_dif</span><span class="p">.</span><span class="nx">mag</span><span class="p">()</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p1</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="w"> </span><span class="nx">pos_dif</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="nx">factor</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p1</span><span class="p">.</span><span class="nx">mass</span><span class="p">)</span><span class="o">/</span><span class="nx">M</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">pos_dif</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pos2</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="nx">pos12</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">vel_dif</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vel2</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="nx">vel12</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">factor</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="nx">vel_dif</span><span class="p">.</span><span class="nx">dot</span><span class="p">(</span><span class="nx">pos_dif</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">factor</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="nx">pos_dif</span><span class="p">.</span><span class="nx">mag</span><span class="p">()</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p2</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">sub</span><span class="p">(</span><span class="w"> </span><span class="nx">pos_dif</span><span class="p">.</span><span class="nx">mult</span><span class="p">(</span><span class="nx">factor</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="nx">p1</span><span class="p">.</span><span class="nx">overlaps</span><span class="p">(</span><span class="nx">p2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">      </span><span class="nx">p1</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p2</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">check_colisions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">overlaps</span><span class="p">(</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="nx">that</span><span class="p">.</span><span class="nx">colision</span><span class="p">(</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">that</span><span class="p">.</span><span class="nx">check_colisions</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">update</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">color_update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">vmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0001</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">vel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">vel</span><span class="p">.</span><span class="nx">mag</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">vel</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">vmax</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="nx">vmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vel</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//console.log(vmax)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">clr_update</span><span class="p">(</span><span class="nx">vmax</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">particles</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">show_mfp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">lgt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">.</span><span class="nx">length</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">lgt</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">strokeWeight</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">strokeCap</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">ROUND</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">lerpColor</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">),</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">color</span><span class="p">(</span><span class="mi">252</span><span class="p">,</span><span class="w"> </span><span class="mi">116</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">),</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">lgt</span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">xi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">].</span><span class="nx">x</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">yi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">].</span><span class="nx">y</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">xf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">].</span><span class="nx">x</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">yf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">].</span><span class="nx">y</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">line</span><span class="p">(</span><span class="nx">xi</span><span class="p">,</span><span class="w"> </span><span class="nx">yi</span><span class="p">,</span><span class="w"> </span><span class="nx">xf</span><span class="p">,</span><span class="w"> </span><span class="nx">yf</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">that</span><span class="p">.</span><span class="nx">max_mfp</span><span class="w"> </span><span class="p">)</span><span class="w"> </span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">meanFreePaths</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">that</span><span class="p">.</span><span class="nx">run</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">that</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">show_mfp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">show_mfp</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">color_update</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">display</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="nx">that</span><span class="p">.</span><span class="nx">color_update</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">that</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+    </div>
+   </div>
+  </div>
+  <hr/>
+  <script src="../../../js/script.js">
+  </script>
+  <!-- Bootstrap + JQuery -->
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+  </script>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
+  </script>
+ </body>
 </html>

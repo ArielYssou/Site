@@ -229,13 +229,6 @@ Simulation = function(p, show_mfp) {
       p1.update()
       p2.update()
     }
-
-    /*
-    factor = - (2 * p1.mass) / M;
-    factor *= p2.vel.sub(p1.vel).dot( p2.pos.sub(p1.pos) );
-    factor /= p2.pos.sub(p1.pos).mag() ** 2;
-    p1.vel.sub( p2.pos.sub(p1.pos).mult(factor) );
-    */
   }
 
   that.check_colisions = function() {

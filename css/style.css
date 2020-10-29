@@ -7,6 +7,7 @@ body {
 	font-size: 20px;
 	color:#ffeabc;
 	max-width: 2400px;
+	min-width:375px;
 	background-color: #363530;
 }
 
@@ -47,7 +48,15 @@ figcaption {
 	max-height: 250pt;
 	padding-top: 30px;
 	padding-bottom: 30px;
+}
 
+.img-row {
+	display: flex;
+}
+
+.img-col {
+  flex: 50%;
+  padding: 5px;
 }
 
 hr.dashed {
@@ -386,6 +395,7 @@ h1.about_title {
 .head_container {
   position: relative;
   width: 100%;
+	min-width: 375px;
 	margin-top: 10px;
 	margin-bottom: 20px;
 }
@@ -435,12 +445,19 @@ h1.about_title {
 }
 
 .sketch-holder {
-	display: block;
+	display: flex;
 	width: 100%;
 	height: 40%;
+  margin: 8px;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
 	min-height: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  /*margin-left: auto;
+  margin-right: auto;*/
 }
 
 .TOC {
@@ -466,10 +483,17 @@ th, td {
 
 .section{
 	border-bottom: 1px solid #ffeabc;
-	padding-top: 8px;
+	padding-top: 12px;
 	padding-bottom: 8px;
 	padding-left: 16px;
 	background-color: #2B2B26;
+}
+
+.sub-section{
+	border-left: 2px solid #ffeabc;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 16px;
 }
  /* Details and Specifics */
 
@@ -492,6 +516,7 @@ th, td {
 	max-height: 500px;
   overflow: scroll;
 	width: 100%;
+	max-width: 900px;
 	overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 

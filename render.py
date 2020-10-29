@@ -47,10 +47,13 @@ for pre in soup.find_all('pre'):
     # highlighting with pygments
     if ('createCanvas' in pre.string) or ('this.' in pre.string):
         lexer = get_lexer_by_name('js')
+        lexer.tabsize = 2
     elif ('self.' in pre.string):
         lexer = get_lexer_by_name('py')
+        lexer.tabsize = 2
     else:
         lexer = guess_lexer(pre.string)
+        lexer.tabsize = 2
     lexer.add_filter(VisibleWhitespaceFilter(tabsize=2))
 
     code = highlight(pre.string.rstrip(),

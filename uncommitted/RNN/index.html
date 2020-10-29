@@ -95,20 +95,19 @@
 					</p>
 
 					<!-- TOC -->
- <table class="TOC">
-  <tr><th>Contents</th></tr>
-	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
-	<tr><td><a href="#RNN">1. Recurrent Neural Networks</a></td></tr>
-	<tr><td><a href="#LSTM">2. Long Short Term Memory</a>	</td></tr>
-	<tr><td><a href="#CODE">3. Implementation</a></a></td></tr>
-</table> 
-<br></br>
-
+					 <table class="TOC">
+						<tr><th>Contents</th></tr>
+						<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+						<tr><td><a href="#RNN">1. Recurrent Neural Networks</a></td></tr>
+						<tr><td><a href="#LSTM">2. Long Short Term Memory</a>	</td></tr>
+						<tr><td><a href="#CODE">3. Implementation</a></td></tr>
+					</table> 
+					<br>
 					<!-- Intro -->
 					<a name="INTRO"></a>
 					<h2 class="section">1. Introduction</h2>
 					<p>
-					The importance of fitting an model to a complex time series is unquestionable as many very important problems such as weather forecasting, stock price prediction and pandemic spread are very hard to describe analytically, and making better predictions in these cases could have a major impact in society. One of the most obvious candidates for a model is Dense Neural Networks as they are famous for dealing with complex systems and generalize very well. Although they can be used to fit a time series, there are some shortcomings. Lets start our discussion considering a common, fully connected, neura network:
+					The importance of fitting an model to a complex time series is unquestionable as many very important problems such as weather forecasting, stock price prediction and pandemic spread are very hard to describe analytically, and making better predictions in these cases could have a major impact in society. One of the most obvious candidates for a model is Dense Neural Networks as they are famous for dealing with complex systems and generalize very well. Although they can be used to fit a time series, there are some shortcomings. Lets start our discussion considering a common, fully connected, neural network:
 					</p>
 					<div class="sketch-holder" id="c1"></div><br>
 					<!--NN scheme-->
@@ -119,6 +118,7 @@
 					<!-- Intro -->
 					<a name="RNN"></a>
 					<h2 class="section">2. Recurrent Neural Networks</h2>
+					<p>
 					One way we can try to solve the problems discussed in the previous session is by introducing an explicit dependence on the past state of the neuron:
 					$$
 					h_t = f(\vec{w}_t . \vec{x}_t + \vec{u}_t . \vec{h}_{t-1}),
@@ -126,9 +126,13 @@
 					where $\vec{u}_t$ is a new set of parameters that control how much of the past information (or "memory") is used. This transforms equation $(1)$ into a <i>recurrence</i> relation as $h_t$ now depends on $h_{t-1}$. This is one of the ideas that inspired the formulation of <b>Recurrent Neural Networks (RNN)</b> (not to be confused with <i>Recursive neural nets</i> that share the same acronym and sound similar, <a href="https://en.wikipedia.org/wiki/Recursive_neural_network" target="_">but have differences</a>). As the hidden units use their own past output to proceed, the same parameters are used over and over again. This <i>parameter sharing</i> can be loosely interpreted as the network keeping what it has already leaned previously and is one of the reasons why RNN are best suited for sequential data. The structure of a RNN can be illustrated as:</p>
 					<!-- rnn SCHEME -->
 					<div class="sketch-holder" id="c2"></div>
-					<p>The representation on the right is know as the <i>unfolded</i> computational graph of a RNN, which is just a fancy name for expanding a recurrence relation. The unfolded network can be seen as just a sequence of copies of a single layer, applied over the entire sequence of $x$. This is the general structure of a RNN but there are many variants to this scheme. While explaining them all is far beyond the scope of this text, you can read more about then <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb" target='_'>here</a> if you are interested.</p>
+					<p>
+					The representation on the right is know as the <i>unfolded</i> computational graph of a RNN, which is just a fancy name for expanding a recurrence relation. The unfolded network can be seen as just a sequence of copies of a single layer, applied over the entire sequence of $x$. This is the general structure of a RNN but there are many variants to this scheme. While explaining them all is far beyond the scope of this text, you can read more about then <a href="http://www.deeplearningbook.org/contents/rnn.html#pfb" target='_'>here</a> if you are interested.
+					</p>
 					<!-- Conclusion RNN -->
-					<p>While there is no theoretical limit to the memory of a RNN, practice shows that its hard to learn long term dependencies (see <a href = "https://ieeexplore.ieee.org/document/279181" target="_">Bengio <i>et al</i></a>) as their effects are heavily "diluted" as the recurrence is iterated. This comes from the recurrence itself as the network is as deep as the length of the sequence and thus the same weights are used several times. If we were dealing, for example, with a time series of 100 steps the recurrence will apply the same weights $100$ times, thus the final state $h_{100}$ will depend on the weight matrix $ W^{100} $. The gradients (used in gradient descent) linked to eigenvalues slightly different than $1$ will wither vanish or explode, thus making training a hard task. <b>LSTM</b> is one popular RNN model that tackles this problem and is specially built to deal with both long and short term dependencies.</p>
+					<p>
+					While there is no theoretical limit to the memory of a RNN, practice shows that its hard to learn long term dependencies (see <a href = "https://ieeexplore.ieee.org/document/279181" target="_">Bengio <i>et al</i></a>) as their effects are heavily "diluted" as the recurrence is iterated. This comes from the recurrence itself as the network is as deep as the length of the sequence and thus the same weights are used several times. If we were dealing, for example, with a time series of 100 steps the recurrence will apply the same weights $100$ times, thus the final state $h_{100}$ will depend on the weight matrix $ W^{100} $. The gradients (used in gradient descent) linked to eigenvalues slightly different than $1$ will wither vanish or explode, thus making training a hard task. <b>LSTM</b> is one popular RNN model that tackles this problem and is specially built to deal with both long and short term dependencies.
+					</p>
 					<!-- LTSM -->
 					<a name="LSTM"></a><h2 class="section">3. Long Short Term Memory</h2>
 					<p>LSTM addresses the problem of long term memory by making several modifications to the vanilla RNN architecture. Indeed its structure is far more complex (adapted from <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target='_'>here</a>):</p>

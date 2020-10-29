@@ -1,40 +1,3 @@
-/*
-var s = function( p ) {
-  var scl = 5;
-  var rows, cols;
-
-  p.setup = function() {
-    var myWidth = document.getElementById("random_2d").offsetWidth;
-    let c = p.createCanvas(myWidth, 200);
-
-    rows = p.height / scl;
-    cols = p.width / scl;
-    p.saveCanvas(c, 'random_noise', 'jpg');
-  }
-
-  p.draw = function() {
-    for(var y = 0; y < rows; y++) {
-      for(var x = 0; x < cols; x++){
-        var r = p.random() * 255;
-        p.fill(r);
-        p.stroke(0)
-        p.rect(x * scl, y * scl, scl, scl);
-      }
-    }
-    if( p.frameCount > 1)
-      p.noLoop();
-  }
-
-  p.windowResized = function() {
-    mwidth = document.getElementById("random_2d").offsetWidth;
-    scl *= (mwidth / p.width); // Resizing the scale
-
-    p.resizeCanvas(mwidth, p.height);
-  };
-}
-var myp51 = new p5(s, 'random_2d');
-*/
-
 var s = function( p ) {
   var scl = 20; //scale
   var inc = 0.1;
@@ -271,8 +234,8 @@ var s = function( p ) {
     mwidth = document.getElementById("perlin_alt").offsetWidth;
     scl *= (mwidth / p.width); // Resizing the scale
     for(var i = 0; i < particles.length; i += 1) {
-      particles[i].pos.mult( (mwidth / p.width) );
-      particles[i].last_pos.mult( (mwidth / p.width) );
+      particles[i].pos.x *= mwidth / p.width;
+      particles[i].last_pos.x *= mwidth / p.width;
       p.background(0);
     }
 

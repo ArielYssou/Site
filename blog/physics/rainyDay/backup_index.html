@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>Rainy Night</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../css/style.css">
+		<link rel="stylesheet" href="../../../css/pygments.css">
+
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="rain.js"></script>
+		<script src="tree.js"></script>
+		<script src="sketch.js"></script>
+	</head>
+
+	<body>
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a>
+					</li>
+					<li class="nav-item nav-blog active">
+						<a class="nav-link" href="../.." style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a>
+					</li>
+				<li class="nav-item">
+						<a class="nav-link" href="../../../gallery/" style="font-weight:bold;">Gallery </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a>
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+		<div class="head_container">
+			<img src="./cover_image.png" class="head_image no_blur">
+			<div class="head_middle">
+				<div class="head_text"><b>A Rainy Night</b></div>
+			</div>
+		</div>	
+
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+
+					<p>In this project we simulate a relaxing windy rainy night using the <a href="https://p5js.org/" target="_blank" class="custom_link">p5.js</a> framework. The inspiration for this small code was the view from the window in my old room at my university. In this particular day I was inspired to code something cool and to apply some concepts from the undergrad physics course that I was participating as a Professor Assistant. There is no grand motivation or a fancy article that I'll link to this text, just some fun ideas and a messy code.
+					</p>
+					<div class='sketch-holder' id='tree_rain'></div>
+					<!--<a href="https://editor.p5js.org/ArielYssou/sketches/Sqha8Ggec" target="_blank"><div id="sketch-holder"></div></a>-->
+
+<!-- TOC -->
+ <table class="TOC">
+  <tr><th>Contents</th></tr>
+	<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+	<tr><td><a href="#RAIN">2. Rain</a></td></tr>
+	<tr><td><a href="#TREE">3. Pine Tree</a></td></tr>
+	<tr><td><a href="#ADDONS">4. Flairs</a></td></tr>
+</table> 
+<br>
+
+					<a name="INTRO"></a>
+					<h2 class="section">1. Introduction</h2>
+					<p>
+					<p>This project is actually a combination of two interacting systems: the tree and the rain. Both systems are affected by a strong wind (I took some poetical license here as the night that motivated me almost didn't had any wind whatsoever, but I feel that it added some drama to it) and gravity. The first thing to do is to think about the overall architecture of the code. The system as a has two global forces, wind and gravity, being applied to each element (branches of the tree and water drops of the rain), so the idea will be to construct a scene object with these global froces and pass it to each element of the scene: the tree object and the rain object, each with its own internal composition.</p>
+					<p>
+						We will start thinking about this problem writing down a shallow, high level code with all functionalities that will intend to implement after. The overall structure of the code will follow these lines:
+					</p>
+					<pre>
+					{% include 'snippet_1.js' %}
+					</pre>
+					<p>
+						Now the only thing that we must do is to actually translate these ideas into code. Lets start by the easiest part that is modeling the rain.
+					</p>
+					<a name="RAIN"></a>
+					<h2 class="section">2. Rain</h2>
+					<p> The rain is just a collection of water drops, so our only task will be to write down a droplet class. Each rain drop has an individual size, so we need to think how to generate their sizes to mimic a real rain. It turns out that the distribution of droplet sizes is very skewed and have a (relatively) small variance to its mean (there is a <a class="custom_link" href=' https://www.nature.com/articles/nphys1385?draft=collection&proof=true' target='_blank'>very interesting article in Nature about it</a>). Considering this we generate our rain drops from a Gaussian distribution with a small variance. Up to this point a first code sketch might look like this:
+					</p>
+					<pre>
+					{% include 'snippet_2.js' %}
+					</pre>
+					<p> The resulting simulation is quite good, but it looks very bi-dimensional. We can add the notion of depth by introducing a third coordinate to all vectors and scale the droplets (and their dynamics since distances are warped by perspective) by this new coordinate. Implementing this we have our final result (we will discuss the splashes in the last section):</p>
+					<div class='sketch-holder' id='rain'></div>
+					<br></br>
+<pre>
+{% include 'rain.js' %}
+</pre>
+					<a name="TREE"></a>
+					<h2 class="section">3. Tree</h2>
+					<p>
+						Modeling the dynamics of a tree can be very challenging as it involves implementing rigid body physics. To avoid loosing the scope of the project and making a fancy simulation (which I totally did in my first attempt) we will adopt the following philosophy: $``$Whenever the mechanics become complex, ignore the complexity$"$. Our first move will be to make some simplifications that will not drastically affect the visual of the simulation but will significantly simplify the physics.
+					</p>
+					<p>
+						Our first assumption will be that gravity does not contribute significantly to the dynamics, as the internal elastic forces are stronger. Beyond this we will consider that the density on the tree is uniform and that the tree does not affect the wind flow as both these dynamics should have a marginal effect on the simulation. To make our task even easier lets model a pine tree so we can ignore the collisions between branches and leafs. Taking into account everything we discussed so far we can list only three major forces that act on each segment of the tree: Wind, elasticity and dissipation (differences of normal forces between branch segments will be grouped in the elastic force for simplicity). We can discuss each one of these forces separately.
+					</p>
+					<p>
+					The wind will be generated using Perlin noise, and its torque will be just \(F_{wind}.\cos(\theta).\) Dissipation forces can be modeled simply by a constant times the linear speed of the branch segment \(F_{dis} = \gamma v\). The elastic force is not trivial, so I used some tricks. To avoid complicated algebra and reduce the computation complexity (always a good thing) I wrote an "angular elastic force" \(Fel = k\, \Delta\theta\), where all the complex stuff is hidden in the constant \(k\). The linear dependency with \(\Delta \theta\) is also an approximation. Since the tree is almost rigid at its basis and very elastic at its top, my first idea was to make \(k\) decrease via a power law with the height of the tree to simulate this behavior. If this idea is not sucessful, then we will try to make something fancier. To our happiness, this gives a nice approximation already:
+					</p>
+					<div class='sketch-holder' id='branch'></div>
+					<br></br>
+<pre>
+{% include 'tree.js' %}
+</pre>
+					<a name="ADDONS"></a>
+					<h2 class="section">4. Flairs</h2>
+					<p>I made some additional work to simulate the splashes of the rain and some leafs falling off just to add some visual jazz. The splashes are generated when a rain drop reaches the floor. As the linear momentum must be conserved, the initial speed of each splash is determined considering the speed of the rain droplet The small leafs falling from the tree are almost identical to the rain drops in terms of physics, the only difference is that wind affects then more as their superficial area is greater than a water drop. I added rotation to each of then for visual flair.</p>
+					<p>Another visual detail is the order each element is show in the screen at each iteration. Firstly we draw only half the rain drops, then the tree, then the other half so some drops are behind the tree and some in front, to add a better notion of depth and realism. The falling leafs are draw before the tree so they appear to be behind it. The final code with all these improvements is show in the end.</p>
+					<p>
+					Thanks for reading this far and I hope you have like it! If you have some criticism just let me know so I can improve this content :D
+					</p> 
+
+<pre>
+{% include 'sketch.js' %}
+</pre>
+
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<script src="../../../js/script.js"></script>
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+    <!-- mathjax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script>
+   MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+  </script>
+	</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, intial-scale=1">
+
+		<!-- Name on tab -->
+		<title>Reaction Diffusion</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"> 
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../css/style.css"> <!--TARGET-->
+		<link rel="stylesheet" href="../../../css/pygments.css"> <!--TARGET-->
+
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<!-- Custom p5js animations -->
+		<script src="sketch.js"></script>
+
+	</head>
+
+	<body>
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+			<a class="navbar-brand" href="../../.." style="font-weight:bold;">Ariel Yssou</a> <!--TARGET-->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../../.." style="font-weight:bold;">Home </a><!--TARGET-->
+ 
+					</li>
+					<li class="nav-item nav-blog active">
+						<a class="nav-link" href="../../blog" style="font-weight:bold;">Blog <span class="sr-only">(current)</span></a><!--TARGET-->
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../gallery/" style="font-weight:bold;">Gallery </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../../about" style="font-weight:bold;">About</a><!--TARGET-->
+					</li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- End of navigation bar -->
+	<div class="head_container">
+		<img src="./cover_image.png" class="head_image no_blur">
+		<div class="head_middle">
+			<div class="head_text"><b>Reaction Diffusion</b></div>
+		</div>
+	</div>		
+		<div class="container post_body">
+			<div class="row post_struct">
+				<div class="col-ld-12">
+
+
+					<p>In this post we will study the Gray Scott model which describes the reaction between two substances. This model has been the focus of many recent studies (<a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>[1]</a>, <a href="https://www.sciencedirect.com/science/article/pii/S1468121803000208" target='_'>[2]</a>, <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>[3]</a>) for its complex behavior, chaotic nature and relatively simple formulation. It also generates beautiful patterns that are widely used by graphical artists (<a href="https://www.mdpi.com/1424-8220/20/4/1135/htm" target='_'>creating procedual generated textures</a>) and has applications in many theoretical fields such as biology in the modeling of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model/figures?lo=1" target='_'>human brain development</a> and in physics in the study of <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target='_'>phase transitions in complex patterns</a>.</p>
+					<figure>
+						<img src="copper_shadder.png" alt="coral pattern" class = 'center' style='max-width : 400px'>
+					</figure>
+
+
+				 <table class="TOC">
+				<tr><th>Contents</th></tr>
+				<tr><td><a href="#INTRO">1. Introduction</a></td></tr>
+				<tr><td><a href="#THEORY">2. Implementation</a>	</td></tr>
+				<tr><td><a href="#USE">3. Application</a></td></tr>
+				</table> 
+				<br>
+
+					<a name="INTRO"></a>
+					<h2 class="section">1. Results</h2>
+					<p>
+					<p>The model may seem simple at first glance, but implementing it will provide some challenges that will help us study very powerful computational methods that can be used in many other algorithms and are a valuable tool for any programmer or scientist. The theoretical aspects will be discussed in a surface level as a proper discussion would be way more mathematically intensive and out of the scope of this post.</p>
+					<p>The Gray Scott model describes the reaction of two chemicals: a reactant $``B"$ can transform another reactant $``A"$ into becoming a inert substance. One substance is feed to the system at rate $f$ and the other is removed (or "killed") at rate $k$ and both substances are free to diffuse with rates $D_{A,B}$. The evolution of the system is described by the following equations:</p>
+					 <p>
+					 $$\begin{eqnarray}
+					 \frac{\partial}{\partial t} A(t) =  D_A \nabla^2 A - A B^2 + f (1 - A),\\
+					 \frac{\partial}{\partial t} B(t) =  D_B \nabla^2 B + A B^2 - (f + k) B.
+					 \end{eqnarray}
+					 $$
+					 </p>
+					 <p>Postponing the theoretical discussion, lets start by solving these equations numerically to get acquainted with the problem. This can be done by considering discrete time intervals and by dividing the system into a grid, where each site has a local concentration of A and B that can diffuse to the neighboring sites. These conditions lead us to the following set of equations for a given time interval $j$ (notice that since the particular position in the lattice don't matter, as all rates are the same everywhere, we will avoid indexing the position to simplify the notation)</p> 
+					 <p>
+					 $$\begin{eqnarray}
+					 A_{j+1} =  D_A \nabla^2 A_j - A_j B_j^2 + f (1 - A_j),\\
+					 B_{j+1} =  D_B \nabla^2 B_j + A_j B_j^2 - (f + k) B_j.
+					 \end{eqnarray}
+					 $$ 
+					 </p>
+					 <p>The first question that comes to mind is how to compute the Laplacian operator. The discretization of \(\nabla^2\) can be done in many ways (you can read more about it <a href="https://en.wikipedia.org/wiki/Discrete_Laplace_operator" target='_'>here</a>), but for reasons that will become clear soon we will use the <i>five point stencil</i> method, which comprises of estimating the Laplacian (in a square lattice) via: </p> 
+					 <p>
+					 $$
+					 \begin{equation}
+					 \nabla^2 f(x, y) \approx f(x-1, y) + f(x+1, y) + f(x, y-1) + f(x, y+1) - 4 f(x,y)
+					 \end{equation}
+					 $$
+					 </p>
+					 <p>This type of discretization is based on simple Taylor series (here for a <a href="https://en.wikipedia.org/wiki/Finite_difference_method" target='_'>quick "proof"</a>). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click on it in the panel below and see it for yourself: </p> 
+					<p><span class='alert'>Click on the panel bellow to start/stop the simulation.</span> </p>
+
+					<div class='sketch-holder' id="c1"></div>
+					<br></br>
+					<p>
+					Here is the code that generated this simulation, which is a simple implementation of the equations we talked about:
+					</p> 
+<pre>
+{% include 'sketch.js' %}
+</pre>
+					<p>
+						This code is correct from a theoretical point of view, but very inefficient and unwieldy for any serious numerical analysis. Currently here are $N^2$ sites that need to be updated on each iteration, each site requires 16 sums and 10 multiplications to be updated. Additionally we need to painfully check each site of the matrix, perform operations locally, and then jump to the next until you evaluated all sites. To our luck, there are several aspects of the code that can be optimized which we will be discussed in the next section.
+					</p>
+
+					<a name="CODE"></a>
+					<h2 class="section">2. Implementation</h2>
+					<p>
+					The code we built in the last section has some computational bottlenecks that, since it is a small and fairly simple code, we can identify relatively easily. The first one we will discuss is how to best handle data that is naturally representable by a matrix (in our case, a system defined in a lattice).
+					</p>
+					<p>
+					While easier and more readable, writing matrices as actual 2D arrays is suboptimal from a computational point of view. An array is basically a pointer that... well... points to a place in memory where the array values are stored sequentially. A 2D array is an array of pointers, each pointing to the location of a line of the matrix. So every time we access a 2D array, we have to follow two pointers (the pointer to the pointer that points to the value) instead of just 1. If we store the lines of a matrix sequentially in a 1D array we can avoid this, thus optimizing how we access the values of a matrix. Here is a scheme of how this works:
+					</p> 
+					<figure>
+						<img src="array_pointer_neg.png" alt="array scheme was supposed to be here :c" class = 'center'>
+					</figure>
+					<p>This technique of $``$flattening$"$ the matrices is already a big improvement in term of computation complexity, but we can go even further. Another big bottleneck is the calculation the Laplacian in each site. We used the five point stencil to estimate it, but it is a local operation in a matrix. There is actually a way to write this operator in matrix form which will help us a lot and make the code run much faster. But why using a matrix operator (thus having to multiply two huge matrices) is actually <b>any</b> faster than just sum the neighbors of each site (as in the five point stencil method)?
+					</p>
+					<p>It is easy to overlook the fact that squaring a matrix or doing matrix operations in code is relatively $``$fast$"$ when we are executing a simple code, but its is unclear to why this is true without looking into the actual implementation of these functions in a low level. If we look into the implementation of matrix operations in numpy (or any other numerical library for all big programming languages) we see that these operations are <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target='_'>vectorized</a>, which is a far better and optimized way of performing array operations. Contrary to locally updating each site of an array individually using just own computational thread, vectorization allow us to use the multiple computational threads of a processor to perform operation simultaneously, thus bringing all the might of the processor to bear.</p>
+					<p>To use the vectorized nature of numpy functions we need to find a way to write the Laplacian operator as a matrix. Lets start thinking on the action of the Laplacian on some position \((x, y)\) and its neighboring sites. The operator could be written as:<p>
+					<p>$$
+					\begin{eqnarray*}
+				\nabla^2 f(x, y) &\approx& f(x-1, y) + f(x+1, y) + f(x, y-1) + f(x, y+1) - 4 f(x,y) =\\
+				\\
+				&=& \underbrace{\begin{pmatrix}
+						0 & 1 & 0\\
+						1 & -4 & 1\\
+						0 & 1 & 0
+						\end{pmatrix}}_{\nabla^2}
+						\,\,\,
+					\underbrace{\begin{pmatrix}
+						f(x-1,y-1) & f(x,y-1) & f(x+1,y-1)\\
+						f(x-1,y) & f(x,y) & f(x+1,y)\\
+						f(x-1,y+1) & f(x,y+1) & f(x+1,y+1)
+						\end{pmatrix}}_{f(x,y)}
+					\end{eqnarray*}
+					$$</p> 
+					<p>This means that the Laplacian acts as a matrix on each site! If our lattice has $n^2$ sites we will need to build a $n^2 \times n^2$ operator where each line is an operation on a single site and its neighbors. The best way to understand this is by doing it by hand for a relatively small case ($3 \times 3$ for example) and convince yourself that is a matrix with $-4$ on the main diagonal, $1$ on the diagonals above and below the main diagonal and $1$ in diagonals $\pm n$ away from the main diagonal.In python: </p>
+<pre>
+diags = [-4*main, inf, sup, main, main]
+offsets = [0, -1, 1, -n, n]
+self.Laplacian = dia_matrix((diags, offsets), shape=(n**2, n**2) )
+</pre>
+					<p>Implementing these changes make the code (available in the end of this post) run MUCH faster. With this we can explore some know parameter combinations and see the sheer variety of patterns that a single model can generate.
+					<a name="RESULTS"></a>
+					<h2 class="section">3. Results</h2>
+
+					The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed). So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Turing patterns, in honor of Alan Turing, atheist, homosexual, war hero and father of computer science).</p>
+				<div class="row">
+					<div class="col">
+						<figure>
+							<img src="config_a_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(A) - Self replicating spots
+								(Pearson \(\lambda\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0392\\
+								k = 0.0649
+								\end{eqnarray*}\)
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_b_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(B) - "Worms" Pattern
+								(Pearson \(\mu\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0416\\
+								k = 0.0625
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_c_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(C) - Mixed phase
+								(Pearson \(\eta\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0404\\
+								k = 0.0638
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<figure>
+							<img src="config_d_YlGnBu.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(D) - Spatial temporal chaos
+								(Pearson \(\epsilon\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0175\\
+								k = 0.0504
+								\end{eqnarray*}\)
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_e_YlGnBu.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(E) - Waves
+								(Pearson \(\alpha\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0175\\
+								k = 0.0504
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+					<div class="col">
+						<figure>
+							<img src="config_f_jet_r.png" alt="Random Noise" class='pannel_fig'>
+							<figcaption>
+								(F) - Labyrinthine pattern
+								(Pearson \(\theta\) pattern)<br>
+								\(
+								\begin{eqnarray*}
+								f = 0.0295\\
+								k = 0.0561
+								\end{eqnarray*}\)
+							</figcaption>
+						<figure>
+					</div>
+				</div>
+					
+				<p>The full phase diagram of this system in terms of the complexity of each patterns is quite intricate as well, and reveals that even more phases exist in this model (extracted from <a href="https://arxiv.org/pdf/1610.09097.pdf" target='_'>"Generative complexity of Gray-Scott model", A. Adamatzky</a>):</p> 
+						<img src="phase_diagram_neg.png" alt="Continuos diagram", class='center' style="width: 60%">
+						<p>Many more interesting things could be studied, but as a closing note lets try to visualize a segment of the phase diagram. This can be done by making a simulation where the parameters depend on the location of the lattice, thus each part of the system will be in a different regime. Here is a slice of the phase diagram with $k$ randing from $0.0576$ to $0.0649$ and $f$ from $0.0208$ to $0.0416$:</p> 
+					<figure>
+						<img src="continuous_diagram_Spectral.png" alt="Continuos diagram", class = 'center' style="width: 35vw; height: 35vw">
+						<figcaption>Reaction diffusion patterns where the value for \(k\) ranges from 0.0576 <br>to 0.0649 in the x axis and \(f\) ranges from 0.0208 to 0.0416 in the y axis. </figcaption>
+					</figure>
+					 
+					<!--<div class="sketch-holder" id="c2"></div>-->
+					<p>Thanks or reading :D</p> 
+					
+					Code:
+<pre>
+{% include 'advanced_reacDiff.py' %}
+</pre>
+
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<script src="../../../js/script.js"> </script><!--TARGET-->
+		<!-- Bootstrap + JQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/9ead9d8df4.js" crossorigin="anonymous"></script>
+    <!-- mathjax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+
+
+	</body>
+</html>
