@@ -94,7 +94,7 @@
    <div class="row post_struct">
     <div class="col-ld-12">
      <p>
-      In this post we will study the Gray Scott model which describes the reaction between two substances. This model has been the focus of many recent studies (
+      In this post we will study the Gray Scott model, which describes the reaction between two substances. This model has been the focus of many recent studies (
       <a href="https://www.researchgate.net/publication/286301765_Information_geometric_analysis_of_phase_transitions_in_complex_patterns_The_case_of_the_Gray-Scott_reaction-diffusion_model" target="_">
        [1]
       </a>
@@ -190,7 +190,7 @@
        <i>
         five point stencil
        </i>
-       method, which comprises of estimating the Laplacian (in a square lattice) via:
+       method, which estimates the Laplacian (in a square lattice) via:
       </p>
       <p>
        $$
@@ -200,11 +200,11 @@
 					 $$
       </p>
       <p>
-       This type of discretization is based on simple Taylor series (here for a
+       This type of discretization is based on simple Taylor series (here is a
        <a href="https://en.wikipedia.org/wiki/Finite_difference_method" target="_">
         quick "proof"
        </a>
-       ). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to rather slow code. You can click on it in the panel below and see it for yourself:
+       ). Implementing these equations is quite straightforward now, but there is a catch. The most "naive" way to do it leads to a rather slow code. You can click on it in the panel below and see it for yourself:
       </p>
       <p>
        <span class="alert">
@@ -370,11 +370,11 @@
        faster than just sum the neighbors of each site (as in the five point stencil method)?
       </p>
       <p>
-       It is easy to overlook the fact that squaring a matrix or doing matrix operations in code is relatively $``$fast$"$ when we are executing a simple code, but its is unclear to why this is true without looking into the actual implementation of these functions in a low level. If we look into the implementation of matrix operations in numpy (or any other numerical library for all big programming languages) we see that these operations are
+       It is easy to overlook the fact that squaring a matrix or doing matrix operations in code is relatively $``$fast$"$ when we are executing a simple code, but its unclear why this is true without looking into the actual implementation of these functions in more fundamental level. If we look into the implementation of matrix operations in numpy (or any other numerical library of any programming language) we see that these operations are
        <a href="https://www.pythonlikeyoumeanit.com/Module3_IntroducingNumpy/VectorizedOperations.html" target="_">
         vectorized
        </a>
-       , which is a far better and optimized way of performing array operations. Contrary to locally updating each site of an array individually using just own computational thread, vectorization allow us to use the multiple computational threads of a processor to perform operation simultaneously, thus bringing all the might of the processor to bear.
+       , which is a far better and optimized way of performing array operations. Contrary to locally updating each site of an array individually using just one thread, vectorization allow us to use the multiple computational threads of a processor to perform operations simultaneously, thus bringing all the might of the processor to the calculation.
       </p>
       <p>
        To use the vectorized nature of numpy functions we need to find a way to write the Laplacian operator as a matrix. Lets start thinking on the action of the Laplacian on some position \((x, y)\) and its neighboring sites. The operator could be written as:
@@ -412,7 +412,7 @@
          <h2 class="section">
           3. Results
          </h2>
-         The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity (this measure is also know as "compressibility" and is actually the method that .png files are compressed). So the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some of the patterns that can be observed in the same model (these are known as Turing patterns, in honor of Alan Turing, atheist, homosexual, war hero and father of computer science).
+				 The Gray-Scott model generates many different configurations based on the values of the system parameters. Small changes to the feed and kill rates can drastically change the behavior of the system as a whole. The "complexity" of each configuration can be measured by quantities such as the Fisher information (somewhat a parallel to susceptibility in this case), Shannon entropy, Simpson's diversity and Lempel-Ziv complexity, which is also know as "compressibility" and is actually the method that .png files are compressed (so the file size of the saved figure is a direct measure of this quantity). These measures can be used to describe the phase diagram of the system, as we will see shortly. These are some but some of the patterns that can be observed by making small changes to the parameters (these are also known as Turing patterns, in honor of Alan Turing).
         </p>
         <div class="row">
          <div class="col">
@@ -525,7 +525,7 @@
         </p>
         <img ,="" alt="Continuos diagram" class="center" src="phase_diagram_neg.png" style="width: 60%"/>
         <p>
-         Many more interesting things could be studied, but as a closing note lets try to visualize a segment of the phase diagram. This can be done by making a simulation where the parameters depend on the location of the lattice, thus each part of the system will be in a different regime. Here is a slice of the phase diagram with $k$ randing from $0.0576$ to $0.0649$ and $f$ from $0.0208$ to $0.0416$:
+         Many more interesting things could be studied, but as a closing note lets try to visualize a segment of the phase diagram. This can be done by making a simulation where the parameters depend on the location of the lattice, thus each part of the system will be in a different regime. Here is a slice of the phase diagram with $k$ ranging from $0.0576$ to $0.0649$ and $f$ from $0.0208$ to $0.0416$:
         </p>
         <figure>
          <img ,="" alt="Continuos diagram" class="center" src="continuous_diagram_Spectral.png" style="width: 35vw; height: 35vw"/>

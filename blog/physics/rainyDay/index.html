@@ -92,11 +92,11 @@
    <div class="row post_struct">
     <div class="col-ld-12">
      <p>
-      In this project we simulate a relaxing windy rainy night using the
+      In this project we simulate a relaxing rainy night using the
       <a class="custom_link" href="https://p5js.org/" target="_blank">
        p5.js
       </a>
-      framework. The inspiration for this small code was the view from the window in my old room at my university. In this particular day I was inspired to code something cool and to apply some concepts from the undergrad physics course that I was participating as a Professor Assistant. There is no grand motivation or a fancy article that I'll link to this text, just some fun ideas and a messy code.
+      framework. The inspiration for this small code was the view from the window in my room at the campus. In this particular day I was inspired to code something cool and to apply some concepts from the undergrad physics course that I was participating as a Professor Assistant. There is no grand motivation or a fancy article that I'll link to this text, just some fun ideas and a messy code.
      </p>
      <div class="sketch-holder" id="tree_rain">
      </div>
@@ -145,7 +145,7 @@
      </h2>
      <p>
       <p>
-       This project is actually a combination of two interacting systems: the tree and the rain. Both systems are affected by a strong wind (I took some poetical license here as the night that motivated me almost didn't had any wind whatsoever, but I feel that it added some drama to it) and gravity. The first thing to do is to think about the overall architecture of the code. The system as a has two global forces, wind and gravity, being applied to each element (branches of the tree and water drops of the rain), so the idea will be to construct a scene object with these global froces and pass it to each element of the scene: the tree object and the rain object, each with its own internal composition.
+       This project is actually a combination of two interacting systems: the tree and the rain. Both systems are affected by gravity and a strong wind (I took some poetical license here as the night that motivated this project almost didn't had any wind whatsoever, but I feel that it added some drama to it). The first thing to do is to think about the overall architecture of the code. The system as a has two global forces, wind and gravity, being applied to each element (branches of the tree and water drops of the rain), so the idea will be to construct a scene object with these global froces and pass then to each element of the scene: the tree object and the rain object, each with its own internal methods.
       </p>
       <p>
        We will start thinking about this problem writing down a shallow, high level code with all functionalities that will intend to implement after. The overall structure of the code will follow these lines:
@@ -607,7 +607,7 @@
        I made some additional work to simulate the splashes of the rain and some leafs falling off just to add some visual jazz. The splashes are generated when a rain drop reaches the floor. As the linear momentum must be conserved, the initial speed of each splash is determined considering the speed of the rain droplet The small leafs falling from the tree are almost identical to the rain drops in terms of physics, the only difference is that wind affects then more as their superficial area is greater than a water drop. I added rotation to each of then for visual flair.
       </p>
       <p>
-       Another visual detail is the order each element is show in the screen at each iteration. Firstly we draw only half the rain drops, then the tree, then the other half so some drops are behind the tree and some in front, to add a better notion of depth and realism. The falling leafs are draw before the tree so they appear to be behind it. The final code with all these improvements is show in the end.
+       Another visual detail is the order each element is show in the screen at each iteration. Firstly we draw only half the rain drops, then the tree, then the other half of the rain. With this some water drops are behind the tree and some in front, which adds a better notion of depth and realism. The falling leafs are draw before the tree so they appear to be behind it. The final code with all these improvements is show in the end.
       </p>
       <p>
        Thanks for reading this far and I hope you have like it! If you have some criticism just let me know so I can improve this content :D
