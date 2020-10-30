@@ -25,33 +25,33 @@ class Particle(object):
         '''
         Checks boundry conditions and updates the position based on the current speed.
         Another check that must be made is if the center of the particle acctually
-        is after the wall due to the speed beeing too great. In this case we must also
+        is after the wall due to the speed beeing too great. In self case we must also
         manually reflect the particle back into the conteiner
         '''
         # Check colision with horizontal walls
-        if (this.pos.x + this.radius > right_wall):
-            this.speed.x *= -1
-            if (this.pos.x > right_wall):
-                this.pos.x = right_wall - (right_wall - this.pos.x)
-        elif (this.pos.x - this.radius < left_wall)
-            this.speed.x *= -1
-            if (this.pos.x < left_wall):
-                this.pos.x = left_wall + (left_wall - this.pos.x)
+        if (self.pos.x + self.radius > right_wall):
+            self.speed.x *= -1
+            if (self.pos.x > right_wall):
+                self.pos.x = right_wall - (right_wall - self.pos.x)
+        elif (self.pos.x - self.radius < left_wall)
+            self.speed.x *= -1
+            if (self.pos.x < left_wall):
+                self.pos.x = left_wall + (left_wall - self.pos.x)
         else:
             pass
 
         # Check colision with vertical walls
-        if (this.pos.y + this.radius > top_wall):
-            this.speed.y *= -1
-            if (this.pos.y > top_wall):
-                this.pos.y = top_wall - (top_wall - this.pos.y) 
-        elif (this.pos.y - this.radius < bottom_wall):
-            this.speed.y *= -1
-            if (this.pos.y < bottom_wall):
-                this.pos.y = bottom_wall + (bottom_wall - this.pos.y)
+        if (self.pos.y + self.radius > top_wall):
+            self.speed.y *= -1
+            if (self.pos.y > top_wall):
+                self.pos.y = top_wall - (top_wall - self.pos.y) 
+        elif (self.pos.y - self.radius < bottom_wall):
+            self.speed.y *= -1
+            if (self.pos.y < bottom_wall):
+                self.pos.y = bottom_wall + (bottom_wall - self.pos.y)
 
         # Update the position
-        this.pos = np.add(this.pos, this.speed)
+        self.pos = np.add(self.pos, self.speed)
 
     def colision(self, other):
         '''
@@ -60,4 +60,4 @@ class Particle(object):
         OUTPUT:
             True for colision, else False
         '''
-        return (np.subtract(this.pos, other.pos) < (this.radius + other.radius))
+        return (np.subtract(self.pos, other.pos) < (self.radius + other.radius))

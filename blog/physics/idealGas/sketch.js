@@ -13,7 +13,7 @@ var s = function( p ) {
     var myWidth = document.getElementById("c1").offsetWidth;
     var myHeight = document.getElementById("c1").offsetHeight;
     //let myHeight = 0.5 * myWidth;
-    p.createCanvas(myWidth, myHeight);
+    p.createCanvas(myWidth, 300);
     p.colorMode(p.RGB);
     
     let show_mfp = false;
