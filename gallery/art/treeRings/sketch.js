@@ -181,7 +181,7 @@ var s = function( p ) { // p could be any variable name
   p.setup = function() {
 		//var myWidth = document.getElementById("c1").offsetWidth;
 		/* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(800, 500);
+    p.createCanvas(800, 400);
   };
 
 	p.draw = function() {
@@ -194,7 +194,7 @@ var s = function( p ) { // p could be any variable name
 			for(var j = 0; j < rings; j += 1) {
 				tree.add(p.random([0,1,2]))
 			}
-			tree.show('grid')
+			tree.show('wood')
 		}
 		p.noLoop()
   };

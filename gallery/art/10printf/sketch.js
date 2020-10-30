@@ -1,4 +1,4 @@
-function generatePattern(p, scl = 10, clr = '#000000', hilight_clr = '#FF7577',  hlght_prob = 0.1) {
+function generatePattern(p, scl = 10, clr = '#000000', hilight_clr = '#E6D2A5',  hlght_prob = 0.1) {
 
 	let prob = p.random(0.25, 0.75);
 	let noise_speed = 0.05;
