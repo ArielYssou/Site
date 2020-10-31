@@ -109,7 +109,7 @@
    <div class="row post_struct">
     <div class="col-ld-12">
      <p>
-      In this post we will discuss the Hidden Markv Model and its implementation in Python. We will draw inspiration mainly from
+      In this post we will discuss the Hidden Markov Model and its implementation in Python. We will draw inspiration mainly from
       <a href="https://www.cs.ubc.ca/~murphyk/Bayes/rabiner.pdf" target="_blank">
        Lawrence R. Rabiner (1989)
       </a>
@@ -162,7 +162,7 @@
       1. Introduction
      </h2>
      <p>
-      Many processes in nature produce a sequence of observable outputs, such as the atmospheric variables generating different types of clouds (observations) depending on the state of the weather (a state could be a humid cold day, for example). The model that generates the clouds is $``$hidden$"$ in the sense that its not directly observable, but its output is. The problem then consists in modeling this hidden processes not only to study the hidden state transitions but also to use it to predict future observations. Lets start our discussion with an example to motivate our study. Consider that during a stroll in the park you observe a cutted tree. Investigating it closely you see the following pattern:
+      Many processes in nature produce a sequence of observable outputs, such as the atmospheric variables generating different types of clouds (observations) depending on the state of the weather (a state could be a humid cold day, for example). The model that generates the clouds is $``$hidden$"$ in the sense that its not directly observable, but its output is. The problem then consists in modeling this hidden process not only to study the hidden state transitions but also to use it to predict future observations. Let's start our discussion with an example to motivate our study. Consider that during a stroll in the park you observe a cutted tree. Investigating it closely you see the following pattern:
      </p>
      <figure>
       <img alt="tree_rings" class="large_img" src="tree.jpg"/>
@@ -175,7 +175,7 @@
       chain (a $``$hidden$"$ Markov chain if you like). To further discuss this model we need to first define what exactly is a Markov process and then build from it.
      </p>
      <p>
-      To illustrate this discussion we will use the p5.js library to procedurally generate all figures. Most images where incorporated as snapshots to improve the performance of the page, but the full code is available here.
+      To illustrate this discussion we will use the p5.js library to procedurally generate all figures. Most images were incorporated as snapshots to improve the performance of the page, but the full code is available here.
      </p>
      <img ,="" alt="Code example" class="img_format" src="code_example.png"/>
      <a name="HMM">
@@ -252,7 +252,7 @@
        <img alt="unfolded hmm" src="unfolded_process_circular.png" style="width: 100%;"/>
       </figure>
       <p>
-       From this formalism many results follow. Specifically, there are 3 main problems that we can solve using HMMs, know very appropriately as the "3 basic problems of HMM", which we will discuss now.
+       From this formalism many results follow. Specifically, there are 3 main problems that we can solve using HMMs, known very appropriately as the "3 basic problems of HMM", which we will discuss now.
       </p>
       <a name="PROBLEMS">
       </a>
@@ -275,7 +275,7 @@
        3 - The fit problem
       </h3>
       <p>
-       Given the observation sequence $\mathcal{O}$ and the dimensions $M$ and $N$, find the model $\lambda$ that maximizes the probability of $\mathcal{O}$. This problem can be seen a training a model to a dataset.
+       Given the observation sequence $\mathcal{O}$ and the dimensions $M$ and $N$, find the model $\lambda$ that maximizes the probability of $\mathcal{O}$. This problem can be seen as training a model on a dataset.
       </p>
       <!--
 				</div>
@@ -384,11 +384,11 @@
 					$$x_t = \underset{i}{\mathrm{argmax}}\ \gamma_t(i).$$
        </p>
        <p>
-        The problem with this solution is that the ``best'' sequence might not be even a valid sequence (if the transition between some states is impossible). Another solution to this problem can be achieved by choosing a alternative optimality criteria, such as maximizing the number of correct state pairs, triplets, etc... The most used [2] is maximizing the probability of the whole sequence $Q$ given by $P(Q, \mathcal{O}| \lambda)$. There is a formal solution for finding this optimal solution based on Dynamic Programming called the
+        The problem with this solution is that the ``best'' sequence might not be even a valid sequence (if the transition between some states is impossible). Another solution to this problem can be achieved by choosing an alternative optimality criteria, such as maximizing the number of correct state pairs, triplets, etc... The most used [2] is maximizing the probability of the whole sequence $Q$ given by $P(Q, \mathcal{O}| \lambda)$. There is a formal solution for finding this optimal solution based on Dynamic Programming called the
         <b>
          Viterbi Algorithm
         </b>
-        . The interested reader is encouraged to read article [1] as its very detailed and reproducing the demonstration here would be outside the scope of this post.
+        . The interested reader is encouraged to read article [1] as it's very detailed and reproducing the demonstration here would be outside the scope of this post.
        </p>
       </div>
       <button class="collapsible">
@@ -409,7 +409,7 @@
 					$$
        </p>
        <p>
-        While $\sum_{t}\gamma_t(i)$ can be interpreted as the expected number of transitions from $q_i$ the quantity di-gmma $\sum_{t} \gamma_t(i,j)$ represents the expected number if transitions from $q_i$ to $q_t$. Both gammas are related via $\gamma_t(i) = \sum_j \gamma_t(i,j)$ Following the rationale of the EM (Expectation - Modification) algorithm, we then compute $P(\mathcal{O} | \lambda)$ in two steps. (E - step) First we find the expected value of everything and them we update the model. If it did not reached a local maxima (or a precision threshold) then we modify it (M - step). The only missing piece now is how to modify the model to achieve a updated estimation $\bar{\lambda}) = (\bar{A}, \bar{B}, \bar{\pi})$, which can be done with the following equations:
+        While $\sum_{t}\gamma_t(i)$ can be interpreted as the expected number of transitions from $q_i$ the quantity di-gmma $\sum_{t} \gamma_t(i,j)$ represents the expected number if transitions from $q_i$ to $q_t$. Both gammas are related via $\gamma_t(i) = \sum_j \gamma_t(i,j)$ Following the rationale of the EM (Expectation - Modification) algorithm, we then compute $P(\mathcal{O} | \lambda)$ in two steps. (E - step) First we find the expected value of everything and then we update the model. If it did not reached a local maxima (or a precision threshold) then we modify it (M - step). The only missing piece now is how to modify the model to achieve a updated estimation $\bar{\lambda}) = (\bar{A}, \bar{B}, \bar{\pi})$, which can be done with the following equations:
        </p>
        <p>
         $$
@@ -452,9 +452,9 @@
          Scale
         </h3>
         <p>
-         As all calculations involve multiplications of really small probabilities (as the number of possible combinations of states and observations is huge), the variables have a serious tendency to underflow. To solve this, we can the scale the variables. Consider the calculation for the forward variable:
+         As all calculations involve multiplications of really small probabilities (as the number of possible combinations of states and observations is huge), the variables have a serious tendency to underflow. To solve this, we can scale the variables. Consider the calculation for the forward variable:
 					$$\alpha_t(i) = \sum_j \alpha_{t-1}(j) a_{ij} b_i(\mathcal{o}_t),$$
-					whose interpratiation is the probability of observing $\mathcal{O}t$ and reaching state $q_t$. A normalization idea is to normalize this quantity by the sum of all $\alpha_t(j)$ (over $j$). Ideed, it can be shown (see [1]) that this scale does not interfere in the solution and avoids underflow. Thus we define the
+					whose interpretation is the probability of observing $\mathcal{O}t$ and reaching state $q_t$. A normalization idea is to normalize this quantity by the sum of all $\alpha_t(j)$ (over $j$). Indeed, it can be shown (see [1]) that this scale does not interfere in the solution and avoids underflow. Thus we define the
          <i>
           scale term
          </i>
@@ -462,7 +462,7 @@
 					$$c_t \equiv \frac{1}{\sum_j \alpha_t(j)},$$
         </p>
         <p>
-         All variables ($\alpha$, $\beta$ and $\gamma$'s) can then multiplied by this term to avoid underflow. Another nice property is that the probability $P(\mathcal{O} | \lambda)$ can be directly obtained via this scale term:
+         All variables ($\alpha$, $\beta$ and $\gamma$'s) can then be multiplied by this term to avoid underflow. Another nice property is that the probability $P(\mathcal{O} | \lambda)$ can be directly obtained via this scale term:
 					$$\log P(\mathcal{O} | \lambda) = - \sum_{j=0}^{T-1} \log c_j.$$
         </p>
         <h4>
@@ -490,17 +490,17 @@
          <b>
           relative entropy
          </b>
-         (also know as Kullbak-Leibler divergence or information gain in machine learning contexts) that fits this role nicely and can be expressed as
+         (also known as Kullbak-Leibler divergence or information gain in machine learning contexts) that fits this role nicely and can be expressed as
 					$$
 					D(\lambda_1, \lambda_2) = P(\mathcal{O}^{(2)}  | \lambda_1) \log \left( \frac{P(\mathcal{O}^{(2)}  | \lambda_1)}{P(\mathcal{O}^{(2)}  | \lambda_2)} \right),
 					$$
-					where $\mathcal{O}^{(2)}$ is a observation sequence obtained from $\lambda_2$. With this we now measure the distance between a trained model and the true one (when available) and also measure how two solutions are different from each other.
+					where $\mathcal{O}^{(2)}$ is an observation sequence obtained from $\lambda_2$. With this we now measure the distance between a trained model and the true one (when available) and also measure how two solutions are different from each other.
         </p>
         <h3>
          Further topics and variations
         </h3>
         <p>
-         There are several variants to the HMM. Many of then are discussed in depth in the article by Rabiner and are very interesting, such as HMM with absorbing states (breaking the ergodicidy of the model) and HMM with continuous values. As interesting these topics are, we refrain from discussing then to reduce the scope of this post, but I felt that it was important to say that this model can be taken further and is a very interesting topic to study. Now we shall focus on how to implement this model in python, as most sources only provide pseudo code for the implementation.
+         There are several variants to the HMM. Many of then are discussed in depth in the article by Rabiner and are very interesting, such as HMM with absorbing states (breaking the ergodicity of the model) and HMM with continuous values. As interesting these topics are, we refrain from discussing them to reduce the scope of this post, but I felt that it was important to say that this model can be taken further and is a very interesting topic to study. Now we shall focus on how to implement this model in python, as most sources only provide pseudo code for the implementation.
         </p>
         <a name="CODE">
         </a>
@@ -516,10 +516,10 @@
             <p>
              <h1>
               <center>
-               Hiden Markov Model
+               Hidden Markov Model
               </center>
              </h1>
-             This is a notebook with the implementation of HMM in python with some basic analisys and visualizations to test its quality.
+             This is a notebook with the implementation of HMM in python with some basic analysis and visualizations to test its quality.
             </p>
            </div>
           </div>
@@ -547,14 +547,14 @@
 <span class="sd">        iters: Number of iterations</span>
 <span class="sd">        n_states: number of possible states</span>
 <span class="sd">        n_obs: Number of possible observations</span>
-<span class="sd">        precision: Precision threshhold to be achieved during training</span>
+<span class="sd">        precision: Precision threshold to be achieved during training</span>
 <span class="sd">        </span>
 
 <span class="sd">    Methods:</span>
 <span class="sd">        fit: Fit the HMM to a give observation sequence</span>
 <span class="sd">            INPUT:</span>
 <span class="sd">                observations: Array with the observation sequence</span>
-<span class="sd">        initialize: Method to initialize the model paramenters. If no initial values are provided,</span>
+<span class="sd">        initialize: Method to initialize the model parameters. If no initial values are provided,</span>
 <span class="sd">            then the initialization is random based on a Dirichlet distribution</span>
 <span class="sd">            INPUT:</span>
 <span class="sd">                T: Time duration</span>
@@ -562,7 +562,7 @@
 <span class="sd">                B: Observation matrix</span>
 <span class="sd">                pi: Initial state distribution</span>
 <span class="sd">                </span>
-<span class="sd">        alpha_pass: Peforms a forward alpha pass, evaluationg all alphas and scaling then</span>
+<span class="sd">        alpha_pass: Performs a forward alpha pass, evaluating all alphas and scaling then</span>
 <span class="sd">        </span>
 <span class="sd">        beta_pass: Calculates beta parameters and scaling then. As the scaling parameters</span>
 <span class="sd">            are calculated in the alpha pass, this method must no be called without first calling an alpha pass</span>
@@ -573,18 +573,18 @@
 <span class="sd">        </span>
 <span class="sd">        log_ods: Returns P(observations | model) with the current parameters</span>
 <span class="sd">        </span>
-<span class="sd">        generate_seqience: Generates a sequence of observations and states with the current paramenters.</span>
+<span class="sd">        generate_sequence: Generates a sequence of observations and states with the current parameters.</span>
 <span class="sd">            OUTPUTS:</span>
 <span class="sd">                observations: array of size T with the sequence of observations.</span>
 <span class="sd">                states: array of size T with the sequence of states</span>
 <span class="sd">        </span>
-<span class="sd">        Fields: The hmm has the following public fileds (except those defined in initialization)</span>
+<span class="sd">        Fields: The hmm has the following public fields (except those defined in initialization)</span>
 
 <span class="sd">        A: State matrix</span>
 <span class="sd">        B: Observations matrix</span>
-<span class="sd">        pi: Initial state distribuition</span>
-<span class="sd">        alphas: ALpha parameters</span>
-<span class="sd">        betas: Beta paramenters</span>
+<span class="sd">        pi: Initial state distribution</span>
+<span class="sd">        alphas: Alpha parameters</span>
+<span class="sd">        betas: Beta parameters</span>
 <span class="sd">        gammas: Gammas</span>
 <span class="sd">        digammas: Di - gammas</span>
 <span class="sd">        scale: Scale factors. Used to estimate probabilities</span>
@@ -899,7 +899,7 @@ Distance between trained and random: 294.5670165879046
           <div class="inner_cell">
            <div class="text_cell_render border-box-sizing rendered_html">
             <p>
-             One interesting aspect to analyse is the patterns generated by the true model compared to patterns that can be obtainend with the trained model and a randomly initialized model.
+             One interesting aspect to analyze is the patterns generated by the true model compared to patterns that can be obtained with the trained model and a randomly initialized model.
             </p>
            </div>
           </div>
@@ -1202,7 +1202,7 @@ Distance between trained and random: 294.5670165879046
           <div class="inner_cell">
            <div class="text_cell_render border-box-sizing rendered_html">
             <p>
-             The HMM model may be modified to explicitly include the duration of each state to improve peformance. Please refer to the article by Rabiner to further details on this topic.
+             The HMM model may be modified to explicitly include the duration of each state to improve performance. Please refer to the article by Rabiner to further details on this topic.
             </p>
             <p>
              I hope you have enjoyed this small notebook :D
