@@ -155,7 +155,6 @@ var s = function( p ) {
   var rows, cols;
   var running;
   var radius = 50;
-
   var fr;
 
   var particles = [];
