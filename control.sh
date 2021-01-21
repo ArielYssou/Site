@@ -4,9 +4,9 @@
 uncommitted='./uncommitted'
 templates='./templates'
 
-# Relvant html
-home_html='./index_test.html'
-blog_html='./blog/index_test.html'
+# Relevant html
+home_index='./index.html'
+blog_index='./blog/index.html'
 
 # Trap for <Ctrl+C> for cleaning
 trap ctrl_c INT
@@ -56,8 +56,8 @@ EOF
 
 function update_targets () {
 	# Updates all lines within a file with the TARGET flag *INPLACE*
-	# e.g.: currently a target is ../../Desktop and the file will be moved to a folder ./some/folder/
-	#		thus the original path must be updated to ../../../../Desktop.
+	# e.g.: currently a path points to ../../Desktop and the file will be moved to a folder ./some/folder/
+	#		thus the original path must include the new added depth and be updated to ../../../../Desktop.
 	#
 	# Input:
 	# 	-file_name: string with the name of the file
@@ -101,9 +101,30 @@ function new_post() {
 	# INPUT
 	#		name_tag: name acronim that will be used to identify this post
 	#		title_tag: title tag
+	
+	# flag checker
+	declare -a FLAGS
+	declare -a ARGS
+	ARGS=("$@")
+
+	for arg in ${ARGS[@]}; do
+		if [[ $arg == "-f" ]]; then
+			ARGS=("${ARGS[@]/"-f"}") # remove flag from imput
+			FLAGS[${#FLAGS[@]}]="-f" 
+		fi
+	done
+
+	#input parser
 	name_tag="$1"
 	dir="$uncommitted/$name_tag/"
-	mkdir "$dir"
+	if [[ -f $1 ]]; then
+		if ! [[ "${FLAGS[@]}" =~ "-f" ]]; then  # Force flag
+			mkdir "$dir"
+		else
+			printf "Post already exists. Aborting.\n"
+			return 0
+		fi
+	fi
 
 	if [[ -n ${@:2} ]]; then
 		title_tag="${@:2}"
@@ -111,6 +132,7 @@ function new_post() {
 		title_tag="TITLE_TAG"
 	fi
 
+	# Changing name and title tags in the index file
 	tmp="$templates/.temp"
 	TEMP_FILES[${#TEMP_FILES[@]}]=$tmp
 	cp "$templates/index.html" "$tmp"
@@ -119,12 +141,16 @@ function new_post() {
 	update_targets "$tmp" "$dir"
 	mv "$tmp" "$dir/index.html"
 
+	# Changing name and title tags in the skectch file
 	tmp="$templates/.temp"
 	TEMP_FILES[${#TEMP_FILES[@]}]=$tmp
 	cp "$templates/sketch.js" "$tmp"
 	sed -i "s/NAME_TAG/$name_tag/g" "$tmp"
 	sed -i "s/TITLE_TAG/$title_tag/g" "$tmp"
 	mv "$tmp" "$dir/sketch.js"
+
+	unset FLAGS
+	unset ARGS
 
 	return 0
 }
@@ -197,21 +223,21 @@ function publish() {
 	sed -i "s|TARGET_TAG|./blog/$destiny|g" "$tmp"
 	sed -i "s/TITLE_TAG/$title/g" "$tmp"
 	
-	ident="$(cat "$home_html" | grep CURRENT_COL_TAG | sed 's/[^\t]//g')"
+	ident="$(cat "$home_index" | grep CURRENT_COL_TAG | sed 's/[^\t]//g')"
 
 	echo -e "$(tac $tmp)" > $tmp
 	while IFS='' read line; do
-		sed -i "/CURRENT_COL_TAG/a INPUT_LINE" "$home_html"
-		sed -i "s|INPUT_LINE|$ident$line|g" "$home_html"
+		sed -i "/CURRENT_COL_TAG/a INPUT_LINE" "$home_index"
+		sed -i "s|INPUT_LINE|$ident$line|g" "$home_index"
 	done < $tmp
 	rm $tmp
 
-	if [[ -n $(cat "$home_html" | grep 'CURRENT_COL_TAG' | grep '1') ]]; then
-		sed -i "s/COL1 CURRENT_COL_TAG/COL1/" "$home_html"
-		sed -i "s/COL2/COL2 CURRENT_COL_TAG/" "$home_html"
+	if [[ -n $(cat "$home_index" | grep 'CURRENT_COL_TAG' | grep '1') ]]; then
+		sed -i "s/COL1 CURRENT_COL_TAG/COL1/" "$home_index"
+		sed -i "s/COL2/COL2 CURRENT_COL_TAG/" "$home_index"
 	else
-		sed -i "s/COL2 CURRENT_COL_TAG/COL2/" "$home_html"
-		sed -i "s/COL1/COL1 CURRENT_COL_TAG/" "$home_html"
+		sed -i "s/COL2 CURRENT_COL_TAG/COL2/" "$home_index"
+		sed -i "s/COL1/COL1 CURRENT_COL_TAG/" "$home_index"
 	fi
 
 	# Post to blog
@@ -225,11 +251,11 @@ function publish() {
 	sed -i "s/TITLE_TAG/$title/g" "$tmp"
 	sed -i "s|DATE_TAG|$(date +%c)|g" "$tmp"
 
-	ident="$(cat "$blog_html" | grep BLOG_TOP | sed 's/[^\t]//g')"
+	ident="$(cat "$blog_index" | grep BLOG_TOP | sed 's/[^\t]//g')"
 	echo -e "$(tac $tmp)" > $tmp
 	while IFS='' read  line; do
-		sed -i "/BLOG_TOP/a INPUT_LINE" "$blog_html"
-		sed -i "s|INPUT_LINE|$ident$line|g" "$blog_html"
+		sed -i "/BLOG_TOP/a INPUT_LINE" "$blog_index"
+		sed -i "s|INPUT_LINE|$ident$line|g" "$blog_index"
 	done < $tmp
 	rm $tmp
 
@@ -237,11 +263,13 @@ function publish() {
 }
 
 function upload() {
-	# Updates all new and folders
+	# Updates all new and folders deprecated
+	# (DEPRECATED) rsync -au "./" ariel@fig.if.usp.br:~/www/html/
+	git add *
+	git commit -m $1
+	git push
 
-	rsync -au "./" ariel@fig.if.usp.br:~/www/html/
-
-	return 0
+	return $?
 }
 
 function search() {
@@ -264,7 +292,7 @@ function render() {
 	# Render a html using the available templetes. The following renderings are made:
 	# - Includes the html of any notebook
 	# - Uses pygments on all <pre> cels
-	# - Parses the sketch.js file with pygments and include code [WIP]
+	# - Parses the sketch.js file with pygments and include code
 	
 #	basedir="$(dirname $(realpath $1))"
 #	echo $(cat $1 | grep \{\%\ include | tr -d '\t' | cut -d' ' -f3 | tr -d \')
@@ -283,6 +311,29 @@ function render() {
 	python render.py $1
 
 	return 0
+}
+
+function	tester() {
+	local _main_index="./index_test.html"
+	local _blog_index="./blog/index_test.html"
+
+	TEMP_FILES[${#TEMP_FILES[@]}]=$_main_index
+	TEMP_FILES[${#TEMP_FILES[@]}]=$_blog_index
+
+	cp $home_index $_main_index
+	cp $blog_index $_blog_index
+	
+	echo -e "Testing post contructor"
+	new_post "test_post" "test" "-f"
+	# TESTS IN NEW POST
+
+	# make new dummy post
+	# dummy text into it
+	# publish to each folder
+	# 	test broken links
+	# visualy analise alterations to main index file
+
+	echo -e "Creating a dummy post"
 }
 
 case $1 in
