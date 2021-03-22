@@ -68,7 +68,7 @@ function update_targets () {
 	_destiny="$(realpath "$2")"
 
 	# Find the line number of all lines with target
-	for line_no in $(cat $file_name | grep -n "TARGET" | cut -f1 | tr -d ':'); do
+	for line_no in $(cat $file_name | grep -n "TARGET" | cut -f1 -d ' ' | tr -d ':'); do # Grep -n shows the line of the match
 		line="$(sed "$line_no""q;d" $file_name)"
 
 		# Isolate the target path
@@ -86,9 +86,8 @@ function update_targets () {
 		#echo  -e "\e[92m$(echo $new_target | tr -d ' ')\e[0m"
 		target="$(echo "$target" | sed "s/\./\\\./g")" # Avoid expanding . in sed
 		new_target="$(echo "$new_target" | sed "s/\./\\\./g")"
-		echo 
-
 		sed -i "$line_no""s|$target|$new_target|g" "$file_name"
+
 		#echo  -e "\e[94m$(cat $file_name | grep "\"$new_target\"" | tr -d ' ' | tr -d "\t")\e[0m"
 	done
 
@@ -117,17 +116,21 @@ function new_post() {
 	#input parser
 	name_tag="$1"
 	dir="$uncommitted/$name_tag/"
-	if [[ -f $1 ]]; then
-		if ! [[ "${FLAGS[@]}" =~ "-f" ]]; then  # Force flag
+
+	if [[ -d "$dir" ]]; then
+		if [[ "${FLAGS[@]}" =~ "-f" ]]; then  # Force flag
+			rm -r "$dir"
 			mkdir "$dir"
 		else
-			printf "Post already exists. Aborting.\n"
+			echo "Post already exists. Aborting"
 			return 0
 		fi
+	else
+			mkdir "$dir"
 	fi
 
-	if [[ -n ${@:2} ]]; then
-		title_tag="${@:2}"
+	if [[ -n ${ARGS[@]:1} ]]; then
+		title_tag="${ARGS[@]:1}"
 	else
 		title_tag="TITLE_TAG"
 	fi
@@ -136,16 +139,14 @@ function new_post() {
 	tmp="$templates/.temp"
 	TEMP_FILES[${#TEMP_FILES[@]}]=$tmp
 	cp "$templates/index.html" "$tmp"
-	sed -i "s/NAME_TAG/$name_tag/g" "$tmp"
 	sed -i "s/TITLE_TAG/$title_tag/g" "$tmp"
 	update_targets "$tmp" "$dir"
 	mv "$tmp" "$dir/index.html"
-
+	
 	# Changing name and title tags in the skectch file
 	tmp="$templates/.temp"
 	TEMP_FILES[${#TEMP_FILES[@]}]=$tmp
 	cp "$templates/sketch.js" "$tmp"
-	sed -i "s/NAME_TAG/$name_tag/g" "$tmp"
 	sed -i "s/TITLE_TAG/$title_tag/g" "$tmp"
 	mv "$tmp" "$dir/sketch.js"
 
@@ -157,7 +158,6 @@ function new_post() {
 
 function publish() {
 	# Publishes an uncommited post
-
 	local origin destiny
 
 	origin="./uncommitted/$1"
@@ -323,8 +323,12 @@ function	tester() {
 	cp $home_index $_main_index
 	cp $blog_index $_blog_index
 	
-	echo -e "Testing post contructor"
-	new_post "test_post" "test" "-f"
+	echo -e "Testing new_post function"
+	new_post "test" "test" "-f"
+	echo 'done testing new_post function'
+
+	link_test
+
 	# TESTS IN NEW POST
 
 	# make new dummy post
@@ -334,6 +338,42 @@ function	tester() {
 	# visualy analise alterations to main index file
 
 	echo -e "Creating a dummy post"
+	return 0
+}
+
+function link_test() {
+	local -a ERRS
+	local -A TESTED_LINKS
+
+	for file in $(find . -mindepth 1 -maxdepth 5 -type f -name "*.html"); do
+		echo -e "\e[94mFile $file\e[0m"
+		for link in $(cat $file | grep -io 'href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^href=["'"'"']//i' -e 's/["'"'"']$//i'); do
+			if [[ $link =~ 'http' ]]; then # Test for links
+				if [[ -z ${TESTED_LINKS[$link]} ]]; then
+					if [[ "200" =~ "$(curl -s --head  $link | head -n 1)" ]]; then
+						echo -e "\e[91mCurl found no results for $link\e[0m"
+						ERRS[${#ERRS[@]}]="broken hyperlink in file $file: $link"
+					fi
+					TESTED_LINKS[$link]="Testado"
+				fi
+			elif [[ $link =~ './' ]]; then # Test for broken paths
+				if [[ -d $(dirname $file)/$link ]] ||[[ -f $(dirname $file)/$link ]] ; then
+					printf ''
+				else
+					echo -e "\e[91mReference not  found: $(dirname $file)/$link\e[0m"
+					ERRS[${#ERRS[@]}]="broken path in file $file: $link"
+				fi
+			else  # Test for broken reference
+				printf ""  # The test is broken for some corner cases. I shall implement this one in the eraliest convinince
+				# if (( $(cat $file | grep $(echo $link | tr -d '#') | wc -l) < 2 )); then
+					# ERRS[${#ERRS[@]}]="broken path in file $file: $link"
+			# fi
+			fi
+		done
+		echo
+	done
+
+
 }
 
 case $1 in
@@ -361,4 +401,12 @@ case $1 in
 		publish ${@:2}
 		exit $?
 		;;
+	-t|--tester)
+		tester ${@:2}
+		exit $?
 esac
+
+# Cleaning up
+for file in "${TEMP_FILES[@]}"; do
+	if [[ -f $file ]]; then rm $file; fi
+done
