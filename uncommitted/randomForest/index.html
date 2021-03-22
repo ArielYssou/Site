@@ -5,7 +5,7 @@
   <meta content="width=device-width, intial-scale=1" name="viewport"/>
   <!-- Name on tab -->
   <title>
-   test 
+   Random Forests
   </title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
@@ -79,7 +79,7 @@
    <div class="head_middle">
     <div class="head_text">
      <b>
-      test 
+      Random Forests
      </b>
     </div>
    </div>
@@ -90,7 +90,7 @@
      <p>
       INTRO TEXT OF
       <b>
-       test 
+       Random Forests
       </b>
       .
      </p>
@@ -110,8 +110,15 @@
       </tr>
       <tr>
        <td>
-        <a href="#test ">
-         2. test 
+        <a href="#DECISION TREES">
+         2. Decision trees
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#Random Forests">
+         2. Random Forests
         </a>
        </td>
       </tr>
@@ -130,13 +137,36 @@
       1. Introduction
      </h2>
 
-		 introduction text
+		 Random forest are one of the most famous and common models in Machine learning as they are easy to implement, very powerful, adaptable and are fast to train. Most texts about these models are focused on the practical implementation of random forests but usually lack a deeper view into the statistics that provide such excellent results. This post will be focused on providing a more solid view into the theory of these models and study why they are so powerful and their potential shortcomings.
 
+		 The text is structured as follows. Firstly we will discus <b>Decision Trees</b>, which are the base models that compose a random forests. With this formalism we will be able to discuss the theory of Random forests in chapter 2. The last chapter will be dedicated to the implementation of RFs in python using the XXXX dataset.
 
-			<a name="test ">
+			<a name="DECISION TREES">
       </a>
       <h2 class="section">
-       2. test 
+       2. Decision trees
+      </h2>
+			A decision tree is a predictive modeling technique that make predictions based on a hierarchy of decisions, which can be used both for classification or regression purposes. The simplest and most common type of decision tree is the <i>Ordinary binary classification trees</i> (OBST), which  has the objective of attributing a class label to each input  based on a set binary questions (yes or no questions). 
+
+			To illustrate the overall architecture of a decision tree, lets consider the task of classifying an population on two Lets consider an example illustrating a decision tree architecture on the classification of a population can be represented as follows:
+
+			<!-- Image 1: Separando uma população em duas classes com perguntas -->
+
+			The tree is then consists of a set of <b>nodes</b> that split the population. The algorithm starts at the root node where the entire population is splatted, and then follows the node branches until a classification is made at the last node, called a "leaf".
+
+			<!-- Scheme of a tree -->
+			
+			Lets now introduce some notation. Let $X = (x_0, x_1, x_2, \dots, x_n)$ be a set of features and $Y$ be the 
+
+			Decision trees are one of the simplest models available as they consist of a simple hierarchy of questions. Albeit they usally wield lest than ideal results (in terms of precision) they are widely used as their simple formulation allows for the complete interpretation of the model. This caractheristics can be very desirable as in some practical cases when there is a high risk associated with the usage of the model.
+
+			The most common type of decision trees are , which split the feature space via a sequence of decisions, each base on a single feature at a time. These splits are in the form of "is feature $i$ greater that 1/2?". Depending on the resulting answer (either yes or no) another question will be made until a stopping criteria is met. At this stage the input will be classified 
+
+
+			<a name="Random Forests">
+      </a>
+      <h2 class="section">
+       2. Random Forests
       </h2>
 
 			Main text
