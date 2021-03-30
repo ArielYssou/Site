@@ -1,21 +1,21 @@
 // ############################################################
 var s = function( p ) { // p could be any variable name
-  var x, y; 
+  var tree;
 	var running;
 
   p.setup = function() {
     var myWidth = document.getElementById("c1").offsetWidth;
     /* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(myWidth, 200);
+    p.createCanvas(myWidth, 400);
 
-    x = p.width / 2; 
-    y = p.height / 2;
+		tree = new Tree(p, myWidth / 2, 400, 60, 10, 200)
+
   };
 
   p.draw = function() {
-    p.background(0);
-    p.fill(255);
-    p.rect(x,y,50,50);
+    //p.background(0);
+    //p.fill(255);
+    tree.show()
   };
 
   p.mousePressed = function() {
