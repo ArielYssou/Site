@@ -63,7 +63,6 @@ create_branch = function(p, length, angle, width, color, depth, max_depth) {
 	var branch = new Branch(p, length, angle, width, color, depth)
 
 
-
 	// Rigt branch
 	//length_delta = p.random(0.94, 0.97);
 	length_delta = p.random(0.6, 1.3);
