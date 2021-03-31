@@ -6,9 +6,9 @@ var s = function( p ) { // p could be any variable name
   p.setup = function() {
     var myWidth = document.getElementById("c1").offsetWidth;
     /* var myHeight = document.getElementById("c1").offsetHeight; */
-    p.createCanvas(myWidth, 400);
+    p.createCanvas(myWidth, 600);
 
-		tree = new Tree(p, myWidth / 2, 400, 60, 10, 200)
+		tree = new Tree(p, myWidth / 2, p.height, 100, 10, 200)
 
   };
 
