@@ -15,7 +15,11 @@ var s = function( p ) { // p could be any variable name
   p.draw = function() {
     //p.background(0);
     //p.fill(255);
-    tree.show()
+		p.push()
+    //tree.show()
+		p.pop()
+    tree.draw_lines()
+		p.noLoop()
   };
 
   p.mousePressed = function() {
