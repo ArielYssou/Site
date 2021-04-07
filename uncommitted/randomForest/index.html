@@ -154,17 +154,86 @@
 
 			<!-- Image 1: Separando uma população em duas classes com perguntas -->
 
-			The tree is then consists of a set of <b>nodes</b> that split the population. The algorithm starts at the root node where the entire population is splatted, and then follows the node branches until a classification is made at the last node, called a "leaf".
+			The tree is then consists of a set of <b>nodes</b> that split the population. The algorithm starts at the root node where the entire population is splitted, and then follows the node branches until a classification is made at the last node, called a "leaf".
 
 			<!-- Scheme of a tree -->
 			
-			Lets now introduce some notation. Let $X = (x_0, x_1, x_2, \dots, x_n)$ be a set of features and $Y$ be the 
 
-			Decision trees are one of the simplest models available as they consist of a simple hierarchy of questions. Albeit they usally wield lest than ideal results (in terms of precision) they are widely used as their simple formulation allows for the complete interpretation of the model. This caractheristics can be very desirable as in some practical cases when there is a high risk associated with the usage of the model.
+			Decision trees are one of the simplest models available as they consist of a simple hierarchy of questions. Albeit they usually wield lest than ideal results (in terms of precision) they are still widely used as their simple formulation allows for the complete interpretation of the model. This characteristics can be very desirable as in some practical cases when there is a high risk associated with the usage of the model and the pratictioner cannot risk everything in a black box model.
 
-			The most common type of decision trees are , which split the feature space via a sequence of decisions, each base on a single feature at a time. These splits are in the form of "is feature $i$ greater that 1/2?". Depending on the resulting answer (either yes or no) another question will be made until a stopping criteria is met. At this stage the input will be classified 
+			<p>The most common type of decision trees are , which split the feature space via a sequence of decisions, each base on a single feature and are in the form of "is feature $i$ greater that 1/2?". Depending on the answer (either yes or no). The population will be splitted until a criteria is met and the algorithm is stopped. In the end the population will be separated in different groups, each on a leaf of the tree. I the objective of the tree is a classification the tree will atributed a class to each leaf and if the objective is regression then the target variable will be estimated as the mean of the population of each leaf.</p>
+
+			TO further increase our undertanding of decision trees lets consider the following scenario. Say that we have a mixed population of Hobbits (class $\omega_1$) and Dwarfs 9class $\omega_2$) From each individual we know only 3 features: height, weight and age. From the lore, Hobbit heights range from 0.9 to 1.2 meters while dawarfs are 1.2 to 1.5m tall.
+
+			The basic idea behind OBCT is to sequentially split the feature space into regions corresponding to different classes, as represented in the following animation:
+
+			<!-- Example of a decision tree -->
+
+			the thask illustrated in the example above is in a two dimensional space wich has clear geometric splits. This, however, is usually not the case in practical cases where the feature space is very high dimensional and a geometric approach cannot be achieved. In order to generalize the algorithm, we need to establish the following elements in the training phase:
+			<ol>
+				<li>Candidate questions: At each node the set of questions that can be asked has to decided. Each question represents a specific binary split into two descendant nodes. Each node $t$ is associated with a specific subset $X_t$ of the full training set $X$. The split at node $t$ separates the population $X_T$ into two subsets , $X_{t,+}$ and $X_{t,-}$, that correspond to the positive and negative answer to the question (yes and no respectively). Thus the following is true:
+					$$X_{t,+} \bigcap X_{t,-} = \emptyset$$
+					$$X_{t,+} \bigcup X_{t,-} = X_t$$
+				</li>
+				<li>Splitting criterion: To select the best split at each node we must choose a criterion.</li>
+				<li>Stop splitting criterion: To control the growth of the tree a stopping condition must be set, otherwise the tree would grown indefinitely;</li>
+				<li>Class assignment rule: We must set a rule to assign a class to each leaf</li>
+			</ol>
+			Now we are now read to delve into each of the elements above.
+			 <h3>
+				 Candidate Questions
+			 </h3>
+			 For the binary classification type of trees, the quests are in the form "Is feature $x_k$ \leq \alpha$?". For each feature, each value of $alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecrates distinct values of $x_k$ in the population $X_t$
+			 <h3>
+				 Split criterion
+			 </h3>
+			 Each split generates two descendant nodes, each with populations $X_{t,+}$ and ${X_{t,-}$. But how can we determine which split is "best"? It depends on what we want to achieve with the algorithm. It makes sense to split the population into groups that are more "class homogenous" than the ancestor subset $X_t$. the goal is then to define a metric that quantifies impurity or homogeneity.
+			<h4>
+				Entropy
+			</h4>
+			 In information theory there is the notion of impurity which is based on Shannon entropy. While the term "entropy" was borrowed from physics, it doesn't have the same exact interpretation, although there are some conceptual semblances between then.
+			 In physics entropy is related to the general disorder of a system, It has many interesting properties both in classical and in quantum physics. If you are interested in a more deep understanding of this topic I've made a brief introduction to it bellow, but feel free to skip it if you just want to know the information theory approach.
+			 In information theory entropy has a different meaning. The idea is to create a quantity (called as entropy by Shannon) to measure how much information is created by a process. The amount of information in a message or processes can be quantified by the amount of <b>surprise</b> it generates (here surprise is the correct technical term for the thing, believe it or not). A message that brings no new information generates no surprise in the reader, thus generating no entropy.
+			 Lets define a <b>surprise function</b> as $I(p)$, where $p$ is an event (thus $I(P_n)$ is the amount of surprise generated when the state of the system is equal to $x=x_n$. The total entropy is thus given by the average  information gained from each individual state weighted by the probability $P_n$ of said event happening:
+			 $$S = \sum_n p_n I(p_n)$$
+			 to correctly measure information, the function$I_n$ should have some desirable properties (as stated by Shannon in his original study):
+			 <ol>
+				 <li>$I(p) \geq 0$ Information must be a positive quantity.</li>
+				 <li>$I(1) = 0$: If a event is certain $p=1$, then no surprise can come from it.</li>
+				 <li>$I(p)$ should decrease monotonically in $p$. Events of higher probability  yield lower surprises.</li>
+				 <li>$I(p_1 p2) = I(p_1) + I(p_2)$ The information gained from two statistically independent events is the sum of the gain from each individual event.</li>
+			 </ol>
+			The only function to satisfy all conditions, specially condition 4, is the logarithm (for a more thought demonstration see the original paper):
+			$$I(p) = - K \ln(p),$$
+			where $K$ is a positive constant. The minus comes from condition 1, as $p\leq 1$ then the constant must be negative to keep the whole function positive. The log can be in any base as changing it would only affect the constant $a$. Finally we have that the (Shannon) entropy can be written as:
+			$$\boxed{S = -K\sum p_n \ln(p_n)}.$$
+			In summary, the entropy in information theory quantifies the amount of information in $P_n$ as it a measure of the average surprise $\langle - \ln(p_n) \rangle$ from the transition to state $x_n$.
+			Thus a decision forest can split a population based on the total entropy of each subset. In practice probabilities are estimated via the observed frequency of points belonging to each class.
+			<h4>
+				Gini Impurity
+			</h4>
+			Given a subset of elements, let $P_i$ be the probability of selecting an element of class $i$. If we where to select an random element and classify it based on the observed frequencies of each class in this subset.
+
+			<h4>
+				Measure of "goodness"
+			</h4>
 
 
+			<h4>
+				Variance Reduction
+			</h4>
+
+			<h3>
+				 Stop Splitting Rule
+			</h3>
+			As the tree will recursively realize splits based on the metrics discussed, it needs to stop at some time. A sensible choice is to set a threshold on the split metric. If the maximum value of $\Delta I(t)$ exceed the threshold, then the iteration is stopped.
+
+			<h3>
+				 Class Assignment Rule
+			 </h3>
+			<h3>
+				 Full Algorithm
+			 </h3>
 			<a name="Random Forests">
       </a>
       <h2 class="section">
