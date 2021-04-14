@@ -212,7 +212,13 @@
 			<h4>
 				Gini Impurity
 			</h4>
-			Given a subset of elements, let $P_i$ be the probability of selecting an element of class $i$. If we where to select an random element and classify it based on the observed frequencies of each class in this subset.
+			Lets consider a population of $N$ classes, where the observed frenquency of each class $i$ (i.e. the percentage of elements belonging to each class) is $pa_i$. The Gini impurity is the chance of mislabeling a random element of the population based on the observed frequencies $p_i$. If a population is "pure" (only has 1 class), then the impurity is 0 as it cannot be mislabeled. If there is the same number of elements on each class then the impurity is high as there is a $(N-1)/N$ probability of incorrectly labeling an element.
+			Formally the probability of mislabeling an element with label $i$ is $\sum_{k \neq i}p_k = 1 - p_i. Thus we can write de Gini inpurity $I_G$ as
+			$$I_G = \sum_{i=1}^N (probability\ of\ selecting\ label\ i) \times (probability\ of\ mislabel\ i)$$
+			$$I_G = \sum_{i=1}^N p_i (1-p_i) = \sum_{i=1}^N p_i - \sum_{i=1}^N p_i^2 = 1 - \sum_{i=1}^N p_i^2
+			The Gini impurity has a interesting correlation with the Shannon entropy as both of them are special cases of the Tsallis entropy
+			$$S_q(p_i) = \frac{k}{q-1} \langle 1 - \sum_i p_i^q \rangle),$$
+			where the Shannon entropy can be obtained with $q=1$ and the Giny Inpurity with $q=2$. Although the actual physical meaning of the Tsallis Entropy is debatable (as it is supposedly an entropy that is not addictive), this relation between both measures of impurity is very cool nevertheless.
 
 			<h4>
 				Measure of "goodness"
@@ -222,6 +228,10 @@
 			<h4>
 				Variance Reduction
 			</h4>
+			In regression tasks, we don't seek to atribute labels to elements, but continuous values (regression trees), thus our previous metrics can't be directly applied (not without performing a discretization of the variables, which may be inappropriate for regression purposes). One such metric is Variance Reduction $I_V(N)$, which consists of the difference between the variance in the parent node and its childs:
+			$$I_V(N) = Var(Y) - (Y_t) + Var(Y_f),$$
+			where Y, Y_t, Y_f are the set of target variables of the parent, left child and right child nodes and
+			$$var(Y) \equiv  \frac{1}{N} \sum_{i=1}^N \sum_{j=1]^N \frac{1}{2} (y_i - y_j)$$
 
 			<h3>
 				 Stop Splitting Rule
