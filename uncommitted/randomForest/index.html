@@ -183,11 +183,13 @@
 			 <h3>
 				 Candidate Questions
 			 </h3>
-			 For the binary classification type of trees, the quests are in the form "Is feature $x_k$ \leq \alpha$?". For each feature, each value of $alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecrates distinct values of $x_k$ in the population $X_t$
+			 For the binary classification type of trees, the quests are in the form "Is feature $x_k \leq \alpha$?". For each feature, each value of $alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecrates distinct values of $x_k$ in the population $X_t$
+
+			 This type of question leads to linear segmentation of the feature hyperspace. More complex questions can lead to different kinds of splits, such as "Is features $X_k^2 < 5$, which represents circular splis in the feaures space.
 			 <h3>
 				 Split criterion
 			 </h3>
-			 Each split generates two descendant nodes, each with populations $X_{t,+}$ and ${X_{t,-}$. But how can we determine which split is "best"? It depends on what we want to achieve with the algorithm. It makes sense to split the population into groups that are more "class homogenous" than the ancestor subset $X_t$. the goal is then to define a metric that quantifies impurity or homogeneity.
+			 Each split generates two descendant nodes, each with populations $X_{t,+}$ and $X_{t,-}$. But how can we determine which split is "best"? It depends on what we want to achieve with the algorithm. It makes sense to split the population into groups that are more "class homogenous" than the ancestor subset $X_t$. the goal is then to define a metric that quantifies impurity or homogeneity.
 			<h4>
 				Entropy
 			</h4>
@@ -212,10 +214,11 @@
 			<h4>
 				Gini Impurity
 			</h4>
-			Lets consider a population of $N$ classes, where the observed frenquency of each class $i$ (i.e. the percentage of elements belonging to each class) is $pa_i$. The Gini impurity is the chance of mislabeling a random element of the population based on the observed frequencies $p_i$. If a population is "pure" (only has 1 class), then the impurity is 0 as it cannot be mislabeled. If there is the same number of elements on each class then the impurity is high as there is a $(N-1)/N$ probability of incorrectly labeling an element.
-			Formally the probability of mislabeling an element with label $i$ is $\sum_{k \neq i}p_k = 1 - p_i. Thus we can write de Gini inpurity $I_G$ as
+			Lets consider a population of $N$ classes, where the observed frequency of each class $i$ (i.e. the percentage of elements belonging to each class) is $pa_i$. The Gini impurity is the chance of mislabeling a random element of the population based on the observed frequencies $p_i$. If a population is "pure" (only has 1 class), then the impurity is 0 as it cannot be mislabeled. If there is the same number of elements on each class then the impurity is high as there is a $(N-1)/N$ probability of incorrectly labeling an element.
+			Formally the probability of mislabeling an element with label $i$ is $\sum_{k \neq i}p_k = 1 - p_i$. Thus we can write de Gini inpurity $I_G$ as
 			$$I_G = \sum_{i=1}^N (probability\ of\ selecting\ label\ i) \times (probability\ of\ mislabel\ i)$$
-			$$I_G = \sum_{i=1}^N p_i (1-p_i) = \sum_{i=1}^N p_i - \sum_{i=1}^N p_i^2 = 1 - \sum_{i=1}^N p_i^2
+
+			$$I_G = \sum_{i=1}^N p_i (1-p_i) = \sum_{i=1}^N p_i - \sum_{i=1}^N p_i^2 = 1 - \sum_{i=1}^N p_i^2$$
 			The Gini impurity has a interesting correlation with the Shannon entropy as both of them are special cases of the Tsallis entropy
 			$$S_q(p_i) = \frac{k}{q-1} \langle 1 - \sum_i p_i^q \rangle),$$
 			where the Shannon entropy can be obtained with $q=1$ and the Giny Inpurity with $q=2$. Although the actual physical meaning of the Tsallis Entropy is debatable (as it is supposedly an entropy that is not addictive), this relation between both measures of impurity is very cool nevertheless.
@@ -228,7 +231,7 @@
 			<h4>
 				Variance Reduction
 			</h4>
-			In regression tasks, we don't seek to atribute labels to elements, but continuous values (regression trees), thus our previous metrics can't be directly applied (not without performing a discretization of the variables, which may be inappropriate for regression purposes). One such metric is Variance Reduction $I_V(N)$, which consists of the difference between the variance in the parent node and its childs:
+			In regression tasks, we don't seek to attribute labels to elements, but continuous values (regression trees), thus our previous metrics can't be directly applied (not without performing a discretization of the variables, which may be inappropriate for regression purposes). One such metric is Variance Reduction $I_V(N)$, which consists of the difference between the variance in the parent node and its childs:
 			$$I_V(N) = Var(Y) - (Y_t) + Var(Y_f),$$
 			where Y, Y_t, Y_f are the set of target variables of the parent, left child and right child nodes and
 			$$var(Y) \equiv  \frac{1}{N} \sum_{i=1}^N \sum_{j=1]^N \frac{1}{2} (y_i - y_j)$$
@@ -236,14 +239,54 @@
 			<h3>
 				 Stop Splitting Rule
 			</h3>
-			As the tree will recursively realize splits based on the metrics discussed, it needs to stop at some time. A sensible choice is to set a threshold on the split metric. If the maximum value of $\Delta I(t)$ exceed the threshold, then the iteration is stopped.
+			As the tree will recursively realize splits based on the metrics discussed, it needs to stop at some time. A sensible choice is to set a threshold on the split metric: if the maximum value of $\Delta I(t)$ exceed the threshold, then the iteration is stopped; but there are other options such as stop splitting when the cardinality of the subset $X_t$ is small or stop only when each subnode is "pure" (contains only elements of a single class).
 
 			<h3>
 				 Class Assignment Rule
 			 </h3>
+			 Perhaps the easiest step, to assign a class to a given node we can just use the class which is more common in that node. More formally the elements of a node will be assigned to class $i$ if $$arg\ max_i P(\omega_i|t).$$
 			<h3>
 				 Full Algorithm
 			 </h3>
+			 We are now in position to build an outline of the full binary classification tree algorithm. The outline can be written as follows:
+			 <ol>
+				 <li>
+					 Start: Build a root node and pass it the entire population
+				 </li>
+				 <li>
+					 For each node t:
+					 <ol>
+						 <li>For each feature $x_k$:
+							 <ol> 
+								 <li>
+									 For each candidate value $alpha_{k,n}$, with $n=1,2,3,4,\dots, N_{t,k}$:
+									 <ol>
+										 <li>
+											 Ask "Is $x_k \leq \alpha_{kn}$" and split the population into the subgroups $X_{t,+}$ and $X_{t,-}$ for the elemtens corresponding to the positive and negative outcome of the split question.
+										 </li>
+										 <li>
+											 Compute the impurity decrease (there are several options for this metric)
+										 </li>
+									 </ol>
+								 </li>
+								 <li>
+									 End
+								 </li>
+							 </ol>
+						 </li>
+						 <li>
+							 Choose $x_{k*}$ (and associated $\alpha_{k*,n*}$) according to the split that lead to the overall maximum decrease in impurity.
+						 </li>
+						 <li>
+							 If the stop splitting creterion is met, set the current node as a leaf and apply the class assignment rule to set the class label of the elements of $$X_t$.
+						 </li>
+						 <li>
+							 Else, generate two child nodes with associated subsets $X_{t,+}$ and $X_{t,-}$ depending to the outcome of the question $X_{k*} \leq \alpha_{k*n*}$
+						 </li>
+					 </ol>
+				 </li>
+			 </ol>
+
 			<a name="Random Forests">
       </a>
       <h2 class="section">
@@ -251,6 +294,10 @@
       </h2>
 
 			Main text
+
+			<h3>
+				 Ensemble learning
+			</h3>
 
 			<a name="CODE">
       </a>
