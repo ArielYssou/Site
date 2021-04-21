@@ -293,11 +293,24 @@
        2. Random Forests
       </h2>
 
-			Main text
+			The idea behind random forests is to combine several decision trees that outperform each individual tree. This performance gain is due to the combination of several techniques, not by simply strapping decision trees together and hopping for the best. It was Leo Breiman that combined the ideas of bagging (bootstrap aggregation), stochastic learning and subspace selection to create the algorithm for random forests. He also introduced some novel insights such as estimating the generalization error as the out-of-bag (OOB) error and estimating the importance of each individual feature via permutation. We will now delve into each one of these ingredients and see how they help the random forest algorithm to outperform single CARTs.
 
 			<h3>
-				 Ensemble learning
+				 Stochastic Learning
 			</h3>
+				One major shortcoming of decision trees is their susceptibility to overfitting. Trees are, by themselves, not very good in terms of precision and need to grow in complexity to increase their performance. This need for complexity can easily lead to overfitting and poor generalization. Kleinbergs theory of stochastic discrimination (SD) showed that the combination of weak learners could not only be arbitrarily precise, but also fast, stable and resistant to overfitting .
+				The stochastic discrimination process is defined as follows. Consider the two class problem with an initial population of $N$ elements. We also have an set of $S$ possible solutions, in our case each member of S is an week learner (weak here means just that the algorithm can be just slightly better than random guessing). We can think of the sequence of solutions as items appearing over time, and see the transitions of a given element between solutions as an stochastic process. It can be shown that for large numbers of solutions the average of the stochastic processes tend to two distinct limits, thus allowing for a more robust discrimination, as represented in the following scheme (an direct adaptation from the original scheme in Kleinbergs article):
+				The fact that the stochastic process not only stably converge (on average over large sets of possible solutions) but also in polinomial time are very powerful and intriguing results from SD theory, whose demonstration is outside the scope of this article, but can be seen in Kleinberg original work, while the resistance to overfitting is directly addressed in a separate article "".
+
+			<h3>
+				 Bagging
+			</h3>
+			Perhaps the biggest limitation of decision trees is their relative poor performance and high variance. One way to improve the overall quality of a model is to use <b>bagging</b>, which simply put is to train the model several times, but over subsets of the entire training set and combine all fits to generate predictions.
+			Consider we have a training set $X$ and associated targets $Y$. Bagging would consist of sampling with replacement both $X$ and $Y$ $n$ times, generating subsets $X_i$, $Y_i$, $i=1,2,\dots,n$. Then a model is fitted on each subset $i$. The final prediction would then be the avarage over all $n$ models or by the majority vote.
+			This methods reduces the overall variance of the week learners and also is more resistant to noises in the training set. However, if one cannot generate many statistically independent trees (due to a lack of training points, for example), not much would be achieved by this method as all models would be almost identical and the variance would not be reduced.
+			Random forests however do not only employ bagging to the training set, but also for the features themselves. Each model will be presented with only some of the features available, which leads to decision trees that are uncorrelated. This idea was initially presented by Hu to formulate Decision Forests (not to be confused with random forests), which is an algorithm that only employs feature bagging.
+			The major advantage of hiding some features from the models is that if there is a feature that has a very strong correlation to the target variable then all trees would tend to heavily depend on it for their predictions, making all trees almost identical as all decisions would be made solely on this single feature, thus making all trees strongly correlated and reducing the gains from bagging.
+			Random forests as formulated bu Breiman use both types of bagging. Each tree is trained not only in a subspace of the full feature hyperspace, but also presented with only a fraction of all observations available in the training set.
 
 			<a name="CODE">
       </a>
