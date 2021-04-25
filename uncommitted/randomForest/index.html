@@ -323,22 +323,34 @@
 			<h4>
 				Permutation Feature Importance
 			</h4>
-			Breiman defined in his original article a way of measuring the importance of each feature to the overall forest decisions. It consists of randomly shuffling (or permutating) the values of a single feature over the entire population and measuring how the predictions quality is affected.
-			This method thus breaks the relationship between the varible and the target and observes the drop in the model quality (in the chosen metric the practitioner is using for the task). This methodology is not restricted to only random forests and can be used in any model (its model agnostic).
-			One shortcomming of this procedure is that it can be affected by multicolinearity. Supose we have two very important and also very correlated features in the model. If one of these features is shuffled the model would still perform well as the other variable is still present. This would affect both variables that would be deemed irrelevant as their importance  would be low. See https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py 
+			Breiman defined in his original article a way of measuring the importance of each feature to the overall forest decisions. It consists of randomly shuffling (or permutation) the values of a single feature over the entire population and measuring how the predictions quality is affected.
+			This method thus breaks the relationship between the variable and the target and observes the drop in the model quality (in the chosen metric the practitioner is using for the task). This methodology is not restricted to only random forests and can be used in any model (its model agnostic).
+			One shortcoming of this procedure is that it can be affected by multicolinearity. Suppose we have two very important and also very correlated features in the model. If one of these features is shuffled the model would still perform well as the other variable is still present. This would affect both variables, that would be deemed as irrelevant to the model. See https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py 
 
 			<h4>
 				Mean Decrease in Impurity
 			</h4>
-			Another common way of measuring the importance of a feature is by directly observing the mean decrease in impurity in the nodes using this particular feature in all trees in the forest. This procedure is quite intuitive and straghtforward, but it has two major limmitations that must be taken into consideration.
-			Firstly MDI feature importance has a bias towards high cardinality features (such as numerical features). Low cardinality features such as binary or categorical features would have their effects underestimated leading to a biased comprehension of the model. The second limmitiation is that this method only tels wich variable was important during training, which some times is not equivalent to the importance of the features in the test set (during the predictions), as there is no way of measuring the decrease in impurity in such cases.
+			Another common way of measuring the importance of a feature is by directly observing the mean decrease in impurity in the nodes using this particular feature in all trees in the forest. This procedure is quite intuitive and straightforward, but it has two major limitations that must be taken into consideration.
+			Firstly MDI feature importance has a bias towards high cardinality features (such as numerical features). Low cardinality features such as binary or categorical features would have their effects underestimated leading to a biased comprehension of the model. The second limitation is that this method only tels wich variable was important during training, which some times is not equivalent to the importance of the features in the test set (during the predictions), as there is no way of measuring the decrease in impurity in such cases.
 
 			<h4>
 				Avarage minimal depth
 			</h4>
-			This is less know metric, but can be useful sometimes. The idea behind evaluating the importance of a feature by its avarage minimal depth in the random forest (i.e. the average depth of the first appearance of this feature on each tree of the forest) is that the first splits in a tree are the most impactfull ones, as they split larger portions of the population and hugely affect the quality of the model (if the first split is bad the whole tree suffers, if the last split in a branch of a tree of depth 100 is bad then only this small subset is affected).
-			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of using the minimal defined by the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said (CITATION NEEDED) to lead to better empirical estimation of the feature importance than the normal minimal depth aproach.
+			This is less know metric, but can be useful sometimes. The idea behind evaluating the importance of a feature by its average minimal depth in the random forest (i.e. the average depth of the first appearance of this feature on each tree of the forest) is that the first splits in a tree are the most impactfull ones, as they split larger portions of the population and hugely affect the quality of the model (if the first split is bad the whole tree suffers, if the last split in a branch of a tree of depth 100 is bad then only this small subset is affected).
+			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of using the minimal defined by the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said "Surrogate minimal depth as an importance measure for variables in random forests "(https://academic.oup.com/bioinformatics/article/35/19/3663/5368013) to lead to better empirical estimation of the feature importance than the normal minimal depth approach.
 
+
+			<h3>
+				 Further topics
+			</h3>
+			In this sections I would like to briefly discuss some other aspects of random forests such as variations and limitations.
+
+			<h4>
+				Born-Again tree ensembles
+			</h4>
+			Random forests are higly non linear and thus not interpretable directly. This represents a major drawback in situations where the model used must be cristal clear as there are major risks involved, and one must not settle for just the feature importance metrics, that albeit helpful are not fully precise and might be biased.
+			In such cases many times the model designer might opt for a simple decision tree, despite its significant worst generalization performance. 
+				In the past years there where major developments in the field of model interpretability for all kinds of models. As for random forests one recent development was the Born-again tree ensemble algorithm. The idea behind this algorithm is to represent the whole random forest with just one decision tree, that at most as complex as the most complex tree in the ensemble
 
 
 
