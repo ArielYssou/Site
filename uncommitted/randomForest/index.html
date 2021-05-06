@@ -350,8 +350,27 @@
 			</h4>
 			Random forests are higly non linear and thus not interpretable directly. This represents a major drawback in situations where the model used must be cristal clear as there are major risks involved, and one must not settle for just the feature importance metrics, that albeit helpful are not fully precise and might be biased.
 			In such cases many times the model designer might opt for a simple decision tree, despite its significant worst generalization performance. 
-				In the past years there where major developments in the field of model interpretability for all kinds of models. As for random forests one recent development was the Born-again tree ensemble algorithm. The idea behind this algorithm is to represent the whole random forest with just one decision tree, that at most as complex as the most complex tree in the ensemble
+			In the past years there where major developments in the field of model interpretability for all kinds of models. As for random forests one recent development was the Born-again tree ensemble algorithm. The idea behind this algorithm is to represent the whole random forest with just one decision tree, that at most as complex as the most complex tree in the ensemble
+			Admitedly this methods represents a NP-hard problem, but the authors claim that the algorithm can solve the problem to proven optimality for various datasets of practical importance.
 
+			<h4>
+				Relation to k-nearest neighbor algorithm
+			</h4>
+			There is an interesting relationship between random forests and the KNN algorithm pointed by Lin and Jeon in "". The authors showed that both algorithms have a weighted neighborhood scheme. Let X be the features available and y be the corresponding target, a weighted neighborhood model aims to make predictions $\hat{y}$ for new points $x'$ by looking into its nearest neighbors, given by a weight function W:
+			$$\hat{y} = \sum_{i=1}^n W(x_i, x') y_i$$
+			where the weight function $W(x_i, x')$ is non-negative and represents the weight of the  i-th training point relative to $x'$. In the KNN the weight function is simply given by $W(x_i, x') = 1/k)$ if $x_i$ is one of the $k$ nearest neighbors (in some predefined metric system) closest to $x'$, and 0 otherwise.
+			In decision trees the weights are also of the form $W(x_i, x')=(1/k)$, but $k$ here represents the points that are in the same leaf than $x'$. As a random forests combines the predictions of many decision trees, the resulting weight function of a random forest will be just the average of the weights of each of the trees:
+			$$\hat{y} = \frac{1}{m} \sum+{j=1}^m \sum_{i=1}^n W_j (x_i, x') y_i$$
+			where $m$ is the number of trees in the forest. Of course the neighborhood structure in random forest will be structurally very complex (as it adapts from the complexities of the training set). Its shown by the authors that the local shape of the neighborhood function adapts to the local importance of each feature (giving increased weights for important features locally)
+
+			<h4>
+				Limitations and variations
+			</h4>
+			The major shortcomming of the random forest algorithm is the lack of interpretability of the resulting model. As we have discussed, this limitation can be crippling when there is a considerable risk associated with the usage of the model, and decisions cannot be made completely blindly.
+			There are many ways of trying to recover some (or all) interpretability of the RF model. The methods to extract he individual importance of each feature are powerful , but have some caveats that must be considered and represents only estimates of the importance of the features that can be biased in many cases.
+			There are some modern techniques such as SHAP or LIME try to approximate the final decision hyperplanes as locally interpretable regressors. These methods while useful also have limitations and possible biases. Its also proved that SHAP analysis a can be arbitrarily biased without affecting the performance of the model (this can be invisible to common validation techniques and may open the door for exploits in the model).
+			The Born Again algorithm is a really interesting alternative to approach this problem and offers a seemingly perfect solution (resulting in an equivalent model that is both precise and interpretable). This solution represents an NP-hard problem and may not converge in a sensible time in some cases, so its a nice tool but it does not solve all problems.
+			Another limitation of random forests is that the presence of multiple categorical variables the resulting ensemble may not perform better than a then base learner as show by Piryonesi <i>et al</i> in "The Application of Data Analytics to Asset Management: Deterioration and Climate Change Adaptation in Ontario Roads"
 
 
 
