@@ -13,7 +13,7 @@ var svg = d3.select("#feature_space_split")
           "translate(" + margin.left + "," + margin.top + ")");
 
 //Read the data
-d3.csv("./example_data.tsv", function(data) {
+d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/example_data.csv", function(data) {
 
   // Add X axis
   var x = d3.scaleLinear()

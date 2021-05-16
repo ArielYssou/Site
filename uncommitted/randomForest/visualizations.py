@@ -29,4 +29,4 @@ df = pd.DataFrame(
         zip(X[:, 0], X[:, 1], y),
         columns=['x0', 'x1', 'y']
 )
-df.to_csv('example_data.tsv', sep='\t', index=False, header=True)
+df.to_csv('example_data.csv', index=False, header=True)
