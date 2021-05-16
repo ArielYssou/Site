@@ -582,37 +582,55 @@ th, td {
 }
 
 .hl-ipython3{
-	width: 100%
+	width: 100%;
 	min-width: 0px;
 	max-width: 900px;
 }
 
 .output_subarea{
-	width: 100%
+	width: 100%;
 	min-width: 0px;
 	max-width: 900px;
 }
 
 .text_cell_rendered {
-	width: 100%
+	width: 100%;
 	min-width: 0px;
 	max-width: 900px;
 }
 
 .text_cell_render {
-	width: 100%
+	width: 100%;
 	min-width: 0px;
 	max-width: 900px;
 }
 
 .input {
-	width: 100%
+	width: 100%;
 	min-width: 0px;
 	max-width: 900px;
 }
 
 .cell {
-	width: 100%
+	width: 100%;
 	min-width: 0px;
 	max-width: 900px;
 }
+
+/* D3 formating */
+
+.svg-container {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	padding-bottom: 100%;
+	vertical-align: top;
+	overflow: hidden;
+}
+.svg-content {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+

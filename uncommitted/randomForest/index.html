@@ -13,13 +13,19 @@
   <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
   <link href="../../css/style.css" rel="stylesheet"/> <!--TARGET-->
   <link href="../../css/pygments.css" rel="stylesheet"/> <!--TARGET-->
+	<!-- Load p5.js -->
   <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
   </script>
+	<!-- Load d3.js -->
+	<script src="https://d3js.org/d3.v4.js"></script>
   <!-- Custom p5js animations. Add any other .js here -->
   <script src="sketch.js">
   </script>
   <script src="tree.js">
   </script>
+	<!--load d3 images-->
+	<script src="feature_space_split.js">
+	</script>
  </head>
  <body>
   <!-- Navigation bar -->
@@ -139,6 +145,62 @@
       1. Introduction
      </h2>
 
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/2_TwoNum.csv", function(data) {
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([0, 4000])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 500000])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Add dots
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.GrLivArea); } )
+      .attr("cy", function (d) { return y(d.SalePrice); } )
+      .attr("r", 1.5)
+      .style("fill", "#69b3a2")
+
+})
+
+</script>
+
+
+
 		 <p>
 		 	Random forest are one of the most famous and common models in Machine learning as they are easy to implement, adaptable, offer excellent performance and are fast to train. Most texts about these models are focused on the practical side random forests but usually skip over the underling theory. This post will be focused on the theoretical side of the model, aiming to shed some light into this model and study why it is so highly performant and reliable, also providing some insights into some potential shortcomings.
 		 </p>
@@ -158,8 +220,9 @@
 
 			<p>
 				The model attributes a class to each member of the population via several questions, each based on a single feature in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups until a criteria is met and the algorithm is stopped. The decision tree model can be visualized as a model that splits the feature space into regions based on a set of hyperplanes (each inequality $x<\alpha$ represents the equation for an hyperplane that is normal to the $x_i$ axis of the feaure space):
-			<!-- Image 1: Separando uma população em duas classes com perguntas -->
 			</p>
+
+			<div id="feature_space_split"></div>	
 
 			<p>
 				Each step that a question is made and the population is separated is called a <b>node</b>. The algorithm starts at the root node where the entire population is present, and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node </b>.
@@ -188,7 +251,7 @@
 				 Candidate Questions
 			 </h3>
 			 <p>
-			 	For the binary classification type of trees the set of candidate questions made in the trees nodes are in the form "Is feature $x_k \leq \alpha$?". For each feature, each value of $alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecutive distinct values of $x_k$ in the population $X_t$
+			 	For the binary classification type of trees the set of candidate questions made in the trees nodes are in the form "Is feature $x_k \leq \alpha$?". For each feature, each value of $\alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecutive distinct values of $x_k$ in the population $X_t$
 			 </p>
 			 <p>
 				 This type of question leads to linear segmentation of the feature hyperspace. More complex questions can lead to different kinds of splits, such as "Is features $X_k^2 < 5$. A relativelly common variery is the obblique decision trees which uses a series of Householder matrices to reflect the training set, as definided by D. C. Wickramarachchi <i>et al</i> in "HHCART: An oblique decision tree"https://www.sciencedirect.com/science/article/abs/pii/S0167947315002856.
@@ -261,15 +324,15 @@
 			<p>
 				The metrics discussed thus far are well suited for classification tasks. For a regression, the target variables should be transformed into categories so we could still use these metrics, which can have a negative impact on the generalization capabilities of the model. One metric that is uniquely suited for regression tasks is the Variance Reduction $I_V(N)$, which consists of the difference between the variance in the parent node and its childs:
 				$$I_V(N) = Var(Y) - (Y_t) + Var(Y_f),$$
-				where Y, Y_t, Y_f are the set of target variables of the parent, left child and right child nodes and
-				$$var(Y) \equiv  \frac{1}{N} \sum_{i=1}^N \sum_{j=1]^N \frac{1}{2} (y_i - y_j)$$
+				where $Y$, $Y_t$, $Y_f$ are the set of target variables of the parent, left child and right child nodes and
+				$$var(Y) \equiv  \frac{1}{N} \sum_{i=1}^N \sum_{j=1}^N \frac{1}{2} (y_i - y_j)$$
 			</p>
 
 			<h3>
 				 Stop Splitting Rule
 			</h3>
 			<p>
-				As the tree will recursively realize splits based on the metrics discussed, it needs to stop at some time. A sensible choice is to set a threshold on the split metric: if the maximum value of $\Delta I(t)$ exceed the threshold, then the iteration is stopped. Althought this is the most common rule used in practical situations, there are other options such as stop splitting when the cardinality of the subset $X_t$ is small or stop only when each subnode is "pure" (contains only elements of a single class).
+				As the tree will recursively realize splits based on the metrics discussed, it needs to stop at some time. A sensible choice is to set a threshold on the split metric: if the maximum value of $\Delta I(t)$ exceed the threshold, then the iteration is stopped. Although this is the most common rule used in practical situations, there are other options such as stop splitting when the cardinality of the subset $X_t$ is small or stop only when each subnode is "pure" (contains only elements of a single class).
 			</p>
 
 			<h3>
@@ -295,10 +358,10 @@
 						 <li>For each feature $x_k$:
 							 <ol> 
 								 <li>
-									 For each candidate value $alpha_{k,n}$, with $n=1,2,3,4,\dots, N_{t,k}$:
+									 For each candidate value $\alpha_{k,n}$, with $n=1,2,3,4,\dots, N_{t,k}$:
 									 <ol>
 										 <li>
-											 Ask "Is $x_k \leq \alpha_{kn}$" and split the population into the subgroups $X_{t,+}$ and $X_{t,-}$ for the elemtens corresponding to the positive and negative outcome of the split question.
+											 Ask "Is $x_k \leq \alpha_{kn}$" and split the population into the subgroups $X_{t,y}$ and $X_{t,n}$ for the elemtens corresponding to the positive and negative outcome of the split question.
 										 </li>
 										 <li>
 											 Compute the impurity decrease (there are several options for this metric)
@@ -314,10 +377,10 @@
 							 Choose $x_{k*}$ (and associated $\alpha_{k*,n*}$) according to the split that lead to the overall maximum decrease in impurity.
 						 </li>
 						 <li>
-							 If the stop splitting creterion is met, set the current node as a leaf and apply the class assignment rule to set the class label of the elements of $$X_t$.
+							 If the stop splitting criterion is met, set the current node as a leaf and apply the class assignment rule to set the class label of the elements of $X_t$.
 						 </li>
 						 <li>
-							 Else, generate two child nodes with associated subsets $X_{t,+}$ and $X_{t,-}$ depending to the outcome of the question $X_{k*} \leq \alpha_{k*n*}$
+							 Else, generate two child nodes with associated subsets $X_{t,y}$ and $X_{t,n}$ depending to the outcome of the question $X_{k*} \leq \alpha_{k*\,n*}$
 						 </li>
 					 </ol>
 				 </li>
@@ -340,7 +403,7 @@
 
 
 			<p>
-				Random forests are a set of models from a larger family called ensemble models. These kinds of algorithms mix several "weak" learners to boost their overall quality, usually yielding impressive gains. The random forest is an ensemble model that uses several decision trees as base learners and can vastly outperform each individual tree in many practical scenarios (we will discuss its limitations shortly). This performance gain is due to the combination of several techniques, not by simply strapping decision trees together and hopping for the best. It was Leo Breiman that combined the ideas of bagging (bootstrap aggregation), stochastic learning and subspace selection to create the algorithm for random forests. He also introduced some novel insights such as estimating the generalization error as the out-of-bag (OOB) error and estimating the importance of each individual feature via permutation. We will now delve into each one of these ingredients and see how they help the random forest algorithm to outperform single Classification And Regression Trees (CARTs).
+				Random forests are a set of models from a larger family called ensemble models. These kinds of algorithms mix several "weak" learners to boost their overall quality, usually yielding impressive gains. The random forest is an ensemble model that uses several decision trees as base learners (a forest if you will). The resulting ensemble can potentially vastly outperform each individual regressor in many practical scenarios (we will discuss its limitations shortly). This performance gain is due to the combination of several techniques, not by simply strapping decision trees together and hopping for the best. It was Leo Breiman that combined the ideas of bagging (bootstrap aggregation), stochastic learning and subspace selection to create the algorithm for random forests. He also introduced some novel insights such as estimating the generalization error as the out-of-bag (OOB) error and estimating the importance of each individual feature via permutation. We will now delve into each one of these ingredients and see how they help the random forest algorithm to outperform single Classification And Regression Trees (CARTs).
 			</p>
 
 
