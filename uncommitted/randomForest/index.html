@@ -23,9 +23,7 @@
   </script>
   <script src="tree.js">
   </script>
-	<!--load d3 images-->
-	<script src="feature_space_split.js">
-	</script>
+
  </head>
  <body>
   <!-- Navigation bar -->
@@ -160,13 +158,13 @@
       </h2>
 			<p>Decision trees are a class of models whose predictions are based on a hierarchy of decisions, which can be used both for classification or regression purposes. Due to their structural simplicity, these models are fully interpretable. The simplest and most common type of decision tree is the <i>Ordinary binary classification trees</i> (OBST), which simply categorizes each element of a population into two binary classes.</p>
 
+			<div id="feature_space_split"></div>	
 			<!--FIG 1: Scheme of an random forest objective-->
 
 			<p>
 				The model attributes a class to each member of the population via several questions, each based on a single feature in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups until a criteria is met and the algorithm is stopped. The decision tree model can be visualized as a model that splits the feature space into regions based on a set of hyperplanes (each inequality $x<\alpha$ represents the equation for an hyperplane that is normal to the $x_i$ axis of the feaure space):
 			</p>
 
-			<div id="feature_space_split"></div>	
 
 			<p>
 				Each step that a question is made and the population is separated is called a <b>node</b>. The algorithm starts at the root node where the entire population is present, and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node </b>.
@@ -504,6 +502,9 @@
    </div>
   </div>
   <hr/>
+	<!--load d3 images-->
+	<script src="feature_space_split.js">
+	</script>
   <script src="../../js/script.js"> <!--TARGET-->
   </script>
   <!-- Bootstrap + JQuery -->
