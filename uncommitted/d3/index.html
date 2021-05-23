@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, intial-scale=1" name="viewport"/>
+  <!-- Name on tab -->
+  <title>
+   TITLE_TAG
+  </title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+  <link href="../../css/style.css" rel="stylesheet"/> <!--TARGET-->
+  <link href="../../css/pygments.css" rel="stylesheet"/> <!--TARGET-->
+	<!-- Load p5.js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  </script>
+	<!-- Load d3.js -->
+	<script src="https://d3js.org/d3.v4.js"></script>
+  </script>
+  <!-- Custom p5js animations. Add any other .js here -->
+  <script src="sketch.js">
+  </script>
+ </head>
+ <body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+   <a class="navbar-brand" href="../.." style="font-weight:bold;"> <!--TARGET-->
+    Ariel Yssou
+   </a>
+   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+      <a class="nav-link" href="../.." style="font-weight:bold;"> <!--TARGET--> 
+       Home
+      </a>
+     </li>
+     <li class="nav-item nav-blog active">
+      <a class="nav-link" href="../../blog" style="font-weight:bold;"> <!--TARGET--> 
+       Blog
+       <span class="sr-only">
+        (current)
+       </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../gallery" style="font-weight:bold;"> <!--TARGET--> 
+       Gallery
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../about" style="font-weight:bold;"> <!--TARGET--> 
+       About
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
+       <i class="fab fa-github fa-lg">
+       </i>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
+       <i class="fab fa-linkedin fa-lg">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </nav>
+  <!-- End of navigation bar -->
+  <div class="head_container">
+   <img class="head_image no_blur" src="./cover_image.png"/>
+   <div class="head_middle">
+    <div class="head_text">
+     <b>
+      TITLE_TAG
+     </b>
+    </div>
+   </div>
+  </div>
+  <div class="container post_body">
+   <div class="row post_struct">
+    <div class="col-ld-12">
+     <p>
+      INTRO TEXT OF
+      <b>
+       TITLE_TAG
+      </b>
+      .
+     </p>
+     <!-- TOC -->
+     <table class="TOC">
+      <tr>
+       <th>
+        Contents
+       </th>
+      </tr>
+      <tr>
+       <td>
+        <a href="#INTRO">
+         1. Introduction
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#TITLE_TAG">
+         2. TITLE_TAG
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#CODE">
+         3. Applications
+        </a>
+       </td>
+      </tr>
+     </table>
+     <br/>
+     <a name="#INTRO">
+     </a>
+     <h2 class="section">
+      1. Introduction
+     </h2>
+
+		 introduction text
+
+
+			<a name="TITLE_TAG">
+      </a>
+      <h2 class="section">
+       2. TITLE_TAG
+      </h2>
+
+			Main text
+
+			<a name="CODE">
+      </a>
+      <h2 class="section">
+       3. Applications
+      </h2>
+      <p>
+       Code section
+      </p>
+       <span class="alert">
+        Click on the panel bellow to start/stop the simulation.
+       </span>
+       (In some browsers is necessary to click twice to unpause because I screwed the html in some unknown way)
+      </p>
+      <div class="sketch-holder" id="c1">
+      </div>
+      <p>
+       Other canvas
+      </p>
+      <div class="sketch-holder" id="c2">
+      </div>
+
+      <p>
+       Code:
+      </p>
+<pre>
+{% include 'sketch.js' %}
+</pre>
+
+    </div>
+   </div>
+  </div>
+  <hr/>
+	<!--load d3 images-->
+	<script src="feature_space_split.js">
+	</script>
+  <script src="../../js/script.js"> <!--TARGET-->
+  </script>
+  <!-- Bootstrap + JQuery -->
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+  </script>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
+  </script>
+  <!-- mathjax -->
+  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script>
+   MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+  </script>
+ </body>
+</html>
+
