@@ -9,13 +9,18 @@ var svg = d3.select("#feature_space_split")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Create data
 var classes = [0, 1]
 var myColor = d3.scaleOrdinal().domain(classes)
   .range(["#FF934F", "#577399"])
+
+var hyperplanes = [
+	[-3, 20],
+	[-4.5, 20],
+	[2, 20],
+]
 
 //Read the data
 d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/example_data.csv", function(data) {
@@ -37,7 +42,6 @@ d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/ran
 			.attr("y", height - 6)
 			.text("x1");
 
-
   // Add Y axis
   var y_axis = d3.scaleLinear()
     .domain([-10, 20])
@@ -46,7 +50,6 @@ d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/ran
 	svg.append("g")
 		.attr("class", "axisDarkTheme")
 		.call(d3.axisLeft(y_axis));
-
 
   // Add dots
   svg.append('g')

@@ -634,3 +634,41 @@ th, td {
 	left: 0;
 }
 
+.axis .tick line {
+	stroke-width: 2px;
+	stroke: #dddddd;
+}
+.axis .tick text {
+	font-size: 30px;
+	fill: #8E8883;
+}
+.axis .domain {
+	display: none;
+}
+.axis__label {
+	text-anchor: middle;
+	font-size: 50px;
+	fill: #635F5D;
+}
+.legend .tick text {
+	font-size: 30px;
+	fill: #8E8883;
+	font-family: sans-serif;
+	alignment-baseline: middle;
+}
+.legend__label {
+	fill: #ffeabc;
+	font-family: sans-serif;
+}
+
+.axisDarkTheme line{
+  stroke: #ffeabc;
+}
+
+.axisDarkTheme path{
+  stroke: #ffeabc;
+}
+
+.axisDarkTheme text{
+  fill: #ffeabc;
+}

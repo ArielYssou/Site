@@ -364,7 +364,7 @@ function link_test() {
 					ERRS[${#ERRS[@]}]="broken path in file $file: $link"
 				fi
 			else  # Test for broken reference
-				printf ""  # The test is broken for some corner cases. I shall implement this one in the eraliest convinince
+				printf ""  # The test is broken for some corner cases. I shall implement this one in the erliest convinince
 				# if (( $(cat $file | grep $(echo $link | tr -d '#') | wc -l) < 2 )); then
 					# ERRS[${#ERRS[@]}]="broken path in file $file: $link"
 			# fi
