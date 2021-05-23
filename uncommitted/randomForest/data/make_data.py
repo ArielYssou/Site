@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from sklearn.datasets import make_blobs 
+from sklearn.tree import DecisionTreeClassifier, export_text
 
 # make data
 X, y = make_blobs(
@@ -30,3 +31,9 @@ df = pd.DataFrame(
         columns=['x0', 'x1', 'y']
 )
 df.to_csv('example_data.csv', index=False, header=True)
+
+model = DecisionTreeClassifier(max_depth=5)
+model.fit(X, y)
+tree_rules = export_text(model, feature_names=['x0', 'x1'])
+print(tree_rules)
+
