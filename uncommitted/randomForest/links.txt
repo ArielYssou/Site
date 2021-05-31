@@ -47,3 +47,9 @@ https://observablehq.com/@d3/scatterplot-with-shapes
 https://bl.ocks.org/mbostock/1125997
 http://duspviz.mit.edu/d3-workshop/transitions-animation/
 https://www.tutorialsteacher.com/d3js/create-svg-chart-in-d3js
+http://bl.ocks.org/supereggbert/aff58196188816576af0
+https://bl.ocks.org/davidwclin/ad5d13db260caeffe9b3
+https://javascript.plainenglish.io/learning-d3-multiple-lines-chart-w-line-by-line-code-explanations-40440994e1ad
+http://tympanus.net/codrops/2015/03/10/creative-gooey-effects/
+https://bl.ocks.org/d3noob/464c92429ac05c6a19a1
+https://stackoverflow.com/questions/13973267/how-do-i-animate-a-line-using-d3-js
