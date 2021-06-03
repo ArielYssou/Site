@@ -1,6 +1,6 @@
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 460 - margin.left - margin.right,
+    width = 920 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -63,6 +63,7 @@ d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/ran
       .attr("cx", function (d) { return x_axis(d.x0); } )
       .attr("cy", function (d) { return y_axis(d.x1); } )
       .attr("r", 3.5)
+			.attr('id', 'scatter_dot')
       .style("fill", "#444444")
 
 	 svg.append("g")
@@ -85,6 +86,7 @@ d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/ran
 
 	for(var idx = 0; idx < 2; idx += 1) {
 		var path = svg.select('#line' + idx)
+		console.log(path)
 		var totalLength = path.node().getTotalLength();
 
 		path
@@ -119,8 +121,7 @@ d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/ran
 })
 
 function colorPoints() {
-	console.log('hi')
-	d3.selectAll("circle").transition()
+	d3.selectAll("#scatter_dot").transition()
 			.delay(function(d, i){return(i * 5)})
 			.duration(100)
 			.style("fill", function(d) { return myColor(d.y) } )

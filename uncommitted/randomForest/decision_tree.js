@@ -1,78 +1,101 @@
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 920 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+function TreeChart() {
+  var tree_width = 720, // default width
+      tree_height = 600; // default height
 
-// append the svg object to the body of the page
-var svg = d3.select("#decision_tree")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	var margin = {top: 10, right: 30, bottom: 30, left: 60},
+			width = tree_width - margin.left - margin.right,
+			height = tree_height - margin.top - margin.bottom;
 
-// Create data
-var classes = [0, 1]
-var myColor = d3.scaleOrdinal().domain(classes)
-  .range(["#FF934F", "#577399"])
+  function my(selection) {
+		// set the dimensions and margins of the graph
+		console.log(width)
 
-var line = d3.line()
-    .x(function(d) { return x(d.dwte); })
-    .y(function(d) { return y(d.close); });
+		// append the svg object to the body of the page
+		svg_tree = selection.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+			.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//Read the data
-d3.json("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/data/tree.json", function(error, tree) {
-	if (error) throw error;
-	//
-  // Add X axis
-  var x_axis_tree = d3.scaleLinear()
-    .domain([-42, 28])
-    .range([0, (width / 2) - 10]);
+		// Create data
+		var classes = [0, 1]
+		var myColor = d3.scaleOrdinal().domain(classes)
+			.range(["#FF934F", "#577399"])
 
-  // Add Y axis
-  var y_axis_tree = d3.scaleLinear()
-    .domain([0, 40])
-    .range([height, 0]);
+		var line = d3.line()
+				.x(function(d) { return x(d.dwte); })
+				.y(function(d) { return y(d.close); });
 
-  // Add X axis
-  var x_axis_scatter = d3.scaleLinear()
-    .domain([-15, 10])
-    .range([(width / 2) + 10, width]);
+		//Read the data
+		d3.json("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/data/tree.json", function(error, tree) {
+			if (error) throw error;
+			//
+			// Add X axis
+			var x_axis_tree = d3.scaleLinear()
+				.domain([-42, 28])
+				.range([0, (width / 2) - 10]);
 
-  // Add Y axis
-  var y_axis_scatter = d3.scaleLinear()
-    .domain([-10, 20])
-    .range([height, 0]);
+			// Add Y axis
+			var y_axis_tree = d3.scaleLinear()
+				.domain([0, 40])
+				.range([height, 0]);
 
-  // Add dots
-  dots = svg.append('g')
-    .selectAll("dot")
-    .data(tree.data)
-    .enter()
-    .append("circle")
-      .attr("cx", function (d) { return x_axis_scatter(d.x0); } )
-      .attr("cy", function (d) { return y_axis_scatter(d.x1); } )
-      .attr("r", 3.5)
-      .style("fill", "#444444")
+			// Add X axis
+			var x_axis_scatter = d3.scaleLinear()
+				.domain([-15, 10])
+				.range([(width / 2) + 10, width]);
+
+			// Add Y axis
+			var y_axis_scatter = d3.scaleLinear()
+				.domain([-10, 20])
+				.range([height, 0]);
+
+			// Add dots
+			dots = svg_tree.append('g')
+				.selectAll("tree_scatter")
+				.data(tree.data)
+				.enter()
+				.append("circle")
+					.attr("cx", function (d) { return x_axis_scatter(d.x0); } )
+					.attr("cy", function (d) { return y_axis_scatter(d.x1); } )
+					.attr("r", 3.5)
+					.style("fill", "#444444")
 
 
-  // Add dots
-  dots = svg.append('g')
-    .selectAll("nodes")
-    .data(tree.nodes)
-    .enter()
-    .append("circle")
-      .attr("cx", function (d) { return x_axis_tree(d.pos_x); } )
-      .attr("cy", function (d) { return y_axis_tree(d.pos_y); } )
-      .attr("r", 10)
-      .style("fill", "#ffffff")
+			// Add dots
+			dots = svg_tree.append('g')
+				.selectAll("nodes")
+				.data(tree.nodes)
+				.enter()
+				.append("circle")
+					.attr("cx", function (d) { return x_axis_tree(d.pos_x); } )
+					.attr("cy", function (d) { return y_axis_tree(d.pos_y); } )
+					.attr("r", 10)
+					.style("fill", "#ffffff")
 
-})
+		})
 
-function colorPoints() {
-	console.log('hi')
-	d3.selectAll("circle").transition()
-			.delay(function(d, i){return(i * 5)})
-			.duration(100)
-			.style("fill", function(d) { return myColor(d.y) } )
-}  
+    // generate chart here, using `width` and `height`
+  }
+
+  my.width = function(value) {
+    if (!arguments.length) return width;
+    width = value;
+    return my;
+  };
+
+  my.height = function(value) {
+    if (!arguments.length) return height;
+    height = value;
+    return my;
+  };
+
+  return my;
+}
+
+var svg_tree = d3.select("#decision_tree")
+
+tree_chart = TreeChart().width(900).height(400)
+tree_chart(svg_tree)
+console.log(tree_chart)
+
