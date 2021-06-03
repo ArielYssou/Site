@@ -36,4 +36,3 @@ model = DecisionTreeClassifier(max_depth=5)
 model.fit(X, y)
 tree_rules = export_text(model, feature_names=['x0', 'x1'])
 print(tree_rules)
-

@@ -27,6 +27,7 @@ https://www.sciencedirect.com/science/article/abs/pii/S0165027013003026?via%3Dih
 https://ascelibrary.org/doi/10.1061/%28ASCE%29IS.1943-555X.0000602
 iso forest https://en.wikipedia.org/wiki/Isolation_forest
 https://tspace.library.utoronto.ca/handle/1807/97601
+https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html
 
 
 # D3
