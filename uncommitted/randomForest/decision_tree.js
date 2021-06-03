@@ -61,8 +61,7 @@ function TreeChart() {
 					.attr("r", 3.5)
 					.style("fill", "#444444")
 
-
-			// Add dots
+			// Add nodes
 			dots = svg_tree.append('g')
 				.selectAll("nodes")
 				.data(tree.nodes)
@@ -72,6 +71,33 @@ function TreeChart() {
 					.attr("cy", function (d) { return y_axis_tree(d.pos_y); } )
 					.attr("r", 20)
 					.style("fill", "#ffffff")
+
+			// Add links
+			 links = svg_tree.append("g")
+					.selectAll("tree_links")
+					.data(tree.links)
+					.enter()
+					.append('line')
+						.attr('x1', function (d) { return x_axis_tree(d.x1);  } )
+						.attr('x2', function (d) { return x_axis_tree(d.x2);  } )
+						.attr('y1', function (d) { return x_axis_tree(d.y1);  } )
+						.attr('y2', function (d) { return x_axis_tree(d.y2);  } )
+						.attr("stroke", "#ffeabc")
+						.attr("stroke-width", 1.5)
+						.attr("opacity", 0.5)
+
+			 hyperplanes = svg_tree.append("g")
+					.selectAll("tree_hyperplanes")
+					.data(tree.hyperplanes)
+					.enter()
+					.append('line')
+						.attr('x1', function (d) { return x_axis_scatter(d.x1);  } )
+						.attr('x2', function (d) { return x_axis_scatter(d.x2);  } )
+						.attr('y1', function (d) { return x_axis_scatter(d.y1);  } )
+						.attr('y2', function (d) { return x_axis_scatter(d.y2);  } )
+						.attr("stroke", "#ffeabc")
+						.attr("stroke-width", 1.5)
+						.attr("opacity", 0.5)
 
 		})
 
