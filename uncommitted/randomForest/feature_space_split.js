@@ -82,11 +82,9 @@ d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/ran
 				.attr("id" , function(d){
 					return "line" + d.id;
 				})
-	console.log(path)
+
 	for(var idx = 0; idx < 2; idx += 1) {
 		var path = svg.select('#line' + idx)
-		console.log('#line' + idx)
-		console.log(path)
 		var totalLength = path.node().getTotalLength();
 
 		path
