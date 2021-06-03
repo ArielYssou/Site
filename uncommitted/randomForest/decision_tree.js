@@ -32,13 +32,13 @@ function TreeChart() {
 			//
 			// Add X axis
 			var x_axis_tree = d3.scaleLinear()
-				.domain([-42, 28])
+				.domain([-42, 42])
 				.range([0, (width / 2) - 10]);
 
 			// Add Y axis
 			var y_axis_tree = d3.scaleLinear()
-				.domain([0, 40])
-				.range([height, 0]);
+				.domain([50, 0])
+				.range([height, 20]);
 
 			// Add X axis
 			var x_axis_scatter = d3.scaleLinear()
@@ -70,7 +70,7 @@ function TreeChart() {
 				.append("circle")
 					.attr("cx", function (d) { return x_axis_tree(d.pos_x); } )
 					.attr("cy", function (d) { return y_axis_tree(d.pos_y); } )
-					.attr("r", 10)
+					.attr("r", 20)
 					.style("fill", "#ffffff")
 
 		})
@@ -95,7 +95,7 @@ function TreeChart() {
 
 var svg_tree = d3.select("#decision_tree")
 
-tree_chart = TreeChart().width(900).height(400)
+tree_chart = TreeChart().width(720).height(400)
 tree_chart(svg_tree)
 console.log(tree_chart)
 
