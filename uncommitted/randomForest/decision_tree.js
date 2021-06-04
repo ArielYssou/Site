@@ -32,8 +32,8 @@ function TreeChart() {
 			//
 			// Add X axis
 			var x_axis_tree = d3.scaleLinear()
-				.domain([-42, 42])
-				.range([0, (width / 2) - 10]);
+				.domain([-12, 42])
+				.range([0, (width / 3)]);
 
 			// Add Y axis
 			var y_axis_tree = d3.scaleLinear()
@@ -43,7 +43,7 @@ function TreeChart() {
 			// Add X axis
 			var x_axis_scatter = d3.scaleLinear()
 				.domain([-15, 10])
-				.range([(width / 2) + 10, width]);
+				.range([(width / 3) + 10, width]);
 
 			// Add Y axis
 			var y_axis_scatter = d3.scaleLinear()
@@ -61,44 +61,64 @@ function TreeChart() {
 					.attr("r", 3.5)
 					.style("fill", "#444444")
 
-			// Add nodes
-			dots = svg_tree.append('g')
-				.selectAll("nodes")
-				.data(tree.nodes)
-				.enter()
-				.append("circle")
-					.attr("cx", function (d) { return x_axis_tree(d.pos_x); } )
-					.attr("cy", function (d) { return y_axis_tree(d.pos_y); } )
-					.attr("r", 20)
-					.style("fill", "#ffffff")
-
+			var node_width = 85
+			var node_height = 30
+			
 			// Add links
-			 links = svg_tree.append("g")
+			links = svg_tree.append("g")
 					.selectAll("tree_links")
 					.data(tree.links)
 					.enter()
 					.append('line')
 						.attr('x1', function (d) { return x_axis_tree(d.x1);  } )
 						.attr('x2', function (d) { return x_axis_tree(d.x2);  } )
-						.attr('y1', function (d) { return x_axis_tree(d.y1);  } )
-						.attr('y2', function (d) { return x_axis_tree(d.y2);  } )
+						.attr('y1', function (d) { return y_axis_tree(d.y1);  } )
+						.attr('y2', function (d) { return y_axis_tree(d.y2);  } )
 						.attr("stroke", "#ffeabc")
 						.attr("stroke-width", 1.5)
 						.attr("opacity", 0.5)
 
-			 hyperplanes = svg_tree.append("g")
+			// Add nodes
+			nodes = svg_tree.append('g')
+				.selectAll("nodes")
+				.data(tree.nodes)
+				.enter()
+				.append("rect")
+					.attr("rx", 3)
+					.attr("ry", 3)
+					.attr("x", function (d) { return x_axis_tree(d.pos_x) - (node_width / 2); } )
+					.attr("y", function (d) { return y_axis_tree(d.pos_y) - (node_height / 2); } )
+					.attr('width', node_width)
+					.attr('height', node_height)
+					.style("fill", "#363530")
+					.style("stroke", "#ffeabc")
+
+			text = svg_tree.append('g')
+				.selectAll("node_text")
+				.data(tree.nodes)
+				.enter() 
+					.append("text")
+						.attr("x", function(d) { return x_axis_tree(d.pos_x) })
+						.attr("y", function(d) { return y_axis_tree(d.pos_y) })
+					  .attr('dy', '.25em')
+						.attr("text-anchor", 'middle' )
+						.attr("stroke", "none")
+						.attr("fill", "#ffeabc")
+						.attr("font-size", 15)
+						.text(function(d) { return d.is_leaf == 0 ? 'x' + d.feature + ' <=' + parseFloat(d.threshold).toFixed(2) : ''; })
+			
+			hyperplanes = svg_tree.append("g")
 					.selectAll("tree_hyperplanes")
 					.data(tree.hyperplanes)
 					.enter()
 					.append('line')
 						.attr('x1', function (d) { return x_axis_scatter(d.x1);  } )
 						.attr('x2', function (d) { return x_axis_scatter(d.x2);  } )
-						.attr('y1', function (d) { return x_axis_scatter(d.y1);  } )
-						.attr('y2', function (d) { return x_axis_scatter(d.y2);  } )
+						.attr('y1', function (d) { return y_axis_scatter(d.y1);  } )
+						.attr('y2', function (d) { return y_axis_scatter(d.y2);  } )
 						.attr("stroke", "#ffeabc")
 						.attr("stroke-width", 1.5)
 						.attr("opacity", 0.5)
-
 		})
 
     // generate chart here, using `width` and `height`
