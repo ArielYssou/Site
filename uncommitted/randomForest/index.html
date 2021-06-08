@@ -196,6 +196,9 @@
 			 <p>
 			 	For the binary classification type of trees the set of candidate questions made in the trees nodes are in the form "Is feature $x_k \leq \alpha$?". For each feature, each value of $\alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecutive distinct values of $x_k$ in the population $X_t$
 			 </p>
+
+			<div id="decision_splits"></div>	
+
 			 <p>
 				 This type of question leads to linear segmentation of the feature hyperspace. More complex questions can lead to different kinds of splits, such as "Is features $X_k^2 < 5$. A relativelly common variery is the obblique decision trees which uses a series of Householder matrices to reflect the training set, as definided by D. C. Wickramarachchi <i>et al</i> in "HHCART: An oblique decision tree"https://www.sciencedirect.com/science/article/abs/pii/S0167947315002856.
 			 </p>
@@ -502,10 +505,15 @@
    </div>
   </div>
   <hr/>
+	<!-- mathjax -->
+  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 	<!--load d3 images-->
 	<script src="feature_space_split.js">
 	</script>
 	<script src="decision_tree.js">
+	</script>
+	<script src="decision_splits.js">
 	</script>
   <script src="../../js/script.js"> <!--TARGET-->
   </script>
@@ -518,9 +526,7 @@
   </script>
   <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
   </script>
-  <!-- mathjax -->
-  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
   </script>
   <script>

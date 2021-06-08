@@ -109,7 +109,7 @@ function TreeChart() {
 						.attr('x2', function (d) { return x_axis_scatter(d.x2); } )
 						.attr('y1', function (d) { return y_axis_scatter(d.y1); } )
 						.attr('y2', function (d) { return y_axis_scatter(d.y2); } )
-						.attr("stroke-dasharray", function (d,i ) { return  (10, 2 * (2 - i)) }) 
+						.attr("stroke-dasharray", function (d, i) { return  (10, 2 * (2 - i)) }) 
 						.attr("stroke", "#ffeabc")
 						.attr("stroke-width", 2)
 						.attr("opacity", (d, i) => 0.3 + i / 3)
@@ -192,4 +192,3 @@ var svg_tree = d3.select("#decision_tree")
 tree_chart = TreeChart().width(720).height(400)
 tree_chart(svg_tree)
 console.log(tree_chart)
-

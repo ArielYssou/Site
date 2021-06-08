@@ -126,3 +126,4 @@ function colorPoints() {
 			.duration(100)
 			.style("fill", function(d) { return myColor(d.y) } )
 }  
+
