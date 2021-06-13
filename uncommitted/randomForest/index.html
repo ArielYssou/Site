@@ -213,6 +213,8 @@
 			 	Each split generates two descendant nodes, each with populations $X_{t,y}$ and $X_{t,n}$. To choose the "best" split between all candidate questions a metric must be set. This design decision is very task dependant as the applications of decision trees can be quite diverse (in some applications one might want to separate the population based on the variance or even on the relative entropy between each group). Here we will discuss some common definitions, but for a more exhaustive list please refer to "".
 			 </p>
 
+			 <div id="split_criterion"></div>
+
 			<h4>
 				Entropy
 			</h4>
@@ -509,6 +511,8 @@
   <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
 	<!--load d3 images-->
+	<script src="split_criterion.js">
+	</script>
 	<script src="feature_space_split.js">
 	</script>
 	<script src="decision_tree.js">

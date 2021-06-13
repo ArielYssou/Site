@@ -1,129 +1,106 @@
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 720 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+function SplitCritChart() {
+  var chart_width = 720, // default width
+      chart_height = 600; // default height
 
-// append the svg object to the body of the page
-var svg = d3.select("#feature_space_split")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	var margin = {top: 10, right: 30, bottom: 30, left: 60},
+			width = chart_width - margin.left - margin.right,
+			height = chart_height - margin.top - margin.bottom;
 
-// Create data
-var classes = [0, 1]
-var myColor = d3.scaleOrdinal().domain(classes)
-  .range(["#FF934F", "#577399"])
+  function my(selection) {
+		// append the svg object to the body of the page
+		svg_split_crit = selection.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+			.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var hyperplanes = new Array();
-hyperplanes.push(
-	{value: -0.76, axis: 'x0', depth: 0},
-	{value: -8.00, axis: 'x0', depth: 1},
-	{value: -4.80, axis: 'x0', depth: 2},
-	{value: -3.21, axis: 'x0', depth: 4},
-	{value: -0.42, axis: 'x1', depth: 2},
-)
+		// Create data
+		var classes = [0, 1]
+		var myColor = d3.scaleOrdinal().domain(classes)
+			.range(["#FF934F", "#577399"])
 
-var line = d3.line()
-    .x(function(d) { return x(d.dwte); })
-    .y(function(d) { return y(d.close); });
+		//Read the data
+		d3.json("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/data/split_gains.json", function(error, chart_data) {
+			if (error) throw error;
+			//
+			// Add X axis
+			var x_axis_plot = d3.scaleLinear()
+				.domain([-8, 6])
+				.range([0, width]);
 
-var decision_lines = new Array();
-decision_lines.push(
-	{
-		id: 0,
-		values: [{'x': -15,'y': -0.42}, {'x': -3.21, 'y': -0.42}, {'x': -3.21, 'y': -10}],
-	},
-	{
-		id: 1,
-		values: [{'x': -4.80, 'y': 20}, {'x': -4.80, 'y': 1.12}, {'x': -0.76, 'y': 1.12}, {'x': -0.76, 'y': 20}],
-	},
-)
+			// Add Y axis
+			var y_axis_plot = d3.scaleLinear()
+				.domain([-20, -5])
+				.range([height / 2, 0]);
 
-//Read the data
-d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/data/example_data.csv", function(data) {
+			// Add X axis
+			var x_axis_scatter = d3.scaleLinear()
+				.domain([-8, 6])
+				.range([0, width]);
 
-  // Add X axis
-  var x_axis = d3.scaleLinear()
-    .domain([-15, 10])
-    .range([0, width]);
+			// Add Y axis
+			var y_axis_scatter = d3.scaleLinear()
+				.domain([-1, 11])
+				.range([height, height / 2]);
 
-  // Add Y axis
-  var y_axis = d3.scaleLinear()
-    .domain([-10, 20])
-    .range([height, 0]);
+			// Add dots
+			svg_split_crit.append('g')
+				.selectAll("split_scatter")
+				.data(chart_data.data)
+				.enter()
+				.append("path")
+					.attr("transform", d => "translate("+x_axis_scatter(d.x0) + ',' + y_axis_scatter(d.x1) + ")" )
+					.attr("fill", d => +d.y == 0 ? 'blue' : 'red')
+					.attr("d", d3.symbol().type( d => d3.symbols[d.y] ) )
+					.attr('id', 'tree_scatter_dot')
 
-  // Add dots
-  dots = svg.append('g')
-    .selectAll("dot")
-    .data(data)
-    .enter()
-    .append("circle")
-      .attr("cx", function (d) { return x_axis(d.x0); } )
-      .attr("cy", function (d) { return y_axis(d.x1); } )
-      .attr("r", 3.5)
-			.attr('id', 'scatter_dot')
-      .style("fill", "#444444")
+			svg_split_crit.append("g")
+					.selectAll("split_lines")
+					.data(chart_data.splits)
+					.enter()
+					.append('line')
+						.attr('x1', function (d) { return x_axis_scatter(d.value); } )
+						.attr('x2', function (d) { return x_axis_scatter(d.value); } )
+						.attr('y1', height / 2 )
+						.attr('y2', height)
+						.attr("stroke", "#ffeabc")
+						.attr("stroke-width", 2)
+						.attr("opacity", 0.2)
+						.attr('id', 'splits')
 
-	 svg.append("g")
-			.selectAll("paths")
-			.data(decision_lines)
-			.enter()
-			.append("path")
-				.attr("d", function (d) {
-						return d3.line()
-								.x(d => x_axis(d.x))
-								.y(d => y_axis(d.y))
-								(d.values)
-				})
-				.attr("fill", "none")
-				.attr("stroke", "#ffeabc")
-				.attr("stroke-width", 2)
-				.attr("id" , function(d){
-					return "line" + d.id;
-				})
+			// Entropy Gain plot
+			gain_plot = svg_split_crit.append("path")
+					.datum(chart_data.splits)
+					.attr("stroke", "#ffeabc")
+					.attr("stroke-width", 1.5)
+					//.attr("opacity", 0.5)
+					.attr('d', d3.line()
+						.x(function(d) { return x_axis_plot(d.value); })
+						.y(function(d) { return y_axis_plot(d.gain); })
+					)
+			
 
-	for(var idx = 0; idx < 2; idx += 1) {
-		var path = svg.select('#line' + idx)
-		console.log(path)
-		var totalLength = path.node().getTotalLength();
+		})
 
-		path
-			.attr("stroke-dasharray", totalLength + " " + totalLength)
-			.attr("stroke-dashoffset", totalLength)
-			.transition()
-				//.delay( function(i) { return i * 1000} )
-				.duration(1500)
-				.ease(d3.easeLinear)
-				.attr("stroke-dashoffset", 0)
-				.on("end", colorPoints);
-	}
+    // generate chart here, using `width` and `height`
+  }
 
-//	svg.append('g')
-//		.selectAll("line")
-//		.data(hyperplanes)
-//		.enter()
-//		.append('line')
-//			.attr('x1', function(d) { return (d.axis == 'x0' ? x_axis(d.value): 0) } )
-//			.attr('x2', function(d) { return (d.axis == 'x0' ? x_axis(d.value): 0) } )
-//			.attr('y1', function(d) { return (d.axis == 'x0' ? height: y_axis(d.value)) } )
-//			.attr('y2', function(d) { return (d.axis == 'x0' ? height: y_axis(d.value)) } )
-//      .attr("stroke", "#ffeabc")
-//      .attr("stroke-width", 1.5)
-//			.attr("opacity", 0.5)
-//		.transition()
-//			.duration(2000)
-//			.delay(function(d){ return ( d.depth * 500) })
-//			.attr('x2', function(d) { return (d.axis == 'x0' ? x_axis(d.value) : width) } )
-//			.attr('y2', function(d) { return (d.axis == 'x0' ? 0 : y_axis(d.value)) } )
-//
-})
+  my.width = function(value) {
+    if (!arguments.length) return width;
+    width = value;
+    return my;
+  };
 
-function colorPoints() {
-	d3.selectAll("#scatter_dot").transition()
-			.delay(function(d, i){return(i * 5)})
-			.duration(100)
-			.style("fill", function(d) { return myColor(d.y) } )
-}  
+  my.height = function(value) {
+    if (!arguments.length) return height;
+    height = value;
+    return my;
+  };
 
+  return my;
+}
+
+var svg_split_criterion = d3.select("#split_criterion")
+
+split_crit_chart = SplitCritChart().width(720).height(400)
+split_crit_chart(svg_split_criterion)

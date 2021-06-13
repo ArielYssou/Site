@@ -7,9 +7,6 @@ function DecisionChart() {
 			height = total_height - margin.top - margin.bottom;
 
   function my(selection) {
-		// set the dimensions and margins of the graph
-		console.log(width)
-
 		// append the svg object to the body of the page
 		svg_chart = selection.append("svg")
 				.attr("width", width + margin.left + margin.right)
