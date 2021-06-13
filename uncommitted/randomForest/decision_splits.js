@@ -59,7 +59,7 @@ function DecisionChart() {
 				.attr("transform", "translate(" + width + ", 0)")
 				.attr("y", (height / 2) - 10)
 				.attr('fill', '#ffeabc')
-				.text("$x_0$")
+				.text("X0")
 
 
 		xAxis.select("path").attr("marker-end", "url(#arrowhead)");

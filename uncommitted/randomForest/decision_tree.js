@@ -22,13 +22,6 @@ function TreeChart() {
 		var myColor = d3.scaleOrdinal().domain(classes)
 			.range(["#FF934F", "#577399"])
 
-		var shapeScale = d3.scaleOrdinal().domain(classes)
-				.range([d3.symbolCircle, d3.symbolDiamond]);
-
-		var line = d3.line()
-				.x(function(d) { return x(d.dwte); })
-				.y(function(d) { return y(d.close); });
-
 		var nodeHilight = function(node_ids, hyperplanes, node_class) {
 			dots = d3.selectAll('#tree_scatter_dot')
 
