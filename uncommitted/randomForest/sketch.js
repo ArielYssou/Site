@@ -8,7 +8,7 @@ var s = function( p ) { // p could be any variable name
     /* var myHeight = document.getElementById("c1").offsetHeight; */
     p.createCanvas(myWidth, 600);
 
-		tree = new Tree(p, myWidth / 2, p.height, 100, 10, 200)
+		tree = new Tree(p, myWidth / 2, p.height, 100, 10, '#ffeabc')
 
   };
 

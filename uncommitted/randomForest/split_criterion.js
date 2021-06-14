@@ -72,12 +72,24 @@ function SplitCritChart() {
 			gain_plot = svg_split_crit.append("path")
 					.datum(chart_data.splits)
 					.attr("stroke", "#ffeabc")
-					.attr("stroke-width", 1.5)
+					.attr("stroke-width", 1.)
 					//.attr("opacity", 0.5)
 					.attr('d', d3.line()
 						.x(function(d) { return x_axis_plot(d.value); })
 						.y(function(d) { return y_axis_plot(d.gain); })
+						.curve(d3.curveCatmullRom.alpha(0.5))
 					)
+
+			gain_plot_markers = svg_split_crit.append('g')
+				.selectAll('gsc_markers')
+				.data(chart_data.splits)
+				.enter()
+				.append('circle')
+					.attr('cx', d => x_axis_plot(d.value))
+					.attr('cy', d => y_axis_plot(d.gain))
+					.attr('r', 2)
+					.attr('fill', '#ffeabc')
+
 			
 
 		})
