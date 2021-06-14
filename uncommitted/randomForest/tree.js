@@ -3,231 +3,95 @@ function Leaf() {
 	this.draw_lines = function() {};
 }
 
-
-function Branch(p, length, angle, width, color, depth, base_vertexes, n_stripes=6, n_details=6, is_leaf=false) {
+function Branch(p, base_points, length, angle, is_leaf=false) {
+	this.base_points = base_points;
 	this.length = length;
-	this.angle =  angle;
-	this.width = width;
-	this.half_width = this.width / 2;
-	this.color = color;
-	this.depth = depth;
-	this.base_vertexes = base_vertexes;
-	this.n_stripes = n_stripes;
-	this.n_details = n_details; // Number of points in each bezier curve
-	this.is_leaf == is_leaf;
+	this.angle = angle;
+	this.is_laef = is_leaf;
+	this.sub_branches = new Array();
+	this.width = this.base_points.left.y - this.base_points.right.y ?? 10
 
-	this.right_branch = new Leaf();
-	this.main_branch = new Leaf();
-	this.left_branch = new Leaf();
 
-	this.check_leaf = function() {
-		return ((this.left_branch instanceof Leaf) && (this.right_branch instanceof Leaf))
+	this.tip = {left: {}, right: {}};
+
+	// Avoid multiple cossine calculations and improve readability
+	let dx = length * p.cos(this.angle)
+	let dy = this.length * p.sin(this.angle)
+	
+	// If the branch makes a turn left(right) we increase(lower)
+	// the length of the left side to improve the final visualization
+	let left_turn_correction = this.angle < 0 ? 1.1 : 0.9;
+
+	this.tip.left = {
+		x: this.base_points.left.x + left_turn_correction * dx,
+		y: this.base_points.left.y + left_turn_correction * dy,
+	}
+	this.tip.right = {
+		x: this.base_points.right.x + dx,
+		y: this.base_points.right.y + dy,
 	}
 
-	this.heading_x = p.cos(this.angle);
-	this.heading_y = p.sin(this.angle);
+	this.get_tip = function() {
+		return this.tip;
+	}
 
-	// Generating the bezier details of this branch
-	this.controls_1 = {};
-	this.controls_2 = {};
-	this.anchors = {};
+	this.show = function(left_points, right_points) {
+		if (Array.isArray(this.sub_branches) && this.sub_branches.length) {
+			for(const sub_branch of this.sub_branches) {
+				// Make copy of argument arrays
+				left_points_new = [...left_points]
+				right_points_new = [...right_points]
+				
+				// add curet points to colleciton
+				left_points_new.push(this.tip.left);
+				right_points_new.push(this.tip.right);
 
-	this.generate_details = function() {
-		let x_speed = 0.1;
-		let xoff = 0.0 + x_speed * this.depth;
-		let noise_amp = 20;
-
-		// generate a bezier curve for each stripe
-		for(var i = 0; i < this.n_stripes; i += 1) {
-			this.controls_1[i] = new Array();
-			this.controls_2[i] = new Array();
-			this.anchors[i] = new Array();
-
-			let base_y = this.base_vertexes[i].y;
-			let y_width = base_y ?? (i * (this.width / this.n_stripes)) - this.half_width;
-			let vertexes = this.n_details * 3;
-
-			for(var j = 0; j <= vertexes; j += 3) {
-				xoff += x_speed;
-				dy = noise_amp * (2 * p.noise(xoff) - 1)
-				this.controls_1[i].push({
-					x: (j / (vertexes + 2)) * this.length,
-					y: y_width + dy,
-				})
-
-				xoff += x_speed;
-				dy = noise_amp * (2 * p.noise(xoff) - 1)
-				this.controls_2[i].push({
-					x: ((j + 1) / (vertexes + 2)) * this.length,
-					y: y_width + dy,
-				})
-
-				xoff += x_speed;
-				dy = noise_amp * (2 * p.noise(xoff) - 1)
-				this.anchors[i].push({
-					x: ((j + 2) / (vertexes + 2)) * this.length,
-					y:  y_width + dy,
-				})
-
+				// Call branch
+				sub_branch.show(left_points_new, right_points_new);
 			}
-		}
-	}
-
-	// Function to gather the end of each branch detail stripe
-	this.get_final_vertexes = function() {
-		let out = new Array();
-		for(var i = 0; i < this.n_stripes; i += 1) {
-			out.push(this.anchors[i][this.anchors[i].length - 1]);
-		}
-		return out;
-	}
-
-	// Print the tree struct with rects
-	this.show = function() {
-		p.push()
-		p.rotate(this.angle);
-		//p.fill(this.color);
-		p.rect(0, -this.half_width, this.length, this.width);
-		p.translate(this.length, 0);
-		this.right_branch.show();
-		p.pop()
-
-		if(this.main_branch) {
-			p.push()
-			p.rotate(this.angle);
-			p.translate(this.length, 0);
-			this.main_branch.show();
-			p.pop()
-		}
-
-		p.push()
-		p.rotate(this.angle);
-		p.translate(this.length, 0);
-		this.left_branch.show();
-		p.pop()
-	}
-
-	// Print the tree branch details
-	this.draw_lines = function() {
-		p.push()
-		p.rotate(this.angle);
-		p.noFill();
-		p.stroke(this.color);
-		p.strokeWeight(1);
-		for(var i = 0; i < this.n_stripes; i += 1) {
-			// The Detail line is a beizier curve with n_details vetexes
-			p.beginShape()
-
-			// start detail line
-			p.vertex(
-				0, // 1st anchor x
-				this.base_vertexes[i].y, // 1st anchor x
-			)
-
-			// add bezier details
-			for(var j = 0; j < this.anchors[i].length; j += 1) {
-				p.bezierVertex(
-					this.controls_1[i][j].x,
-					this.controls_1[i][j].y,
-					this.controls_2[i][j].x,
-					this.controls_2[i][j].y,
-					this.anchors[i][j].x,
-					this.anchors[i][j].y,
-				)
+		} else {
+			p.push();
+			p.beginShape();
+			p.fill(this.color);
+			p.stroke(this.color);
+			// add all left points to shape
+			for(const point of left_points) {
+				p.vertex(point.x, point.y);
+			}
+			// add all right points pro tip to base to shape
+			for(const point of right_points.reverse()) {
+				p.vertex(point.x, point.y);
 			}
 
-			p.endShape()
+			p.endShape(p.CLOSE);
+			p.pop();
 		}
 
-		p.translate(this.length, 0);
-
-		this.right_branch.draw_lines();
-		p.pop()
-
-		if(this.main_branch) {
-			p.push()
-			p.rotate(this.angle);
-			p.translate(this.length, 0);
-			this.main_branch.draw_lines();
-			p.pop()
-		}
-
-		p.push()
-		p.rotate(this.angle);
-		p.translate(this.length, 0);
-		this.left_branch.draw_lines();
-		p.pop()
 	}
-
 }
+
 
 create_branch = function(p, length, angle, width, color, depth, max_depth, base_vertexes, is_main) {
 	// Recusive function to generate a tree
 	// Stop condition
 	if (depth >= max_depth) {
-		return new Leaf();
+		return ;
+	}
+
+	branch = new Branch(p, base_points={}, length=10, angle=p.PI, is_leaf=false)
+
+	let right_prob = 0.2;
+	let left_prob = 0.2;
+	let leaf_prob = 0.1;
+
+	if(p.random()) < right_prob) {
+		branch.sub_branches.push(
+
+		)
 	}
 
 	// current branch
 	var branch = new Branch(p, length, angle, width, color, depth, base_vertexes)
-	branch.generate_details();
-	let end_vertexes = branch.get_final_vertexes();
-
-	// Main branch
-	//length_delta = p.random(0.94, 0.97);
-	if(is_main) {
-		length_delta = 0.9;
-		angle_delta = p.random(-p.QUARTER_PI, p.QUARTER_PI) * 0.01;
-		width_delta = 0.7;
-		branch.main_branch = create_branch (
-			p,
-			length * length_delta,
-			angle_delta,
-			width * width_delta,
-			color,
-			depth + 1,
-			max_depth,
-			end_vertexes,
-			true
-		)
-	} else {
-		branch.main_branch = new Leaf();
-	}
-
-	// Rigt branch
-	//length_delta = p.random(0.94, 0.97);
-	length_delta = p.random(0.6, 1.05);
-	angle_delta = p.random(-p.QUARTER_PI, p.QUARTER_PI) * 0.7;
-	width_delta = p.random(0.7, 0.9);
-	branch.right_branch = create_branch (
-		p,
-		length * length_delta,
-		angle + angle_delta,
-		width * width_delta,
-		color,
-		depth + 1,
-		max_depth,
-		end_vertexes,
-		false
-	)
-
-	// left branch
-	//length_delta = p.random();
-	length_delta = p.random(0.6, 1.05);
-	width_delta = p.random(0.1, 0.5);
-	angle_delta = p.random(-p.QUARTER_PI, p.QUARTER_PI) * 0.05;
-	branch.left_branch = create_branch (
-		p,
-		length * length_delta,
-		angle + angle_delta,
-		width * width_delta,
-		color,
-		depth + 1,
-		max_depth,
-		end_vertexes,
-		false
-	)
-
 	return branch
 }
 
