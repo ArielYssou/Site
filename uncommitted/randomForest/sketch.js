@@ -18,7 +18,7 @@ var s = function( p ) { // p could be any variable name
 		p.push()
     //tree.show()
 		p.pop()
-    tree.draw_lines()
+    tree.show()
 		p.noLoop()
   };
 
