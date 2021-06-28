@@ -116,3 +116,4 @@ var svg_split_criterion = d3.select("#split_criterion")
 
 split_crit_chart = SplitCritChart().width(720).height(400)
 split_crit_chart(svg_split_criterion)
+
