@@ -426,12 +426,17 @@
 				Firstly MDI feature importance has a bias towards high cardinality features (such as numerical features). Low cardinality features such as binary or categorical features would have their effects underestimated leading to a biased comprehension of the model. The second limitation is that this method only tels which variable was important during training, which some times is not equivalent to the importance of the features in the test set (during the predictions), as there is no way of measuring the decrease in impurity in such cases.
 			</p>
 
+			<div id='feature_importance'></div>
+
 			<h4>
-				Avarage minimal depth
+				Average minimal depth
 			</h4>
 			<p>
 				This is less know metric, but can be useful sometimes. The idea behind evaluating the importance of a feature by its average minimal depth in the random forest (i.e. the average depth of the first appearance of this feature on each tree of the forest) is that the first splits in a tree are the most impactfull ones, as they split larger portions of the population and hugely affect the quality of the model (if the first split is bad the whole tree suffers, if the last split in a branch of a tree of depth 100 is bad then only this small subset is affected).
 			</p>
+
+			<div id='average_minimal_depth'></div>
+
 			<p>
 			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of using the minimal defined by the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said "Surrogate minimal depth as an importance measure for variables in random forests "(https://academic.oup.com/bioinformatics/article/35/19/3663/5368013) to lead to better empirical estimation of the feature importance than the normal minimal depth approach.
 			</p>
@@ -521,6 +526,10 @@
 	<script src="decision_splits.js">
 	</script>
 	<script src="log_plot.js">
+	</script>
+	<script src="feature_importance.js">
+	</script>
+	<script src="amd_importance.js">
 	</script>
   <script src="../../js/script.js"> <!--TARGET-->
   </script>
