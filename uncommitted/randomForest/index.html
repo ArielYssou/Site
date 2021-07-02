@@ -93,13 +93,15 @@
   <div class="container post_body">
    <div class="row post_struct">
     <div class="col-ld-12">
-     <p>
-      INTRO TEXT OF
-      <b>
-       Random Forests
-      </b>
-      .
-     </p>
+
+		<!-- Intro -->
+		 <p>
+		 	Random forest are one of the most famous and commonly used models in Machine learning as they are easy to implement, adaptable, offer excellent performance and are fast to train. However, it is remarkably difficult to find a text that explains the underling theory of this family of models. In this post we try to address this problem, providing a more in depth introduction to random forest from a theoretical point of view. Hopefully this information is new to you and can shed some light on some of properties of random forests such as to why it is so highly performant, reliable, and resistant to overfitting in most situations. We also discuss some modern variations of the algorithm, some recent developments in its theory and some possible limitations to its application.
+		 </p>
+
+		 <p>
+		 	The text is structured as follows. Firstly we will discus <b>Decision Trees</b>, which are the building blocks of random forests (RF). With this formalism we will be able to discuss the proper theory of Random forests in Chapter 2. The third and last chapter will be dedicated to a simple and illustrative implementation of RFs in python using the XXXX dataset, with an emphasis on explaining how to extract a feature importance estimation of the trained model.
+		 </p>
      <!-- TOC -->
      <table class="TOC">
       <tr>
@@ -139,52 +141,43 @@
      <br/>
      <a name="#INTRO">
      </a>
-     <h2 class="section">
-      1. Introduction
-     </h2>
 
-		 <p>
-		 	Random forest are one of the most famous and common models in Machine learning as they are easy to implement, adaptable, offer excellent performance and are fast to train. Most texts about these models are focused on the practical side random forests but usually skip over the underling theory. This post will be focused on the theoretical side of the model, aiming to shed some light into this model and study why it is so highly performant and reliable, also providing some insights into some potential shortcomings.
-		 </p>
 
-		 <p>
-		 	The text is structured as follows. Firstly we will discus <b>Decision Trees</b>, which are the building blocks of random forests. With this formalism we will be able to discuss the proper theory of Random forests in Chapter 2. The last chapter will be dedicated to a simple and illustrative implementation of RFs in python using the XXXX dataset, with an emphasis on discussing how to extract the feature importance of a trained model.
-		 </p>
 
 			<a name="DECISION TREES">
       </a>
       <h2 class="section">
-       2. Decision trees
+       1. Decision trees
       </h2>
-			<p>Decision trees are a class of models whose predictions are based on a hierarchy of decisions, which can be used both for classification or regression purposes. Due to their structural simplicity, these models are fully interpretable. The simplest and most common type of decision tree is the <i>Ordinary binary classification trees</i> (OBST), which simply categorizes each element of a population into two binary classes.</p>
+
+			<p>
+				Decision trees are a class of models whose predictions are based on a hierarchy of decisions, which can be used both for classification or regression purposes. Due to their structural simplicity, these models are fully interpretable and can provide some valuable insights about the underliing structure of the data. The simplest and most common type of decision tree is the <i>Ordinary binary classification trees</i> (OBST), which simply categorizes each element of a population into two binary classes.</p>
+			</p>
 
 			<div id="feature_space_split"></div>	
 			<!--FIG 1: Scheme of an random forest objective-->
 
 			<p>
-				The model attributes a class to each member of the population via several questions, each based on a single feature in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups until a criteria is met and the algorithm is stopped. The decision tree model can be visualized as a model that splits the feature space into regions based on a set of hyperplanes (each inequality $x<\alpha$ represents the equation for an hyperplane that is normal to the $x_i$ axis of the feaure space):
+				The model attributes a class to each member of the population via several questions, each based on a single feature in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups until a criteria is met and the algorithm is stopped. The decision tree model can thus be visualized as a model that splits the feature space into regions based on a set of hyperplanes (each inequality $x<\alpha$ represents an equation for a hyperplane that is normal to the $x_i$ axis of the feaure space):
 			</p>
 
 			<div id="decision_tree"></div>	
 
 			<p>
-				Each step that a question is made and the population is separated is called a <b>node</b>. The algorithm starts at the root node where the entire population is present, and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node </b>.
+				Due to its resemblance to an binary tree, the same nomenclature is used for decision trees each step where the population is separated is called a <b>node</b>. The algorithm starts at the root node where the entire population is present, and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node</b>.
 			</p>
-
-			<!-- Scheme of a tree -->
-			
 
 			<p>
 				Now that the overall scheme of a OBST is laid out, lets focus on the individual tasks that compose the overall algorithm:
 			</p>
 			<ol>
-				<li>Candidate questions: At each node the set of questions that can be asked has to decided. Each question represents a specific binary split into two descendant nodes. Each node $t$ is associated with a specific subset $X_t$ of the full training set $X$. The split at node $t$ separates the population $X_T$ into two subsets , $X_{t,y}$ and $X_{t,f}$, of elements that asserted "yes" or "no" to the question at this node, respectively. Thus the following is true:
-					$$X_{t,+} \bigcap X_{t,-} = \emptyset$$
-					$$X_{t,+} \bigcup X_{t,-} = X_t$$
+				<li><b>Candidate questions</b>: At each node, the set of questions that can be asked has to be decided in beforehand. Each question represents a specific binary split into two descendant nodes. Each node $t$ is associated with a specific subset $X_t$ of the full training set $X$. The split at node $t$ separates the population $X_T$ into two subsets , $X_{t,y}$ and $X_{t,n}$, of elements that asserted "yes" or "no" to the question at this node, respectively. Thus the following is true:
+					$$X_{t,y} \bigcap X_{t,n} = \emptyset$$
+					$$X_{t,y} \bigcup X_{t,n} = X_t$$
 				</li>
-				<li>Splitting criterion: To select the best split at each node we must choose a criterion that defines an "optimal" split.</li>
-				<li>Stop splitting criterion: To control the growth of the tree a stopping condition must be set, otherwise the tree would grown indefinitely;</li>
-				<li>Class assignment rule: Finally we must set a rule to assign a class to each leaf of the tree.</li>
+				<li><b>Splitting criterion</b>: To select the best split at each node we must choose a criterion that defines an "optimal" split.</li>
+				<li><b>Stop splitting criterion</b>: To control the growth of the tree a stopping condition must be set, otherwise the tree would grown indefinitely;</li>
+				<li><b>Class assignment rule</b>: Finally we must set a rule to assign a class to each leaf of the tree.</li>
 			</ol>
 			<p>
 				Lets now discuss each one of these mode design elements
@@ -194,7 +187,7 @@
 				 Candidate Questions
 			 </h3>
 			 <p>
-			 	For the binary classification type of trees the set of candidate questions made in the trees nodes are in the form "Is feature $x_k \leq \alpha$?". For each feature, each value of $\alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite. In practice we can only consider a finite set of questions. Most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecutive distinct values of $x_k$ in the population $X_t$
+			 	For the binary classification trees the set of candidate questions are in the form "Is feature $x_k \leq \alpha$?". For each feature, each value of $\alpha$ represents a different split of the subset $X_t$. If $X_k$ is a numerical variable, then the number of possible $\alpha$ values is infinite, which badly contrast with the sad reality that, in practice, we can only consider a finite set of questions. To address this issue most algorithms choose the set of thresholds $\alpha$ considering the halfway between all consecutive distinct values of $x_k$ in the population $X_t$
 			 </p>
 
 			<div id="decision_splits"></div>	
@@ -219,16 +212,24 @@
 				Entropy
 			</h4>
 
-			As the overall objective of the model is to split the population into groups that contain elements of a single class. A reasonable metric would thus, somehow, measure how "pure" a population is. There is one quantity in information theory that happens to measure exactly this know as <b>Mutual Information</b>, which it is based on <b>Shannon entropy</b> (while the term "entropy" was borrowed from physics, it doesn't have the same exact interpretation, although there are some conceptual similarities between then).
-			 In physics entropy is related to the general disorder of a system and has many interesting properties both in classical and in quantum physics. If you are interested in a more deep understanding of this topic I've made a brief introduction to it bellow, but feel free to skip it if you just want to know the information theory approach.
+			<p>
+			As the overall objective of the model is to split the population into groups that contains elements of a single class. A reasonable metric would, somehow, measure how "pure" a population is. There is one quantity in information theory that happens to measure exactly this, know as <b>Mutual Information</b>, which it is based on <b>Shannon entropy</b> (while the term "entropy" was borrowed from physics, it doesn't have the same exact interpretation, although there are some conceptual similarities between then).
+			</p>
+			<p>
+			In physics entropy is related to the general disorder of a system and has many interesting properties both in classical and in quantum physics. If you are interested in a more deep understanding of this topic I've made a brief introduction to it bellow, but feel free to skip it if you just want to know the information theory approach.
+			 </p>
+			 <p>
 			 In information theory entropy has a different meaning. The idea is to create a quantity (called as entropy by Shannon) to measure how much information is created by a process. The amount of information in a message or processes can be quantified by the amount of <b>surprise</b> it generates (here "surprise" is the correct technical term for the thing, believe it or not). A message that brings no new information generates no surprise in the reader, thus generating no entropy.
+			 </p>
+			 <p>
 			 Lets define a <b>surprise function</b> as $I(p)$, where $p$ is an event (of any kind). Let $I(P_n)$ be a shorthand notation for the amount of surprise generated when the state of the system is equal to $x=x_n$. The total entropy is thus given by the average information gained from each individual state, weighted by the probability $P_n$ of said event happening:
+			 </p>
 			 $$S = \sum_n p_n I(p_n)$$
 			 <p>
-			 	As pointed out by Shannon, to correctly measure information the function$I_n$ should have some desirable properties:
+			 	As pointed out by Shannon, to correctly measure information the function $I_n$ should have some desirable properties:
 			 </p>
 			 <ol>
-				 <li>$I(p) \geq 0$ Information must be a positive quantity.</li>
+				 <li>$I(p) \geq 0$: Information must be a positive quantity.</li>
 				 <li>$I(1) = 0$: If a event is certain $p=1$, then no surprise can come from it.</li>
 				 <li>$I(p)$ should decrease monotonically in $p$. Events of higher probability  yield lower surprises.</li>
 				 <li>$I(p_1 p2) = I(p_1) + I(p_2)$ The information gained from two statistically independent events is the sum of the gain from each individual event.</li>
@@ -236,13 +237,18 @@
 			 <p>
 					The only function to satisfy all conditions, specially condition 4, is the logarithm (for a more strict demonstration please see the original paper):
 				$$I(p) = - K \ln(p),$$
-				where $K$ is a positive constant. The minus comes from condition 1, as $p\leq 1$ then the constant must be negative to keep the whole function positive. The log can be in any base as changing it would only affect the constant $a$. Finally we have that the (Shannon) entropy can be written as:
+				where $K$ is a positive constant. The minus comes from condition 1: as $p\leq 1$ then the constant must be negative to keep the whole function positive. The log can be in any base as changing it would only affect the constant $a$. These properties can be readily observed from a plot of $I(p)$:
+			 </p>
+			<div id='log_plot'></div>
+
+			<p>
+
+				Finally we have that the (Shannon) entropy can be written as:
 			$$\boxed{S = -K\sum p_n \ln(p_n)}.$$
 			 </p>
 			 <p>
 					In summary, Shannon entropy quantifies the amount of information in $P_n$ as it a measure of the average surprise $\langle - \ln(p_n) \rangle$ from the transition to state $x_n$.
 			 </p>
-			 <div id='log_plot'></div>
 			 <p>
 				With this discussion we can see that the entropy is a valid metric to be used as a basis for the split criterion. In practical applications the probabilities are estimated via the observed frequency of points belonging to each class.
 			 </p>
@@ -252,10 +258,10 @@
 				Gini Impurity
 			</h4>
 			<p>
-				Another metric that measures the statistical purity of a population is the Gini Impurity, which is can be better understood via an example (from my experience at least). Consider a population of $N$ classes, where the observed frequency of each class $i$ (i.e. the percentage of elements belonging to each class) is $p_i$. The Gini impurity is the chance of mislabeling a random element of the population based on the observed frequencies $p_i$. If a population is "pure" (only has 1 class), then the impurity is 0 as it cannot be mislabeled. If there is the same number of elements on each class then the impurity is high as there is a $(N-1)/N$ probability of incorrectly labeling an element.
+				Another metric that measures the statistical purity of a population is the Gini Impurity, which is can be better understood via an example (from my experience at least). Consider a population of $N$ classes, where the observed frequency of each class $i$ is $p_i$ (i.e. the percentage of elements belonging to each class). The Gini impurity is the chance of mislabeling a random element of the population based on the observed frequencies $p_i$. If a population is "pure" (only has 1 class), then the impurity is 0 as a random element cannot be mislabeled. If there is the same number of elements on each class (maximum impurity) then the impurity is high as there is a $(N-1)/N$ probability of incorrectly labeling an random element.
 			</p>
 			<p>
-			Formally the probability of mislabeling an element with label $i$ is $\sum_{k \neq i}p_k = 1 - p_i$. Thus we can write de Gini inpurity $I_G$ as
+			Formally,  the probability of mislabeling an element with label $i$ is $\sum_{k \neq i}p_k = 1 - p_i$. Thus we can write de Gini inpurity $I_G$ as
 			$$I_G = \sum_{i=1}^N (probability\ of\ selecting\ label\ i) \times (probability\ of\ mislabel\ i)$$
 
 			$$I_G = \sum_{i=1}^N p_i (1-p_i) = \sum_{i=1}^N p_i - \sum_{i=1}^N p_i^2 = 1 - \sum_{i=1}^N p_i^2$$
@@ -263,7 +269,7 @@
 			<p>
 			The Gini impurity has a interesting correlation with the Shannon entropy as both of them are special cases of the Tsallis entropy
 			$$S_q(p_i) = \frac{k}{q-1} \langle 1 - \sum_i p_i^q \rangle),$$
-			where the Shannon entropy can be obtained with $q=1$ and the Giny Inpurity with $q=2$. Although the actual physical meaning of the Tsallis Entropy is debatable (as it is supposedly an entropy that is not addictive), this relation between both measures of impurity is very cool nevertheless.
+			where the Shannon entropy can be obtained with $q=1$ and the Giny Inpurity with $q=2$. Although the actual physical meaning of the Tsallis Entropy is a intensely debated topic between physicists (as it is supposedly an entropy that is not addictive, which sounds like heresy in its most quintessential to me), this relation between both measures of impurity is very cool nevertheless.
 			</p>
 
 
@@ -271,9 +277,9 @@
 				Variance Reduction
 			</h4>
 			<p>
-				The metrics discussed thus far are well suited for classification tasks. For a regression, the target variables should be transformed into categories so we could still use these metrics, which can have a negative impact on the generalization capabilities of the model. One metric that is uniquely suited for regression tasks is the Variance Reduction $I_V(N)$, which consists of the difference between the variance in the parent node and its childs:
-				$$I_V(N) = Var(Y) - (Y_t) + Var(Y_f),$$
-				where $Y$, $Y_t$, $Y_f$ are the set of target variables of the parent, left child and right child nodes and
+				The metrics discussed thus far are well suited for classification tasks. If we wanted to use these metrics for a regression, the target variables should be transformed into categories so we could still calculate all the quantities discussed thus far. However this methodology can have a negative impact on the generalization capabilities of the model. One metric that is uniquely suited for regression tasks is the Variance Reduction $I_V(N)$, which consists of the difference between the variance in the parent node and its children:
+				$$I_V(N) = Var(Y) - (Y_t) + Var(Y_n),$$
+				where $Y$, $Y_t$, $Y_n$ are the set of target variables of the parent, left child and right child nodes and
 				$$var(Y) \equiv  \frac{1}{N} \sum_{i=1}^N \sum_{j=1}^N \frac{1}{2} (y_i - y_j)$$
 			</p>
 
@@ -281,14 +287,17 @@
 				 Stop Splitting Rule
 			</h3>
 			<p>
-				As the tree will recursively realize splits based on the metrics discussed, it needs to stop at some time. A sensible choice is to set a threshold on the split metric: if the maximum value of $\Delta I(t)$ exceed the threshold, then the iteration is stopped. Although this is the most common rule used in practical situations, there are other options such as stop splitting when the cardinality of the subset $X_t$ is small or stop only when each subnode is "pure" (contains only elements of a single class).
+				As the tree will recursively perform splits based on the metrics discussed in the previous chapter, it needs to stop at some time. A sensible choice is to set a threshold on the split metric: if the maximum value of $\Delta I(t)$ exceeds the threshold, then the iteration is stopped. Although this is the most common rule used in practical situations, there are other options such as stop splitting when the cardinality of the subset $X_t$ is small or stop only when each subnode is "pure" (contains only elements of a single class).
 			</p>
 
 			<h3>
 				 Class Assignment Rule
 			 </h3>
 			 <p>
-			 Perhaps the easiest step, to assign a class to a given node we can just use the class which is more common in that node. More formally the elements of a node will be assigned to class $i$ if $$arg\ max_i P(\omega_i|t).$$. For regression tasks the target variable assumes its mean value over the elements in the leaf node. These are but the simplest ways of class assignment rules, but alternatives such as using weighted averages are certainly viable.
+			 This is perhaps the easiest step as to assign a class to a given node we can just use the class which is more common in that node. More formally the elements of a node will be assigned to class $i$ if $$arg\ max_i P(\omega_i|t).$$
+			 </p>
+			 <p>
+			 For regression tasks the target variable assumes its mean value over the elements in the leaf node. These are but the simplest ways of class assignment rules, but alternatives such as using weighted averages are certainly viable.
 			 </p>
 
 			<h3>
@@ -341,7 +350,7 @@
 			 </h3>
 
 			 <p>
-				 Decision trees pay a heavy price for their structural simplicity in their general poor performance when compared to other, more complex, alternatives such as fancy regressions or neural networks. They are also very susceptible to overfitting as the only way for them to grasp the details of the data is by growing exponentially larger trees, that are too biased by the training set.
+				 Decision trees pay a heavy price for their structural simplicity in their general poor performance when compared to other, more complex, alternatives such as fancy regressions or neural networks. They are also very susceptible to overfitting as the only way for them to grasp the details of the data is by growing exponentially larger trees, which inevitably become extremely biased to the training set.
 			 </p>
 			 </p>
 			<a name="Random Forests">
@@ -352,28 +361,31 @@
 
 
 			<p>
-				Random forests are a set of models from a larger family called ensemble models. These kinds of algorithms mix several "weak" learners to boost their overall quality, usually yielding impressive gains. The random forest is an ensemble model that uses several decision trees as base learners (a forest if you will). The resulting ensemble can potentially vastly outperform each individual regressor in many practical scenarios (we will discuss its limitations shortly). This performance gain is due to the combination of several techniques, not by simply strapping decision trees together and hopping for the best. It was Leo Breiman that combined the ideas of bagging (bootstrap aggregation), stochastic learning and subspace selection to create the algorithm for random forests. He also introduced some novel insights such as estimating the generalization error as the out-of-bag (OOB) error and estimating the importance of each individual feature via permutation. We will now delve into each one of these ingredients and see how they help the random forest algorithm to outperform single Classification And Regression Trees (CARTs).
+			Random forests are a set of models from a larger family called <b>ensemble models</b>. These kind of algorithms mix several "weak" learners to boost their overall quality, usually yielding impressive results. The random forest is an ensemble model that uses several decision trees as base learners (a forest if you will). The resulting ensemble can potentially vastly outperform each individual regressor in many practical scenarios (we will discuss its limitations shortly). 
+			</p>
+			<p>
+			This performance gain is obtained due to the combination of several intricate techniques, not by simply strapping decision trees together and hopping for the best. It was Leo Breiman that combined the ideas of bagging (bootstrap aggregation), stochastic learning and subspace selection to create the algorithm for random forests. He also introduced some novel insights such as estimating the generalization error as the out-of-bag (OOB) error and estimating the importance of each individual feature via permutation. We will now delve into each one of these ingredients and see how they help the random forest algorithm to outperform single Classification And Regression Trees (CARTs).
 			</p>
 
 
 			<h3>
-				 Stochastic Learning
+				 Stochastic Discrimination
 			</h3>
 			<p>
 				One major shortcoming of decision trees is their susceptibility to overfitting. Trees are, by themselves, not very good in terms of precision and need to grow in complexity to increase their performance. This need for complexity can easily lead to overfitting and poor generalization. Kleinbergs theory of stochastic discrimination (SD) showed that the combination of weak learners could not only be arbitrarily precise, but also fast, stable and resistant to overfitting.
 			</p>
 			<p>
-				The stochastic discrimination process is defined as follows. Consider the two class problem with an initial population of $N$ elements. We also have an set of $S$ possible solutions, in our case each member of S is an week learner (weak here means just that the algorithm can be just slightly better than random guessing). We can think of the sequence of solutions as items appearing over time, and see the transitions of a given element between solutions as an stochastic process. It can be shown that for large numbers of solutions the average of the stochastic processes tend to two distinct limits, thus allowing for a more robust discrimination, as represented in the following scheme (an direct adaptation from the original scheme in Kleinbergs article):
+				The stochastic discrimination process is defined as follows. Consider the two class problem with an initial population of $N$ elements. We also have an set of $S$ possible solutions, in our case each member of S is an week learner (weak here means just that the algorithm can be just slightly better than random guessing). We can think of the sequence of solutions as items appearing over time, and see the transitions of a given element between solutions as an stochastic process. It can be shown that for large numbers of solutions the average of the stochastic processes tends to two distinct limits, thus allowing for a more robust discrimination, as represented in the following scheme (an direct adaptation from the original scheme in Kleinbergs article):
 			</p>
 			<p>
-				The fact that the SD process not only converges stably (on average over large sets of possible solutions) but also in polinomial time are very powerful and intriguing results from SD theory. These demonstrations are far outside the scope of this article as they deserve a full article by themselves, but can be seen in Kleinberg original work, while the resistance to overfitting is directly addressed in a separate article "".
+				The fact that the SD process not only converges stably (on average over large sets of possible solutions) but also in polinomial time is a very powerful and intriguing result from SD theory. These demonstrations are far outside the scope of this article as they deserve a full article by themselves, but can be seen in Kleinberg original work, while the resistance to overfitting is directly addressed in a separate article "".
 			</p>
 
 			<h3>
 				 Bagging
 			</h3>
 			<p>
-				One way to improve the overall quality of a model is to use <b>bagging</b>, which simply put consists in training several instances of the seme model, but training each over different subsets of the entire training set and then combine all the resulting fitted models to generate predictions.
+				One way to improve the overall quality of a model is to use <b>bagging</b>, which simply put, consists in training several instances of the same model, each over a different subset of the full training dataset. These models can be trained in parallel, which increases the overall fit speed substantially. The trained models can then be combined to form a single prediction (via a majority vote, for example).
 			</p>
 			<p>
 				Consider a training set $X$ and associated targets $Y$. Bagging would consist of sampling with replacement both $X$ and $Y$ $n$ times, generating subsets $X_i$, $Y_i$, $i=1,2,\dots,n$. Then a model is fitted on each subset $i$. The final prediction would then be the average over all $n$ models or by the majority vote.
@@ -385,10 +397,10 @@
 			Random forests, however, do not only employ bagging to the training set, but also for the features themselves. Each model will be presented with only some of the features available, which leads to decision trees that are uncorrelated. This idea was initially presented by Hu to formulate Decision Forests (not to be confused with random forests), which is an algorithm that only employs feature bagging.
 			</p>
 			<p>
-				The major advantage of hiding some features from the models is that if there is a feature that has a very strong correlation to the target variable, it would heavily influence all trees, making then all almost identical and heavily reliant on a single feature. This would lead to all trees being strongly correlated and reducing the gains from bagging.
+				The major advantage of hiding some features from the models is that if there is a feature that has a very strong correlation to the target variable, it would heavily influence all trees, making then all almost identical and heavily reliant on a single feature. This would lead to all trees being strongly correlated and reducing the overall performance of the bagging technique.
 			</p>
 			<p>
-			Random forests as formulated bu Breiman use both types of bagging. Each tree is trained not only in a subspace of the full feature hyperspace, but also presented with only a fraction of all observations available in the training set.
+			Random forests as formulated by Breiman use both types of bagging. Each tree is trained not only in a subspace of the full feature hyperspace, but also presented with only a fraction of all observations available in the training set.
 			</p>
 
 
@@ -399,7 +411,7 @@
 				In many real world situations the overall lack of interpretability of random forests represents a major limitation as huge amounts of money or even lives might depend on the decisions of the model. In these situations knowing exactly what the model is doing is invaluable.
 			</p>
 			<p>
-			Although there is no perfect way of interpreting a highly non-linear model such as random forests, there are ways of studding the importance of each feature on each prediction, and evaluate if the trained algorithm is considering sensible features for its decisions (like using age as a important feature for predicting heart decease probability over eye color, which is a useless feature for this task). We will discuss some of the most common ways of estimating the variable importance.
+			Although there is no perfect way of interpreting a highly non-linear model such as random forests (models that can not be fully explained are also know as black-box models), there are ways of studying the importance of each feature on each prediction, and evaluate if the trained algorithm is considering sensible features for its decisions (like using age for predicting heart decease probability over eye color, which is an nigh useless feature for this task). We will discuss some of the most common ways of estimating the variable importance.
 			</p>
 
 
@@ -410,7 +422,7 @@
 				Breiman defined a way of measuring the importance of each feature to the overall forest decisions. It consists of randomly shuffling (or permutating) the values of a single feature over the entire population and measuring how the prediction quality is affected.
 			</p>
 			<p>
-				This method thus breaks the relationship between the variable and the target, and observes the subsequent drop in the models quality (in term of the chosen set of model quality metrics). This methodology is not restricted to only random forests and can be used in any model (its agnostic).
+				This method thus breaks the relationship between the variable and the target, and observes the subsequent drop in the models quality (in terms of a chosen quality metrics). This methodology is not restricted to only random forests and can be used in any model (its model agnostic).
 			</p>
 			<p>
 			One shortcoming of this procedure is that it can be affected by multicolinearity. Suppose we have two very important and also very correlated features in the model. If one of these features is shuffled the model would still perform well as the other variable is still present. This would affect both variables almost identically, leading to an extremely low feature importance for two important features. See https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py 
@@ -423,7 +435,7 @@
 				Another common way of measuring the importance of a feature is by directly observing the mean decrease in impurity in the nodes using this particular feature in all trees in the forest. This procedure is quite intuitive and straightforward, but it has two major limitations that must be taken into consideration.
 			</p>
 			<p>
-				Firstly MDI feature importance has a bias towards high cardinality features (such as numerical features). Low cardinality features such as binary or categorical features would have their effects underestimated leading to a biased comprehension of the model. The second limitation is that this method only tels which variable was important during training, which some times is not equivalent to the importance of the features in the test set (during the predictions), as there is no way of measuring the decrease in impurity in such cases.
+				Firstly MDI feature importance has a bias towards high cardinality features (such as numerical features). Low cardinality features such as binary or categorical features would have their effects underestimated leading to a biased comprehension of the model. The second limitation is that this method only tells which variable was important during training, which some times is not equivalent to the importance of the features in the test set (during the predictions), as there is no way of measuring the decrease in impurity in such cases.
 			</p>
 
 			<div id='feature_importance'></div>
@@ -432,13 +444,13 @@
 				Average minimal depth
 			</h4>
 			<p>
-				This is less know metric, but can be useful sometimes. The idea behind evaluating the importance of a feature by its average minimal depth in the random forest (i.e. the average depth of the first appearance of this feature on each tree of the forest) is that the first splits in a tree are the most impactfull ones, as they split larger portions of the population and hugely affect the quality of the model (if the first split is bad the whole tree suffers, if the last split in a branch of a tree of depth 100 is bad then only this small subset is affected).
+				This is less know metric, but can be useful sometimes. The idea here is to evaluate the importance of a feature by its average minimal depth in the random forest (i.e. the average depth of the first appearance of this feature on each tree of the forest). The depth of a split is relevant as te first splits in a tree are usually the most impactfull ones, as they split larger portions of the population and hugely affect the quality of the model (if the first split is bad the whole tree suffers, if the last split in a branch of a tree of depth 100 is bad then only this small subset is affected).
 			</p>
 
 			<div id='average_minimal_depth'></div>
 
 			<p>
-			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of using the minimal defined by the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said "Surrogate minimal depth as an importance measure for variables in random forests "(https://academic.oup.com/bioinformatics/article/35/19/3663/5368013) to lead to better empirical estimation of the feature importance than the normal minimal depth approach.
+			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of estimating the minimal depth via the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said to lead to better empirical estimation of the feature importance than the normal minimal depth approach "Surrogate minimal depth as an importance measure for variables in random forests "(https://academic.oup.com/bioinformatics/article/35/19/3663/5368013).
 			</p>
 			<p>
 			As a closing note to this section, its worth porting out that the feature importance metrics are related to the model, not the features themselves (i.e. the importance is not of the feature itself, but to its influence on your model). <b>A bad feature can be very important to a bad model</b>.
@@ -468,7 +480,7 @@
 				As discussed extensively, the major shortcomming of the random forest algorithm is the lack of interpretability. This limitation can be crippling when there is a considerable risk associated with the usage of the model, and decisions cannot be made completely blindly.
 			</p>
 			<p>
-				There are many ways of trying to recover some (or all) interpretability of the RF model. The methods to extract he individual importance of each feature are powerful , but have some caveats that must be considered and represents only estimates of the importance of the features that can be biased in many cases.
+			There are many ways of trying to recover some (or all) interpretability of the RF model. The methods to extract he individual importance of each feature are powerful, but have some possible limitations that must be considered in beforehand. These feature importance metrics also <b>only represents estimates of the importance of the features</b> and can be biased in many cases.
 			</p>
 			<p>
 			There are some modern techniques such as SHAP or LIME that try to approximate the final decision hyperplanes with locally interpretable regressors. These methods, while useful, also have limitations and possible biases. Its also proved that SHAP analysis a can be arbitrarily biased without affecting the performance of the model (this can be invisible to common validation techniques and may open the door for exploits in the model).
