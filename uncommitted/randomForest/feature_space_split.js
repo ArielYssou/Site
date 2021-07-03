@@ -146,4 +146,3 @@ var svg_fss =  d3.select("#feature_space_split")
 
 fss_chart = FeatureSpaceSplitChart().width(720).height(400)
 fss_chart(svg_fss)
-console.log(fss_chart)

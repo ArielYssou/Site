@@ -377,6 +377,11 @@
 			<p>
 				The stochastic discrimination process is defined as follows. Consider the two class problem with an initial population of $N$ elements. We also have an set of $S$ possible solutions, in our case each member of S is an week learner (weak here means just that the algorithm can be just slightly better than random guessing). We can think of the sequence of solutions as items appearing over time, and see the transitions of a given element between solutions as an stochastic process. It can be shown that for large numbers of solutions the average of the stochastic processes tends to two distinct limits, thus allowing for a more robust discrimination, as represented in the following scheme (an direct adaptation from the original scheme in Kleinbergs article):
 			</p>
+			<object type="image/svg+xml" data="stochastic_learning.svg">
+					<!-- Your fall back here -->
+					<img src="stochastic_learning.svg" />
+			</object>
+
 			<p>
 				The fact that the SD process not only converges stably (on average over large sets of possible solutions) but also in polinomial time is a very powerful and intriguing result from SD theory. These demonstrations are far outside the scope of this article as they deserve a full article by themselves, but can be seen in Kleinberg original work, while the resistance to overfitting is directly addressed in a separate article "".
 			</p>
@@ -529,15 +534,7 @@
   <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
 	<!--load d3 images-->
-	<script src="split_criterion.js">
-	</script>
-	<script src="feature_space_split.js">
-	</script>
-	<script src="decision_tree.js">
-	</script>
-	<script src="decision_splits.js">
-	</script>
-	<script src="log_plot.js">
+	<script src="d3_charts.js">
 	</script>
 	<script src="feature_importance.js">
 	</script>
