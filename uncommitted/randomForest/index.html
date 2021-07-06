@@ -158,13 +158,13 @@
 			<!--FIG 1: Scheme of an random forest objective-->
 
 			<p>
-				The model attributes a class to each member of the population via several questions, each based on a single feature in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups until a criteria is met and the algorithm is stopped. The decision tree model can thus be visualized as a model that splits the feature space into regions based on a set of hyperplanes (each inequality $x<\alpha$ represents an equation for a hyperplane that is normal to the $x_i$ axis of the feaure space):
+				The model attributes a class to each member of the population via several questions, each based on a single feature in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups until a criteria is met and the algorithm is stopped. The decision tree model can be visualized as a model that splits the feature space into regions based on a set of hyperplanes (each inequality $x<\alpha$ represents an equation for a hyperplane that is normal to the $x_i$ axis of the feaure space):
 			</p>
 
 			<div id="decision_tree"></div>	
 
 			<p>
-				Due to its resemblance to an binary tree, the same nomenclature is used for decision trees each step where the population is separated is called a <b>node</b>. The algorithm starts at the root node where the entire population is present, and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node</b>.
+			For those familiar with binary trees, the nomenclature of decision trees will be very familiar: each step where the population is separated is called a <b>node</b>. Each decedent node is called either by <b>child node</b> or decedent node. The algorithm starts at the <b>root node</b> (where the entire population is present as no split was made yet), and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node</b>.
 			</p>
 
 			<p>
@@ -244,7 +244,7 @@
 			<p>
 
 				Finally we have that the (Shannon) entropy can be written as:
-			$$\boxed{S = -K\sum p_n \ln(p_n)}.$$
+			$$\boxed{S = -K\sum_n p_n \ln(p_n)}.$$
 			 </p>
 			 <p>
 					In summary, Shannon entropy quantifies the amount of information in $P_n$ as it a measure of the average surprise $\langle - \ln(p_n) \rangle$ from the transition to state $x_n$.
@@ -395,6 +395,13 @@
 			<p>
 				Consider a training set $X$ and associated targets $Y$. Bagging would consist of sampling with replacement both $X$ and $Y$ $n$ times, generating subsets $X_i$, $Y_i$, $i=1,2,\dots,n$. Then a model is fitted on each subset $i$. The final prediction would then be the average over all $n$ models or by the majority vote.
 			</p>
+
+			<object type="image/svg+xml" data="bagging.svg">
+					<!-- Your fall back here -->
+					<img src="bagging.svg" />
+			</object>
+
+
 			<p>
 			This method reduces the overall variance of the week base learners and also makes the model more resistant to noises in the training set. However, if one cannot generate many statistically independent trees (due to a lack of training points, for example), not much would be achieved from using this technique as all models would be almost identical and the variance would not be reduced.
 			</p>
