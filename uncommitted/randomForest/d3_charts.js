@@ -567,53 +567,73 @@ function SplitCritChart() {
 			if (error) throw error;
 			//
 			// Add X axis
+
+			var plots_offset = 30;
+
+			// Add X axis
 			var x_axis_plot = d3.scaleLinear()
 				.domain([-8, 6])
 				.range([0, width]);
-
-			// Axes
 			var xAxisPlot = svg_split_crit.append("g")
 					.attr("class", "x-axis")
 					.attr("transform", "translate(" + 0 + "," + height + ")")
-					.call(d3.axisBottom(x_axis_plot));
+					.call(d3.axisBottom(x_axis_plot))
+					.attr("class", "axisDarkTheme")
 
 			// Add Y axis
 			var y_axis_plot = d3.scaleLinear()
 				.domain([-20, -5])
-				.range([height / 2, 0]);
+				.range([(height / 2) - plots_offset, 0]);
+			var yAxisPlot = svg_split_crit
+				.append("g")
+					.attr("class", "y-axis")
+					.call(d3.axisLeft(y_axis_plot).ticks(6))
+					.attr("class", "axisDarkTheme")
+			yAxisPlot.append("text")
+					.attr("transform", "rotate(-90)")
+					.attr("y", 16)
+					.attr("dy", ".71em")
+					.style("text-anchor", "end")
+					.text("Entropy");
 
 			// Add X axis
 			var x_axis_scatter = d3.scaleLinear()
 				.domain([-8, 6])
 				.range([0, width]);
-			var xAxisScatter = svg_split_crit.append("g")
+			svg_split_crit.append("g")
 					.attr("class", "x-axis")
-					.attr("transform", "translate(" + 0 + "," + height / 2 + ")")
-					.call(d3.axisBottom(x_axis_scatter));
+					.attr("transform", "translate(" + 0 + "," + ((height / 2) - plots_offset) + ")")
+					.call(d3.axisBottom(x_axis_scatter))
+					.attr("class", "axisDarkTheme")
 
 			// Add Y axis
 			var y_axis_scatter = d3.scaleLinear()
 				.domain([-1, 11])
-				.range([height, height / 2]);
-
-			updatePoints = function(thresh) {
-				d3.selectAll('#split_scatter')
-					.transition()
-					.duration(50)
-					.style('fill', d => d.value >= thresh ? 'red' : 'blue')
-			}
+				.range([height, plots_offset + (height / 2)]);
+			var yAxisScatter = svg_split_crit
+				.append("g")
+					.attr("class", "y-axis")
+					.call(d3.axisLeft(y_axis_scatter).ticks(5))
+					.attr("class", "axisDarkTheme")
+			yAxisScatter.append("text")
+					.attr("transform", "rotate(-90)")
+					.attr("y", 0)
+					.attr("dy", ".71em")
+					.style("text-anchor", "end")
+					.text("y");
 
 			// Add dots
 			svg_split_crit.append('g')
-				.selectAll("split_scatter")
+				.selectAll("split_scatter_plot")
 				.data(chart_data.data)
 				.enter()
 				.append("path")
 					.attr("transform", d => "translate("+x_axis_scatter(d.x0) + ',' + y_axis_scatter(d.x1) + ")" )
-					.attr("fill", d => +d.y == 0 ? 'blue' : 'red')
+					.attr("fill", d => +d.y == 0 ? d3_global_settings.class_1_color: d3_global_settings.class_2_color)
 					.attr("d", d3.symbol().type( d => d3.symbols[d.y] ) )
-					.attr('id', 'tree_scatter_dot')
+					.attr('id', 'split_scatter_dot')
 
+			const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 			splits = svg_split_crit.append("g")
 					.selectAll("split_lines")
 					.data(chart_data.splits)
@@ -621,7 +641,7 @@ function SplitCritChart() {
 					.append('line')
 						.attr('x1', function (d) { return x_axis_scatter(d.value); } )
 						.attr('x2', function (d) { return x_axis_scatter(d.value); } )
-						.attr('y1', height / 2 )
+						.attr('y1', height / 2 + plots_offset )
 						.attr('y2', height )
 						.attr("stroke", "#ffeabc")
 						.attr("stroke-width", 1)
@@ -629,7 +649,7 @@ function SplitCritChart() {
 					.transition()
 						.duration(100)
 						.delay((d, i) => 100 * i)
-						.style('opacity', 0.5)
+						.style('opacity', (d) => map(d.gain, -20, -6, 0.2, 1))
 						//.attr('y2', height)
 						.ease(d3.easeQuadInOut)
 
@@ -671,7 +691,6 @@ function SplitCritChart() {
 						.duration(100)
 						.delay((d, i) => 100 * i)
 						.style('opacity', 1)
-
 		})
 
     // generate chart here, using `width` and `height`
@@ -735,28 +754,34 @@ function LogPlotChart() {
 			.range([height, 0]);
 
 		// Axes
-		xAxis = svg_log_plot.append("g")
+		svg_log_plot.append("g")
 				.attr("class", "x-axis")
 				.attr("transform", "translate(" + 0 + "," + height + ")")
-				.call(d3.axisBottom(x_axis_plot));;
+				.call(d3.axisBottom(x_axis_plot).ticks(8))
+				.attr("class", "axisDarkTheme")
 
-		yAxis = svg_log_plot.append("g")
+		var yAxis = svg_log_plot.append("g")
+				.attr("class", "axisDarkTheme")
 				.attr("class", "y-axis")
-				.call(d3.axisLeft(y_axis_plot));;
+				.call(d3.axisLeft(y_axis_plot).ticks(7))
+				.attr("class", "axisDarkTheme")
 
 		// Labels
 		svg_log_plot.append("text")
 				.attr("class", "axis-title")
-				.attr("transform", "translate(" + width + ", 0)")
-				.attr("y", (height) - 10)
+				.attr("text-anchor", "end")
+				.attr('x', width)
+				.attr("y", height - 10)
 				.attr('fill', '#ffeabc')
 				.text("p")
 
 		yAxis.append("text")
 				.attr("class", "axis-title")
+				.attr("text-anchor", "end")
 				.attr("transform", "rotate(-90)")
-				.attr("y", 16)
-				.text("S")
+				.attr("dy", "-1.35em")
+				.attr("y", -16)
+				.text("Entropy")
 
 		// Entropy Gain plot
 		log_plot = svg_log_plot.append("path")
