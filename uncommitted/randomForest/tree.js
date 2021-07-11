@@ -31,13 +31,16 @@ function Branch(p, base_points, length, angle, width_shrink, color, depth) {
 	delta_angle = p.noise(this.base_points.left.x, this.base_points.left.y) * p.QUARTED_PI
 	this.control_1_left = this.base_points.left.copy()
 		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(this.length / 3))
+
 	delta_angle = p.noise(this.tip.left.x, this.tip.left.y) * p.QUARTED_PI
 	this.control_2_left = this.base_points.left.copy()
 		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(2 * this.length / 3))
+
 	delta_angle = p.noise(this.base_points.right.x, this.base_points.right.y) * p.QUARTED_PI
 	delta_angle = p.random(-p.QUARTER_PI / 8, p.QUARTER_PI / 8)
 	this.control_1_right = this.base_points.right.copy()
 		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(this.length / 3))
+
 	delta_angle = p.noise(this.tip.right.x, this.tip.right.y) * p.QUARTED_PI
 	delta_angle = p.random(-p.QUARTER_PI / 8, p.QUARTER_PI / 8)
 	this.control_2_right = this.base_points.right.copy()
@@ -82,7 +85,14 @@ function Branch(p, base_points, length, angle, width_shrink, color, depth) {
 		controls_2_right = [...controls_2_right]
 
 		if (this.continuation != null) {
-			this.continuation.show(left_points_new, right_points_new, controls_1_left, controls_2_left, controls_1_right, controls_2_right);
+			this.continuation.show(
+				left_points_new,
+				right_points_new,
+				controls_1_left,
+				controls_2_left,
+				controls_1_right,
+				controls_2_right
+			);
 		}
 
 		if (this.left_branch != null) {
@@ -129,6 +139,30 @@ function Branch(p, base_points, length, angle, width_shrink, color, depth) {
 			p.pop();
 		}
 
+		// Draw leafs
+		if (this.depth > 5) {
+			for(var leaf_idx =0; leaf_idx < 5; leaf_idx += 1) {
+				let clr = p.lerpColor(p.color('#6B793E'), p.color('#99AC5D'), p.random())
+				//clr.setAlpha(70)
+				p.fill(clr)
+				p.push();
+				p.strokeWeight(0)
+
+				let dv = p.constructor.Vector.random2D().mult(30 * p.random())
+				let v = this.tip.left.copy().add(dv)
+				p.translate(v.x, v.y)
+				//p.rotate(p.random(0, p.PI))
+				p.rotate(dv.heading())
+
+				p.quad(
+					0, 0,
+					4, 4,
+					18, 0,
+					4, -4,
+				)
+				p.pop();
+			}
+		}
 
 	}
 }
@@ -142,12 +176,10 @@ function Tree(p, pos_x, pos_y, root_length, root_width, root_clr) {
 	this.root_clr = root_clr;
 	this.max_depth = 10 //p.random(4, 6)
 	// this.n_stripes = 6;
-	console.log(pos_x)
 	this.base_points = {
 		left: p.createVector(this.pos_x - (this.root_width / 2), this.pos_y),
 		right: p.createVector(this.pos_x + (this.root_width / 2), this.pos_y),
 	}
-	console.log(this.base_points)
 
 	var create_branch = function(p, base_points, length, angle, width_shrink, color, depth, rel_depth, max_depth) {
 		if (depth >= max_depth) {
@@ -224,7 +256,7 @@ function Tree(p, pos_x, pos_y, root_length, root_width, root_clr) {
 	this.tree = new Array();
 
 	for(var i = 0; i < 10; i += 1) {
-		var branch_offset = p.random(-10, 10)
+		var branch_offset = p.random(-15, 15)
 		this.tree.push(
 			create_branch(
 				p,
@@ -256,28 +288,6 @@ function Tree(p, pos_x, pos_y, root_length, root_width, root_clr) {
 				[this.base_points.right]
 			)
 			p.pop()
-		}
-
-		for(var leaf_idx =0; leaf_idx < 300; leaf_idx += 1) {
-			p.fill(p.lerpColor(p.color('#6B793E'), p.color('#99AC5D'), p.random()))
-			p.push();
-			p.strokeWeight(0)
-
-			leafs_width = 200
-			leafs_height = this.pos_y - this.root_length;
-
-			p.translate(this.pos_x, 0)
-
-			p.translate(p.random(-leafs_width, leafs_width), p.random(0, leafs_height))
-			p.rotate(p.random(0, p.PI))
-
-			p.quad(
-				0, 0,
-				3, 3,
-				12, 0,
-				3,-3,
-			)
-			p.pop();
 		}
 	}
 
