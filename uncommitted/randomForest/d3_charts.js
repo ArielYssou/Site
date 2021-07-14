@@ -301,7 +301,6 @@ function TreeChart() {
 				.ease(d3.easeCubicOut)
 				.attr("stroke-dashoffset", 100);
 
-
 			planes.transition()
 				.duration(100)
 				.attr('opacity', (d, i) => 0.33 +  i / 3 )
