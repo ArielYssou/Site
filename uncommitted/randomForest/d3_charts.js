@@ -400,6 +400,10 @@ function TreeChart() {
 			var y_axis_scatter = d3.scaleLinear()
 				.domain([-10, 20])
 				.range([height, 0]);
+			var y_axis_scatter2 = d3.scaleLinear()
+				.domain([-10, 20])
+				.range([0, height]);
+
 
 			var yAxisPlot = svg_tree
 				.append("g")
@@ -446,17 +450,18 @@ function TreeChart() {
 						.attr("opacity", (d, i) => 0.3 + i / 3)
 						.attr('id', 'hyperplanes')
 
+			console.log(tree.regions)
 			var regions = svg_tree.append('g')
 				.selectAll('final_regions')
 				.data(tree.regions)
 				.enter()
 				.append('rect')
 					.attr('x', d => x_axis_scatter(d.x))
-					.attr('y', d => y_axis_scatter(-(20 - d.y)))
-					.attr('width', d => x_axis_scatter(d.width))
-					.attr('height', d => -y_axis_scatter(d.height))
+					.attr('y', d => y_axis_scatter(d.y))
+					.attr('width', d =>  x_axis_scatter(d.width - 15) - x_axis_scatter(-15))
+					.attr('height', d => y_axis_scatter(20 - d.height) - y_axis_scatter(20) )
 					.attr('fill', (d) => region_color(d.type))
-					.attr('opacity', 0.5)
+					.attr('opacity', 0.05)
 
 			var node_width = 90
 			var node_height = 50
