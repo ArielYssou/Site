@@ -389,12 +389,12 @@ function TreeChart() {
 				.domain([-15, 10])
 				.range([(width / 3) + plot_offset, width]);
 
-		// Axes
-		var xAxis = svg_tree.append("g")
-				.attr("class", "x-axis")
-				.attr("transform", "translate(" + 0 + "," + height + ")")
-				.call(d3.axisBottom(x_axis_scatter))
-				.attr("class", "axisDarkTheme")
+			// Axes
+			var xAxis = svg_tree.append("g")
+					.attr("class", "x-axis")
+					.attr("transform", "translate(" + 0 + "," + height + ")")
+					.call(d3.axisBottom(x_axis_scatter))
+					.attr("class", "axisDarkTheme")
 
 			// Add Y axis
 			var y_axis_scatter = d3.scaleLinear()
@@ -415,6 +415,10 @@ function TreeChart() {
 					.text("X1");
 
 
+			var region_color = d3
+				.scaleOrdinal()
+				.domain(['left_child_region', 'right_child_region', 'leaf_1', 'leaf_0'])
+				.range(['#363430', '#514f48', d3_settings.class1_clr, d3_settings.class2_clr])
 
 			// Add dots
 			dots = svg_tree.append('g')
@@ -441,6 +445,18 @@ function TreeChart() {
 						.attr("stroke-width", 2)
 						.attr("opacity", (d, i) => 0.3 + i / 3)
 						.attr('id', 'hyperplanes')
+
+			var regions = svg_tree.append('g')
+				.selectAll('final_regions')
+				.data(tree.regions)
+				.enter()
+				.append('rect')
+					.attr('x', d => x_axis_scatter(d.x))
+					.attr('y', d => y_axis_scatter(d.y))
+					.attr('width', d => x_axis_scatter(d.width))
+					.attr('height', d => d.height)
+					.attr('fill', (d) => region_color(d.type))
+					.attr('opacity', 0.05)
 
 			var node_width = 90
 			var node_height = 50
