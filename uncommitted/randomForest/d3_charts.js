@@ -417,7 +417,7 @@ function TreeChart() {
 
 			var region_color = d3
 				.scaleOrdinal()
-				.domain(['left_child_region', 'right_child_region', 'leaf_1', 'leaf_0'])
+				.domain(['left_child_region', 'right_child_region', 'leaf_0', 'leaf_1'])
 				.range(['#363430', '#514f48', d3_settings.class1_clr, d3_settings.class2_clr])
 
 			// Add dots
@@ -452,10 +452,10 @@ function TreeChart() {
 				.enter()
 				.append('rect')
 					.attr('x', d => x_axis_scatter(d.x))
-					.attr('y', d => y_axis_scatter(d.y))
+					.attr('y', d => y_axis_scatter(-(20 - d.y)))
 					.attr('width', d => x_axis_scatter(d.width))
-					.attr('height', d => y_axis_scatter(d.height))
-					.attr('fill', (d) => d.type == 'leaf_0' ? d3_settings.class1_clr : d3_settings.class2_clr)
+					.attr('height', d => -y_axis_scatter(d.height))
+					.attr('fill', (d) => region_color(d.type))
 					.attr('opacity', 0.5)
 
 			var node_width = 90
