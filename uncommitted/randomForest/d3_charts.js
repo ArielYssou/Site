@@ -454,9 +454,9 @@ function TreeChart() {
 					.attr('x', d => x_axis_scatter(d.x))
 					.attr('y', d => y_axis_scatter(d.y))
 					.attr('width', d => x_axis_scatter(d.width))
-					.attr('height', d => d.height)
-					.attr('fill', (d) => region_color(d.type))
-					.attr('opacity', 0.05)
+					.attr('height', d => y_axis_scatter(d.height))
+					.attr('fill', (d) => d.type == 'leaf_0' ? d3_settings.class1_clr : d3_settings.class2_clr)
+					.attr('opacity', 0.5)
 
 			var node_width = 90
 			var node_height = 50
