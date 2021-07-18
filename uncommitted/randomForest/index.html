@@ -21,8 +21,6 @@
   <!-- Custom p5js animations. Add any other .js here -->
   <script src="sketch.js">
   </script>
-  <script src="tree.js">
-  </script>
 
  </head>
  <body>
@@ -158,6 +156,12 @@
 			The model attributes a class to each member of the population via several questions (each based on a single feature) in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups recursively until a criteria is met and the algorithm is stopped. The decision tree model can be visualized as a sequence of splits in the feature space, generating regions based on a set of hyperplanes (each inequality $x<\alpha$ represents an equation for a hyperplane that is normal to the $x_i$ axis of the feaure space). This can be visualized as follows (hover over the tree nodes to see its effect in the clasification):
 			</p>
 
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault_tree">
+				<label class="form-check-label" for="flexCheckDefault">
+					Color according to classification result
+				</label>
+			</div>
 			<div id="decision_tree"></div>	
 
 			<p>

@@ -3,232 +3,168 @@ function Leaf() {
 	this.draw_lines = function() {};
 }
 
-
-function Branch(p, length, angle, width, color, depth, base_vertexes, n_stripes=6, n_details=6, is_leaf=false) {
+function Branch(p, base_points, length, angle, width_shrink, color, depth) {
+	this.base_points = base_points;
 	this.length = length;
-	this.angle =  angle;
-	this.width = width;
-	this.half_width = this.width / 2;
+	this.angle = angle;
 	this.color = color;
 	this.depth = depth;
-	this.base_vertexes = base_vertexes;
-	this.n_stripes = n_stripes;
-	this.n_details = n_details; // Number of points in each bezier curve
-	this.is_leaf == is_leaf;
 
-	this.right_branch = new Leaf();
-	this.main_branch = new Leaf();
-	this.left_branch = new Leaf();
+	this.left_branch = null;
+	this.right_branch = null;
+	this.continuation = null;
 
-	this.check_leaf = function() {
-		return ((this.left_branch instanceof Leaf) && (this.right_branch instanceof Leaf))
-	}
+	this.tip = {left: {}, right: {}};
 
-	this.heading_x = p.cos(this.angle);
-	this.heading_y = p.sin(this.angle);
 
-	// Generating the bezier details of this branch
-	this.controls_1 = {};
-	this.controls_2 = {};
-	this.anchors = {};
+	// If the branch makes a turn left(right) we increase(lower)
+	// the length of the left side to improve the final visualization
+	// let left_turn_correction = this.angle < 0 ? 1.1 : 0.9;
+	this.heading = p.constructor.Vector.fromAngle(this.angle).mult(this.length);
+	this.width_heading = this.base_points.right.copy().sub(this.base_points.left).mult(width_shrink)
 
-	this.generate_details = function() {
-		let x_speed = 0.1;
-		let xoff = 0.0 + x_speed * this.depth;
-		let noise_amp = 20;
+	this.tip.left = this.base_points.left.copy().add(this.heading).add(this.width_heading)
+	this.tip.right = this.base_points.right.copy().add(this.heading).sub(this.width_heading)
 
-		// generate a bezier curve for each stripe
-		for(var i = 0; i < this.n_stripes; i += 1) {
-			this.controls_1[i] = new Array();
-			this.controls_2[i] = new Array();
-			this.anchors[i] = new Array();
+	// List of bezier control points
+	// TODO MELHORAR ESSA SINTAXEEEEEEEEE
+	delta_angle = p.noise(this.base_points.left.x, this.base_points.left.y) * p.QUARTED_PI
+	this.control_1_left = this.base_points.left.copy()
+		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(this.length / 3))
 
-			let base_y = this.base_vertexes[i].y;
-			let y_width = base_y ?? (i * (this.width / this.n_stripes)) - this.half_width;
-			let vertexes = this.n_details * 3;
+	delta_angle = p.noise(this.tip.left.x, this.tip.left.y) * p.QUARTED_PI
+	this.control_2_left = this.base_points.left.copy()
+		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(2 * this.length / 3))
 
-			for(var j = 0; j <= vertexes; j += 3) {
-				xoff += x_speed;
-				dy = noise_amp * (2 * p.noise(xoff) - 1)
-				this.controls_1[i].push({
-					x: (j / (vertexes + 2)) * this.length,
-					y: y_width + dy,
-				})
+	delta_angle = p.noise(this.base_points.right.x, this.base_points.right.y) * p.QUARTED_PI
+	delta_angle = p.random(-p.QUARTER_PI / 8, p.QUARTER_PI / 8)
+	this.control_1_right = this.base_points.right.copy()
+		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(this.length / 3))
 
-				xoff += x_speed;
-				dy = noise_amp * (2 * p.noise(xoff) - 1)
-				this.controls_2[i].push({
-					x: ((j + 1) / (vertexes + 2)) * this.length,
-					y: y_width + dy,
-				})
+	delta_angle = p.noise(this.tip.right.x, this.tip.right.y) * p.QUARTED_PI
+	delta_angle = p.random(-p.QUARTER_PI / 8, p.QUARTER_PI / 8)
+	this.control_2_right = this.base_points.right.copy()
+		.add(p.constructor.Vector.fromAngle(this.angle + delta_angle).mult(2 * this.length / 3))
 
-				xoff += x_speed;
-				dy = noise_amp * (2 * p.noise(xoff) - 1)
-				this.anchors[i].push({
-					x: ((j + 2) / (vertexes + 2)) * this.length,
-					y:  y_width + dy,
-				})
-
-			}
-		}
-	}
-
-	// Function to gather the end of each branch detail stripe
-	this.get_final_vertexes = function() {
-		let out = new Array();
-		for(var i = 0; i < this.n_stripes; i += 1) {
-			out.push(this.anchors[i][this.anchors[i].length - 1]);
-		}
-		return out;
-	}
-
-	// Print the tree struct with rects
-	this.show = function() {
-		p.push()
-		p.rotate(this.angle);
-		//p.fill(this.color);
-		p.rect(0, -this.half_width, this.length, this.width);
-		p.translate(this.length, 0);
-		this.right_branch.show();
-		p.pop()
-
-		if(this.main_branch) {
-			p.push()
-			p.rotate(this.angle);
-			p.translate(this.length, 0);
-			this.main_branch.show();
-			p.pop()
+	this.make_tips = function(p) {
+		// This function detecte each branches tips and then stes its tip point to be equal and in the middle
+		if ((this.continuation == null) && (this.left_branch == null) && ( (this.right_branch == null)) ) {
+			this.tip.left.add(this.base_points.right.copy().sub(this.base_points.left).mult(0.5))
+			this.tip.right.sub(this.base_points.right.copy().sub(this.base_points.left).mult(0.5))
 		}
 
-		p.push()
-		p.rotate(this.angle);
-		p.translate(this.length, 0);
-		this.left_branch.show();
-		p.pop()
+		if (this.continuation != null) {
+			this.continuation.make_tips(p)
+		}
+
+		if (this.left_branch != null) {
+			this.left_branch.make_tips(p)
+		}
+
+		if (this.right_branch != null) {
+			this.right_branch.make_tips(p)
+		}
+
 	}
 
-	// Print the tree branch details
-	this.draw_lines = function() {
-		p.push()
-		p.rotate(this.angle);
-		p.noFill();
-		p.stroke(this.color);
-		p.strokeWeight(1);
-		for(var i = 0; i < this.n_stripes; i += 1) {
-			// The Detail line is a beizier curve with n_details vetexes
-			p.beginShape()
+	this.show = function(left_points, right_points, controls_1_left=[], controls_2_left=[], controls_1_right=[], controls_2_right=[]) {
+		// add curet points to colleciton
+		left_points.push(this.tip.left);
+		right_points.push(this.tip.right);
 
-			// start detail line
-			p.vertex(
-				0, // 1st anchor x
-				this.base_vertexes[i].y, // 1st anchor x
-			)
+		controls_1_left.push(this.control_1_left)
+		controls_2_left.push(this.control_2_left)
+		controls_1_right.push(this.control_1_right)
+		controls_2_right.push(this.control_2_right)
 
-			// add bezier details
-			for(var j = 0; j < this.anchors[i].length; j += 1) {
+		left_points_new = [...left_points]
+		right_points_new = [...right_points]
+		controls_1_left = [...controls_1_left]
+		controls_2_left = [...controls_2_left]
+		controls_1_right = [...controls_1_right]
+		controls_2_right = [...controls_2_right]
+
+		if (this.continuation != null) {
+			this.continuation.show(
+				left_points_new,
+				right_points_new,
+				controls_1_left,
+				controls_2_left,
+				controls_1_right,
+				controls_2_right
+			);
+		}
+
+		if (this.left_branch != null) {
+			this.left_branch.show([this.left_branch.base_points.left], [this.left_branch.base_points.right]);
+		}
+
+		if (this.right_branch != null) {
+			this.right_branch.show([this.right_branch.base_points.left], [this.right_branch.base_points.right]);
+		}
+
+		if ((this.continuation == null) && (this.left_branch == null) && ( (this.right_branch == null)) ) {
+			p.push();
+			p.fill(this.color);
+			p.stroke(this.color);
+
+			p.beginShape();
+
+			p.vertex(left_points[0].x, left_points[0].y);
+			// add all left points to shape
+			for(var i = 1; i < left_points.length; i += 1) {
 				p.bezierVertex(
-					this.controls_1[i][j].x,
-					this.controls_1[i][j].y,
-					this.controls_2[i][j].x,
-					this.controls_2[i][j].y,
-					this.anchors[i][j].x,
-					this.anchors[i][j].y,
-				)
+					controls_1_left[i-1].x, controls_1_left[i-1].y,
+					controls_2_left[i-1].x, controls_2_left[i-1].y,
+					left_points[i].x, left_points[i].y,
+				);
 			}
 
-			p.endShape()
+			p.vertex(right_points[right_points.length - 1].x, right_points[right_points.length - 1].y);
+			// add all right points pro tip to base to shape
+			for(var i = right_points.length - 1; i > 0; i -= 1) {
+				p.bezierVertex(
+					controls_2_right[i - 1].x, controls_2_right[i - 1].y,
+					controls_1_right[i -1 ].x, controls_1_right[i - 1].y,
+					right_points[i - 1].x, right_points[i - 1].y,
+				);
+			}
+			p.vertex(right_points[0].x, right_points[0].y);
+
+			p.endShape(p.CLOSE);
+
+			left_points.splice(0, 2);
+			right_points.splice(0, 2);
+
+			p.pop();
 		}
 
-		p.translate(this.length, 0);
+		// Draw leafs
+		if (this.depth > 5) {
+			for(var leaf_idx =0; leaf_idx < 5; leaf_idx += 1) {
+				let clr = p.lerpColor(p.color('#6B793E'), p.color('#99AC5D'), p.random())
+				//clr.setAlpha(70)
+				p.fill(clr)
+				p.push();
+				p.strokeWeight(0)
 
-		this.right_branch.draw_lines();
-		p.pop()
+				let dv = p.constructor.Vector.random2D().mult(30 * p.random())
+				let v = this.tip.left.copy().add(dv)
+				p.translate(v.x, v.y)
+				//p.rotate(p.random(0, p.PI))
+				p.rotate(dv.heading())
 
-		if(this.main_branch) {
-			p.push()
-			p.rotate(this.angle);
-			p.translate(this.length, 0);
-			this.main_branch.draw_lines();
-			p.pop()
+				p.quad(
+					0, 0,
+					4, 4,
+					18, 0,
+					4, -4,
+				)
+				p.pop();
+			}
 		}
 
-		p.push()
-		p.rotate(this.angle);
-		p.translate(this.length, 0);
-		this.left_branch.draw_lines();
-		p.pop()
 	}
-
-}
-
-create_branch = function(p, length, angle, width, color, depth, max_depth, base_vertexes, is_main) {
-	// Recusive function to generate a tree
-	// Stop condition
-	if (depth >= max_depth) {
-		return new Leaf();
-	}
-
-	// current branch
-	var branch = new Branch(p, length, angle, width, color, depth, base_vertexes)
-	branch.generate_details();
-	let end_vertexes = branch.get_final_vertexes();
-
-	// Main branch
-	//length_delta = p.random(0.94, 0.97);
-	if(is_main) {
-		length_delta = 0.9;
-		angle_delta = p.random(-p.QUARTER_PI, p.QUARTER_PI) * 0.01;
-		width_delta = 0.7;
-		branch.main_branch = create_branch (
-			p,
-			length * length_delta,
-			angle_delta,
-			width * width_delta,
-			color,
-			depth + 1,
-			max_depth,
-			end_vertexes,
-			true
-		)
-	} else {
-		branch.main_branch = new Leaf();
-	}
-
-	// Rigt branch
-	//length_delta = p.random(0.94, 0.97);
-	length_delta = p.random(0.6, 1.05);
-	angle_delta = p.random(-p.QUARTER_PI, p.QUARTER_PI) * 0.7;
-	width_delta = p.random(0.7, 0.9);
-	branch.right_branch = create_branch (
-		p,
-		length * length_delta,
-		angle + angle_delta,
-		width * width_delta,
-		color,
-		depth + 1,
-		max_depth,
-		end_vertexes,
-		false
-	)
-
-	// left branch
-	//length_delta = p.random();
-	length_delta = p.random(0.6, 1.05);
-	width_delta = p.random(0.1, 0.5);
-	angle_delta = p.random(-p.QUARTER_PI, p.QUARTER_PI) * 0.05;
-	branch.left_branch = create_branch (
-		p,
-		length * length_delta,
-		angle + angle_delta,
-		width * width_delta,
-		color,
-		depth + 1,
-		max_depth,
-		end_vertexes,
-		false
-	)
-
-	return branch
 }
 
 
@@ -238,34 +174,120 @@ function Tree(p, pos_x, pos_y, root_length, root_width, root_clr) {
 	this.root_length = root_length;
 	this.root_width = root_width;
 	this.root_clr = root_clr;
-	this.max_depth = 4 //p.random(4, 6)
-	this.n_stripes = 6;
+	this.max_depth = 10 //p.random(4, 6)
+	// this.n_stripes = 6;
+	this.base_points = {
+		left: p.createVector(this.pos_x - (this.root_width / 2), this.pos_y),
+		right: p.createVector(this.pos_x + (this.root_width / 2), this.pos_y),
+	}
 
-	let base_vertexes = []
-	for(var i = 0; i <= this.n_stripes; i += 1) {
-		base_vertexes.push(this.root_width / (i + 1));
+	var create_branch = function(p, base_points, length, angle, width_shrink, color, depth, rel_depth, max_depth) {
+		if (depth >= max_depth) {
+			return ;
+		}
+
+		var branch = new Branch(p, base_points, length, angle, width_shrink, color, depth);
+
+		if(p.random() < (0.99)) {
+			let new_angle = angle + p.random(-p.HALF_PI / 4, p.QUARTER_PI / 4)
+			let new_length = length * p.random(0.6, 0.99)
+			width_shrink = p.random(0.05, 0.2)
+			branch.continuation = create_branch(
+				p,
+				branch.tip,
+				new_length,
+				new_angle,
+				width_shrink,
+				color,
+				depth + 1,
+				rel_depth+ 1,
+				max_depth)
+		}
+
+		if((p.random() < 0.1) && (rel_depth > 0)) {
+			let new_angle = angle + p.random(-p.QUARTER_PI / 2, -p.QUARTER_PI)
+			let new_length = length * p.random(0.6, 0.7)
+			let delta_width = p.random(0.7, 1)
+			let width = base_points.right.copy().sub(base_points.left).mag()
+			let new_base_points = {
+				left: base_points.left.copy(),
+				right: base_points.left.copy().add(p.constructor.Vector.fromAngle(angle).mult(width * delta_width)),
+			}
+			branch.left_branch = create_branch(
+				p,
+				new_base_points,
+				new_length,
+				new_angle,
+				width_shrink,
+				color,
+				depth + 1,
+				0,
+				max_depth
+			)
+		}
+
+		if((p.random() < 0.1) && (rel_depth > 0)) {
+			let new_angle = angle + p.random(0, p.QUARTER_PI)
+			let new_length = length * p.random(0.6, 0.07)
+			let delta_width = p.random(0.7, 1)
+			let width = base_points.right.copy().sub(base_points.left).mag()
+			let new_base_points = {
+				left: base_points.right.copy().add(p.constructor.Vector.fromAngle(angle).mult(width * delta_width)),
+				right: base_points.right.copy(),
+			}
+			branch.right_branch = create_branch(
+				p,
+				new_base_points,
+				new_length,
+				new_angle,
+				width_shrink,
+				color,
+				depth + 1,
+				0,
+				max_depth
+			)
+		}
+
+		return branch;
 	}
 
 
-	this.tree = create_branch(p, root_length, 0, root_width, root_clr, 0, this.max_depth, base_vertexes, true);
-	// this.tree.color = p.color(100,0,0);
+	this.tree = new Array();
+
+	for(var i = 0; i < 10; i += 1) {
+		var branch_offset = p.random(-15, 15)
+		this.tree.push(
+			create_branch(
+				p,
+				base_points={
+					left: this.base_points.left.copy().sub(p.createVector(branch_offset, 0)),
+					right: this.base_points.right.copy().sub(p.createVector(branch_offset, 0)),
+				},
+				length=root_length,
+				angle=-p.HALF_PI,
+				wid_contrationth=0,  // should not shink the main branch
+				color=p.lerpColor(p.color('#715132'), p.color('#A57548'), p.random()),
+				depth=0,
+				rel_depth=0,
+				max_depth=this.max_depth
+			)
+		)
+	}
+
+	for( branch of this.tree ) {
+		branch.make_tips()
+	}
 
 	this.show = function() {
-		p.push()
-		p.strokeWeight(0)
-		p.translate(this.pos_x, this.pos_y);
-		p.rotate(-p.HALF_PI);
-		this.tree.show()
-		p.pop()
-	}
-
-	this.draw_lines = function() {
-		p.push()
-		p.strokeWeight(1)
-		p.translate(this.pos_x, this.pos_y);
-		p.rotate(-p.HALF_PI);
-		this.tree.draw_lines()
-		p.pop()
+		for( branch of this.tree ) {
+			p.push()
+			p.strokeWeight(0)
+			branch.show(
+				[this.base_points.left],
+				[this.base_points.right]
+			)
+			p.pop()
+		}
 	}
 
 }

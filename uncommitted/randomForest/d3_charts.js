@@ -104,7 +104,7 @@ function FeatureSpaceSplitChart() {
 			.domain([0, legend_data.length - 1])
 			.range([
 				legend_config['posy'] + legend_config.margin.top,
-				legend_config['posy'] + legend_config['height'] - legend_config.margin.bottom 
+				legend_config['posy'] + legend_config['height'] - legend_config.margin.bottom
 			]);
 
 		svg.append('g')
@@ -140,7 +140,7 @@ function FeatureSpaceSplitChart() {
 				.attr("fill", "#ffeabc")
 				.attr("font-size", 16)
 				.text(d => d.label)
-		
+
 		//Read the data
 		d3.csv("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/data/example_data.csv", function(data) {
 			// Add X axis
@@ -251,6 +251,8 @@ var svg_fss =  d3.select("#feature_space_split")
 
 fss_chart = FeatureSpaceSplitChart().width(720).height(400)
 fss_chart(svg_fss)
+
+
 //
 // Figure 2. Decision tree chart
 //
@@ -273,12 +275,142 @@ function TreeChart() {
 			.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		var nodeHilight = function(node_ids, hyperplanes, node_class) {
+		// Axes
+		var plot_offset = 30
+		var x_axis_scatter = d3.scaleLinear()
+			.domain([-15, 10])
+			.range([(width / 3) + plot_offset, width]);
+		var y_axis_scatter = d3.scaleLinear()
+			.domain([-10, 20])
+			.range([height, 0]);
+
+		// Color schemes
+		var region_color = d3
+				.scaleOrdinal()
+				.domain(['left_child_region', 'right_child_region', 'leaf_0', 'leaf_1'])
+				.range(['#000000', '#ffffff', d3_settings.class1_clr, d3_settings.class2_clr])
+		// Create data
+		var scatter_colors = d3.scaleOrdinal().domain([0, 1])
+			.range([
+				d3_settings.class1_clr,
+				d3_settings.class2_clr
+			])
+		var classification_colors = d3.scaleOrdinal().domain([false, true])
+			.range([
+				d3_settings.error_clr,
+				d3_settings.correct_clr
+			])
+
+		var legend_config = {
+			'posx': width * 0.8,
+			'posy': posy = 0 ,
+			'width': 120,
+			'height': 50,
+			'margin': {top: 15, right: 10, bottom: 15, left: 10},
+		}
+
+		var legend_data_classification = [
+			{'x': 0, 'y': 0, 'symbol' : d3.symbols[0], 'label': 'Correct', 'color': d3_settings['correct_clr']},
+			{'x': 1.5, 'y': 0, 'symbol' : d3.symbols[1], 'label': '', 'color': d3_settings['correct_clr']},
+			{'x': 0, 'y': 1, 'symbol' : d3.symbols[0], 'label': 'Mislabel', 'color': d3_settings['error_clr']},
+			{'x': 1.5, 'y': 1, 'symbol' : d3.symbols[1], 'label': '', 'color': d3_settings['error_clr']},
+		]
+		var legend_data_classes = [
+			{'x': 0, 'y': 0, 'symbol' : d3.symbols[0], 'label': 'Class 1', 'color': d3_settings['class1_clr']},
+			{'x': 0, 'y': 1, 'symbol' : d3.symbols[1], 'label': 'Class 2', 'color': d3_settings['class2_clr']},
+		]
+
+		var legend_x_axis = d3.scaleLinear()
+			.domain([0, 10])
+			.range([
+				legend_config['posx'] + legend_config.margin.left,
+				legend_config['posx'] + legend_config['width'] - legend_config.margin.right
+			]);
+
+		var legend_y_axis = d3.scaleLinear()
+			.domain([0, 1])
+			.range([
+				legend_config['posy'] + legend_config.margin.top,
+				legend_config['posy'] + legend_config['height'] - legend_config.margin.bottom
+			]);
+
+		var show_classification = true
+		d3.select("#flexCheckDefault_tree").on("change",update);
+
+		function update(){
+				if(d3.select("#flexCheckDefault_tree").property("checked")){
+					show_classification = true;
+					dots = d3.selectAll('#tree_scatter_dot')
+					dots
+						.transition()
+						.duration(500)
+						.attr('fill', d => classification_colors(+d.y == d.pred))
+
+				svg_tree.selectAll('.legend_marker').data([]).exit().remove()
+				var legend_markers  = svg_tree.selectAll('.legend_marker').data(legend_data_classification)
+				legend_markers.enter()
+					.append("path")
+						.attr("transform", (d, i) => "translate("+legend_x_axis(d.x) + ',' + legend_y_axis(d.y) + ")" )
+						.attr("fill", d => d.color)
+						.attr("d", d3.symbol().type( (d, i) => d.symbol ) )
+						.attr('class', 'legend_marker')
+
+				svg_tree.selectAll('.legend_tree_labels').data([]).exit().remove()
+				var legend_labels = svg_tree.selectAll('.legend_tree_labels').data(legend_data_classification)
+				legend_labels
+					.enter()
+					.append("text")
+						.attr('x', d => legend_x_axis(d.x) + 60 )
+						.attr('y', (d) => legend_y_axis(d.y) )
+						.attr('dy', '.25em')
+						.attr("text-anchor", 'middle' )
+						.attr("stroke", "none")
+						.attr("fill", "#ffeabc")
+						.attr("font-size", 16)
+						.attr('class', 'legend_tree_labels')
+						.text(d => d.label)
+
+				} else {
+					show_classification = false;
+					dots = d3.selectAll('#tree_scatter_dot')
+					dots
+						.transition()
+						.duration(500)
+						.attr('fill', d => scatter_colors(+d.y))
+
+				svg_tree.selectAll('.legend_marker').data([]).exit().remove()
+				legend_markers = svg_tree.selectAll('.legend_marker').data(legend_data_classes)
+				legend_markers.enter()
+					.append("path")
+						.attr("transform", (d, i) => "translate("+legend_x_axis(d.x) + ',' + legend_y_axis(d.y) + ")" )
+						.attr("fill", d => d.color)
+						.attr("d", d3.symbol().type( (d, i) => d.symbol ) )
+						.attr('class', 'legend_marker')
+
+				svg_tree.selectAll('.legend_tree_labels').data([]).exit().remove()
+				legend_labels = svg_tree.selectAll('.legend_tree_labels').data(legend_data_classes)
+				console.log(legend_labels)
+				legend_labels.enter()
+					.append("text")
+						.attr('x', d => legend_x_axis(d.x) + 60 )
+						.attr('y', (d) => legend_y_axis(d.y) )
+						.attr('dy', '.25em')
+						.attr("text-anchor", 'middle' )
+						.attr("stroke", "none")
+						.attr("fill", "#ffeabc")
+						.attr("font-size", 16)
+						.attr('class', 'legend_tree_labels')
+						.text(d => d.label)
+				}
+		}
+
+		// Transition animations
+		var nodeHilight = function(node_ids, hyperplanes, regions, is_leaf) {
 			dots = d3.selectAll('#tree_scatter_dot')
 			dots
 				.transition()
 				.duration(500)
-				.attr('fill', d => node_ids.includes(d.index) ? (+d.y == +node_class ? d3_settings.correct_clr : d3_settings.error_clr) : 'gray')
+				.attr('fill', d => node_ids.includes(d.index) ? (is_leaf ?  (show_classification ? classification_colors(d.y == d.pred) : scatter_colors(+d.y)) : scatter_colors(+d.y) ) : 'gray')
 				.attr('opacity', d => node_ids.includes(d.index) ? 1 : 0.33 )
 
 			planes = d3.selectAll('#hyperplanes').data(hyperplanes)
@@ -287,13 +419,28 @@ function TreeChart() {
 			planes.exit().transition().duration(500).ease(d3.easeCubicOut)
 				.attr("stroke-dashoffset", 0);
 			planes.exit().transition().duration(500).attr('opacity', 0)
+
+			original_regions = d3.selectAll('.tree_regions')
+			original_regions.transition().duration(300).style('opacity', 0)
+
+			regions =  svg_tree.append('g').selectAll('sub_regions').data(regions)
+				.enter()
+				.append('rect')
+					.attr('x', d => x_axis_scatter(d.x))
+					.attr('y', d => y_axis_scatter(d.y))
+					.attr('width', d =>  x_axis_scatter(d.width - 15) - x_axis_scatter(-15))
+					.attr('height', d => y_axis_scatter(20 - d.height) - y_axis_scatter(20) )
+					.attr('fill', (d) => region_color(d.type))
+					.attr('opacity', 0.1)
+					.attr('class', 'sub_regions')
 		}
+
 
 		var nodeExit = function() {
 			d3.selectAll('#tree_scatter_dot').transition()
 				.duration(500)
 				.attr('opacity', '1')
-				.attr("fill",  d => +d.y == d.pred ? d3_settings.correct_clr: d3_settings.error_clr)
+				.attr("fill",  d => show_classification ? classification_colors(+d.y == d.pred) : scatter_colors(d.y))
 
 			planes = d3.selectAll('#hyperplanes')
 
@@ -304,37 +451,14 @@ function TreeChart() {
 			planes.transition()
 				.duration(100)
 				.attr('opacity', (d, i) => 0.33 +  i / 3 )
+
+			original_regions = d3.selectAll('.tree_regions')
+			original_regions.transition().duration(300).style('opacity', 0.05)
+
+			regions = d3.selectAll('.sub_regions').data([]).exit().transition().duration(500).ease(d3.easeCubicOut).attr('opacity', 0)
 		}
 
-		var legend_config = {
-			'posx': width * 0.8,
-			'posy': posy = height * (1 - 0.9),
-			'width': 120,
-			'height': 50,
-			'margin': {top: 15, right: 10, bottom: 15, left: 10},
-		}
-
-		var legend_data = [
-			{'x': 0, 'y': 0, 'symbol' : d3.symbols[0], 'label': 'Correct', 'color': d3_settings['correct_clr']},
-			{'x': 1.5, 'y': 0, 'symbol' : d3.symbols[1], 'label': '', 'color': d3_settings['correct_clr']},
-			{'x': 0, 'y': 1, 'symbol' : d3.symbols[0], 'label': 'Mislabel', 'color': d3_settings['error_clr']},
-			{'x': 1.5, 'y': 1, 'symbol' : d3.symbols[1], 'label': '', 'color': d3_settings['error_clr']},
-		]
-
-		var legend_x_axis = d3.scaleLinear()
-			.domain([0, 10])
-			.range([
-				legend_config['posx'] + legend_config.margin.left,
-				legend_config['posx'] + legend_config['width']- legend_config.margin.right
-			]);
-
-		var legend_y_axis = d3.scaleLinear()
-			.domain([0, 1])
-			.range([
-				legend_config['posy'] + legend_config.margin.top,
-				legend_config['posy'] + legend_config['height'] - legend_config.margin.bottom
-			]);
-
+		// Legend
 		svg_tree.append('g')
 			.append('rect')
 				.attr('x', legend_config['posx'])
@@ -346,17 +470,20 @@ function TreeChart() {
 				.attr('fill', "#ffffff")
 				.attr('opacity', 0.05)
 
+		var legend_data = show_classification ? legend_data_classification : legend_data_classes
+
 		svg_tree.append('g')
-			.selectAll('legend_1')
+			.selectAll('g_legend_marker')
 			.data(legend_data)
 			.enter()
 			.append("path")
 				.attr("transform", (d, i) => "translate("+legend_x_axis(d.x) + ',' + legend_y_axis(d.y) + ")" )
 				.attr("fill", d => d.color)
 				.attr("d", d3.symbol().type( (d, i) => d.symbol ) )
+				.attr('class', 'legend_marker')
 
 		svg_tree.append('g')
-			.selectAll('legend_1_labels')
+			.selectAll('g_legend_tree_labels')
 			.data(legend_data)
 			.enter()
 			.append("text")
@@ -367,13 +494,13 @@ function TreeChart() {
 				.attr("stroke", "none")
 				.attr("fill", "#ffeabc")
 				.attr("font-size", 16)
+				.attr('class', 'legend_tree_labels')
 				.text(d => d.label)
 
 		//Read the data
 		d3.json("https://raw.githubusercontent.com/ArielYssou/Site/master/uncommitted/randomForest/data/tree.json", function(error, tree) {
 			if (error) throw error;
 			//
-			var plot_offset = 30
 			// Add X axis
 			var x_axis_tree = d3.scaleLinear()
 				.domain([-12, 42])
@@ -384,27 +511,12 @@ function TreeChart() {
 				.domain([30, 0])
 				.range([height - 40, 40]);
 
-			// Add X axis
-			var x_axis_scatter = d3.scaleLinear()
-				.domain([-15, 10])
-				.range([(width / 3) + plot_offset, width]);
-
 			// Axes
 			var xAxis = svg_tree.append("g")
 					.attr("class", "x-axis")
 					.attr("transform", "translate(" + 0 + "," + height + ")")
 					.call(d3.axisBottom(x_axis_scatter))
 					.attr("class", "axisDarkTheme")
-
-			// Add Y axis
-			var y_axis_scatter = d3.scaleLinear()
-				.domain([-10, 20])
-				.range([height, 0]);
-			var y_axis_scatter2 = d3.scaleLinear()
-				.domain([-10, 20])
-				.range([0, height]);
-
-
 			var yAxisPlot = svg_tree
 				.append("g")
 					.attr("class", "y-axis")
@@ -418,12 +530,6 @@ function TreeChart() {
 					.style("text-anchor", "end")
 					.text("X1");
 
-
-			var region_color = d3
-				.scaleOrdinal()
-				.domain(['left_child_region', 'right_child_region', 'leaf_0', 'leaf_1'])
-				.range(['#363430', '#514f48', d3_settings.class1_clr, d3_settings.class2_clr])
-
 			// Add dots
 			dots = svg_tree.append('g')
 				.selectAll("tree_scatter")
@@ -431,7 +537,7 @@ function TreeChart() {
 				.enter()
 				.append("path")
 					.attr("transform", d => "translate("+x_axis_scatter(d.x0) + ',' + y_axis_scatter(d.x1) + ")" )
-					.attr("fill", d => +d.y == d.pred ? d3_settings.correct_clr : d3_settings.error_clr)
+					.attr("fill", d => show_classification ? classification_colors(+d.y == d.pred) : scatter_colors(d.y))
 					.attr("d", d3.symbol().type( d => d3.symbols[d.y] ) )
 					.attr('id', 'tree_scatter_dot')
 
@@ -444,7 +550,7 @@ function TreeChart() {
 						.attr('x2', function (d) { return x_axis_scatter(d.x2); } )
 						.attr('y1', function (d) { return y_axis_scatter(d.y1); } )
 						.attr('y2', function (d) { return y_axis_scatter(d.y2); } )
-						.attr("stroke-dasharray", function (d, i) { return  (10, 2 * (2 - i)) }) 
+						.attr("stroke-dasharray", function (d, i) { return  (10, 2 * (2 - i)) })
 						.attr("stroke", d3_settings['hplane_clr'])
 						.attr("stroke-width", 2)
 						.attr("opacity", (d, i) => 0.3 + i / 3)
@@ -452,7 +558,7 @@ function TreeChart() {
 
 			console.log(tree.regions)
 			var regions = svg_tree.append('g')
-				.selectAll('final_regions')
+				.selectAll('tree_regions')
 				.data(tree.regions)
 				.enter()
 				.append('rect')
@@ -462,10 +568,11 @@ function TreeChart() {
 					.attr('height', d => y_axis_scatter(20 - d.height) - y_axis_scatter(20) )
 					.attr('fill', (d) => region_color(d.type))
 					.attr('opacity', 0.05)
+					.attr('class', 'tree_regions')
 
 			var node_width = 90
 			var node_height = 50
-			
+
 			// Add links
 			var links = svg_tree.append("g")
 					.selectAll("tree_links")
@@ -492,12 +599,12 @@ function TreeChart() {
 					.attr("y", function (d) { return y_axis_tree(d.pos_y) - (node_height / 2); } )
 					.attr('width', node_width)
 					.attr('height', node_height)
-					.attr("stroke-dasharray", (d, i) => d.is_leaf == 1 ? (0, 0) : (10, 2 * (2 - i))) 
+					.attr("stroke-dasharray", (d, i) => d.is_leaf == 1 ? (0, 0) : (10, 2 * (2 - i)))
 					.style("fill", "#363530")
 					.style('stroke', d => d.is_leaf == 0 ? "#ffeabc" : (d.class == 0 ? d3_settings.class1_clr : d3_settings.class2_clr))
 					.style('stroke-width', 1.5)
      			.on('mouseover', function(d) {
-					 nodeHilight(d.population, d.hyperplanes, d.class );
+					 nodeHilight(d.population, d.hyperplanes, d.regions, d.is_leaf );
 						d3.select(this)
 							.transition()
 							.duration(200)
@@ -517,7 +624,7 @@ function TreeChart() {
 			var text = svg_tree.append('g')
 				.selectAll("node_text")
 				.data(tree.nodes)
-				.enter() 
+				.enter()
 					.append("text")
 						.attr("x", function(d) { return x_axis_tree(d.pos_x) })
 						.attr("y", function(d) { return y_axis_tree(d.pos_y) })
@@ -526,8 +633,8 @@ function TreeChart() {
 						.attr("stroke", "none")
 						.attr("fill", "#ffeabc")
 						.attr("font-size", 18)
-						.text(function(d) { return d.is_leaf == 0 ? 'x' + d.feature + ' <= ' + parseFloat(d.threshold).toFixed(2) : '🍃 class ' + d.class; })
-					.on('mouseover', d => nodeHilight( d.population, d.hyperplanes, d.class ) )
+						.text(function(d) { return d.is_leaf == 0 ? 'x' + d.feature + ' <= ' + parseFloat(d.threshold).toFixed(2) : '🍃 class ' + (2 - d.class); })
+					.on('mouseover', d => nodeHilight( d.population, d.hyperplanes, d.regions, d.is_leaf ) )
 				  .on('mouseout', nodeExit )
 		})
   }
@@ -686,7 +793,7 @@ function DecisionChart() {
 					.attr('x2', function (d) { return x_axis(d.x); } )
 					.attr('y1', y_axis(-1) )
 					.attr('y2', y_axis(1) )
-					.attr("stroke-dasharray", (10, 4) ) 
+					.attr("stroke-dasharray", (10, 4) )
 					.attr("stroke", d3_settings.hplane_clr)
 					.attr("stroke-width", 2)
 					.attr("opacity", 0.8)
@@ -860,7 +967,7 @@ function SplitCritChart() {
 					)
 
 			var totalLength = gain_plot.node().getTotalLength();
-			gain_plot	
+			gain_plot
 				.attr("stroke-dasharray", totalLength + " " + totalLength)
 				.attr("stroke-dashoffset", totalLength)
 				.transition()
@@ -897,7 +1004,7 @@ function SplitCritChart() {
 						.delay((d, i) => 100 * i)
 						.style('opacity', (d) => map(d.gain, -20, -6, 0.2, 1))
 						//.attr('y2', height)
-						.ease(d3.easeQuadInOut) 
+						.ease(d3.easeQuadInOut)
 
 			gain_plot_markers.transition()
 						.duration(100)
@@ -905,7 +1012,7 @@ function SplitCritChart() {
 						.style('opacity', 1)
 
 			var totalLength = gain_plot.node().getTotalLength();
-			gain_plot	
+			gain_plot
 				.attr("stroke-dasharray", totalLength + " " + totalLength)
 				.attr("stroke-dashoffset", totalLength)
 				.transition()
@@ -913,7 +1020,7 @@ function SplitCritChart() {
 					.duration(2900)
 					.ease(d3.easeLinear)
 					.attr("stroke-dashoffset", 0)
-					.on('end', function() { d3.select(this).transition().duration(1000).style('fill-opacity', 0.1) } )	
+					.on('end', function() { d3.select(this).transition().duration(1000).style('fill-opacity', 0.1) } )
 		}
 
 		d3.select("#split_criterion").on('click',rewind)
@@ -941,7 +1048,7 @@ var svg_split_criterion = d3.select("#split_criterion")
 split_crit_chart = SplitCritChart().width(720).height(400)
 split_crit_chart(svg_split_criterion)
 
-// 
+//
 // Log plot
 //
 
@@ -1075,7 +1182,7 @@ log_plot_chart.createVerticalLine(0)
 function VIMPChart() {
 
 	// This data in generated in the data_generation notebook and is translated here to avoid
-	// having to make an call to download this data, improveing the overall performance of the post
+	// having to make an call to download this data, improving the overall performance of the page
 	var tree_data = {
 		'points': [
 			{'x': 0.3125, 'y': 0, 'value': 8.604394186997094, 'variable': 0},
@@ -1109,8 +1216,8 @@ function VIMPChart() {
 			{'x': 2.5, 'y': 3, 'value': 6.735297328417683, 'variable': 0},
 			{'x': 7.5, 'y': 3, 'value': 5.50867856494105, 'variable': 0},
 			{'x': 5.0, 'y': 4, 'value': 9.578376205019406, 'variable': 0}],
-	 'links': [
-		 {'x1': 0.625, 'x2': 0.3125, 'y1': 1, 'y2': 0},
+		'links': [
+			{'x1': 0.625, 'x2': 0.3125, 'y1': 1, 'y2': 0},
 			{'x1': 0.625, 'x2': 0.9375, 'y1': 1, 'y2': 0},
 			{'x1': 1.875, 'x2': 1.5625, 'y1': 1, 'y2': 0},
 			{'x1': 1.875, 'x2': 2.1875, 'y1': 1, 'y2': 0},
@@ -1140,7 +1247,7 @@ function VIMPChart() {
 			{'x1': 7.5, 'x2': 8.75, 'y1': 3, 'y2': 2},
 			{'x1': 5.0, 'x2': 2.5, 'y1': 4, 'y2': 3},
 			{'x1': 5.0, 'x2': 7.5, 'y1': 4, 'y2': 3}]
-	};
+		};
 	var var0_importances = new Array();
 	var var1_importances = new Array();
 	for(var point of tree_data.points) {
@@ -1236,7 +1343,7 @@ function VIMPChart() {
 				.attr("font-size", 22)
 				.attr('opacity', 0)
 				.text((d) => d.t)
-				
+
 		var showAverages = function() {
 			vimp_links.transition()
 					.duration(500)
@@ -1316,7 +1423,7 @@ function AMDChart() {
 			 {'x1': 1, 'y1': 1, 'x2': 2, 'y2': 0},
 		 ],
 			'details': [
-				{'x': 2, 'y': 2} 
+				{'x': 2, 'y': 2}
 			],
 			'width': 3,
 		},
@@ -1333,7 +1440,7 @@ function AMDChart() {
 			 {'x1': 1, 'y1': 2, 'x2': 0, 'y2': 1},
 			 {'x1': 1, 'y1': 2, 'x2': 2, 'y2': 1}],
 			'details': [
-				{'x': 1, 'y': 2} 
+				{'x': 1, 'y': 2}
 			],
 			'width': 3,
 		},
@@ -1356,7 +1463,7 @@ function AMDChart() {
 			 {'x1': 3, 'y1': 1, 'x2': 4, 'y2': 0},
 		 ],
 			'details': [
-				{'x': 3, 'y': 1} 
+				{'x': 3, 'y': 1}
 			],
 			'width': 4,
 		}
@@ -1380,9 +1487,73 @@ function AMDChart() {
 			.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+		// Legend
+		var legend_config = {
+			'posx': width * 0.8,
+			'posy': posy = height * (1 - 0.99),
+			'width': 120,
+			'height': 70,
+			'margin': {top: 15, right: 10, bottom: 15, left: 10},
+		}
+
+		var legend_data = [
+			{'x': 0, 'y': 0, 'symbol' : d3.symbols[0], 'label': 'Node using X0', 'color': d3_settings['class1_clr']},
+			{'x': 0, 'y': 1, 'symbol' : d3.symbols[0], 'label': 'Node using X1', 'color': d3_settings['class2_clr']},
+			{'x': 0, 'y': 2, 'symbol' : d3.symbols[0], 'label': 'Leaf Node', 'color': "#2E7E26"},
+		]
+
+		var legend_x_axis = d3.scaleLinear()
+			.domain([0, 10])
+			.range([
+				legend_config['posx'] + legend_config.margin.left,
+				legend_config['posx'] + legend_config['width']- legend_config.margin.right
+			]);
+
+		var legend_y_axis = d3.scaleLinear()
+			.domain([0, 2])
+			.range([
+				legend_config['posy'] + legend_config.margin.top,
+				legend_config['posy'] + legend_config['height'] - legend_config.margin.bottom
+			]);
+
+		svg_amd.append('g')
+			.append('rect')
+				.attr('x', legend_config['posx'])
+				.attr('y', legend_config['posy'])
+				.attr('rx', 6)
+				.attr('ry', 6)
+				.attr('width', legend_config.width)
+				.attr('height',legend_config.height)
+				.attr('fill', "#ffffff")
+				.attr('opacity', 0.05)
+
+		svg_amd.append('g')
+			.selectAll('legend_1')
+			.data(legend_data)
+			.enter()
+			.append("path")
+				.attr("transform", (d, i) => "translate("+legend_x_axis(d.x) + ',' + legend_y_axis(d.y) + ")" )
+				.attr("fill", d => d.color)
+				.attr("d", d3.symbol().type( (d, i) => d.symbol ).size(135) )
+
+		svg_amd.append('g')
+			.selectAll('legend_1_labels')
+			.data(legend_data)
+			.enter()
+			.append("text")
+				.attr('x', d => legend_x_axis(d.x) + 10 )
+				.attr('y', (d) => legend_y_axis(d.y) )
+				.attr('dy', '.25em')
+				.attr("text-anchor", 'left' )
+				.attr("stroke", "none")
+				.attr("fill", "#ffeabc")
+				.attr("font-size", 16)
+				.text(d => d.label)
+
+
 		// Create data
 		var feature_color_map = d3.scaleOrdinal().domain([-1, 0, 1])
-			.range(["#444444", d3_settings.class1_clr, d3_settings.class2_clr])
+			.range(["#2E7E26", d3_settings.class1_clr, d3_settings.class2_clr])
 
 		// each tree has a different width. The first and the second trees
 		// span 3 nodes, and the third tree spans 4. These values are considered
@@ -1416,7 +1587,6 @@ function AMDChart() {
 					.attr("r", 15 )
 					.attr("fill", 'none' )
 					.attr("stroke", "#ffeabc")
-
 
 			// Add links
 			links = svg_amd.append("g")
