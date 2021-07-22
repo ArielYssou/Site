@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, intial-scale=1" name="viewport"/>
+  <!-- Name on tab -->
+  <title>
+   Rings
+  </title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+  <link href="../../../css/pygments.css" rel="stylesheet"/>
+  <!--TARGET-->
+  <link href="../../../css/style.css" rel="stylesheet"/>
+  <!--TARGET-->
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  </script>
+  <!-- Custom p5js animations -->
+  <script src="sketch.js">
+  </script>
+ </head>
+ <body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+   <a class="navbar-brand" href="../.." style="font-weight:bold;">
+    Ariel Yssou
+   </a>
+   <!--TARGET-->
+   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+      <a class="nav-link" href="../../.." style="font-weight:bold;">
+       Home
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../blog" style="font-weight:bold;">
+       Blog
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item nav-gallery active">
+      <a class="nav-link" href="../../" style="font-weight:bold;">
+       Gallery
+       <span class="sr-only">
+        (current)
+       </span>
+      </a>
+      <!--TARGET-->
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../about" style="font-weight:bold;">
+       About
+      </a>
+      <!--TARGET-->
+     </li>
+    </ul>
+   </div>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
+       <i class="fab fa-github fa-lg">
+       </i>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
+       <i class="fab fa-linkedin fa-lg">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </nav>
+  <!-- End of navigation bar -->
+  <div class="container post_body">
+   <div class="row post_struct">
+    <div class="col-ld-12">
+     <div class="sketch-holder" id="c1">
+     </div>
+     <br/>
+     <hr/>
+     <div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">Ring</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">inner_radius</span><span class="p">,</span><span class="w"> </span><span class="nx">outer_radius</span><span class="p">,</span><span class="w"> </span><span class="nx">clr</span><span class="p">,</span><span class="w"> </span><span class="nx">n_meshes</span><span class="p">,</span><span class="w"> </span><span class="nx">noise_amplitude</span><span class="p">,</span><span class="w"> </span><span class="nx">zoff</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">inner_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">inner_radius</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">outer_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">outer_radius</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">clr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">zoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">zoff</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">noise_amplitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">noise_amplitude</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">dTheta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">TWO_PI</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">n_meshes</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">noise_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">outer_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">inner_radius</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">radii</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">theta</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">TWO_PI</span><span class="p">;</span><span class="w"> </span><span class="nx">theta</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">dTheta</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">xoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">theta</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">noise_amplitude</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">yoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">theta</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">noise_amplitude</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">noise</span><span class="p">(</span><span class="nx">xoff</span><span class="p">,</span><span class="w"> </span><span class="nx">yoff</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">zoff</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">outer_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">noise_radius</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">outer_radius</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">radii</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">theta</span><span class="p">),</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">theta</span><span class="p">)));</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="s1">&#39;#79271c&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">clr</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">beginShape</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">vertex</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">endShape</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">CLOSE</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">show_grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="s1">&#39;#ffeabc&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="s1">&#39;#42403b&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">beginShape</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">p</span><span class="p">.</span><span class="nx">vertex</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">endShape</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">CLOSE</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">show_minimalist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">stroke</span><span class="p">(</span><span class="s1">&#39;#79271c&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">clr</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">circle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">outer_radius</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">rescale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">scl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">inner_radius</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="nx">scl</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">outer_radius</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="nx">scl</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">points</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">mult</span><span class="p">(</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Tree</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">pos</span><span class="p">,</span><span class="w"> </span><span class="nx">max_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="nx">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;wood&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pos</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">max_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">max_radius</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Max</span><span class="w"> </span><span class="c1">radius</span><span class="w"> </span><span class="c1">of</span><span class="w"> </span><span class="c1">tree</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">zoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Noise</span><span class="w"> </span><span class="c1">offset</span><span class="w"></span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">z_inc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">Noise</span><span class="w"> </span><span class="c1">increment</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">codes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="mi">0</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;small&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;medium&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;large&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">3</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;bark&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="nx">theme</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;blue_wood&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;small&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#0a0429&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;medium&#39;</span><span class="o">:</span><span class="s1">&#39;#b97c72&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;large&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#f6fcee&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;bark&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#080c55&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">theme</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;grid&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;small&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#42403b&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;medium&#39;</span><span class="o">:</span><span class="s1">&#39;#42403b&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;large&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#42403b&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;bark&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#42403b&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;small&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#b95939&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;medium&#39;</span><span class="o">:</span><span class="s1">&#39;#e78c4d&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;large&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#fcc473&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;bark&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#79271c&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;small&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;medium&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;large&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;bark&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">max_radius</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Scale</span><span class="w"> </span><span class="c1">all</span><span class="w"> </span><span class="c1">rings</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">max_radius</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">rescale</span><span class="p">(</span><span class="nx">scl</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1">//</span><span class="w"> </span><span class="c1">Scale</span><span class="w"> </span><span class="c1">default</span><span class="w"> </span><span class="c1">radii</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="nx">scl</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="nx">scl</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">//pass</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">size_code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">codes</span><span class="p">[</span><span class="nx">size_code</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">meshes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">),</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">noise_amplitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">max_radius</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nx">size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;bark&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">noise_amplitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="k">new</span><span class="w"> </span><span class="nx">Ring</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="nx">p</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="p">[</span><span class="nx">size</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="nx">size</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="nx">meshes</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">noise_amplitude</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">zoff</span><span class="w"></span>
+<span class="w">      </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">current_radius</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">radius</span><span class="p">[</span><span class="nx">size</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">scale</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">zoff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">z_inc</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;normal&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="nx">style</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;grid&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show_grid</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="nx">style</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;minimalist&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show_minimalist</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">rings</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">show</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//</span><span class="w"> </span><span class="c1">p</span><span class="w"> </span><span class="c1">could</span><span class="w"> </span><span class="c1">be</span><span class="w"> </span><span class="c1">any</span><span class="w"> </span><span class="c1">variable</span><span class="w"> </span><span class="c1">name</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">Tree</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">setup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//var</span><span class="w"> </span><span class="c1">myWidth</span><span class="w"> </span><span class="c1">=</span><span class="w"> </span><span class="c1">document.getElementById(&quot;c1&quot;).offsetWidth;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/*</span><span class="w"> </span><span class="cm">var</span><span class="w"> </span><span class="cm">myHeight</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">document.getElementById(&quot;c1&quot;).offsetHeight;</span><span class="w"> </span><span class="cm">*/</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">createCanvas</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="w"> </span><span class="mi">400</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">draw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//p.background(55);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">trees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">23</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">trees</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">rings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="nx">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">Tree</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">createVector</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">width</span><span class="p">),</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">)),</span><span class="w"> </span><span class="nx">radius</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">rings</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">tree</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">random</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="nx">tree</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span><span class="s1">&#39;wood&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">noLoop</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="nx">p</span><span class="p">.</span><span class="nx">windowResized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">mwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">).</span><span class="nx">offsetWidth</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/*mheight</span><span class="w"> </span><span class="cm">=</span><span class="w"> </span><span class="cm">document.getElementById(&quot;c1&quot;).offsetHeight;*/</span><span class="w"></span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">resizeCanvas</span><span class="p">(</span><span class="nx">mwidth</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">//</span><span class="w"> </span><span class="c1">Don&#39;t</span><span class="w"> </span><span class="c1">forget</span><span class="w"> </span><span class="c1">to</span><span class="w"> </span><span class="c1">resize</span><span class="w"> </span><span class="c1">all</span><span class="w"> </span><span class="c1">positions</span><span class="w"> </span><span class="c1">as</span><span class="w"> </span><span class="c1">well</span><span class="w"></span>
+<span class="w">    </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mwidth</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">};</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">myp51</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nx">p5</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;c1&#39;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+    </div>
+   </div>
+  </div>
+  <script src="../../../js/script.js">
+  </script>
+  <!--TARGET-->
+  <!-- Bootstrap + JQuery -->
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+  </script>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
+  </script>
+ </body>
+</html>
