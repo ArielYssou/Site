@@ -330,9 +330,150 @@ var s = function( p ) { // p could be any variable name
 var myp51 = new p5(s, 'c1');
 
 
-function Mondrian() {
+function Mondrian(p, width, height) {
+	this.width = width;
+	this.height = height;
 	this.colors = [];
-	this.lines = [];
+	this.horizontal_lines = [
+		{x0: 0, x1: this.width, y0: 0, y1: 0},
+		{x0: 0, x1: this.width, y0: this.height, y1: this.height}
+	];
+	this.vertical_lines = [
+		{x0: 0, x1: 0, y0: 0, y1: this.height},
+		{x0: this.width, x1: this.width, y0: 0, y1: this.height}
+	];
 	this.rects = [];
+
+	this.sizes = [1, 2 ,4, 8];
+
+	this.get_intersections = function(val, search_along='horizontal') {
+		var intersections = new Array();
+		var search_axis = (search_along == 'horizontal') ? 'x' : 'y';  // For horizontal intersections we check all
+		var lines = (search_along == 'horizontal') ? this.horizontal_lines : this.vertical_lines;
+
+		for(var idx = 0; idx < lines.length; idx += 1) {
+			if ((val >= lines[idx][search_axis + '0']) && (val <= lines[idx][search_axis + '1'])) {
+				intersections.push(lines[idx][(search_along == 'horizontal') ? 'y0' : 'x0']);
+			}
+		}
+		console.log(intersections)
+		return intersections;
+	}
+
+	this.add_line = function() {
+		var r = Math.random();
+
+		if (r < 0.5) {
+			// Vertical line
+			var new_pos = Math.random() * this.width;
+			
+			// Check all possible intersections
+			var intersections = this.get_intersections(new_pos, 'horizontal');
+
+			// select two random positions to draw the new line
+			var positions = [];
+			var indexes = [...Array(intersections.length).keys()];
+
+			var idx = indexes.splice(Math.floor(Math.random() * indexes.length), 1);
+			positions.push( intersections[idx] )  
+
+			idx = indexes.splice(Math.floor(Math.random() * indexes.length), 1);
+			positions.push( intersections[idx] )
+
+			positions.sort();
+
+			this.vertical_lines.push({
+				x0: new_pos,
+				x1: new_pos,
+				y0: positions[0],
+				y1: positions[1],
+			})
+		} else {
+			// Horizontal line
+			var new_pos = Math.random() * this.height;
+			
+			// Check all possible intersections
+			var intersections = this.get_intersections(new_pos, 'vertical');
+
+			// select two random positions to draw the new line
+			var positions = [];
+			var indexes = [...Array(intersections.length).keys()];
+
+			var idx = indexes.splice(Math.floor(Math.random() * indexes.length), 1)[0];
+			positions.push( intersections[idx] )  
+
+			idx = indexes.splice(Math.floor(Math.random() * indexes.length), 1)[0];
+			positions.push( intersections[idx] )
+			positions.sort();
+
+			this.horizontal_lines.push({
+				x0: positions[0],
+				x1: positions[1],
+				y0: new_pos,
+				y1: new_pos,
+			})
+		}
+	}
 	
+	this.generate = function(n_lines) {
+		for (var i = 0; i < n_lines; i += 1) {
+			this.add_line();
+		}
+	}
+
+	this.show = function() {
+		console.log('horizontal')
+		console.log(this.horizontal_lines)
+		console.log('vertical')
+		console.log(this.vertical_lines)
+		p.push()
+		p.stroke('#ffeabc')
+		for(line of [...this.horizontal_lines, ...this.vertical_lines]) {
+			p.line(
+				line.x0,
+				line.y0,
+				line.x1,
+				line.y1,
+			)
+		}
+
+		p.pop()
+
+	}
+
 }
+
+var s2 = function( p ) { // p could be any variable name
+  var mondrian;
+
+  p.setup = function() {
+    var myWidth = document.getElementById("c2").offsetWidth;
+    /* var myHeight = document.getElementById("c1").offsetHeight; */
+    p.createCanvas(600, 400);
+
+			mondrian = new Mondrian(p, 600, 400)
+
+		mondrian.generate(19)
+  };
+
+  p.draw = function() {
+    //p.background(0);
+    //p.fill(255);
+		p.push()
+    mondrian.show()
+		p.pop()
+		p.noLoop()
+  };
+
+  p.windowResized = function() {
+    mwidth = document.getElementById("c1").offsetWidth;
+    /*mheight = document.getElementById("c1").offsetHeight;*/
+    p.resizeCanvas(mwidth, p.height);
+    p.noLoop();
+    running = false;
+
+    // Don't forget to resize all positions as well
+    x = mwidth / 2;
+  };
+};
+var myp51 = new p5(s2, 'c2');
