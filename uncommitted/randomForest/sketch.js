@@ -335,6 +335,8 @@ function Mondrian(p, width, height, method='fixed') {
 	this.height = height;
 	this.method = method;
 
+	this.width_ratio = this.width / (this.width + this.height);
+
 	this.colors = {
 		'red': p.color('#e5342e'),
 		'blue': p.color('#4476a9'),
@@ -362,56 +364,75 @@ function Mondrian(p, width, height, method='fixed') {
 	];
 	this.rects = [];
 
-	this.base_size = 20;
+	this.base_size = 40;
 	this.max_width_partition = Math.floor(this.width / this.base_size);
 	this.max_height_partition = Math.floor(this.height / this.base_size);
 
 	this.get_intersections = function(val, search_along='horizontal') {
 		var intersections = new Array();
-		var search_axis = (search_along == 'horizontal') ? 'x' : 'y';  // For horizontal intersections we check all
 		var lines = (search_along == 'horizontal') ? this.horizontal_lines : this.vertical_lines;
 
-		for(var idx = 0; idx < lines.length; idx += 1) {
-			if ((val >= lines[idx][search_axis + '0']) && (val <= lines[idx][search_axis + '1'])) {
-				intersections.push(lines[idx][(search_along == 'horizontal') ? 'y0' : 'x0']);
+		if ( search_along == 'horizontal' ) {
+			for(var idx = 0; idx < lines.length; idx += 1) {
+				if ((val >= lines[idx]['x0'] - 1) && (val <= lines[idx]['x1'] + 1)) {
+					intersections.push(lines[idx]['y0']);
+				}
+			}
+		} else {
+			for(var idx = 0; idx < lines.length; idx += 1) {
+				if ((val >= lines[idx]['y0'] - 1) && (val <= lines[idx]['y1'] + 1)) {
+					intersections.push(lines[idx]['x0']);
+				}
 			}
 		}
+
 		return intersections;
 	}
 
+
 	// Should be only one funcion, but alas
-	this.get_line_intersections = function(line, search_along='horizontal') {
+	this.get_line_intersections = function(line, search_along='horizontal', return_vals='lines') {
 		var intersections = new Array();
 
 		if (search_along == 'horizontal') {
 			var lines = this.horizontal_lines;
 			for(var idx = 0; idx < lines.length; idx += 1) {
 
-				var cond1 = (line.x0 >= lines[idx].x0);
-				var cond2 = (line.x0 <= lines[idx].x1);
-				var cond3 = (line.y0 <= lines[idx].y0);
-				var cond4 = (line.y1 >= lines[idx].y1);
+				var cond1 = (line.x0 >= lines[idx].x0 - 1);
+				var cond2 = (line.x0 <= lines[idx].x1 + 1);
+				var cond3 = (line.y0 <= lines[idx].y0 + 1);
+				var cond4 = (line.y1 >= lines[idx].y1 - 1);
 
 				if (cond1 && cond2 && cond3 && cond4) {
-					intersections.push(lines[idx]);
+					if ( return_vals == 'lines') {
+						intersections.push(lines[idx]);
+					}  else {
+						intersections.push(lines[idx].y0)
+					}
+
 				}
 			}
 		} else {
 			var lines = this.vertical_lines;
 
 			for(var idx = 0; idx < lines.length; idx += 1) {
-				var cond1 = (line.y0 >= lines[idx].y0);
-				var cond2 = (line.y0 <= lines[idx].y1);
-				var cond3 = (line.x0 <= lines[idx].x0);
-				var cond4 = (line.x1 >= lines[idx].x1);
+				var cond1 = (line.y0 >= lines[idx].y0 - 1);
+				var cond2 = (line.y0 <= lines[idx].y1 + 1);
+				var cond3 = (line.x0 <= lines[idx].x0 + 1);
+				var cond4 = (line.x1 >= lines[idx].x1 - 1);
 
 				if (cond1 && cond2 && cond3 && cond4) {
-					intersections.push(lines[idx]);
+					if ( return_vals == 'lines') {
+						intersections.push(lines[idx]);
+					}  else {
+						intersections.push(lines[idx].x0)
+					}
 				}
 			}
 		}
 		return intersections;
 	}
+
 
 	this.add_line = function() {
 		var r = Math.random();
@@ -439,12 +460,50 @@ function Mondrian(p, width, height, method='fixed') {
 
 			positions.sort();
 
-			this.vertical_lines.push({
+			var new_line = {
 				x0: new_pos,
 				x1: new_pos,
 				y0: positions[0],
 				y1: positions[1],
-			})
+			}
+
+			for (var i = 0;  i < this.vertical_lines.length; i += 1) {
+				var cond1 = ((new_line.y0 >= this.vertical_lines[i].y0) 
+					&& (new_line.y0 <= this.vertical_lines[i].y1)
+					&& (new_line.x0 <= this.vertical_lines[i].x0)
+				);
+				var cond2 = ((new_line.y1 >= this.vertical_lines[i].y0)
+					&& (new_line.y1 <= this.vertical_lines[i].y1)
+					&& (new_line.x0 <= this.vertical_lines[i].x0)
+				);
+				// if the start of the new line is inside an existing line...
+				if  (cond1) {
+					// and its tip is at a larger coordinate we extent the existing line to this position
+					// instead of creating a new line
+					if ( new_line.y1 > this.vertical_lines[i].y1 ) {
+						this.vertical_lines[i].y1 = new_line.y1
+					}
+				}
+
+				// if the tip of the new line is inside an existing_line
+				if (cond2) {
+					// and its head is at a larger coordinate we extent the existing line to this position
+					// instead of creating a new line
+					if ( new_line.y0 < this.vertical_lines[i].y0 ) {
+						this.vertical_lines[i].y0 = new_line.y0
+					}
+				}
+
+				// If the new line dows not intersect any axisting lines, we add it to the list of existing lines
+				if ((!cond1) && (!cond2)) {
+					this.vertical_lines.push(new_line);
+					break;
+				}
+
+				if (cond1 || cond2) {
+					break;
+				}
+			}
 		} else {
 			// Horizontal line
 			if (this.method == 'random') {
@@ -467,19 +526,58 @@ function Mondrian(p, width, height, method='fixed') {
 			positions.push( intersections[idx] )
 			positions.sort();
 
-			this.horizontal_lines.push({
+			var new_line = {
 				x0: positions[0],
 				x1: positions[1],
 				y0: new_pos,
 				y1: new_pos,
-			})
+			}
+
+			for (var i = 0;  i < this.horizontal_lines.length; i += 1) {
+				var cond1 = ((new_line.x0 >= this.horizontal_lines[i].x0) 
+					&& (new_line.x0 <= this.horizontal_lines[i].x1)
+					&& (new_line.y0 <= this.horizontal_lines[i].y0)
+				);
+				var cond2 = ((new_line.x1 >= this.horizontal_lines[i].x0)
+					&& (new_line.x1 <= this.horizontal_lines[i].x1)
+					&& (new_line.y0 <= this.horizontal_lines[i].y0)
+				);
+				// if the start of the new line is inside an existing line...
+				if  (cond1) {
+					// and its tip is at a larger coordinate we extent the existing line to this position
+					// instead of creating a new line
+					if ( new_line.x1 > this.horizontal_lines[i].x1 ) {
+						this.horizontal_lines[i].x1 = new_line.x1
+					}
+				}
+
+				// if the tip of the new line is inside an existing_line
+				if (cond2) {
+					// and its head is at a larger coordinate we extent the existing line to this position
+					// instead of creating a new line
+					if ( new_line.x0 < this.horizontal_lines[i].x0 ) {
+						this.horizontal_lines[i].x0 = new_line.x0
+					}
+				}
+
+				// If the new line dows not intersect any axisting lines, we add it to the list of existing lines
+				if ((!cond1) && (!cond2)) {
+					this.horizontal_lines.push(new_line);
+					break;
+				}
+
+				if (cond1 || cond2) {
+					break;
+				}
+			}
 		}
 	}
 
+
 	this.detect_rectangles = function() {
 		// Run throught all horizontal lines
-		for (hline of this.horizontal_lines) {
-			vertical_intersections = this.get_line_intersections(hline, 'vertical');
+		for (var hline of this.horizontal_lines) {
+			var vertical_intersections = this.get_line_intersections(hline, 'vertical');
 	
 
 			// Decorate Sort Undecorate
@@ -490,26 +588,41 @@ function Mondrian(p, width, height, method='fixed') {
 
 
 			var vertical_positions = [] // along the x axis
-			for (vline of vertical_intersections) {
+			for (var vline of vertical_intersections) {
 				vertical_positions.push(vline.x0);
 			}
 
 			vertical_intersections = dsu(vertical_intersections, vertical_positions).reverse()
 
 			for (var idx = 0; idx < vertical_intersections.length - 1; idx += 1) {
-				line_start = vertical_intersections[idx];
-				line_end = vertical_intersections[idx + 1];
+				var line_start = vertical_intersections[idx];
+				var line_end = vertical_intersections[idx + 1];
+				if ( line_start.x0 == line_end.x0 ) {
+					continue;
+				}
 				
-				horizontal_intersections = this.get_line_intersections(line_start, 'horizontal')
+				var start_horizontal_intersections = this.get_line_intersections(line_start, 'horizontal')
+				var end_horizontal_intersections = this.get_line_intersections(line_end, 'horizontal')
+				var horizontal_intersections = new Array();
+				for ( var line_1 of start_horizontal_intersections ) {
+					for ( var line_2 of end_horizontal_intersections ) {
+						// serch for mutual horizontal intersections
+						if ( (line_1.y0 == line_2.y0) && (line_1.x0 == line_2.x0) ) {
+							horizontal_intersections.push(line_1)
+							break;
+						}
+					} 
+				}
 
 				var horizontal_positions = []
-				for (vline of horizontal_intersections) {
+				for (var vline of horizontal_intersections) {
+					console.log(vline.y0 >= vline.y1)
 					horizontal_positions.push(vline.y0);
 				}
 
-				top_line = null;
+				var top_line = null;
 				horizontal_intersections = dsu(horizontal_intersections, horizontal_positions)
-				for (vline of horizontal_intersections) {
+				for (var vline of horizontal_intersections) {
 					if (vline.y0 < hline.y0) {
 						top_line = vline
 						break;
@@ -523,6 +636,11 @@ function Mondrian(p, width, height, method='fixed') {
 						width: line_end.x0 - line_start.x0,
 						height: hline.y0 - top_line.y0,
 					})
+				} else {
+					//console.log('intersections')
+//					console.log(hline)
+//					console.log(vertical_intersections)
+//					console.log(horizontal_intersections)
 				}
 
 			}
@@ -532,15 +650,18 @@ function Mondrian(p, width, height, method='fixed') {
 		console.log(this.rects)
 	}
 	
+
 	this.generate = function(n_lines) {
 		for (var i = 0; i < n_lines; i += 1) {
 			this.add_line();
 		}
 	}
 
+
 	this.show = function() {
 		p.push()
 
+		p.noStroke()
 		for (rect of this.rects) {
 			var clr = this.colors[p.random(this.color_list)]
 			p.fill(clr)
@@ -551,8 +672,9 @@ function Mondrian(p, width, height, method='fixed') {
 				rect.height,
 			)
 		}
-		p.stroke('#ffeabc')
+		p.stroke('black')
 		for(line of [...this.horizontal_lines, ...this.vertical_lines]) {
+			p.strokeWeight(p.random([2, 2.5]))
 			p.line(
 				line.x0,
 				line.y0,
@@ -574,18 +696,17 @@ var s2 = function( p ) { // p could be any variable name
     /* var myHeight = document.getElementById("c1").offsetHeight; */
     p.createCanvas(600, 400);
 
-		mondrian = new Mondrian(p, 600, 400)
-
-		mondrian.generate(39)
+		mondrian = new Mondrian(p, p.width, p.height)
+		mondrian.generate(45)
 		mondrian.detect_rectangles()
+
   };
 
   p.draw = function() {
-    //p.background(0);
+    p.background(mondrian.colors.white);
     //p.fill(255);
-		p.push()
-    mondrian.show()
-		p.pop()
+
+		mondrian.show()
 		p.noLoop()
   };
 
@@ -600,4 +721,3 @@ var s2 = function( p ) { // p could be any variable name
     x = mwidth / 2;
   };
 };
-var myp51 = new p5(s2, 'c2');

@@ -633,7 +633,7 @@ function TreeChart() {
 						.attr("stroke", "none")
 						.attr("fill", "#ffeabc")
 						.attr("font-size", 18)
-						.text(function(d) { return d.is_leaf == 0 ? 'x' + d.feature + ' <= ' + parseFloat(d.threshold).toFixed(2) : '🍃 class ' + (2 - d.class); })
+						.text(function(d) { return d.is_leaf == 0 ? 'x' + d.feature + ' <= ' + parseFloat(d.threshold).toFixed(2) : 'Class ' + (2 - d.class); })
 					.on('mouseover', d => nodeHilight( d.population, d.hyperplanes, d.regions, d.is_leaf ) )
 				  .on('mouseout', nodeExit )
 		})
@@ -1499,7 +1499,7 @@ function AMDChart() {
 		var legend_data = [
 			{'x': 0, 'y': 0, 'symbol' : d3.symbols[0], 'label': 'Node using X0', 'color': d3_settings['class1_clr']},
 			{'x': 0, 'y': 1, 'symbol' : d3.symbols[0], 'label': 'Node using X1', 'color': d3_settings['class2_clr']},
-			{'x': 0, 'y': 2, 'symbol' : d3.symbols[0], 'label': 'Leaf Node', 'color': "#2E7E26"},
+			{'x': 0, 'y': 2, 'symbol' : d3.symbols[0], 'label': 'Leaf Node', 'color': "#2b2b26"},
 		]
 
 		var legend_x_axis = d3.scaleLinear()
@@ -1553,7 +1553,7 @@ function AMDChart() {
 
 		// Create data
 		var feature_color_map = d3.scaleOrdinal().domain([-1, 0, 1])
-			.range(["#2E7E26", d3_settings.class1_clr, d3_settings.class2_clr])
+			.range(["#2b2b26", d3_settings.class1_clr, d3_settings.class2_clr])
 
 		// each tree has a different width. The first and the second trees
 		// span 3 nodes, and the third tree spans 4. These values are considered

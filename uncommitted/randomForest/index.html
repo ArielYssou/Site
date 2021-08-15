@@ -94,10 +94,7 @@
 
 		<!-- Intro -->
 		 <p>
-		 	Random forest are one of the most famous and commonly used models in Machine learning as they are easy to implement, adaptable, offer excellent performance and are fast to train. It is fairly common to find many posts praising this model and teaching how to used it using modern machine learning libraries, but few texts go into much detail of the underling theory of random forests. This post is a result of my studies into the subject and it will hopefully provide some insights into the complexities of random forests that would otherwise only be found in technical books or in specific papers.
-		 </p>
-		 <p>
-			Topics such as modern variations of both random forests and decision trees (which are the building blocks of random forests), methods for estimating the feature importances, susceptibility to overfitting and possible limitations and weaknesses will also be discussed to provide a more complete overview of not only the model itself but the techniques that are commonly used with it. 
+		 	The random forest model is one of the most famous and commonly used models in Machine learning as it is easy to implement, robust to outliers, offers excellent performance and have useful internal estimates of error, correlation and variable importance. Due to its widespread usage, most texts and courses about this Random Forests tend to focus on its practical implementation. Having this in mind, this post is solely focused in providing a theoretical introduction to the underlying theory of random forests. More advanced topics such as modern variations and associated techniques will also be discussed but with limited scope.
 		 </p>
 		 <p>
 		 	The text is structured as follows. Firstly we will discus the basic theory of <b>Decision Trees</b>. With this formalism we will be able to discuss the proper Random forests (RF) in Chapter 2. The third and last chapter will be dedicated to a simple and (hopefully) illustrative implementation of RFs in python using the XXXX dataset, with an emphasis on explaining how to extract a feature importance estimation of the trained model.
@@ -135,11 +132,9 @@
      <a name="#INTRO">
      </a>
 
-			Obs: I have implemented most of the visualizations using the D3 framework, so many of then will be interactible and/or animated! Figures with the ... symbol are intractable so have fun exploring them!
-			For the sake of meta (and implementing visualizations of no practical use) the following sketch was created using p5.js and is generated randomly (a random forest if you will). Each time you load this page a different set of trees will be printed.
+		 Obs: I have implemented most of the visualizations using the D3 framework, so many of then will be interactive and/or animated! <b>Figures with the  <i class="fas fa-mouse"></i>  icon have an animation that can be rewinded by clicking into the sketch, and figures with the  <i class="fas fa-mouse-pointer"></i>  icon are interactive!</b>
+			For the sake of meta, techinical challenge and implementing visualizations of no practical use, the following sketch was created using p5.js and is generated randomly. Thus as this text is read by more people, a random forest will be generated in the process (🤯).
 			<div class="sketch-holder" id="c1">
-      </div>
-			<div class="sketch-holder" id="c2">
       </div>
 			<a name="DECISION TREES">
       </a>
@@ -148,16 +143,16 @@
       </h2>
 
 			<p>
-				Decision trees are a class of models whose predictions are based on a hierarchy of decisions, which can be used both for classification or regression purposes. Due to their structural simplicity these models are fully interpretable and can provide some valuable insights about the underliing structure of the data. The simplest and most common type of decision tree is the <i>Ordinary binary classification trees</i> (OBST), which simply categorizes each element of a population into two binary classes.</p>
+			The <b>Decision tree</b> is not a single model, but a class of models whose predictions are made using a hierarchy of sequential decisions, which can be used both for classification or regression purposes. Due to their structural simplicity these models are fully interpretable and can provide some valuable insights about the underliing structure of the data. The simplest and most common type of decision tree is the <i>Ordinary binary classification trees</i> (OBST), which simply categorizes each element of a population into two binary classes. This model will provide valuable insights about the general theory of decision trees as a whole and will be our first focus.</p>
 			</p>
-
+			<p><i class="fas fa-mouse"></i></p>
 			<div id="feature_space_split"></div>	
 			<!--FIG 1: Scheme of an random forest objective-->
 
 			<p>
-			The model attributes a class to each member of the population via several questions (each based on a single feature) in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) the population will be separated into two sub groups recursively until a criteria is met and the algorithm is stopped. The decision tree model can be visualized as a sequence of splits in the feature space, generating regions based on a set of hyperplanes (each inequality $x<\alpha$ represents an equation for a hyperplane that is normal to the $x_i$ axis of the feaure space). This can be visualized as follows (hover over the tree nodes to see its effect in the clasification):
+			The model attributes a class to each member of the population via several questions (each based on a single feature) in the form of "Is feature $x_i$ larger than 0.5?". Depending on the answer (either yes or no) of each step (node) the population will be separated into two sub groups (child nodes) recursively until a criteria is met and the algorithm is stopped. This rationale can also be visualized geometrically as a sequence of splits in the feature space, generating regions based on a set of hyperplanes (each inequality $x<\alpha$ can be viwed as a split of the space base on the $x=\alpha$ hyperplane). This can be visualized as follows:
 			</p>
-
+			<b> <i class="fas fa-mouse-pointer"></i></b>
 			<div class="form-check">
 				<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault_tree">
 				<label class="form-check-label" for="flexCheckDefault">
@@ -167,11 +162,7 @@
 			<div id="decision_tree"></div>	
 
 			<p>
-			The nomenclature used for decision trees is similar to binary trees: each step where the population is separated is called a <b>node</b>. Each decedent node is called either by <b>child node</b> or decedent node. The algorithm starts at the <b>root node</b> (where the entire population is present as no split was made yet), and then follows the node branches until a classification is finally made at the last node of each branch, which is called a <b>leaf node</b>.
-			</p>
-
-			<p>
-				This is an overview of the OBST structure, lets now focus on the individual steps that compose the overall algorithm:
+			With this overview, we are now in place to focus on the individual steps that compose the overall algorithm:
 			</p>
 			<ol>
 				<li><b>Candidate questions</b>: At each node, the set of questions that can be asked has to be decided in beforehand. Each question represents a specific binary split into two descendant nodes. Each node $t$ is associated with a specific subset $X_t$ of the full training set $X$. The split at node $t$ separates the population $X_T$ into two subsets, $X_{t,y}$ and $X_{t,n}$, of elements that answered "yes" or "no" to the question at this node, respectively. For each node the following is true:
@@ -196,7 +187,7 @@
 			<div id="decision_splits"></div>	
 
 			 <p>
-			 This type of question leads to linear segmentation of the feature hyperspace. More complex questions can lead to different kinds of splits, such as "Is features $X_k^2 < 5$. A relativelly common variation is the obblique decision tree, which uses a series of Householder matrices to reflect the training set, as definided by D. C. Wickramarachchi <i>et al</i> in <a href='https://www.sciencedirect.com/science/article/abs/pii/S0167947315002856' target='_'>"HHCART: An oblique decision tree</a>".
+			 This type of question leads to a linear segmentation of the feature hyperspace. More complex questions such as "Is features $X_k^2 < 5$ can lead to different kinds of splits. A relativelly common variation is the obblique decision tree, which uses a series of Householder matrices to reflect the training set, as definided by D. C. Wickramarachchi <i>et al</i> in <a href='https://www.sciencedirect.com/science/article/abs/pii/S0167947315002856' target='_'>"HHCART: An oblique decision tree</a>".
 			 </p>
 
 			 <h3 class='sub-chapter'>
@@ -246,9 +237,10 @@
 			$$\boxed{S = -K\sum_n p_n \ln(p_n)}.$$
 			 </p>
 			 <p>
-					In summary, Shannon entropy quantifies the amount of information in $P_n$ as it a measure of the average surprise $\langle - \ln(p_n) \rangle$ from the transition to state $x_n$. With this we can calculate precisely the quality of each split based on the entropy of each subgroup:
+					In summary, Shannon entropy quantifies the amount of information in $P_n$ as it a measure of the average surprise $\langle - \ln(p_n) \rangle$ from the transition to state $x_n$. With this we can calculate precisely the quality of each split based on the entropy of each subgroup. The following plot illustrates the entropy (upper panel) generated by each split (lower panel). The animation shows order the splits are considered .
 			 </p>
 
+			<p><i class="fas fa-mouse"></i></p>
 			 <div id="split_criterion"></div>
 
 			 <p>
@@ -354,7 +346,7 @@
 				 Decision trees pay a heavy price for their structural simplicity in their poor performance when compared to other, more complex, alternatives such as fancy regressions or neural networks. They are also very susceptible to overfitting as the only way for them to grasp the details of the data is by growing exponentially larger trees, which inevitably become extremely biased to the training set.
 			 </p>
 			 <p>
-			 It is thus very important to grow sufficiently large trees so that its performance is acceptable but not too large so the tree is unable to extrapolate to new data. This challenge is similar to building large multilayer perception networks and similar techniques such as pruning have been applied to both cases. <!-- add a reference here -->
+			 It is thus very important to grow sufficiently large trees so that its performance is acceptable but not too large so the tree is still able to extrapolate to new data. This challenge is similar to building large multilayer perception networks and similar techniques such as pruning have been applied to both cases. <!-- add a reference here -->
 			 </p>
 			<a name="Random Forests">
       </a>
@@ -373,10 +365,10 @@
 				 Stochastic Discrimination
 			</h3>
 			<p>
-				One major shortcoming of decision trees is their susceptibility to overfitting. Trees are, by themselves, not very good in terms of precision and need to grow in complexity to increase their performance. This need for complexity can easily lead to overfitting and poor generalization. Kleinbergs theory of stochastic discrimination (SD) showed that the combination of weak learners could not only be arbitrarily precise, but also fast, stable and resistant to overfitting.
+				One major shortcoming of decision trees is their susceptibility to overfitting. Trees are, by themselves, not very good in terms of precision and need to grow in complexity to increase their performance. This need for complexity can easily lead to poor generalization. Kleinbergs theory of stochastic discrimination (SD) showed that the combination of weak learners could not only be arbitrarily precise, but also fast, stable and resistant to overfitting.
 			</p>
 			<p>
-				The stochastic discrimination process is defined as follows. Consider the two class problem with an initial population of $N$ elements. We also have an set of $S$ possible solutions, in our case each member of S is an week learner (weak here means just that the algorithm can be just slightly better than random guessing). We can think of the sequence of solutions as items appearing over time, and see the transitions of a given element between solutions as an stochastic process. It can be shown that for large numbers of solutions the average of the stochastic processes tends to two distinct limits, thus separations the dataset into two classes. This idea is represented in the following scheme which is a direct adaptation from the original scheme in Kleinbergs article:
+				The stochastic discrimination process is defined as follows. Consider the two class problem with an initial population of $N$ elements. We also have an set of $S$ possible solutions, in our case each member of S is an week learner (weak here means just that the algorithm can be just slightly better than random guessing). We can think of the sequence of solutions as items appearing over time, and see the transitions of a given element between solutions as an stochastic process. It can be shown that for large numbers of solutions the average of the stochastic processes tends to two distinct limits, thus separations the dataset into two classes. This idea is represented in the following scheme (which is a direct adaptation from the original scheme in Kleinbergs article):
 			</p>
 			<object class='center' type="image/svg+xml" data="stochastic_learning.svg">
 					<!-- Your fall back here -->
@@ -398,14 +390,14 @@
 					<img src="bagging.svg" />
 			</object>
 			<p>
-				Consider a training set $X$ and associated targets $Y$. Bagging would consist of sampling with replacement both $X$ and $Y$ $n$ times, generating subsets $X_i$, $Y_i$, $i=1,2,\dots,n$. A model is then fitted on each subset $i$, resulting in a collection (or a bag) of models. The final prediction would then be the average over all $n$ models or by the majority vote.
+				Consider a training set $X$ and associated targets $Y$. Bagging would consist of sampling with replacement both $X$ and $Y$ $n$ times, generating subsets $X_i$, $Y_i$, $i=1,2,\dots,n$. A model is then fitted on each subset $i$, resulting in a collection (or a bag) of models. The final prediction would then be the average over all $n$ models or the majority vote.
 			</p>
 
 			<p>
 			This method reduces the overall variance of the week base learners and also makes the model more resistant to noises in the training set. However, if one cannot generate many statistically independent trees (due to a lack of training points, for example), not much would be achieved from using this technique as all models would be almost identical and the variance would not be reduced.
 			</p>
 			<p>
-			Random forests, however, do not only employ bagging to the training set, but also for the features themselves. Each model will be presented with only some of the features available, which leads to decision trees that are uncorrelated. This idea was initially presented by Hu to formulate Decision Forests (not to be confused with random forests), which is an algorithm that only employs feature bagging.
+			Random forests, however, do not only employ bagging to the training set, but also for the features themselves. Each model will be presented with only some of the features available, which leads to decision trees that are uncorrelated. This idea was initially presented by <a href='https://web.archive.org/web/20160417030218/http://ect.bell-labs.com/who/tkh/publications/papers/odt.pdf' target='_'>Tim Kam Ho to formulate Decision Forests</a> (not to be confused with random forests), which is an algorithm that only employs feature bagging.
 			</p>
 			<p>
 				The major advantage of hiding some features from the models is that if there is a feature that has a very strong correlation to the target variable, it would heavily influence all trees, making then all almost identical and heavily reliant on a single feature. This would lead to all trees being strongly correlated and reducing the overall performance of the bagging technique.
@@ -468,7 +460,7 @@
 			<div id='average_minimal_depth'></div>
 
 			<p>
-			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of estimating the minimal depth via the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said to lead to better empirical estimation of the feature importance than the normal minimal depth approach <a href="(https://academic.oup.com/bioinformatics/article/35/19/3663/5368013" target='_'>Surrogate minimal depth as an importance measure for variables in random forests</a>
+			A very modern variation to the Minimal Depth feature importance is the Surrugate Minimal Depth. This method consist of estimating the minimal depth via the first appearance not only to primary split variables but also to the occurrence of surrogate variables. This methodology is said to lead to better empirical estimation of the feature importance than the normal minimal depth approach (<a href="(https://academic.oup.com/bioinformatics/article/35/19/3663/5368013" target='_'>Surrogate minimal depth as an importance measure for variables in random forests</a>).
 			</p>
 			<p>
 			As a closing note to this section, its worth porting out that the feature importance metrics are related to the model, not the features themselves (i.e. the importance is not of the feature itself, but to its influence on your model). <b>A bad feature can be very important to a bad model</b>.
@@ -501,7 +493,7 @@
 			There are many ways of trying to recover some (or all) interpretability of the RF model. The methods to extract he individual importance of each feature are powerful, but have some possible limitations that must be considered in beforehand. These feature importance metrics also <b>only represents estimates of the importance of the features</b> and can be biased in many cases.
 			</p>
 			<p>
-			There are some modern techniques such as SHAP or LIME that try to approximate the final decision hyperplanes with locally interpretable regressors. These methods, while useful, also have limitations and possible biases. Its also proved that SHAP analysis a can be arbitrarily biased without affecting the performance of the model (this can be invisible to common validation techniques and may open the door for exploits in the model) as shown in <a href="https://arxiv.org/pdf/2002.11097.pdf" target='_'>Problems with Shapley-value-based explanations as feature importancemeasures</a>.
+			There are some modern techniques such as SHAP or LIME that try to approximate the final decision hyperplanes with locally interpretable regressors. These methods, while useful, also have limitations and possible biases. Its also proved that SHAP analysis a can be arbitrarily biased without affecting the performance of the model (this can be invisible to common validation techniques and may open the door for exploits in the model) as shown in <a href="https://arxiv.org/pdf/2002.11097.pdf" target='_'>Problems with Shapley-value-based explanations as feature importance measures</a>.
 			</p>
 			<p>
 			The Born Again [T. Vidal and M. Schiffer] algorithm is very recent development and is a really interesting alternative to approach this problem. It offers a seemingly perfect solution: to summarize the entire random forest in a single decision tree that is as complex as the most complex tree in the forest, This solution represents an NP-hard problem and may not converge in a sensible time in some cases, so its a nice tool but it does not solve all problems.
