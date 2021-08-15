@@ -1,0 +1,56 @@
+https://ascelibrary.org/doi/10.1061/%28ASCE%29IS.1943-555X.0000602
+https://www.sciencedirect.com/science/article/abs/pii/S0165027013003026?via%3Dihub
+https://tspace.library.utoronto.ca/handle/1807/97601
+http://proceedings.mlr.press/v119/vidal20a.html
+https://ieeexplore.ieee.org/document/1677518
+https://www.semanticscholar.org/paper/Stochastic-discrimination-Kleinberg/9e17404fbd76d3067a4e31c3309aa5c6333720c2?p2df
+https://link.springer.com/article/10.1007%2FBF01531079
+https://g-e-n-a-r-t.com/en/post.php?p=10
+http://statweb.stanford.edu/~jhf/R-MART
+
+
+# Decision trees
+born again tree https://arxiv.org/pdf/2003.11132.pdf 
+http://proceedings.mlr.press/v119/vidal20a.html
+http://proceedings.mlr.press/v119/vidal20a/vidal20a.pdf
+oblique trees https://www.sciencedirect.com/science/article/abs/pii/S0167947315002856 
+householder transformation https://en.wikipedia.org/wiki/Householder_transformation 
+fuzzy trees https://www.tandfonline.com/doi/pdf/10.1007/s12543-009-0012-2 
+https://link.springer.com/chapter/10.1007/978-3-642-46644-1_7
+breiman RF https://link.springer.com/content/pdf/10.1023/A:1010933404324.pdf
+surrugate minimal depthhttps://academic.oup.com/bioinformatics/article/35/19/3663/5368013 
+chebichev https://en.wikipedia.org/wiki/Chebyshev%27s_inequality 
+Stochastic Leraning http://www.comp.hkbu.edu.hk/~icpr06/tutorials/Ho.html
+file:///home/ariel/Downloads/kleinberg2000.pdf
+https://en.wikipedia.org/wiki/Martingale_(probability_theory)
+https://www.sciencedirect.com/science/article/abs/pii/S0165027013003026?via%3Dihub
+https://ascelibrary.org/doi/10.1061/%28ASCE%29IS.1943-555X.0000602
+iso forest https://en.wikipedia.org/wiki/Isolation_forest
+https://tspace.library.utoronto.ca/handle/1807/97601
+https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html
+
+
+# D3
+https://www.sitepoint.com/a-beginners-guide-to-data-binding-in-d3-js/
+https://davidwalsh.name/learning-d3
+https://cagrimmett-jekyll.s3.amazonaws.com/til/2016/08/17/d3-lets-make-a-grid.html
+https://cagrimmett-jekyll.s3.amazonaws.com/til/2016/08/19/d3-pie-chart.html
+https://bost.ocks.org/mike/chart/time-series-chart.js
+https://bost.ocks.org/mike/join/
+https://bost.ocks.org/mike/circles/
+https://chartio.com/resources/tutorials/how-to-resize-an-svg-when-the-window-is-resized-in-d3-js/
+https://bost.ocks.org/mike/selection/
+https://bost.ocks.org/mike/chart/
+https://observablehq.com/@makio135/creative-coding?collection=@observablehq/featured-creators
+https://www.hicetnunc.xyz/tz/tz2VN3fWzqHE44F6zedJB7UtALKEh5WhqAJJ
+https://observablehq.com/@d3/indented-tree
+https://observablehq.com/@d3/scatterplot-with-shapes
+https://bl.ocks.org/mbostock/1125997
+http://duspviz.mit.edu/d3-workshop/transitions-animation/
+https://www.tutorialsteacher.com/d3js/create-svg-chart-in-d3js
+http://bl.ocks.org/supereggbert/aff58196188816576af0
+https://bl.ocks.org/davidwclin/ad5d13db260caeffe9b3
+https://javascript.plainenglish.io/learning-d3-multiple-lines-chart-w-line-by-line-code-explanations-40440994e1ad
+http://tympanus.net/codrops/2015/03/10/creative-gooey-effects/
+https://bl.ocks.org/d3noob/464c92429ac05c6a19a1
+https://stackoverflow.com/questions/13973267/how-do-i-animate-a-line-using-d3-js
