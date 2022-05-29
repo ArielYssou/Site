@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, intial-scale=1" name="viewport"/>
+  <!-- Name on tab -->
+  <title>
+   Random Forests
+  </title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,700&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+  <link href="../../../css/style.css" rel="stylesheet"/> <!--TARGET-->
+  <link href="../../../css/pygments.css" rel="stylesheet"/> <!--TARGET-->
+	<!-- Load p5.js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js">
+  </script>
+	<!-- Load d3.js -->
+	<script src="https://d3js.org/d3.v4.js"></script>
+  <!-- Custom p5js animations. Add any other .js here -->
+  <script src="sketch.js">
+  </script>
+
+ </head>
+ <body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+   <a class="navbar-brand" href="../../.." style="font-weight:bold;"> <!--TARGET-->
+    Ariel Yssou
+   </a>
+   <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item">
+      <a class="nav-link" href="../../../.." style="font-weight:bold;"> <!--TARGET--> 
+       Home
+      </a>
+     </li>
+     <li class="nav-item nav-blog active">
+      <a class="nav-link" href="../../blog" style="font-weight:bold;"> <!--TARGET--> 
+       Blog
+       <span class="sr-only">
+        (current)
+       </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../gallery" style="font-weight:bold;"> <!--TARGET--> 
+       Gallery
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="../../../about" style="font-weight:bold;"> <!--TARGET--> 
+       About
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://github.com/ArielYssou" target="_blank">
+       <i class="fab fa-github fa-lg">
+       </i>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-nowrap" href="https://www.linkedin.com/in/ariel-yssou-oliveira-f-2a07a5b5/" target="_blank">
+       <i class="fab fa-linkedin fa-lg">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
+  </nav>
+  <!-- End of navigation bar -->
+  <div class="head_container">
+   <img class="head_image no_blur" src="./cover_image.png"/>
+   <div class="head_middle">
+    <div class="head_text">
+     <b>
+      Random Walk
+     </b>
+    </div>
+   </div>
+  </div>
+  <div class="container post_body">
+   <div class="row post_struct">
+    <div class="col-ld-12">
+
+		<!-- Intro -->
+		 <p>
+		 	The random walk model is an example of a decinvingly simple mathematical object that is extremely important not only for being the building block of more complex models, but its structural simplicity makes it versitile and uselful in many applications, ranging from physics, (in the modeling of ...), ecology (), economy (), web () and sociology.
+		 </p>
+		 <p>
+		  In this post we will make an in depth discussion of the random walk theory, exploring some interesting properties such as recurrence and some unintuitive properties of the underliying probability distributions.
+		 </p> 
+     <!-- TOC -->
+     <table class="TOC">
+      <tr>
+       <th>
+        Contents
+       </th>
+      </tr>
+      <tr>
+       <td>
+        <a href="#random_walk">
+         1. Decision trees
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#recurrence">
+         2. Random Forests
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#recurrence_random_walk">
+         3. Applications
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <a href="#flights">
+         3. Flights
+        </a>
+       </td>
+      </tr>
+     </table>
+     <br/>
+
+
+     <a name="#random_walk">
+     </a>
+      <h2 class="section">
+       1. The Random Walk Model
+      </h2>
+
+			<p>
+				The random walk model describes the path that consists of a sequence of random steps in some space. This space can be as simple as a the integer number line (the unidemensional random walk) or as complex as a higher-dimensional Riemannian manifold. In this text we will explore the physical dimentions (that is 1, 2 and 3D), but generalizations to higher dimensions should be simple adaptations of the mathematical framework that we will build.
+			</p>
+			<p>
+			<p>
+			To better describe the path, we will introce random independent and identically distributed (iid) random variables $\sigma_1, \sigma_2, \dots, \sigma_N$ which take the values $+1$ and $-1$. The variable $\sigma_n$ indicates the n-eth step was left (+1) or right (-1), each with probabilities $p$ and $q$ respectivelly. The average and the varioace of $\sima_n$ can be written as:
+			$$
+			a \equiv \langle\sigma_n\rangle = p - q ,\\
+			b \equiv Var(\sigma_n) = \langle\sigma_n^2\rangle - \langle\sigma_n\rangle^2 = 1 - (p-q)^2 = 4pq,
+			$$
+			and the characteristc funtion of $\sigma_n$ is given by:
+			$$
+			g(k) = \langle e^{i k \sigma_n} \rangle = p e^{ik} + q e^{-ik}.
+			$$
+			This characteristic function can be used to obtain the problability $P_n(m)$ of finding the agent at postion $x=\sum_{i=0}^{n-1} \sigma_i h$ after $n$ steps of size $h$ at time $t=n\tau$:
+			$$
+			G_n(k) = g(k)^n = \left(pe^{ik} + qe^{-ik}\right)^n.
+			$$
+			Using the binomial expansion this can be rewritten as
+			$$
+			G_n(k) = \sum_{l=0}^n \binom{n}{l}p^lq^{n-l}e^{ik(2l - n)}  
+			$$
+			Considering that the caracteristic function $G_n(k)$ is defined as the Fourier transform of the probability distribution:
+			$$
+			G_n(k) \equiv \sum_{l=0}^n P_n(m)e^{ikm},
+			$$
+			we can compare this with equation () and use the inverse Fourier transform to obtaion the probability $P_n(m)$ of the unidimensional random walk:
+			$$
+			P_n(m) = \frac{n!}{\left(\frac{n+m}{2}\right)! \left(\frac{n-m}{2}\right)!}p^{(n_m)/2}q^{(n-m)/2}.
+			$$
+			With this we can find the mean and the average of the position $m$:
+			$$
+			\langle m \rangle = na = n(p-q),\\
+			Var(m) = nb = 4npq.
+			$$
+			</p>
+			<p>
+			In the limmit where $n\gg 1$ (the walker made many many steps) we can write use the central limit theorem to write the probability as:
+			$$
+			P_n(m) = \frac{1}{\sqrt{2\pi nb}}e^{-(m-na)^2/2nb},
+			$$
+			valid only in the limmit where $n\gg 1$. The probability <i>density</i> $\rho(x,t) \equiv P_n(m) /h$ of the variable $x$ at time $t$ is thus given by:
+			$$
+			\rho(x, t) = \frac{1}{\sqrt{4\pi Dt}}e^{(x-ct)^2/4Dt}
+			$$
+			Where $c=(ha)/\tau$ and $D=(h^2b)/(2\tau)$. These 2 auxiliary variables have interesting interpretations which can be more easily seen when we compute the expected value and the variance of $x$ in terms of $c$ and $D$:
+			$$\langle x \rangle = ct$$
+			thus $c$ can be seen as the average speed of the walker. If $p=q=0.5$ we have that $c=0$, thus the speed of the walker is 0.
+			</p>
+			<p>
+			As for the variance:
+			$$
+			Var(m) = 2Dt,
+			$$
+			which is a very interesting result. We see that the variance increase in time, which can be interpreted as diffusion and thus D is also called the diffusion coefficient. in the case where $p=q=0.5$ we have this interesting result where the average position of the agent is 0 but the diffusion is not. If we compute $\rho(0, t)$ we can see that although the mean position is 0, the actual probability density at the origin goes to 0 as time passes by! 
+			</p> 
+
+			<div id="rw_plot"></div>	
+
+			<h3>1D generalization</h3>
+			<p>
+				Now we consider a generalized 1D random walk. This time our agent (walker) can make steps of a generic size $x_j at each time $\tau$ (for simplicity and without loss of generality we will assume $\tau = 1$ from now on). Here $x_j$ is an random variable drawn from a generic probability distribution $P(x_j)$. Supposing that the walk starts at position $0$, we can write the position of the agent at time $t=n\tau$ as $x = x_1 +_ x_2 + \dots x_n$.
+			</p>
+			<p>The characteristic function of the distribution $P(x_j)$ can be written as:
+			$$g(k)\equiv \langle e^{i k x_j} \rangle = \int P(x_j) e^{ikx_j} dx_j,$$
+			and the characteristic function of $x=\sum_{i=1}^n x_i$ is:
+			$$G(k)=g(k)^n$$.
+			</p>
+			<p>Although the distribution of $x_j$ is known (as we may pick any distribution we like), what about the distribution of $x$? Notice that although we know how the agent walks, we still do not know what will (probabilistically) happen to him after $n$ steps. If we suppose that $n$ is large enough we can make an clever trick to find the distribution $P(x)$</p>
+			<p>The trick consists of expanding the characteristic function of $P(x_j)$ up to the second cummulant. Let $A$ and $B$ be, respectively, the first and second cummulants of $P(x_j)$ (its mean and variance) <b>and that they exist</b> (not every probability distribution has a defined mean and/or variance, take for example the Lorentz distribution) and $g(k)$ be the corresponding characteristc function:
+			$$g(k) \approx e^{iAk + Bk^2/2}.$$
+			The eqation above is an equality if $P(x_j)$ only has the fist and second cummulants. In other words if it is Gaussian. Thus the characteristic function of $P(x)$ is
+			$$G(k) = e^{inAk - nBk^2/2}$$
+			Remembering that $t=n\tau \rightarrow n=t/\tau$ and defining $c\equiv A/\tau$ and $D\equivB/2\tau$ we can write:
+			$$
+			G(k) = e^{ictk - Dtk^2}
+			$$
+			which is precisely the expression of a Gaussian distribution of mean $ct$ and variance $2Dt$. This is not a surprising outcome as we truncated  the characteristic function in the second cummulant, and having just the first 2 cummulants is exactly what defines a Gaussian. This rationale can in fact also be adapted to prove the central limit theorem. With this we have the probability density function $\rho(x, t)$:
+			$$\rho(x, t) = \frac{1}{\sqrt{4\pi Dt}} e^{-(x-ct)^2/4Dt}$$
+			</p>
+			<p>
+				This function describe the density of probability of the agent not only in space but also in time. It is very interesting that the variance also depends on the time as $Var(x) = \sqrt{2Dt}$. Another interesting property is that this equation also satisfies the diffusion equation (with drift):
+				$$\frac{\partial \rho}{\partial t} = -c\frac{\partial \rho}{\partial{x}} + D\frac{\partial^2 \rho}{\partial x^2}.$$
+				This is the reason we have been calling the constant suspiciously named $D$ as diffusion all along.
+			</p>
+			<h3>2D formulation</h3>
+			<p>The theory we have been developing can easily be extended to higher dimensions. I will outline the major steps, but to avoid overcomplicating this already long text, the entire deduction will be omitted (the infamous "the demonstration is left to the reader").</p> 
+			<p>let $\vec{r}_j = (x_j, y_j)$ be the position vector of the agent at step $j$. This time the walker can make steps in the x and y axis. The probability of the <i>joint</i> distribution will be denoted as $P(\vec{r}_j)\equiv P(x_j, y_j)$. The demonstration of the probability distribution of $P(\vec{r})$ is analogous to the 1D case. We write the characteristic function:
+			$$g(\vec{k}) = \langle e^{i \mathbf{r}_j . \mathbf{k}} \rangle = \langle e^{i (k_1 x_j + k_2 y_j)} \rangle = \int \int e^{i \mathbf{r}_j . \mathbf{k}} P(\mathbf{r}_j)dx_j dy_j$$
+			The same trick we used before will also be very handy this time as well. Expanding the characteristic function up to order $k^2$:
+			$$g(\mathbf{k}) = exp\left( i (a_1 k_1 + a_2 k_2) - \frac{1}{2}(b_{11}k_1^2 + 2b_{12}k_1k_2 +b_{22}k_2^2)\right)$$
+			</p> 
+			<a name="CODE">
+      </a>
+      <h2 class="section">
+       3. Applications
+      </h2>
+      <p>
+       Code:
+      </p>
+			<div class = 'notebook'>
+			{% include 'campus_recruitement.html' %}
+
+    </div>
+   </div>
+  </div>
+  <hr/>
+	<!-- mathjax -->
+  <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+	<!--load d3 images-->
+	<script src="d3_charts.js">
+	</script>
+  <script src="../../../js/script.js"> <!--TARGET-->
+  </script>
+  <!-- Bootstrap + JQuery -->
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+  </script>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/9ead9d8df4.js">
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script>
+   MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+  </script>
+ </body>
+</html>
+
