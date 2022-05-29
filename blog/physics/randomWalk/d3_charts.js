@@ -1,3 +1,24 @@
+// Random walk 1d - simple
+
+function 1d_random_walk_chart () {
+  var total_width = 300, // default width
+      total_height = 100; // default height
+
+	var margin = {top: 30, right: 90, bottom: 30, left: 90},
+			width = total_width - margin.left - margin.right,
+			height = total_height - margin.top - margin.bottom;
+
+	function plot(selection) {
+		svg_1d_rw = selection.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.attr('class', 'center')
+			.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	}
+}:
+
+//
 //
 // Random Walk
 //
@@ -18,6 +39,7 @@ function random_walker(run, p=0.5, steps=250) {
 	return positions;
 }
 
+
 function rw_boundry(which='upper', p=0.5, steps=250, confidence_interval=3) {
 	var sign = which == 'upper' ? 1 : -1;
 	var positions = new Array();
@@ -30,7 +52,6 @@ function rw_boundry(which='upper', p=0.5, steps=250, confidence_interval=3) {
 
 	return positions;
 }
-
 
 
 function RandomWalkChart() {

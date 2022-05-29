@@ -94,10 +94,10 @@
 
 		<!-- Intro -->
 		 <p>
-		 	The random walk model is an example of a decinvingly simple mathematical object that is extremely important not only for being the building block of more complex models, but its structural simplicity makes it versitile and uselful in many applications, ranging from physics, (in the modeling of ...), ecology (), economy (), web () and sociology.
+		 	The random walk model is an example of a deceivingly simple mathematical object that is extremely important not only for being the building block of more complex models, but its structural simplicity makes it versatile and useful in many applications ranging from physics, (in the modeling of ...), ecology (), economy (), web () and sociology.
 		 </p>
 		 <p>
-		  In this post we will make an in depth discussion of the random walk theory, exploring some interesting properties such as recurrence and some unintuitive properties of the underliying probability distributions.
+		  In this post we will make an in depth discussion of the random walk theory, exploring some interesting properties such as recurrence and some unintuitive properties of the underlaying probability distributions.
 		 </p> 
      <!-- TOC -->
      <table class="TOC">
@@ -145,20 +145,21 @@
       </h2>
 
 			<p>
-				The random walk model describes the path that consists of a sequence of random steps in some space. This space can be as simple as a the integer number line (the unidemensional random walk) or as complex as a higher-dimensional Riemannian manifold. In this text we will explore the physical dimentions (that is 1, 2 and 3D), but generalizations to higher dimensions should be simple adaptations of the mathematical framework that we will build.
+				The random walk model describes the path that consists of a sequence of random steps in some space. This space can be as simple as the integer number line (the unidimensional random walk) or as complex as a higher-dimensional Riemannian manifold. In this text we will explore the physical dimensions (that is 1, 2 and 3D), but generalizations to higher dimensions should be simple adaptations of the mathematical framework that we will build.
 			</p>
 			<p>
 			<p>
-			To better describe the path, we will introce random independent and identically distributed (iid) random variables $\sigma_1, \sigma_2, \dots, \sigma_N$ which take the values $+1$ and $-1$. The variable $\sigma_n$ indicates the n-eth step was left (+1) or right (-1), each with probabilities $p$ and $q$ respectivelly. The average and the varioace of $\sima_n$ can be written as:
+			To better describe the path, we will introduce random Independent and Identically Distributed (iid) random variables $\sigma_1, \sigma_2, \dots, \sigma_N$ which take the values $+1$ and $-1$. The variable $\sigma_n$ indicates the n-eth step was left (+1) or right (-1), each with probabilities $p$ and $q$ respectively. The average and the variance of $\sigma_n$ can be written as:
 			$$
-			a \equiv \langle\sigma_n\rangle = p - q ,\\
-			b \equiv Var(\sigma_n) = \langle\sigma_n^2\rangle - \langle\sigma_n\rangle^2 = 1 - (p-q)^2 = 4pq,
+			\begin{eqnarray}
+			a &\equiv& \langle\sigma_n\rangle = p - q ,\\
+			b &\equiv& Var(\sigma_n) = \langle\sigma_n^2\rangle - \langle\sigma_n\rangle^2 = 1 - (p-q)^2 = 4pq,
+			\end{eqnarray}
 			$$
-			and the characteristc funtion of $\sigma_n$ is given by:
+			and the characteristic function of $\sigma_n$ is given by:
 			$$
 			g(k) = \langle e^{i k \sigma_n} \rangle = p e^{ik} + q e^{-ik}.
-			$$
-			This characteristic function can be used to obtain the problability $P_n(m)$ of finding the agent at postion $x=\sum_{i=0}^{n-1} \sigma_i h$ after $n$ steps of size $h$ at time $t=n\tau$:
+			$$			This characteristic function can be use to obtain the probability $P_n(m)$ of finding the agent at position $x=\sum_{i=0}^{n-1} \sigma_i h$ after $n$ steps of size $h$ at time $t=n\tau$:
 			$$
 			G_n(k) = g(k)^n = \left(pe^{ik} + qe^{-ik}\right)^n.
 			$$
@@ -166,11 +167,11 @@
 			$$
 			G_n(k) = \sum_{l=0}^n \binom{n}{l}p^lq^{n-l}e^{ik(2l - n)}  
 			$$
-			Considering that the caracteristic function $G_n(k)$ is defined as the Fourier transform of the probability distribution:
+			Considering that the characteristic function $G_n(k)$ is defined as the Fourier transform of the probability distribution:
 			$$
 			G_n(k) \equiv \sum_{l=0}^n P_n(m)e^{ikm},
 			$$
-			we can compare this with equation () and use the inverse Fourier transform to obtaion the probability $P_n(m)$ of the unidimensional random walk:
+			we can compare this with equation () and use the inverse Fourier transform to obtain the probability $P_n(m)$ of the unidimensional random walk:
 			$$
 			P_n(m) = \frac{n!}{\left(\frac{n+m}{2}\right)! \left(\frac{n-m}{2}\right)!}p^{(n_m)/2}q^{(n-m)/2}.
 			$$
@@ -181,11 +182,11 @@
 			$$
 			</p>
 			<p>
-			In the limmit where $n\gg 1$ (the walker made many many steps) we can write use the central limit theorem to write the probability as:
+			In the limit where $n\gg 1$ (the walker made many many steps) we can write use the central limit theorem to write the probability as:
 			$$
 			P_n(m) = \frac{1}{\sqrt{2\pi nb}}e^{-(m-na)^2/2nb},
 			$$
-			valid only in the limmit where $n\gg 1$. The probability <i>density</i> $\rho(x,t) \equiv P_n(m) /h$ of the variable $x$ at time $t$ is thus given by:
+			valid only in the limit where $n\gg 1$. The probability <i>density</i> $\rho(x,t) \equiv P_n(m) /h$ of the variable $x$ at time $t$ is thus given by:
 			$$
 			\rho(x, t) = \frac{1}{\sqrt{4\pi Dt}}e^{(x-ct)^2/4Dt}
 			$$
@@ -213,7 +214,7 @@
 			$$G(k)=g(k)^n$$.
 			</p>
 			<p>Although the distribution of $x_j$ is known (as we may pick any distribution we like), what about the distribution of $x$? Notice that although we know how the agent walks, we still do not know what will (probabilistically) happen to him after $n$ steps. If we suppose that $n$ is large enough we can make an clever trick to find the distribution $P(x)$</p>
-			<p>The trick consists of expanding the characteristic function of $P(x_j)$ up to the second cummulant. Let $A$ and $B$ be, respectively, the first and second cummulants of $P(x_j)$ (its mean and variance) <b>and that they exist</b> (not every probability distribution has a defined mean and/or variance, take for example the Lorentz distribution) and $g(k)$ be the corresponding characteristc function:
+			<p>The trick consists of expanding the characteristic function of $P(x_j)$ up to the second cummulant. Let $A$ and $B$ be, respectively, the first and second cummulants of $P(x_j)$ (its mean and variance) <b>and that they exist</b> (not every probability distribution has a defined mean and/or variance, take for example the Lorentz distribution) and $g(k)$ be the corresponding characteristic function:
 			$$g(k) \approx e^{iAk + Bk^2/2}.$$
 			The eqation above is an equality if $P(x_j)$ only has the fist and second cummulants. In other words if it is Gaussian. Thus the characteristic function of $P(x)$ is
 			$$G(k) = e^{inAk - nBk^2/2}$$
